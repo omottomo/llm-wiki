@@ -1,0 +1,34 @@
+---
+title: "#9 AI 에이전트를 다루는 10가지 팁 (주니어 개발자 관점)"
+type: source
+created: 2026-06-23
+updated: 2026-07-12
+tags: [에이전틱코딩, 개발자역할변화, 검증자동화, 플랜모드, 도메인지식]
+sources: [youtube-JzB_GI7SS6g]
+---
+
+## 한 줄 요약
+"코딩이 가장 쉬운 시대"에 단순 구현 가치는 낮아지고 설계·검증·디버깅·도구 활용이 중요해진 흐름 속에서, 주니어 개발자가 [[concepts/agentic-coding|에이전트]]를 학습·운영할 때 지켜야 할 10가지 팁을 정리한 영상 (→ [[sources/youtube-JzB_GI7SS6g]]).
+
+## 핵심 내용
+- 전제: 단순 구현 능력의 가치는 하락, 설계·검증·디버깅·도구 활용 능력이 더 중요 → [[concepts/developer-role-change]] (→ [[sources/youtube-JzB_GI7SS6g]]).
+- 10가지 팁: ① 느림보 설계(초안 후 AI에게 설계 리뷰 요청), ② 작은 단위(문제를 잘게 쪼개 검증 가능하게), ③ 커밋 로그 상세화(프롬프트 내용까지 커밋에 기록), ④ 플랜 모드(쉽게 수락 말고 토론으로 주도권 확보), ⑤ 나만의 [[concepts/skills|스킬]] 개발(나·팀 맥락에 맞춰 AI를 '내 클론'처럼), ⑥ 설명 가능한 코드(라인 바이 라인 이해, AI에게 설명 요구), ⑦ 검증도 피드백(검증 계획을 먼저 짜고 AI에게 리뷰), ⑧ 에러 디버깅(AI가 잘 고치지만 진짜 원인은 직접 개입), ⑨ 지속적 서비스 개선(리팩터링으로 유지보수 경험·학습), ⑩ 도메인 지식 축적 (→ [[sources/youtube-JzB_GI7SS6g]]).
+
+## 주요 주장 / 데이터
+- AI에게 바로 던지면 알 수 없는 방향으로 가 "설계자가 아니라 수정자"가 됨 → 설계 단계의 중요성 강조 (→ [[sources/youtube-JzB_GI7SS6g]]).
+- 커밋 메시지·PR 본문에 핵심 로직 배경과 관련 프롬프트를 남기는 습관이 AI 협업 시대에 그 어느 때보다 중요 (→ [[sources/youtube-JzB_GI7SS6g]]).
+- 검증 방법: 테스트 코드는 필수, 그 외 보안·속도·가독성을 서비스 목적·학습 목적에 맞춰 검증 리스트로 세우고 [[concepts/hooks|훅]]·기타 액션으로 필수 단계화 (→ [[sources/youtube-JzB_GI7SS6g]]).
+- 도메인을 담은 프롬프트 예: "우리 서비스는 결제 실패 시 사용자가 이탈하지 않는 게 중요해" → 구현이 비즈니스 목표에 정렬됨 (→ [[sources/youtube-JzB_GI7SS6g]]).
+- 화자가 직접 만든 "대부 스킬즈.내시"라는 풀스택 웹개발자 역량 자가진단 도구를 소개(로컬 스토리지 저장, 평균 데이터와 비교 가능) — [[entities/skills-sh]] 관련 (자막상 명칭 추정) (→ [[sources/youtube-JzB_GI7SS6g]]).
+
+## 기존 위키와의 연결
+- 강화: [[concepts/developer-role-change]] — "구현 가치 하락, 설계·검증 가치 상승" 서사를 주니어 관점에서 강화. [[concepts/verification-automation]] — 검증을 피드백 루프로 보고 테스트·훅으로 단계화하는 권장 강화. [[concepts/agentic-coding]] — 작은 단위·플랜 모드·디버깅 개입을 실전 팁으로 강화. [[concepts/skills]] — 나·팀 맥락에 맞춘 커스텀 스킬 권장.
+- 모순: 직접적 모순 없음. 단 ⑥ "라인 바이 라인 이해" 강조는 완전 위임형 [[concepts/agentic-coding|바이브 코딩]]보다 보수적인 톤으로, 자동화 극대화를 강조하는 영상들과 강조점 차이가 있다.
+- 신규: 도메인 지식·UX 정렬, "느림보 설계", 커밋 로그에 프롬프트 기록, 자가진단 도구를 위키에 처음 소개.
+
+## 출처 정보
+- raw: raw/youtube-JzB_GI7SS6g.md
+- URL: https://www.youtube.com/watch?v=JzB_GI7SS6g
+- 채널: 프롱트 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #9
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

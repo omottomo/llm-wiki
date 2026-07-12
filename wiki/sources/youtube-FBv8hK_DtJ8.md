@@ -1,0 +1,36 @@
+---
+title: "#10 대규모 프로젝트 컨텍스트 엔지니어링 — .claude/rules 규칙 분리"
+type: source
+created: 2026-06-23
+updated: 2026-07-12
+tags: [클로드md, 컨텍스트엔지니어링, 조건부규칙, 프론트매터, 대규모프로젝트]
+sources: [youtube-FBv8hK_DtJ8]
+---
+
+## 한 줄 요약
+대규모 프로젝트에서 CLAUDE.md가 비대해질 때, `.claude/rules` 디렉터리 + 프론트매터 조건을 이용해 "필요한 규칙만 필요한 시점에" 로드하게 만드는 메모리 관리 고급 스킬을 다룬 영상 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+
+## 핵심 내용
+- 비유: 바리스타에게 라떼 레시피를 알려주며 청소·재고·마감법까지 한꺼번에 알려주면 정작 중요한 레시피가 묻힘. [[concepts/claude-md]]도 규칙이 쌓이면 지금 필요한 규칙이 무관한 규칙에 묻힘 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 핵심 원칙: **필요한 규칙만 필요한 시점에 불러오기** ([[concepts/context-engineering]]의 핵심) (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 세 가지 방법: ① `.claude/rules` 하위 파일의 **프론트매터로 특정 파일·디렉터리에 조건부 로딩**, ②③ 하위/상위 디렉터리에 메모리 파일을 배치해 온디맨드 로딩. 본 영상은 ①을 집중 설명(②③은 다음 영상 예고) (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 맥도날드 비유: 주방·카운터·배달 직원용 매뉴얼이 따로 있듯, 디렉터리별 메모리 파일로 역할을 분리. 테스트 작업 시 테스팅 메모리만, API 작업 시 API 메모리만 로드 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+
+## 주요 주장 / 데이터
+- 한 개발자 사례: 프론트·백엔드가 합쳐진 모노레포에서 CLAUDE.md가 47,000 단어까지 불어나 클로드가 느려지고 규칙을 안 따름. 규칙을 조건부로 분리하자 루트 메모리 파일이 80% 감소, 나머지는 필요 시점 로딩으로 설계 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 오픈소스 사례 ① "트리거 대부"(GitHub 별 약 14,000개, 자막상 명칭 추정): `rules` 디렉터리에 5개 주제별 메모리 파일, DB 세이프티 규칙("데이터 삭제는 반드시 승인")을 DB 파일 건드릴 때만 로드 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 오픈소스 사례 ② CockroachDB(별 약 32,000개): 모든 Go 파일에 개인정보보호 처리 규칙(로그·에러 출력 시 개인정보 마스킹)을 자동 적용 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 프론트매터에 적용 패턴(예: `src/api`, `src/routes` 하위 TypeScript 파일)을 지정하면 해당 파일 작업 시에만 규칙이 자동 로드됨 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+- 실천 권장: 지금 CLAUDE.md에 파일 종류별 규칙(테스트·CSS·API)이 섞여 있으면 `rules` 디렉터리로 빼고 프론트매터 조건을 걸어라 (→ [[sources/youtube-FBv8hK_DtJ8]]).
+
+## 기존 위키와의 연결
+- 강화: [[concepts/context-engineering]] — 조건부 로딩으로 "지금 작업과 무관한 규칙이 클로드의 주의를 뺏지 않게" 한다는 핵심을 강화. [[concepts/claude-md]] — 대규모 환경에서 단일 파일을 모듈식·조건부로 분리하는 #7([[sources/youtube-DCsv0rKKrN4]])·#8([[sources/youtube-cZ8_Dkk_Ce0]])의 권장을 구체적 메커니즘(프론트매터)으로 확장. [[concepts/context-decay]] — 비대한 규칙이 성능을 떨어뜨린다는 주장의 실사례.
+- 모순: 직접적 모순 없음. [[sources/youtube-c7_ANA1NiS0]](#6 "CLAUDE.md를 지워라")가 지적한 "장황한 컨텍스트의 폐해"에 대해, 본 영상은 '삭제'가 아니라 '조건부 분리·온디맨드 로딩'이라는 해법을 제시 — 모순 쌍(#6 vs #8)의 화해 관점("짧게, 필요한 것만")을 기술적으로 뒷받침한다.
+- 신규: `.claude/rules` 프론트매터 조건부 로딩, 47,000 단어 모노레포 사례, "트리거 대부"·CockroachDB 오픈소스 사례를 위키에 처음 소개.
+
+## 출처 정보
+- raw: raw/youtube-FBv8hK_DtJ8.md
+- URL: https://www.youtube.com/watch?v=FBv8hK_DtJ8
+- 채널: 짐코딩 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #10
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

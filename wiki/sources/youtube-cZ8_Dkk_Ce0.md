@@ -1,0 +1,37 @@
+---
+title: "#8 CLAUDE.md만으로 AI 코딩 품질이 3배 — 메모리 파일 제대로 쓰는 법"
+type: source
+created: 2026-06-23
+updated: 2026-07-12
+tags: [클로드md, 컨텍스트엔지니어링, 보리스체르니, 검증자동화, 도메인용어]
+sources: [youtube-cZ8_Dkk_Ce0]
+---
+
+## 한 줄 요약
+[[concepts/context-engineering]]의 첫걸음으로 [[concepts/claude-md]]를 짧고(200줄 이하)·구체적·검증 가능하게 작성하면 AI 코딩 품질이 2~3배 향상된다고 주장하는 영상 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+
+## 핵심 내용
+- **작동 원리**: CLAUDE.md는 시스템 프롬프트 다음, 유저 프롬프트보다 먼저 읽히는 "사전 지시서". 한 번 써두면 매 대화마다 자동 적용 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- **맥락이지 강제가 아니다**: 공식 문서상 CLAUDE.md는 시스템 프롬프트가 아니라 사용자 메시지로 전달되며, 클로드가 따르려 하지만 모호하거나 충돌하는 지시는 100% 보장되지 않음. → 그래서 "어떻게 쓰느냐"가 핵심 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- **오토 메모리**: 클로드가 스스로 적는 업무 일지. 처음 200줄까지 메모리에 로드, 200줄 넘으면 상세 내용을 별도 파일로 분리해 필요 시 검색. `/memory`로 확인·편집 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- **나쁜 패턴 3가지**: ① 300줄 넘는 장문(중요 규칙이 노이즈에 묻힘), ② 모호한 지시("깔끔하게", "테스트 잘"), ③ 프로젝트가 커졌는데 단일 CLAUDE.md로 버티기 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- **좋은 패턴 4가지**: ① 검증 가능한 규칙으로 셀프 검증 루프 제공, ② 비즈니스 도메인 용어 정의, ③ 모듈식 분리 + `@` 임포트 참조, ④ 팀 공유 학습 시스템(git 커밋·PR 리뷰·머지) (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+
+## 주요 주장 / 데이터
+- [[entities/boris-cherny|보리스 체르니]](Claude Code 초기 개발 주도): "클로드가 스스로 결과를 검증할 수 있으면 최종 품질이 2~3배 향상된다" — 영상 제목의 '3배'·[[concepts/verification-automation|검증 자동화]]의 핵심 근거 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- 보리스 체르니: "팀에서 클로드가 실수하는 걸 발견하면 CLAUDE.md에 한 줄을 추가한다" → 빈 파일에서 시작해 점진적으로 쌓는 권장 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- 공식 문서: 메모리 파일은 200줄 이하 권장, 너무 길어지면 과감히 삭제 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- 검증 가능한 지시 예: "함수는 30줄 이하", "새 파일 만들기 전 확인", "API 파일은 해당 디렉터리에" (모호한 "깔끔하게"와 대비) (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+- 도메인 용어 예: 배달앱에서 '주문'(결제 묶음 전체) vs '주문 항목'(짜장면 1개)을 정의하지 않으면 잘못된 코드 생성 (→ [[sources/youtube-cZ8_Dkk_Ce0]]).
+
+## 기존 위키와의 연결
+- 강화: [[concepts/claude-md]] — "짧고 구체적·검증 가능"이라는 권장 진영의 핵심 근거. [[concepts/verification-automation]] — 보리스의 "셀프 검증 시 품질 2~3배" 데이터로 강화. [[entities/boris-cherny]] — "실수 발견 시 한 줄 추가", "팀 공유 학습 시스템" 일화의 출처. [[concepts/context-engineering]] — CLAUDE.md를 컨텍스트 엔지니어링의 기본기로 자리매김.
+- 모순: [[sources/youtube-c7_ANA1NiS0]](#6 "CLAUDE.md를 지워라")와 **정면 대비되는 핵심 모순 쌍**. #6은 잘못 쓰인 자동생성·장황 CLAUDE.md가 성공률을 낮추고 비용을 20%↑ 시킨다고 했고, 본 영상은 "잘 쓴" CLAUDE.md가 품질을 3배 올린다고 주장. 화해 관점: 두 영상은 사실 같은 진단(장문·모호·중복은 해롭다)을 공유하며, 결론도 "짧고 검증 가능한 최소 규칙"으로 수렴한다 — #6은 사람 작성 최소 컨텍스트가 +19%임을 인정하고, 본 영상은 200줄 초과·모호한 지시를 '나쁜 패턴'으로 명시한다. 갈림은 '잘못 쓴 파일' vs '잘 쓴 파일'을 두고 발생. → [[concepts/claude-md]]에 양쪽 모두 기록.
+- 신규: 도메인 용어 정의 패턴, 오토 메모리 200줄 규칙, `@` 임포트 참조를 위키에 처음 정리.
+
+## 출처 정보
+- raw: raw/youtube-cZ8_Dkk_Ce0.md
+- URL: https://www.youtube.com/watch?v=cZ8_Dkk_Ce0
+- 채널: 짐코딩 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #8
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

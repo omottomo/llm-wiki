@@ -1,0 +1,52 @@
+---
+title: 에이전틱 코딩 / 바이브 코딩
+type: concept
+created: 2026-06-23
+updated: 2026-06-28
+sources: [youtube-6MYZ7fMhKPY, youtube-uk4a5oER0SQ, youtube-Vq9UU92R4wY]
+tags: [에이전틱코딩, 바이브코딩, 진화서사, 개발방법론]
+---
+
+# 에이전틱 코딩 / 바이브 코딩
+
+**바이브 코딩(vibe coding)은 모든 사람의 "바닥"을 올리고, 에이전틱 엔지니어링(에이전틱 코딩)은 "천장"을 올린다** (→ [[sources/youtube-6MYZ7fMhKPY]]). [[entities/andrej-karpathy]](카파시)가 작년에 "바이브 코딩"이라는 단어를 만들었고 지금은 모두가 이를 하고 있으나, 카파시는 이제 그다음으로 에이전틱 엔지니어링을 이야기한다 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+
+## 바이브 코딩 vs 에이전틱 코딩
+
+- **바이브 코딩**: 개발자가 아니어도 앱을 만들 수 있게 해주는, 진입장벽을 낮추는(바닥을 올리는) 흐름 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+- **에이전틱 코딩 / 에이전틱 엔지니어링**: 천장을 올리는 흐름. AI가 실행하고 인간이 설계·검증·책임지는 규율 있는 협업 방식 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+
+카파시의 큰 그림으로는 소프트웨어 1.0(직접 코드 작성) → 2.0(데이터로 AI 학습) → 3.0(프롬프트가 곧 프로그래밍)으로 진화했다 (→ [[sources/youtube-6MYZ7fMhKPY]]). 이제 코드를 만드는 것 자체는 어렵지 않고, 진짜 문제는 "그 코드가 쓸 만한지 누가 판단·검증하는가"다 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+
+## 에이전틱 엔지니어링 vs 하네스 엔지니어링 (말과 마구)
+
+이 둘은 짝을 이룬다 (→ [[sources/youtube-6MYZ7fMhKPY]]; 비유는 → [[sources/youtube-6gvnDSAcZww]]도 참조).
+
+- **에이전틱 엔지니어링 = 말 자체를 훈련하는 기술**: 추론 루프 설계, 멀티에이전트 조율, 도구 사용법 가르치기. AI가 "어떻게 생각하는가"를 다룬다. 인간은 위임자·감독자 역할.
+- **[[concepts/harness-engineering]] = 가죽끈·곱비·수레(마구)를 만드는 기술**: 가드레일·테스트 게이트로 제약을 건다. AI가 "무엇을 할 수 있고 할 수 없는가"를 다룬다. 인간은 설계자·경계 설정자 역할.
+
+핵심은 "말을 아무리 잘 훈련시켜도 마구 없이는 밭을 갈 수 없다" — 둘이 합쳐져야 비로소 밭이 갈린다 (→ [[sources/youtube-6gvnDSAcZww]]).
+
+## 실전 원칙
+
+- **부탁이 아니라 구조**: 프롬프트 엔지니어링은 "잘 해 줘"라고 부탁하는 것, 하네스 엔지니어링은 "잘 할 수밖에 없는 구조"를 만드는 것 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+- **도구는 적을수록 좋다**: 스킬을 다 설치했다가 [[entities/claude-code]]가 이상해졌다면 지금 작업에 필요한 것만 남겨라. 핵심 스킬 몇 개를 강화하는 게 낫다 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+- **검증 자동화**: 테스트를 돌려 통과를 확인하고, 한 단계 더 나아가 에이전트에게 결과를 검토하게 한다. [[entities/claude-code]]와 [[entities/codex]]를 같이 쓰면 검증 성능이 크게 올라가기도 한다([[concepts/multi-model-workflow]]) (→ [[sources/youtube-6MYZ7fMhKPY]]).
+- **프로젝트 전체가 곧 프롬프트**: 폴더 구조·파일 이름·코드 스타일을 에이전트가 모두 읽는다. 잘 정리된 방에서 일이 잘되듯, 좋은 하네스를 만드는 건 결국 프로젝트 전체를 하나의 거대한 프롬프트로 만드는 것이다 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+- 최종 목표는 에이전트를 돌리고 인간 개입을 최소화하는 것. 중간 개입이 많다면 아직 하네스가 부족하다는 뜻 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+
+## 인간의 몫: 판단과 이해
+
+결제 기능에서 환불·수수료 같은 구조적 판단은 코드의 문제가 아니라 설계의 문제이며 여전히 인간의 영역이다 (→ [[sources/youtube-6MYZ7fMhKPY]]). 카파시는 "생각(thinking)은 아웃소싱할 수 있지만 이해(understanding)는 아웃소싱할 수 없다"고 했다 — 코드를 짜고 분석·리뷰하는 건 AI에게 시킬 수 있어도, 내 프로젝트가 왜 이런 구조여야 하는지 이해하는 건 우리 몫이다. "바이브 코딩으로 코드를 만드는 건 누구나 하지만, 하네스를 이해하는 사람이 진짜 결과를 만든다" (→ [[sources/youtube-6MYZ7fMhKPY]]). 이는 [[concepts/developer-role-change]]에서 "이해 없는 바이브 코딩은 위험하다"는 경고와 맞닿는다 (→ [[sources/youtube-uk4a5oER0SQ]]). 취업 현장 버전으로는 "**AI가 만든 코드의 품질을 판단**할 수 있어야 하고, 그러려면 CS 기본기가 필요하다"로 나타난다([[concepts/developer-job-strategy]]) (→ [[sources/youtube-Vq9UU92R4wY]]).
+
+## 연도별 큰 그림
+
+- **2025년**: 에이전트의 해. [[entities/claude-code]]·[[entities/cursor]]·[[entities/codex]] 등장으로 에이전트가 코드를 쓸 수 있음이 증명됨.
+- **2026년**: 하네스의 해. 에이전트를 어떻게 통제·신뢰할 수 있게 만드느냐가 중요해짐. OpenAI 엔지니어가 하루 10억 토큰을 쓰며 코드 한 줄 안 친다고 했고, IBM 엔지니어가 컨퍼런스에서 "2026년은 하네스의 해"라 선언했다고 언급됨.
+- **2027년(예측)**: 에이전트가 스스로 하네스를 만드는 해 (→ [[sources/youtube-6MYZ7fMhKPY]]).
+
+## 같이 보기
+
+- [[concepts/harness-engineering]] — 에이전틱 코딩과 짝을 이루는 마구 제작 기술
+- [[concepts/loop-engineering]] — 반복 개입까지 줄이는 다음 단계
+- [[concepts/developer-role-change]] — 이해·판단이 핵심으로 남는 역할 변화
