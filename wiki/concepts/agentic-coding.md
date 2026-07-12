@@ -2,8 +2,8 @@
 title: 에이전틱 코딩 / 바이브 코딩
 type: concept
 created: 2026-06-23
-updated: 2026-06-28
-sources: [youtube-6MYZ7fMhKPY, youtube-uk4a5oER0SQ, youtube-Vq9UU92R4wY]
+updated: 2026-07-12
+sources: [youtube-6MYZ7fMhKPY, youtube-uk4a5oER0SQ]
 tags: [에이전틱코딩, 바이브코딩, 진화서사, 개발방법론]
 ---
 
@@ -37,7 +37,7 @@ tags: [에이전틱코딩, 바이브코딩, 진화서사, 개발방법론]
 
 ## 인간의 몫: 판단과 이해
 
-결제 기능에서 환불·수수료 같은 구조적 판단은 코드의 문제가 아니라 설계의 문제이며 여전히 인간의 영역이다 (→ [[sources/youtube-6MYZ7fMhKPY]]). 카파시는 "생각(thinking)은 아웃소싱할 수 있지만 이해(understanding)는 아웃소싱할 수 없다"고 했다 — 코드를 짜고 분석·리뷰하는 건 AI에게 시킬 수 있어도, 내 프로젝트가 왜 이런 구조여야 하는지 이해하는 건 우리 몫이다. "바이브 코딩으로 코드를 만드는 건 누구나 하지만, 하네스를 이해하는 사람이 진짜 결과를 만든다" (→ [[sources/youtube-6MYZ7fMhKPY]]). 이는 [[concepts/developer-role-change]]에서 "이해 없는 바이브 코딩은 위험하다"는 경고와 맞닿는다 (→ [[sources/youtube-uk4a5oER0SQ]]). 취업 현장 버전으로는 "**AI가 만든 코드의 품질을 판단**할 수 있어야 하고, 그러려면 CS 기본기가 필요하다"로 나타난다([[concepts/developer-job-strategy]]) (→ [[sources/youtube-Vq9UU92R4wY]]).
+결제 기능에서 환불·수수료 같은 구조적 판단은 코드의 문제가 아니라 설계의 문제이며 여전히 인간의 영역이다 (→ [[sources/youtube-6MYZ7fMhKPY]]). 카파시는 "생각(thinking)은 아웃소싱할 수 있지만 이해(understanding)는 아웃소싱할 수 없다"고 했다 — 코드를 짜고 분석·리뷰하는 건 AI에게 시킬 수 있어도, 내 프로젝트가 왜 이런 구조여야 하는지 이해하는 건 우리 몫이다. "바이브 코딩으로 코드를 만드는 건 누구나 하지만, 하네스를 이해하는 사람이 진짜 결과를 만든다" (→ [[sources/youtube-6MYZ7fMhKPY]]). 이는 [[concepts/developer-role-change]]에서 "이해 없는 바이브 코딩은 위험하다"는 경고와 맞닿는다 (→ [[sources/youtube-uk4a5oER0SQ]]).
 
 ## 연도별 큰 그림
 

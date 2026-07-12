@@ -2,8 +2,8 @@
 title: 검증 자동화
 type: concept
 created: 2026-06-23
-updated: 2026-06-28
-sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, youtube-wa6ZoLlnB60]
+updated: 2026-07-12
+sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g]
 tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스]
 ---
 
@@ -19,7 +19,7 @@ tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하
 
 엔트로픽이 찾은 해결책은 코드를 만드는 **제너레이터(생성기)**와 결과를 검증하는 **이밸루에이터(평가기)**를 구조적으로 분리하는 것이다 (→ [[sources/youtube-6cr4PeilKJk]]). 같은 AI가 만들고 같은 AI가 판단하는 구조 자체가 문제이므로, "생성하는 AI에게 비판적으로 보라고 시키는 것보다 아예 검증 전문 AI를 따로 두는 게 훨씬 쉽다"는 것이다 (→ [[sources/youtube-6cr4PeilKJk]]). Claude Code에서는 [[concepts/subagents-agent-teams|서브에이전트]]를 활용하거나 별도 컨텍스트에서 코드 리뷰를 하는 방식으로 이 원리를 적용한다 (→ [[sources/youtube-6cr4PeilKJk]]).
 
-이 원리를 역할 설계의 언어로 압축한 표현이 **"리뷰어가 코드를 직접 고치면 안 된다"**이다 — 리뷰어가 코드를 고치는 순간 그건 리뷰가 아니라 또 하나의 구현이 되고, 그 결과 **검증자 자체가 사라진다**. 따라서 리서처는 조사만, 플래너는 계획만, 리뷰어는 직접 수정하지 않고 문제점만 찾아야 결과물의 품질과 검증 가능성이 함께 올라간다 (→ [[sources/youtube-wa6ZoLlnB60]]). 같은 영상은 이를 이력서에 쓸 수 있는 실무 역량으로 번역한다([[concepts/ai-resume-writing]] 참조).
+이 원리를 역할 설계의 언어로 압축한 표현이 **"리뷰어가 코드를 직접 고치면 안 된다"**이다 — 리뷰어가 코드를 고치는 순간 그건 리뷰가 아니라 또 하나의 구현이 되고, 그 결과 **검증자 자체가 사라진다**. 따라서 리서처는 조사만, 플래너는 계획만, 리뷰어는 직접 수정하지 않고 문제점만 찾아야 결과물의 품질과 검증 가능성이 함께 올라간다 (→ 생각등대 영상 `wa6ZoLlnB60` — 출처 페이지는 2026-07-12 커리어 위키로 이관됨).
 
 ## 검증 자동화의 수단
 
@@ -50,4 +50,3 @@ tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하
 - [[concepts/multi-model-workflow]] — Codex 적대적 리뷰 / 결과물 상호 검토
 - [[concepts/hooks]] — 강제 검증 수단
 - [[concepts/subagents-agent-teams]] — 생성/검증 분리의 구현 단위
-- [[concepts/ai-resume-writing]] — "리뷰어=검증자" 원리를 이력서 역량으로 번역

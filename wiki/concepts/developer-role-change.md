@@ -2,8 +2,8 @@
 title: 개발자 역할의 변화
 type: concept
 created: 2026-06-23
-updated: 2026-06-28
-sources: [youtube-uk4a5oER0SQ, youtube-oIAUbqpQ0lY, youtube-6gvnDSAcZww, youtube-DrekqeDlO1w, youtube-BssPGKsP60s, youtube-6cr4PeilKJk, youtube-JzB_GI7SS6g, youtube-wa6ZoLlnB60, youtube-Vq9UU92R4wY]
+updated: 2026-07-12
+sources: [youtube-uk4a5oER0SQ, youtube-oIAUbqpQ0lY, youtube-6gvnDSAcZww, youtube-DrekqeDlO1w, youtube-BssPGKsP60s, youtube-6cr4PeilKJk, youtube-JzB_GI7SS6g]
 tags: [개발자, 역할변화, 일자리, 상향이동, 이해]
 ---
 
@@ -31,9 +31,7 @@ AI 시대에 개발자의 역할은 **축소되는 게 아니라 상향 이동(u
 
 ## 이력서 차원의 변별 — "AI 써봤다"가 아니라 "환경을 설계해봤다"
 
-이 상향 이동은 채용·이력서 차원에서도 동일하게 나타난다. "클로드로 개발했다"·"코덱스로 생산성을 높였다"는 진술은 이제 변별력이 없으며(오히려 구체성이 없으면 역효과), 변별의 축은 **"AI가 안전하게 일할 개발 환경([[concepts/harness-engineering|하네스]])을 구축해봤다"**로 옮겨간다 (→ [[sources/youtube-wa6ZoLlnB60]]). 즉 "AI를 써본 사람(선수)"이 아니라 "AI가 일할 환경을 설계한 사람(감독)"이 회사가 원하는 인재이며, 이는 본문 상단의 선수→감독 서사를 채용 현실로 구체화한다. 구체적 작성법은 [[concepts/ai-resume-writing]]에 정리한다.
-
-채용 현장의 또 다른 증언도 같은 방향이다 — AI 활용은 이제 가산점이 아니라 **기본 전제**이고, 합격을 가르는 것은 **AI가 만든 코드의 품질을 판단할 수 있는 CS 기본기**다. 운영 서비스를 클로드·코덱스만으로 리팩토링하는 것은 실제로 불가능하며 마지막엔 인간이 검토해 PR을 머지하기 때문이다. 회사는 "AI를 잘 쓰는 사람 + 기본을 아는 사람"을 뽑는다 (→ [[sources/youtube-Vq9UU92R4wY]]). 이는 본 페이지의 "이해 없는 바이브 코딩은 위험"·"최악의 코더 양산" 경고를 취업 전략으로 구체화한 것으로, 전체 준비 전략은 [[concepts/developer-job-strategy]]에 정리한다.
+이 상향 이동은 채용·이력서 차원에서도 동일하게 나타난다. "클로드로 개발했다" 수준의 진술은 변별력이 없으며, 변별의 축은 **"AI가 안전하게 일할 개발 환경([[concepts/harness-engineering|하네스]])을 구축해봤다"**로 옮겨간다 — "AI를 써본 사람(선수)"이 아니라 "AI가 일할 환경을 설계한 사람(감독)"이 회사가 원하는 인재라는 것이다. 또한 AI 활용은 이제 가산점이 아니라 기본 전제이고, 합격을 가르는 것은 **AI가 만든 코드의 품질을 판단할 수 있는 CS 기본기**라는 채용 현장 증언도 같은 방향이다 (→ 생각등대 `wa6ZoLlnB60`·근돌 `Vq9UU92R4wY` 영상 — 이력서 작성법·취업 전략 등 커리어 응용 페이지들은 2026-07-12 커리어 위키(career-llm-wiki)로 이관됨).
 
 ## 비개발자에게도 같은 맥락
 
@@ -45,6 +43,3 @@ AI를 효과적으로 쓰려면 자기 분야의 전문성이 더욱 중요해�
 - [[concepts/agentic-coding]] — "이해는 아웃소싱 불가"와 바이브 코딩의 한계
 - [[entities/andrej-karpathy]] — 바이브 코딩 명명 및 이해 강조
 - [[sources/youtube-JzB_GI7SS6g]] — 역할 변화 시대 주니어 개발자를 위한 10가지 실전 팁
-- [[concepts/ai-resume-writing]] — 변별 축 이동(구현→설계)을 이력서 작성으로 번역
-- [[concepts/developer-job-strategy]] — 2026 개발자 취업 준비 전략 전반(기본기·AI활용·숫자증명·운영경험)
-- [[concepts/career-pivot-strategy]] — 경력자가 물경력을 이직 가능한 경력으로 바꾸는 전략

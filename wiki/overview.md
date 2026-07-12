@@ -2,8 +2,8 @@
 title: 도메인 개요 — Claude Code & 하네스 엔지니어링
 type: overview
 created: 2026-06-23
-updated: 2026-06-28
-sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-wa6ZoLlnB60, youtube-Vq9UU92R4wY]
+updated: 2026-07-12
+sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM]
 tags: [개요, 하네스엔지니어링, 클로드코드, AI에이전트코딩]
 ---
 
@@ -49,15 +49,10 @@ tags: [개요, 하네스엔지니어링, 클로드코드, AI에이전트코딩]
 2. **하네스를 쌓을 것인가 뺄 것인가** — 축적론 vs "낡은 하네스는 제품 내장 기능과 중복되니 빼라"(하네스 다이어트, → [[sources/youtube-fInMcawbKng]]). 정리: [[concepts/harness-engineering]].
 3. **단일 도구로 충분한가** — "Claude Code만 쓰면 망한다"(→ [[sources/youtube-f0hcByvsyjU]]) vs Boris의 "거의 바닐라 세팅"(→ [[sources/youtube-hXlB1QstQ-Y]]). 정리: [[concepts/multi-model-workflow]].
 
-## 응용 관점: 커리어·이력서
+## 응용 관점: 커리어·이력서 (이관됨)
 
-하네스/검증/역할분리 개념은 기술 담론을 넘어 **취업·이직** 전략으로도 번역된다. 두 갈래가 있다.
-- **이력서 표현**(좁은 각도): "AI를 써봤다"는 더 이상 변별점이 아니며, "AI가 안전하게 일할 환경(하네스)을 설계해봤다"가 변별점이 된다 — ①계획-승인 게이트, ②리서처/플래너/리뷰어 역할 분리, ③프롬프트·로깅 훅이 곧 이력서 한 줄이 된다 (→ [[sources/youtube-wa6ZoLlnB60]], 정리: [[concepts/ai-resume-writing]]).
-- **취업 준비 전반**(넓은 각도, 신입·취준): AI 활용은 이제 기본 전제이고, 합격은 ①CS 기본기(AI 코드 품질 판단력) ②AI 활용 ③문제 해결력의 숫자 증명 ④서비스 운영 경험으로 갈린다 (→ [[sources/youtube-Vq9UU92R4wY]], 정리: [[concepts/developer-job-strategy]]).
-- **경력 전환/이직**(경력자): "물경력"이 쌓일 때 기존 경력을 부정하지 않고 ①실무 안 AI 흔적 ②목표 스택으로 개인 서비스 배포·운영 ③부하 테스트(TPS·병목)로 차이를 메운다 (→ [[sources/youtube-SsHGSf_nzrI]], 정리: [[concepts/career-pivot-strategy]]).
+하네스/검증/역할분리 개념은 기술 담론을 넘어 **취업·이직** 전략(이력서 표현·취업 준비·물경력 전환)으로도 번역되며, [[concepts/developer-role-change]]의 "선수→감독" 서사를 채용 현실로 구체화한다. 이 커리어 응용 페이지들(개념 3·출처 3·분석 1)은 **2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관**했다 — 이 위키는 기술 담론에 집중한다.
 
-셋 다 [[concepts/developer-role-change]]의 "선수→감독" 서사를 채용 현실로 구체화한 것이다.
-
-> **출처 범위 메모**: 위 25편은 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 기반이고, [[sources/youtube-wa6ZoLlnB60]]·[[sources/youtube-Vq9UU92R4wY]](2026-06-28 흡수)는 다른 재생목록 `PLUGinkN1Rwv5E7cnlf8kpTL95F0Cw2Ywm`(취업/커리어 모음, 여러 채널)에서 추가됐다.
+> **출처 범위 메모**: 위 25편은 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 기반이다. 취업/커리어 재생목록(`PLUGinkN1Rwv5E7c...`)에서 추가됐던 영상 3편의 출처 페이지와 raw 원본은 2026-07-12 career-llm-wiki로 이관됐다.
 
 전체 카탈로그는 [[index]]를 참고.

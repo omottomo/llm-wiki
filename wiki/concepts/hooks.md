@@ -2,8 +2,8 @@
 title: 훅 (Hooks)
 type: concept
 created: 2026-06-23
-updated: 2026-06-28
-sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww, youtube-wa6ZoLlnB60]
+updated: 2026-07-12
+sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww]
 tags: [클로드코드, 훅, 하네스, 검증자동화, 프리커밋]
 ---
 # 훅 (Hooks)
@@ -24,7 +24,7 @@ tags: [클로드코드, 훅, 하네스, 검증자동화, 프리커밋]
 - 테스트가 다 통과하면 아무 말도 하지 않고, 실패했을 때만 에이전트에게 알려야 한다. 통과한 테스트 결과 4,000줄을 다 보여주면 AI가 그걸 읽느라 정작 할 일을 잃어버리기(컨텍스트 오염) 때문이다 (→ [[sources/youtube-DrekqeDlO1w]]). [[concepts/context-decay]] 참조.
 
 ## 또 다른 용례 — "로깅 훅"(강제가 아니라 기록·추적성)
-훅의 대표 용도는 '강제'이지만, **AI 작업을 기록하는 로깅 훅**이라는 별개 용례도 있다. 어떤 프롬프트를 입력했고 AI가 어떤 파일을 읽고 어떤 명령을 실행했는지를 훅으로 자동 기록하면, AI 작업을 블랙박스로 두지 않고 **재연성·디버깅 가능성·운영성**을 확보한다 — 엉뚱한 파일이 수정됐을 때 "내 요청이 모호했는지"를 프롬프트 로그로, 문제 명령이 "언제 실행됐는지"를 툴 로그로 추적할 수 있다 (→ [[sources/youtube-wa6ZoLlnB60]]). 위험 명령을 막는 차단 훅과 함께, 이 로깅 훅 구축 경험은 이력서에 쓸 수 있는 실무 역량으로 제시된다([[concepts/ai-resume-writing]]).
+훅의 대표 용도는 '강제'이지만, **AI 작업을 기록하는 로깅 훅**이라는 별개 용례도 있다. 어떤 프롬프트를 입력했고 AI가 어떤 파일을 읽고 어떤 명령을 실행했는지를 훅으로 자동 기록하면, AI 작업을 블랙박스로 두지 않고 **재연성·디버깅 가능성·운영성**을 확보한다 — 엉뚱한 파일이 수정됐을 때 "내 요청이 모호했는지"를 프롬프트 로그로, 문제 명령이 "언제 실행됐는지"를 툴 로그로 추적할 수 있다 (→ 생각등대 영상 `wa6ZoLlnB60` — 출처 페이지는 2026-07-12 커리어 위키로 이관됨).
 
 ## 다른 강제 장치와의 관계
 하네스에서 "규칙을 강제하는" 층위는 여러 가지가 있고, 훅은 그중 하나다 (→ [[sources/youtube-6cr4PeilKJk]]):
@@ -42,4 +42,4 @@ tags: [클로드코드, 훅, 하네스, 검증자동화, 프리커밋]
 - 모델이 좋아지면 불필요해진 제약(훅 포함)은 빼야 한다 — Anthropic도 Opus 4.6 출시 후 하네스를 간소화했다([[concepts/harness-engineering]]의 '하네스 다이어트' 긴장과 연결) (→ [[sources/youtube-6cr4PeilKJk]]).
 
 ## 연결
-- [[concepts/harness-engineering]] (훅은 하네스의 세 기둥 중 '자동 강제 시스템'에 속함), [[concepts/claude-md]] (부탁 vs 강제), [[concepts/verification-automation]], [[concepts/context-decay]], [[concepts/mcp]], [[concepts/ai-resume-writing]] (로깅 훅을 이력서 역량으로), [[entities/mitchell-hashimoto]].
+- [[concepts/harness-engineering]] (훅은 하네스의 세 기둥 중 '자동 강제 시스템'에 속함), [[concepts/claude-md]] (부탁 vs 강제), [[concepts/verification-automation]], [[concepts/context-decay]], [[concepts/mcp]], [[entities/mitchell-hashimoto]].

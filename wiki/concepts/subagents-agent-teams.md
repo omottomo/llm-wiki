@@ -2,8 +2,8 @@
 title: 서브에이전트 & 에이전트 팀
 type: concept
 created: 2026-06-23
-updated: 2026-06-28
-sources: [youtube-Gb2VMWrUmZ0, youtube-jKjbXXBahiY, youtube-DCsv0rKKrN4, youtube-wa6ZoLlnB60]
+updated: 2026-07-12
+sources: [youtube-Gb2VMWrUmZ0, youtube-jKjbXXBahiY, youtube-DCsv0rKKrN4]
 tags: [클로드코드, 서브에이전트, 에이전트팀, 오케스트레이션, 멀티에이전트]
 ---
 # 서브에이전트 & 에이전트 팀
@@ -41,8 +41,8 @@ tags: [클로드코드, 서브에이전트, 에이전트팀, 오케스트레이�
 - 실제로 주식 분석 에이전트 팀에서 에이전트 3개를 병렬 투입해 시장 리서치를 빠르게 진행하고 종합 보고서를 만들었다("에이전트 팀스 개념이 어느 정도 접목됨") (→ [[sources/youtube-jKjbXXBahiY]]).
 
 ## 역할 분리 패턴 — 리서처 / 플래너 / 리뷰어
-- 하나의 AI에 조사·구현·리뷰·디버깅을 다 시키면 결과가 흔들린다. 회사의 기획자·개발자·리뷰어·QA가 다르듯 AI도 역할을 나눈다 — **리서처는 조사만, 플래너는 계획만, 리뷰어는 직접 수정하지 않고 문제점만** 찾는다 (→ [[sources/youtube-wa6ZoLlnB60]]).
-- 특히 리뷰어가 코드를 직접 고치면 그 순간 리뷰가 아니라 또 하나의 구현이 되어 검증자가 사라진다 → [[concepts/verification-automation]]의 생성/검증 분리와 동일 원리. 이 역할 분리 경험은 이력서에 쓸 수 있는 실무 역량으로도 제시된다([[concepts/ai-resume-writing]]) (→ [[sources/youtube-wa6ZoLlnB60]]).
+- 하나의 AI에 조사·구현·리뷰·디버깅을 다 시키면 결과가 흔들린다. 회사의 기획자·개발자·리뷰어·QA가 다르듯 AI도 역할을 나눈다 — **리서처는 조사만, 플래너는 계획만, 리뷰어는 직접 수정하지 않고 문제점만** 찾는다 (→ 생각등대 영상 `wa6ZoLlnB60` — 출처 페이지는 2026-07-12 커리어 위키로 이관됨).
+- 특히 리뷰어가 코드를 직접 고치면 그 순간 리뷰가 아니라 또 하나의 구현이 되어 검증자가 사라진다 → [[concepts/verification-automation]]의 생성/검증 분리와 동일 원리.
 
 ## 실전 워크플로우 연결
 - 멀티 터미널(여러 터미널로 작업 하나씩 분담)에서 더 나아가면 서브에이전트·에이전트 팀까지 쓸 줄 알아야 한다 (→ [[sources/youtube-DCsv0rKKrN4]]).

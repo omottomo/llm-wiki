@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-06-28
+updated: 2026-07-12
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -10,7 +10,7 @@ tags: [색인, 카탈로그]
 # 위키 색인 (Index)
 
 > 도메인 전체 조망은 [[overview]]. 아래는 카테고리별 전체 페이지 목록(각 항목 한 줄 설명).
-> 출처: 유튜브 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 영상 25편 (2026-06-23 흡수) + 취업/커리어 영상 3편(재생목록 `PLUGinkN1Rwv5E7c...` 및 생각등대 시리즈, 여러 채널, 2026-06-28 흡수).
+> 출처: 유튜브 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 영상 25편 (2026-06-23 흡수). 취업/커리어 관련 페이지(개념 3·출처 3·분석 1)는 2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관 — 이 위키는 기술 주제에 집중한다.
 
 ## Concepts
 - [[concepts/harness-engineering]] — 하네스 엔지니어링. 이 위키의 중심 개념(환경 설계 = 강제)
@@ -30,9 +30,6 @@ tags: [색인, 카탈로그]
 - [[concepts/context-decay]] — 컨텍스트 부패. 길어지면 잊고 조기 종료
 - [[concepts/on-device-ai]] — 온디바이스 AI. Gemma 4로 API 비용 0
 - [[concepts/llm-basics]] — LLM 기초. 트랜스포머·어텐션·RLHF
-- [[concepts/ai-resume-writing]] — 이력서에 AI 활용 경험 쓰기. 하네스/검증/역할분리의 커리어 응용
-- [[concepts/developer-job-strategy]] — 2026 개발자 취업 전략. 기본기·AI활용·숫자증명·서비스운영·오픈소스
-- [[concepts/career-pivot-strategy]] — 물경력 탈출/이직 경력 전환. AI흔적·개인서비스 운영·부하테스트(TPS)
 
 ## Entities
 - [[entities/claude-code]] — Anthropic의 에이전틱 코딩 CLI, 위키 전반의 중심 도구
@@ -75,13 +72,7 @@ tags: [색인, 카탈로그]
 - [[sources/youtube-fInMcawbKng]] — #24 다이나믹 워크플로우: 낡은 하네스 다이어트
 - [[sources/youtube-z-3BRkxQ5GM]] — #25 루프 엔지니어링: 최신 트렌드
 
-### 취업/커리어 (재생목록 `PLUGinkN1Rwv5E7c...` 및 생각등대 시리즈)
-- [[sources/youtube-wa6ZoLlnB60]] — #4 (생각등대) 이력서에 AI 활용 경험 한 줄 제대로 쓰는 법(계획-승인·역할분리·로깅훅)
-- [[sources/youtube-Vq9UU92R4wY]] — #5 (근돌) 2026 개발자 취업 전략(기본기·AI활용·숫자증명·서비스운영)
-- [[sources/youtube-SsHGSf_nzrI]] — (생각등대) 물경력을 이직 가능한 경력으로 바꾸는 3가지(AI흔적·개인서비스·부하테스트)
-
 ## Analysis
 - [[analysis/ai-coding-evolution]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표
 - [[analysis/claude-md-decision-guide]] — CLAUDE.md 결정 가이드(모순① 실천 가이드화)
 - [[analysis/workflow-selection-guide]] — 채팅/스킬/서브에이전트/배치/다이나믹/Goal 선택 가이드
-- [[analysis/devops-career-pivot]] — 3년차 DevOps '물경력' 이직 전략(요구 스택 갭·4주 랩·이력서 재구성, 웹검증)
