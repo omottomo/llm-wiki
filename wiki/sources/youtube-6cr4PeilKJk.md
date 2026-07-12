@@ -27,7 +27,7 @@ tags: [하네스엔지니어링, ClaudeCode, 미첼하시모토, 검증자동화
 - 신규: "9달러 vs 200달러" 정량 비교, Anthropic 3대 실패 패턴의 구체적 출처(11월·3월 블로그), Opus 4.6 후 스프린트 제거 사례.
 
 ## 출처 정보
-- raw: /Users/tomo/Desktop/ai-llm-wiki/raw/youtube-6cr4PeilKJk.md
+- raw: raw/youtube-6cr4PeilKJk.md
 - URL: https://www.youtube.com/watch?v=6cr4PeilKJk
 - 채널: 짐코딩 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #13)

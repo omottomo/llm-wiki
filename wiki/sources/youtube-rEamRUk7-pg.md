@@ -29,7 +29,7 @@ tags: [온디바이스AI, 구글Gemma, 멀티모달, API비용, 모바일앱]
 - 신규: 모바일 온디바이스 LLM 탑재의 메모리 임계치(2B≈6~8GB, 4B≈16GB)와 멀티모달 한계라는 구체 데이터 도입. [[entities/google-gemma]] 엔티티 신규 등장.
 
 ## 출처 정보
-- raw: /Users/tomo/Desktop/ai-llm-wiki/raw/youtube-rEamRUk7-pg.md
+- raw: raw/youtube-rEamRUk7-pg.md
 - URL: https://www.youtube.com/watch?v=rEamRUk7-pg
 - 채널: 코드팩토리 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #12)

@@ -29,7 +29,7 @@ tags: [하네스엔지니어링, 미첼하시모토, 말과마구, 컨텍스트�
 - 신규: 야생말→경마장 비유, "채팅창=하네스 루프" 직관, LangChain 벤치마크 25단계 상승, 리처드 서튼/차드 파울러 인용, "하네스=서비스 템플릿" 미래 전망.
 
 ## 출처 정보
-- raw: /Users/tomo/Desktop/ai-llm-wiki/raw/youtube-DrekqeDlO1w.md
+- raw: raw/youtube-DrekqeDlO1w.md
 - URL: https://www.youtube.com/watch?v=DrekqeDlO1w
 - 채널: castlestudio (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #14)

@@ -29,7 +29,7 @@ tags: [하네스엔지니어링, 에이전틱코딩, 컨텍스트엔지니어링
 - 신규: 4축 프레임워크를 "프롬프트/컨텍스트/하네스/에이전틱"으로 명시적 정리한 점, 라우터-컨텍스트매니저-실행루프-워커격리의 4부품 시스템 다이어그램.
 
 ## 출처 정보
-- raw: /Users/tomo/Desktop/ai-llm-wiki/raw/youtube-6gvnDSAcZww.md
+- raw: raw/youtube-6gvnDSAcZww.md
 - URL: https://www.youtube.com/watch?v=6gvnDSAcZww
 - 채널: 실밸개발자 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #11)

@@ -28,7 +28,7 @@ AI 자동화와 아웃소싱으로 전통적 개발자 일자리가 줄어드는
 - 신규: 노동시장·고용 통계 관점, 아웃소싱 변수, "후임이 아니라 토큰" 프레이밍, 회계사/스프레드시트 역사 비유를 [[concepts/developer-role-change]]에 도입.
 
 ## 출처 정보
-- raw: /Users/tomo/Desktop/ai-llm-wiki/raw/youtube-uk4a5oER0SQ.md
+- raw: raw/youtube-uk4a5oER0SQ.md
 - URL: https://www.youtube.com/watch?v=uk4a5oER0SQ
 - 채널: 실용주의 개발 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #15)
