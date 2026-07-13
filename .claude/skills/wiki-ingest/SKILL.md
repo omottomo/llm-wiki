@@ -5,13 +5,13 @@ description: "Ingest a new source document (article, paper, note, image, data) i
 
 # Wiki Ingest
 
-> **WORKDIR: /Users/tomo/Desktop/ai-llm-wiki** — Execute all operations under this directory.
-> **AGENTS.md: /Users/tomo/Desktop/ai-llm-wiki/AGENTS.md** — Read this file first and follow its rules for all wiki content.
+> **CLAUDE.md** — Read this file first and follow its rules for all wiki content.
+> **Rules module: `docs/rules/wiki-content.md`** — Read this too; it holds the page authoring / index / domain rules for all wiki content.
 
 Read a new source → extract → **integrate it into the existing wiki**.
-This is not a plain summary. The point is to **weave** the new information into what already exists so the whole wiki gets one step richer. A single source typically touches 10–15 pages.
+This is not a plain summary. The point is to **weave** the new information into what already exists so the whole wiki gets one step richer. A single source typically touches 10–15 pages — but touching a page means grepping to the relevant slice and editing it, not reading the page end to end.
 
-> **All wiki content you write must be in Korean.** See AGENTS.md LANGUAGE RULE.
+> **All wiki content you write must be in Korean.** See CLAUDE.md LANGUAGE RULE.
 
 ## Procedure
 
@@ -24,7 +24,7 @@ This is not a plain summary. The point is to **weave** the new information into 
   5. Proceed with step 1 treating `raw/<slug>.md` as the source file
 - If the user puts a file in `raw/` and asks to ingest → skip to step 1
 
-> For non-YouTube URLs, see `references/browser-extraction-technique.md` for the reliable `browser_navigate` → `browser_console` (innerText) sequence that avoids snapshot truncation, plus which extraction method to pick per page type. For a combined overview of both browser and video extraction, see `references/content-extraction-techniques.md`.
+> For non-YouTube URLs, see `references/content-extraction-techniques.md` for the reliable `browser_navigate` → `browser_console` (innerText) sequence that avoids snapshot truncation, plus which extraction method to pick per page type.
 
 ### YouTube handling (important — do not use browser for video pages)
 Video pages (youtube.com, youtu.be) have no accessible text in the DOM. **Never** try to extract content via `browser_snapshot`/`browser_console` on a YouTube video URL — the player is opaque and interactive elements yield no transcript.
@@ -58,15 +58,15 @@ Join segment texts with newlines (in time order) to produce a plain-text body be
 - If the user says "그냥 알아서 넣어," proceed directly.
 
 ### 3. Reconcile with the existing wiki (most important)
-Read `wiki/index.md` first to find pages related to this source. For each key claim, decide:
+Read `wiki/index.md` first to find pages related to this source. For each candidate page, locate the section you need with a `grep` for the claim, heading, or existing `[[...]]` link, and read only that slice plus enough surrounding context to edit it correctly — don't open the whole page. Reserve whole-page reads for pages that genuinely need restructuring (e.g. splitting a section, reorganizing headings). For each key claim, decide:
 - **강화 (supports)**: Does it back an existing claim? → add it as supporting evidence on that page.
 - **모순 (contradicts)**: Does it conflict with an existing claim? → keep both and flag the contradiction explicitly (never delete).
 - **신규 (new)**: Is it a person/concept/topic appearing for the first time? → create a new page (or stub).
 
-### 4. Write (follow the page rules in AGENTS.md)
+### 4. Write (follow the page rules in docs/rules/wiki-content.md)
 Do these in order:
-1. Write the source summary page at `wiki/sources/<slug>.md` (use `templates/source-page.md` in this skill — the canonical form of the AGENTS.md template — **in Korean**).
-2. Update relevant `entities/`·`concepts/` pages — add new facts, connect with `[[...]]` wikilinks, flag contradictions.
+1. Write the source summary page at `wiki/sources/<slug>.md` (use `templates/source-page.md` in this skill — the canonical form of the template in `docs/rules/wiki-content.md` — **in Korean**).
+2. Update relevant `entities/`·`concepts/` pages — add new facts, connect with `[[...|한글 별칭]]` wikilinks (every body link carries a Korean alias; cite sources as `(→ [[sources/<slug>|label]])`, multiple joined with `·` — format rules in `docs/rules/wiki-content.md` §1), flag contradictions.
 3. For every newly mentioned proper noun/concept, create at least a stub so no orphan links remain.
 4. If the source shifts the big picture, update `wiki/overview.md`.
 5. Reflect new/changed pages in `wiki/index.md`.
