@@ -10,7 +10,7 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
-     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락
+     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락/형식 오류
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
 종료 코드: 문제 0건이면 0, 있으면 1
@@ -30,6 +30,7 @@ RAW = ROOT / "raw"
 REQUIRED_KEYS = ["title", "type", "created", "updated", "sources", "tags"]
 VALID_TYPES = {"entity", "concept", "source", "analysis", "overview"}
 WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
+LABEL_CONTENT_RE = re.compile(r"^#\d+ \S")
 
 issues = []
 
@@ -42,6 +43,31 @@ def normalize_target(raw_target: str) -> str:
     r"""[[대상|별칭]] / [[대상\|별칭]] / [[대상#섹션]] → '대상'만 남긴다."""
     target = raw_target.replace("\\|", "|").split("|")[0].split("#")[0].strip()
     return target
+
+
+def label_issue(value: str) -> str | None:
+    """소스 페이지 frontmatter의 label 값이 잘 정형화되어 있으면 None, 아니면 문제 사유를 반환한다.
+    정형화된 값: backslash 없음 + 따옴표가 없거나 앞뒤로 균형 있게 한 쌍만 있음 +
+    (따옴표를 벗겨낸) 본문이 '#숫자 제목' 형태로 시작."""
+    if "\\" in value:
+        return "backslash 문자 포함"
+
+    quote_positions = [i for i, c in enumerate(value) if c in "\"'"]
+    if quote_positions:
+        if (
+            len(quote_positions) != 2
+            or quote_positions[0] != 0
+            or quote_positions[1] != len(value) - 1
+            or value[0] != value[-1]
+        ):
+            return "따옴표가 불균형하거나 남아있음"
+        content = value[1:-1]
+    else:
+        content = value
+
+    if not LABEL_CONTENT_RE.match(content):
+        return "'#숫자 제목' 형식이 아님"
+    return None
 
 
 def resolve(target: str) -> Path:
@@ -171,10 +197,15 @@ def check_link_format(pages):
         if src_key.startswith("sources/") and f"[[{src_key}" in body:
             add("링크 형식", f"{rel} — 자기 자신을 인용함 ([[{src_key}...]])")
 
-        # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 한다
+        # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 하고, 값의 형식도 올바라야 한다
         fm = parse_frontmatter(text)
-        if src_key.startswith("sources/") and fm is not None and "label" not in fm:
-            add("링크 형식", f"{rel} — frontmatter에 label(짧은 인용 라벨) 없음")
+        if src_key.startswith("sources/") and fm is not None:
+            if "label" not in fm:
+                add("링크 형식", f"{rel} — frontmatter에 label(짧은 인용 라벨) 없음")
+            else:
+                reason = label_issue(fm["label"])
+                if reason:
+                    add("링크 형식", f"{rel} — label 값 형식 오류({reason}): {fm['label']}")
 
 
 def resolve_page_key(arg: str, pages) -> str | None:
