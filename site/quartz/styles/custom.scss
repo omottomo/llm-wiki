@@ -1,3 +1,19 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+// Korean typography: break lines at word (어절) boundaries, not mid-syllable.
+// overflow-wrap guards long unbreakable tokens (URLs, video IDs) from overflowing.
+body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+// Roomier leading for Korean body text — the default is tuned for Latin scripts.
+.page article {
+  p,
+  li,
+  blockquote {
+    line-height: 1.75;
+  }
+}
