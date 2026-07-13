@@ -1,0 +1,38 @@
+name: Verify site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "wiki/**"
+      - "site/**"
+      - "scripts/**"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3"
+
+      - name: Install site dependencies
+        working-directory: site
+        run: npm ci
+
+      - name: Build site
+        working-directory: site
+        run: |
+          npx quartz plugin install --from-config
+          npx quartz build
+
+      - name: Run raw/ boundary audit
+        run: python3 scripts/verify_site.py
