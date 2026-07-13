@@ -5,12 +5,12 @@ description: "Delete existing wiki pages (a single page, a set of pages, or the 
 
 # Wiki Delete
 
-> **WORKDIR: /Users/tomo/Desktop/ai-llm-wiki** — Execute all operations under this directory.
-> **AGENTS.md: /Users/tomo/Desktop/ai-llm-wiki/AGENTS.md** — Read this file first and follow its rules for all wiki content.
+> **CLAUDE.md** — Read this file first and follow its rules for all wiki content.
+> **Rules module: `docs/rules/wiki-content.md`** — Read this too; it holds the page authoring / index / domain rules for all wiki content.
 
 Remove pages from the wiki **safely**. Deletion is irreversible, so the priority is to delete exactly what the user intends — no more, no less — and to leave the wiki consistent afterward (no dangling links, accurate index, logged).
 
-> **All wiki content you write/repair must be in Korean. Also confirm and report to the user in Korean.** See AGENTS.md LANGUAGE RULE.
+> **All wiki content you write/repair must be in Korean. Also confirm and report to the user in Korean.** See CLAUDE.md LANGUAGE RULE.
 
 > **HARD RULE: by default, deletion is confined to `wiki/`.** Never delete or modify anything under `raw/` — it is the immutable source of truth. If the user explicitly asks to also delete the raw source, then delete `raw/<file>` + `wiki/sources/<slug>.md` together with the wiki pages.
 
@@ -36,13 +36,13 @@ Determine exactly which pages are targeted:
 Do not delete until the user confirms. If the scope is ambiguous, ask which pages they mean rather than guessing.
 
 ### 2. Check inbound links before deleting
-For each target page, find which other pages link to it (`[[page-name]]`). This tells you what will break. Briefly note to the user how many inbound links exist so they understand the impact.
+For each target page, run `python3 scripts/lint_wiki.py --inbound <page>` (path or slug) instead of hand-grepping for `[[page-name]]` — it prints every wiki page whose body currently links to that page. Briefly note to the user how many inbound links exist so they understand the impact. Keep this list: once the target page is deleted, every link it reported becomes dangling and must be repaired in step 4.
 
 ### 3. Delete
 Remove the confirmed files from `wiki/` (and `raw/` if option 2 was chosen).
 
 ### 4. Repair dangling links (consistency cleanup)
-After deletion, no page should point to a now-missing page:
+After deletion, no page should point to a now-missing page. Go through the inbound list from step 2 and repair each one:
 - In every page that linked to a deleted page, either remove the `[[...]]` link or, if the surrounding sentence still has value, rephrase it and mark that the referenced page was removed (in Korean).
 - Do not leave orphaned `[[...]]` links to nonexistent pages.
 
