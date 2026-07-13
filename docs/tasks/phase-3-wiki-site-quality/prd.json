@@ -1,0 +1,97 @@
+{
+  "phase": "phase-3-wiki-site-quality",
+  "goal": "Harden the wiki's mechanical quality gates against the audited defect classes (malformed labels, tag pollution, English titles, tag fragmentation), fix site font loading, gate deploys with the boundary audit in CI, and take the site live with verified Korean search.",
+  "created_at": "2026-07-13",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Add label well-formedness check to lint_wiki.py",
+      "scope": "scripts/lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The lint run validates the label frontmatter value on every wiki/sources page, not just its presence. A well-formed label starts with a hash sign followed by digits and a space (for example: #13 followed by a Korean short title) and contains no backslashes and no stray or unbalanced quote characters. The 25 currently defective source pages whose label values begin with a backslash-escaped quote are each reported as violations; a corrected label passes. The check's findings appear in the existing report format and count toward the existing failure semantics.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Add bare hash-number body citation check to lint_wiki.py",
+      "scope": "scripts/lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The lint run flags occurrences of a bare hash sign immediately followed by digits (optionally with a trailing Korean particle) in wiki page bodies, because Quartz parses these as tags and builds junk tag pages. Occurrences inside wikilinks (including alias text after the pipe), inside inline code or fenced code blocks, and inside frontmatter are not flagged. The roughly 31 currently affected pages are each reported with the page path; a citation rewritten in the wikilink-alias form passes. Findings appear in the existing report format.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Add Korean-title check to lint_wiki.py",
+      "scope": "scripts/lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The lint run flags any page under wiki/sources or wiki/concepts whose frontmatter title contains no Hangul characters, enforcing the Korean-content rule. Pages under wiki/entities are exempt because Latin proper-noun titles (Anthropic, OpenAI, MCP) are legitimate there. The three currently English-titled source pages are each reported; a Korean title passes. Findings appear in the existing report format.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Add tag-hygiene report to lint_wiki.py",
+      "scope": "scripts/lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The lint run emits a tag-hygiene section that reports: pairs of frontmatter tags that collide case-insensitively or differ only by script or hyphenation (for example a Korean tag and its Latin variant of the same tool name, or CamelCase versus lowercase variants of the same word), and the count plus list of singleton tags (used on exactly one page). This section is informational (a warning) and does not by itself change the script's exit code, since tag consolidation is an editorial decision. On the current corpus it reports the known casing collision between the CamelCase and lowercase forms of the claudecode tag and a singleton count near 97.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Record content conventions in wiki-content rules: tag vocabulary, citation form, updated-date semantics",
+      "scope": "docs/rules/wiki-content.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The wiki-content rule module gains a conventions section (in English, per the language rule) covering four points. One: a controlled tag vocabulary policy — tags are Korean by default, one canonical form per concept, no case or script variants, with an explicit merge table for the audited variant pairs (the harness pair, the claude-code trio, the claude-md pair, the codex pair, the on-device-AI pair) naming the canonical form of each. Two: source citations in page bodies must use the wikilink-alias form, never a bare hash sign followed by a number, because Quartz parses the latter as a tag. Three: the updated frontmatter date is bumped only when a page's content changes, never for formatting-only passes. Four: frontmatter titles of sources and concepts pages must be Korean (Hangul present); Latin proper nouns are allowed for entities. The new rules do not contradict any existing rule in the file.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Fix font loading so only configured Korean-capable fonts ship",
+      "scope": "site/quartz.config.yaml",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "After a fresh site build, the generated HTML head requests only the configured typography (Noto Sans KR for body/header plus the configured monospace font) from the font provider, and no longer also requests the Quartz default fonts Schibsted Grotesk and Source Sans Pro, which lack Hangul glyphs and waste requests. Rendered body text in the built output resolves to the Korean-capable font stack. All other config values (baseUrl, locale, plugin set, colors) are unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "Add CI workflow gating pushes with build plus boundary audit",
+      "scope": ".github/workflows/verify-site.yml",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new GitHub Actions workflow at the repo root (not under site/.github, which holds vendored Quartz defaults) triggers on pushes to main that touch wiki/, site/, or scripts/. It checks out the repo, sets up Node 22 and Python 3, installs site dependencies, builds the site with quartz, and then runs scripts/verify_site.py against the fresh build; the job fails if the build or the boundary audit fails, so a raw-content leak can no longer reach a deploy unnoticed. The workflow file is valid YAML and does not deploy anything itself.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T08",
+      "title": "Connect Cloudflare Pages and configure the production build",
+      "scope": "site/",
+      "kind": "manual",
+      "depends_on": ["T06"],
+      "acceptance": "The repository is connected to a Cloudflare Pages project that builds the Quartz site from the site directory with the NODE_VERSION environment variable set to 22, and a production deployment completes successfully at the configured baseUrl (ai-llm-wiki.pages.dev or the final custom domain). This requires the human operator's Cloudflare account and dashboard access.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T09",
+      "title": "Verify the live production site, including Korean full-text search",
+      "scope": "site/",
+      "kind": "manual",
+      "depends_on": ["T08"],
+      "acceptance": "On the live production URL a human confirms: pages render with Korean typography in both light and dark mode; explorer, backlinks, and graph view work; the tag index contains no junk numeric tag pages (this also depends on the librarian's content fix for bare hash-number citations); and full-text search returns correct results for at least three Korean queries including a mid-word substring query, since Quartz search tokenization for CJK is historically weak and must be observed working, not assumed. Any search failure is recorded as a follow-up issue rather than blocking the deploy.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}

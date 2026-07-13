@@ -1,0 +1,127 @@
+{
+  "phase": "phase-1-quartz-publishing",
+  "goal": "Publish the Korean wiki (content root wiki/ only) as a public website using Quartz 5 vendored into site/ and deployed on Cloudflare Pages from a private GitHub repo, with raw/ never published.",
+  "created_at": "2026-07-12",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Upgrade local Node.js to 22+",
+      "scope": "local environment — Node.js / npm runtime (no repo file)",
+      "kind": "manual",
+      "depends_on": [],
+      "acceptance": "The shell used for builds reports Node.js >= 22 and npm >= 10.9.2, satisfying Quartz 5's engine requirement. The machine currently has v20.19.5, on which even dependency installation fails — nothing downstream can start before this.",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Create the private GitHub remote and push main",
+      "scope": "GitHub repository settings (remote, visibility)",
+      "kind": "manual",
+      "depends_on": [],
+      "acceptance": "A GitHub remote named origin exists for this repo, its visibility is PRIVATE (non-negotiable: raw/ holds third-party transcripts and must never reach a public repo), and the current main branch has been pushed to it.",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Vendor Quartz 5 into site/",
+      "scope": "site/ (vendored Quartz 5 source tree)",
+      "kind": "builder",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "site/ contains the Quartz 5 source vendored as regular committed files: its inner .git directory is removed, dependencies install cleanly under Node 22, and the Quartz CLI is runnable from within site/. No file under raw/ or wiki/ is created, modified, or moved.",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Connect content via relative symlink site/content -> ../wiki",
+      "scope": "site/content (symlink)",
+      "kind": "builder",
+      "depends_on": [
+        "T03"
+      ],
+      "acceptance": "site/content is a symlink (not a copy of the files) whose target is exactly the relative path ../wiki, and the symlink is committed to git. This makes wiki/ the sole content root, structurally excluding raw/, log.md, CLAUDE.md, docs/, .claude/, and .obsidian/ from publishing. An absolute symlink target is a failure (absolute paths break in CI).",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Set base site configuration in quartz.config.yaml",
+      "scope": "site/quartz.config.yaml (configuration block)",
+      "kind": "builder",
+      "depends_on": [
+        "T04"
+      ],
+      "acceptance": "The configuration block sets: pageTitle 'AI·LLM Wiki'; locale ko-KR (Korean UI and date formatting); baseUrl ai-llm-wiki.pages.dev, which must equal the Cloudflare Pages project name chosen in T09; analytics disabled (null); and theme typography header and body fonts set to Noto Sans KR, because the default theme fonts contain no Korean glyphs. With these settings a production build completes without error. Config keys must exist in Quartz 5's actual schema — a plausible key that Quartz silently ignores is a failure.",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Configure plugins block and lock plugin versions",
+      "scope": "site/quartz.config.yaml (plugins block; regenerated quartz.lock.json committed alongside)",
+      "kind": "builder",
+      "depends_on": [
+        "T05"
+      ],
+      "acceptance": "The plugins block adds quartz-community/crawl-links with markdownLinkResolution set to absolute (so root-relative wikilinks like [[concepts/hooks]] and alias forms resolve), and quartz-community/footer with an empty links map (removing Quartz's default GitHub/Discord footer links). Plugin install from config has been re-run and the resulting quartz.lock.json is committed. Default-enabled graph/search/backlinks/explorer/tag plugins remain enabled. A full build succeeds; in the built output no HTML page contains a literal unresolved '[['. Leak audit (amended by lead 2026-07-12 — a literal grep for 'raw/' false-positives on citation metadata): the built output must contain no rendered page derived from raw/ (wiki/ is the only content root) and no transcript content from raw/ files (spot-check distinctive transcript phrases across raw/ documents). Literal citation strings such as 'raw/<slug>.md' inside the user's own source-summary pages are legitimate references, not a leak, and do not fail this audit.",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "Ensure build artifacts are git-ignored",
+      "scope": ".gitignore (root) — or confirm the site/.gitignore shipped by Quartz already suffices",
+      "kind": "builder",
+      "depends_on": [
+        "T03"
+      ],
+      "acceptance": "site/node_modules/, site/public/, and site/.quartz/ are all ignored by git and none of them is tracked; running a fresh build leaves the working tree clean of artifact files. If Quartz's shipped ignore rules already achieve this, demonstrating that is sufficient — do not add redundant entries.",
+      "status": "done",
+      "attempts": 0
+    },
+    {
+      "id": "T08",
+      "title": "Local human verification of the rendered site",
+      "scope": "rendered site on local preview (human review; no repo file)",
+      "kind": "manual",
+      "depends_on": [
+        "T06",
+        "T07"
+      ],
+      "acceptance": "On a local preview a human confirms: wiki/index.md renders as the landing page and the [[overview]] link works; Korean search returns title/body matches for representative queries (하네스, 컨텍스트, 카파시); wikilinks, alias display ([[...|alias]]), and citation links ((→ [[sources/...]])) resolve; graph view (local/global), backlinks panel, and popover previews work; Korean tag pages, the Explorer folder tree, and Korean date formatting render correctly; mobile layout and dark mode look right. Genuinely needs human eyes — must not be claimed by an agent.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T09",
+      "title": "Connect Cloudflare Pages to the private repo",
+      "scope": "Cloudflare Pages dashboard (project settings; no repo file)",
+      "kind": "manual",
+      "depends_on": [
+        "T02",
+        "T06",
+        "T07"
+      ],
+      "acceptance": "A Cloudflare Pages project named ai-llm-wiki (the name must match baseUrl from T05, or T05 must be updated to match) is connected to the private GitHub repo with: production branch main, root directory site, build command 'npm ci && npx quartz plugin install && npx quartz build', build output directory public, and environment variable NODE_VERSION=22. The production *.pages.dev URL serves the built wiki.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T10",
+      "title": "Production verification and privacy re-check",
+      "scope": "production site at *.pages.dev (human review; no repo file)",
+      "kind": "manual",
+      "depends_on": [
+        "T08",
+        "T09"
+      ],
+      "acceptance": "On the production URL: the T08 checklist items hold; sitemap.xml and the RSS feed use the correct baseUrl; editing one wiki page and pushing triggers an automatic Cloudflare redeploy within a few minutes; the GitHub repo is still PRIVATE; and no published page exposes raw/ content.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
