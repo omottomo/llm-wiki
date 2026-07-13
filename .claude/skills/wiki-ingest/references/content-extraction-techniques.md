@@ -44,6 +44,8 @@ For regular web pages (documentation, blogs, articles), use this sequence:
 
 `browser_snapshot` truncates at ~8000 chars. `document.body.innerText` bypasses this limit entirely. Prefer `browser_console` for full text extraction on long-form pages.
 
+Confirmed against `https://code.claude.com/docs/en/whats-new/2026-w22`: `browser_snapshot` truncated mid-content, while `document.body.innerText` returned the complete article.
+
 ---
 
 ## YAML frontmatter in skill files
@@ -56,3 +58,5 @@ name: example-skill
 description: "Fetch from https://example.com/api — works because quoted"
 ---
 ```
+
+This previously broke `wiki-ingest`'s own `SKILL.md`: an unquoted URL in its description field caused all `patch`/`edit` operations on the file to fail until the field was quoted.

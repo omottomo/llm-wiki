@@ -1,0 +1,137 @@
+{
+  "phase": "phase-4-namu-test-site",
+  "goal": "Stand up a parallel test site under site-test/ (existing site/ untouched) that serves a permanent site-owned landing page at the root, exposes the wiki catalog at /catalog via symlinks (wiki/ untouched), and replaces folder-based navigation with namu-wiki-style navigation (no explorer, no breadcrumbs; Korean tag chips and a recent-changes sidebar instead), verified by a clean build plus the raw/ boundary audit and deployable to a separate Cloudflare Pages project.",
+  "created_at": "2026-07-13",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Scaffold site-test/ as a copy of site/ excluding artifacts and the content symlink",
+      "scope": "site-test/",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new top-level directory site-test/ exists containing a copy of site/ with these exclusions: node_modules/, public/, .quartz/, and the content symlink are NOT copied. The copy preserves the vendored Quartz source tree (site-test/quartz/ including styles/custom.scss with the Korean typography rules), package.json, package-lock.json, quartz.config.yaml, and quartz.lock.json, each byte-identical to its site/ counterpart at copy time. Nothing under site/ is created, modified, or deleted by this task (git reports no changes under site/).",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Create site-test/content/ as a real directory of relative symlinks into wiki/",
+      "scope": "site-test/content/",
+      "kind": "builder",
+      "depends_on": ["T01"],
+      "acceptance": "site-test/content/ is a real directory (not a symlink). It contains exactly these symlink entries, all relative (each readlink output starts with ../../ and contains no absolute path): catalog.md -> ../../wiki/index.md, overview.md -> ../../wiki/overview.md, concepts -> ../../wiki/concepts, entities -> ../../wiki/entities, sources -> ../../wiki/sources, analysis -> ../../wiki/analysis. Every symlink resolves to an existing target. No file under wiki/ is created, modified, renamed, or deleted.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Author the site-owned landing page at site-test/content/index.md",
+      "scope": "site-test/content/index.md",
+      "kind": "builder",
+      "depends_on": ["T02"],
+      "acceptance": "site-test/content/index.md is a regular file (not a symlink) with valid YAML frontmatter carrying a Korean title. The body is Korean and contains, in namu-wiki front-page style: (a) a two-to-three-sentence plain-language identity statement explaining that this wiki is built and maintained by an AI librarian from YouTube video sources; (b) one honesty sentence noting that sources are auto-generated captions so names and figures may be misrecognized; (c) a first-visit section (heading containing \"처음 오셨나요\") with working wikilinks to the domain overview page, the catalog page (the symlinked catalog slug), and the three analysis guide pages (ai-coding-evolution, claude-md-decision-guide, workflow-selection-guide), each wikilink carrying a Korean alias; (d) a short knowledge-pipeline section describing raw source to source summary to concept and entity updates to cross-links to analysis, in plain markdown text (no image required). The page does NOT reproduce the full per-page catalog listing, contains no absolute local filesystem path, and no path or content from raw/.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Disable explorer and breadcrumbs in the test site config",
+      "scope": "site-test/quartz.config.yaml",
+      "kind": "builder",
+      "depends_on": ["T01"],
+      "acceptance": "In site-test/quartz.config.yaml the explorer plugin entry and the breadcrumbs plugin entry are both set to enabled: false. The file remains valid YAML against the plugin schema and no other plugin entry or configuration value is changed by this task. site/quartz.config.yaml is untouched.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Enable tag-list chips in the test site config",
+      "scope": "site-test/quartz.config.yaml",
+      "kind": "builder",
+      "depends_on": ["T04"],
+      "acceptance": "In site-test/quartz.config.yaml the tag-list plugin entry is set to enabled: true, keeping its existing layout placement (position beforeBody), so each page renders its Korean frontmatter tags as namu-style category chips near the top. The note-properties plugin remains enabled (it is the frontmatter parser; disabling it breaks all titles, per docs/rules/site-code.md accumulated rules). The file remains valid YAML and no other entry is changed by this task.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Enable recent-notes as a right-sidebar recent-changes module in the test site config",
+      "scope": "site-test/quartz.config.yaml",
+      "kind": "builder",
+      "depends_on": ["T05"],
+      "acceptance": "In site-test/quartz.config.yaml the recent-notes plugin entry is set to enabled: true with options valid against the plugin's schema (title, limit, linkToMore, showTags): title is the Korean string 최근 변경, limit is 8, showTags is false, and linkToMore points at the catalog slug. Its layout places it in the right sidebar (position: right) with a numeric priority so it coexists with graph, table-of-contents, and backlinks. The file remains valid YAML and no other entry is changed by this task.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "Point the test site config at the test deployment identity",
+      "scope": "site-test/quartz.config.yaml",
+      "kind": "builder",
+      "depends_on": ["T06"],
+      "acceptance": "In site-test/quartz.config.yaml the baseUrl is ai-llm-wiki-test.pages.dev (so the test site's sitemap and RSS never claim the production URL). pageTitle, locale ko-KR, the Korean fonts, colors, and every other configuration value are unchanged except those altered by T04, T05, and T06. site/quartz.config.yaml still carries baseUrl ai-llm-wiki.pages.dev, untouched.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T08",
+      "title": "Install dependencies and sync plugins in site-test",
+      "scope": "site-test/quartz.lock.json",
+      "kind": "builder",
+      "depends_on": ["T07"],
+      "acceptance": "Inside site-test/, npm install exits 0 on Node 22+, and npx quartz plugin install --from-config exits 0 against the final plugin block. site-test/.quartz/plugins contains the sources for every enabled plugin including recent-notes and tag-list, and site-test/quartz.lock.json is present and consistent with the config. No install or plugin command is run inside site/ and nothing under site/ changes.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T09",
+      "title": "Parameterize scripts/verify_site.py to audit a chosen site directory",
+      "scope": "scripts/verify_site.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "scripts/verify_site.py accepts an optional argument naming the site directory to audit, defaulting to site. Every existing check (public/ existence and skip messages, unresolved-wikilink check, no raw-named public path, raw transcript content leak audit, local-user absolute path check, and the git-ignored artifact check for node_modules, public, and .quartz) resolves its paths against the chosen directory. Invoked with no argument it behaves exactly as before against site/, same checks and same exit-code semantics; invoked with the test directory it audits site-test/public and site-test artifacts. The argument is reflected in the script's usage or help text.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T10",
+      "title": "Ensure site-test build artifacts are git-ignored",
+      "scope": ".gitignore",
+      "kind": "builder",
+      "depends_on": ["T01"],
+      "acceptance": "git check-ignore succeeds for site-test/node_modules, site-test/public, and site-test/.quartz (whether via existing generic patterns or lines added by this task), while site-test/quartz.config.yaml, site-test/content, and the vendored site-test/quartz source are NOT ignored and remain trackable. Existing ignore behavior for site/ paths is unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T11",
+      "title": "Build the test site and pass the rendered-output and boundary audits",
+      "scope": "site-test/",
+      "kind": "builder",
+      "depends_on": ["T02", "T03", "T08", "T09", "T10"],
+      "acceptance": "npx quartz build inside site-test/ exits 0. The built site-test/public satisfies all of: the root index.html renders the landing page (its identity sentence text is present) and not the wiki catalog listing; the catalog page from the catalog.md symlink is rendered at its own slug and contains the catalog's category headings; every markdown page under wiki/ has a corresponding rendered HTML file; rendered pages contain no explorer component markup and no breadcrumbs markup; a page that has frontmatter tags renders tag-list chips; rendered pages contain the recent-notes component with the Korean heading 최근 변경 in the right sidebar. Finally, scripts/verify_site.py pointed at site-test exits 0 (raw/ boundary, no local-user paths, artifacts ignored).",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T12",
+      "title": "Deploy the test site to a separate Cloudflare Pages project",
+      "scope": "site-test/",
+      "kind": "manual",
+      "depends_on": ["T11"],
+      "acceptance": "A new Cloudflare Pages project named ai-llm-wiki-test builds the Quartz site from the site-test directory with NODE_VERSION set to 22, and a deployment completes successfully at ai-llm-wiki-test.pages.dev. The existing production project serving ai-llm-wiki.pages.dev from site/ is not modified in any way. This requires the human operator's Cloudflare account and dashboard access.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T13",
+      "title": "Human QA of the namu-style experience on the test site",
+      "scope": "site-test/",
+      "kind": "manual",
+      "depends_on": ["T11"],
+      "acceptance": "On the built test site (local preview or the deployed test URL) a human confirms: the landing page reads clearly to a first-time visitor with no unexplained jargon; no folder tree or breadcrumb appears on any page; Korean tag chips render at the top of content pages; the recent-changes sidebar lists recently updated pages; Korean full-text search returns correct results for at least three queries; light and dark modes both render Korean typography correctly. Each failure is recorded as a follow-up item rather than silently fixed.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}

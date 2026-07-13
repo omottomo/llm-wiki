@@ -1,0 +1,137 @@
+{
+  "phase": "phase-2-harness-efficiency",
+  "goal": "Fix drifted and duplicated agent operating files and add deterministic helpers so future sessions run correct checks and load less context per task.",
+  "created_at": "2026-07-13",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Replace deprecated raw-leak check in evaluator agent definition",
+      "scope": ".claude/agents/evaluator.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The evaluator definition no longer lists the naive recursive grep for the string raw/ over site/public/ as a standing check (it always matches legitimate source citations and can never pass). In its place the standing raw-boundary check is running scripts/verify_site.py. The verification-matrix content duplicated from docs/rules/site-code.md section 2.3 is replaced by a one-line pointer to that section. No other checks in the file are removed or weakened.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Replace deprecated raw-leak acceptance example in planner agent definition",
+      "scope": ".claude/agents/planner.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The planner definition's model acceptance-criterion example no longer presents the naive recursive grep for raw/ over site/public/ as a valid acceptance check. The example instead references the scripts/verify_site.py boundary audit. The PRD schema block in this file is retained unchanged, since it becomes the single source of truth for the schema.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "De-duplicate verification matrix in orchestrate skill",
+      "scope": ".claude/skills/orchestrate/SKILL.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The verification-matrix content in the orchestrate skill (section 5) that duplicates docs/rules/site-code.md section 2.3 is replaced by a short pointer to that section. The full matrix afterwards exists in exactly one operating file: docs/rules/site-code.md. Orchestration flow instructions unrelated to the matrix are unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "De-duplicate PRD schema in create-prd-json skill",
+      "scope": ".claude/skills/create-prd-json/SKILL.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The create-prd-json skill no longer inlines the full PRD JSON schema, field notes, task-sizing guidance, or goal-entailment gate text that also appears in .claude/agents/planner.md. It instead directs the reader to the schema section of the planner definition, keeping only procedure steps unique to this skill (phase-number discovery, slug generation, target directory, post-write user report). The skill remains self-consistent and executable.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Fold unique browser-extraction content into the general extraction reference",
+      "scope": ".claude/skills/wiki-ingest/references/content-extraction-techniques.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "Any content present in .claude/skills/wiki-ingest/references/browser-extraction-technique.md but absent from content-extraction-techniques.md (if any) is merged into content-extraction-techniques.md, so that deleting the former file loses no information. The merged file stays in English and keeps its existing structure.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Delete redundant browser-extraction reference file",
+      "scope": ".claude/skills/wiki-ingest/references/browser-extraction-technique.md",
+      "kind": "builder",
+      "depends_on": ["T05"],
+      "acceptance": "The file browser-extraction-technique.md no longer exists under .claude/skills/wiki-ingest/references/. Its content is fully covered by content-extraction-techniques.md per T05.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "Clean wiki-ingest skill: drop WORKDIR block, fix reference pointers, add partial-read weave instruction",
+      "scope": ".claude/skills/wiki-ingest/SKILL.md",
+      "kind": "builder",
+      "depends_on": ["T06"],
+      "acceptance": "Three properties hold. First, the hardcoded WORKDIR block containing the absolute path with the operator username and the wrong repo name ai-llm-wiki is removed; no absolute local path remains in the file. Second, references to extraction guides point only to files that exist after T06. Third, the cross-link weave step instructs the agent to locate the target section of an existing wiki page with a search (grep) and read only the relevant slice, instead of reading 10-15 full pages; whole-page reads are reserved for pages that genuinely need restructuring. The rest of the ingest procedure is semantically unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T08",
+      "title": "Drop WORKDIR block from wiki-query skill",
+      "scope": ".claude/skills/wiki-query/SKILL.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The hardcoded WORKDIR block with the absolute path (wrong repo name ai-llm-wiki, operator username) is removed from the wiki-query skill. No absolute local path remains in the file. All other procedure text is unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T09",
+      "title": "Drop WORKDIR block from wiki-lint skill",
+      "scope": ".claude/skills/wiki-lint/SKILL.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The hardcoded WORKDIR block with the absolute path (wrong repo name ai-llm-wiki, operator username) is removed from the wiki-lint skill. No absolute local path remains in the file. All other procedure text is unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T10",
+      "title": "Add --inbound flag to lint_wiki.py exposing the inbound-link map",
+      "scope": "scripts/lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "Running the lint script with an --inbound argument naming one wiki page (by path or slug) prints the list of wiki pages whose bodies link to that page, computed from the same wikilink resolution already used by the orphan check, then exits 0 without running the full lint. Invoking the script with no arguments behaves exactly as before (all existing checks, same output format, same exit-code semantics). Passing --inbound with a nonexistent page produces a clear error and nonzero exit.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T11",
+      "title": "Clean wiki-delete skill: drop WORKDIR block, use deterministic inbound-link lookup",
+      "scope": ".claude/skills/wiki-delete/SKILL.md",
+      "kind": "builder",
+      "depends_on": ["T10"],
+      "acceptance": "The hardcoded WORKDIR block with the absolute path is removed and no absolute local path remains in the file. The step that discovers inbound links to a page slated for deletion instructs the agent to run the lint script's --inbound flag from T10 instead of hand-grepping, and to repair the dangling links it reports. Confirmation-before-delete and never-touch-raw rules are unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T12",
+      "title": "Add pattern-based permission allowlist to project settings",
+      "scope": ".claude/settings.json",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The project settings file contains a permissions allow list with pattern entries covering at least: running scripts/lint_wiki.py with any arguments, running scripts/verify_site.py with any arguments, git status, git diff, git log, npx quartz build, and invoking the youtube_transcript_api module via python3. The file remains valid JSON and the existing agent-teams configuration and hook registration are preserved unchanged. No entry grants write-capable git commands (commit, push, reset) or arbitrary shell.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T13",
+      "title": "Fix stale repo name in CLAUDE.md structure tree",
+      "scope": "CLAUDE.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The repository-structure tree in CLAUDE.md no longer labels the root as ai-llm-wiki; it uses the actual repo directory name llm-wiki (or a neutral root label). The string ai-llm-wiki does not appear anywhere in CLAUDE.md. No rule text is otherwise altered.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}

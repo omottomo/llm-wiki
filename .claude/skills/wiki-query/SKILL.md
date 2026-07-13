@@ -5,13 +5,13 @@ description: Answer questions against the wiki. Use when the user asks about the
 
 # Wiki Query
 
-> **WORKDIR: /Users/tomo/Desktop/ai-llm-wiki** — Execute all operations under this directory.
-> **AGENTS.md: /Users/tomo/Desktop/ai-llm-wiki/AGENTS.md** — Read this file first and follow its rules for all wiki content.
+> **CLAUDE.md** — Read this file first and follow its rules for all wiki content.
+> **Rules module: `docs/rules/wiki-content.md`** — Read this too; it holds the page authoring / index / domain rules for all wiki content.
 
 Answer questions grounded in the wiki, and **file good answers back into the wiki.**
 Key insight: a good comparison/analysis/connection produced in response to a question is wasted if it's buried in chat history. Turn such answers into pages so your explorations **compound** in the wiki just like ingested sources do.
 
-> **All wiki content you write must be in Korean.** Also reply to the user in Korean. See AGENTS.md LANGUAGE RULE.
+> **All wiki content you write must be in Korean.** Also reply to the user in Korean. See CLAUDE.md LANGUAGE RULE.
 
 ## Procedure
 
@@ -21,7 +21,7 @@ Key insight: a good comparison/analysis/connection produced in response to a que
 - (If a CLI search tool exists, use it. Otherwise index + grep is enough.)
 
 ### 2. Synthesize
-- Build the answer from the pages you read. **Attach a source reference to every claim**: `(→ [[sources/...]])`.
+- Build the answer from the pages you read. **Attach a source reference to every claim**, using the target's frontmatter `label` as the alias: `(→ [[sources/<slug>|#N 라벨]])`; join multiple citations with `·`. (Full link/citation format: `docs/rules/wiki-content.md` §1 — every body wikilink carries a Korean alias.)
 - If pages contradict each other, don't hide it — present both sides in the answer.
 - If the wiki has **no basis to answer**, say so honestly. Don't fill gaps with guesses; instead suggest "이건 자료가 없으니 웹 검색하거나 자료를 더 넣자."
 
