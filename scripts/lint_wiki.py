@@ -10,7 +10,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
-     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락/형식 오류
+     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락/형식 오류,
+     본문 내 서식 없는 '#숫자' 인용(Quartz가 태그로 오인식)
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
 종료 코드: 문제 0건이면 0, 있으면 1
@@ -31,6 +32,9 @@ REQUIRED_KEYS = ["title", "type", "created", "updated", "sources", "tags"]
 VALID_TYPES = {"entity", "concept", "source", "analysis", "overview"}
 WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 LABEL_CONTENT_RE = re.compile(r"^#\d+ \S")
+FENCE_RE = re.compile(r"```.*?```", re.S)
+INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
+BARE_CITATION_RE = re.compile(r"#\d+")
 
 issues = []
 
@@ -208,6 +212,23 @@ def check_link_format(pages):
                     add("링크 형식", f"{rel} — label 값 형식 오류({reason}): {fm['label']}")
 
 
+def check_bare_citations(pages):
+    """맨 '#숫자' 본문 인용 검사 (docs/rules/wiki-content.md) — Quartz가 이를 태그로 파싱해
+    쓰레기 태그 페이지를 만든다. 위키링크(별칭 포함)·인라인 코드·펜스 코드블록·frontmatter 내부는 제외."""
+    for page in pages:
+        body = split_body(page.read_text(encoding="utf-8"))
+        cleaned = WIKILINK_RE.sub("", FENCE_RE.sub("", body))
+        cleaned = INLINE_CODE_RE.sub("", cleaned)
+        matches = BARE_CITATION_RE.findall(cleaned)
+        if matches:
+            rel = page.relative_to(ROOT)
+            uniq = ", ".join(sorted(set(matches)))
+            add(
+                "링크 형식",
+                f"{rel} — 본문에 서식 없는 '#숫자' 인용 {len(matches)}건 ({uniq}) — 위키링크 별칭 형태로 바꿀 것",
+            )
+
+
 def resolve_page_key(arg: str, pages) -> str | None:
     """경로('wiki/concepts/hooks.md', 'concepts/hooks.md') 또는 슬러그('concepts/hooks')를
     page_key 형식으로 정규화한다. 대상 페이지가 없으면 None."""
@@ -261,6 +282,7 @@ def main() -> int:
     check_index_coverage(pages)
     check_orphans(pages)
     check_link_format(pages)
+    check_bare_citations(pages)
 
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
