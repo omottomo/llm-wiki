@@ -9,10 +9,16 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
+  6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
+     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
 종료 코드: 문제 0건이면 0, 있으면 1
+
+--inbound <경로|슬러그> 를 주면 전체 lint 대신 해당 페이지로 들어오는
+인바운드 링크(고아 페이지 검사와 동일한 기준으로 계산) 목록만 출력하고 종료한다.
 """
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -116,29 +122,106 @@ def check_index_coverage(pages):
             add("색인", f"wiki/{key}.md 가 index.md 에 등재되어 있지 않음")
 
 
-def check_orphans(pages):
-    """index.md 를 제외한 다른 페이지로부터 인바운드 링크가 0인 페이지."""
-    inbound = {page_key(p): 0 for p in pages}
+def build_inbound_map(pages) -> dict:
+    """페이지별 인바운드 링크 소스 페이지 집합. index.md 는 소스로 집계하지 않는다(고아 페이지 검사 기준과 동일).
+    한 페이지가 같은 대상을 [[대상]]과 [[대상#섹션]]처럼 서로 다른 형태로 여러 번 링크해도 소스는 1건으로 센다."""
+    inbound = {page_key(p): set() for p in pages}
     for page in pages:
-        if page_key(page) == "index":
+        src = page_key(page)
+        if src == "index":
             continue
         text = page.read_text(encoding="utf-8")
-        src = page_key(page)
         for raw_target in set(WIKILINK_RE.findall(text)):
             target = normalize_target(raw_target)
             if target in inbound and target != src:
-                inbound[target] += 1
-    for key, count in sorted(inbound.items()):
+                inbound[target].add(src)
+    return inbound
+
+
+def check_orphans(pages):
+    """index.md 를 제외한 다른 페이지로부터 인바운드 링크가 0인 페이지."""
+    inbound = build_inbound_map(pages)
+    for key, sources in sorted(inbound.items()):
         if key in ("index", "overview"):
             continue
-        if count == 0:
+        if not sources:
             add("고아 페이지", f"wiki/{key}.md — index.md 외 인바운드 링크 0건")
 
 
+def split_body(text: str) -> str:
+    """frontmatter 블록을 잘라내고 본문만 돌려준다."""
+    m = re.match(r"^---\n.*?\n---\n", text, re.S)
+    return text[m.end():] if m else text
+
+
+def check_link_format(pages):
+    """docs/rules/wiki-content.md §1 링크·인용 형식 검사."""
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+        rel = page.relative_to(ROOT)
+        body = split_body(text)
+        src_key = page_key(page)
+
+        # (a) 본문 위키링크는 반드시 별칭([[대상|별칭]] 또는 표 안 [[대상\|별칭]])을 가진다
+        for raw_target in WIKILINK_RE.findall(body):
+            if "|" not in raw_target.replace("\\|", "|"):
+                add("링크 형식", f"{rel} — [[{raw_target}]] 별칭 없음 (슬러그가 그대로 렌더링됨)")
+
+        # (b) 소스 페이지는 자기 자신을 인용하지 않는다
+        if src_key.startswith("sources/") and f"[[{src_key}" in body:
+            add("링크 형식", f"{rel} — 자기 자신을 인용함 ([[{src_key}...]])")
+
+        # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 한다
+        fm = parse_frontmatter(text)
+        if src_key.startswith("sources/") and fm is not None and "label" not in fm:
+            add("링크 형식", f"{rel} — frontmatter에 label(짧은 인용 라벨) 없음")
+
+
+def resolve_page_key(arg: str, pages) -> str | None:
+    """경로('wiki/concepts/hooks.md', 'concepts/hooks.md') 또는 슬러그('concepts/hooks')를
+    page_key 형식으로 정규화한다. 대상 페이지가 없으면 None."""
+    candidate = arg.strip()
+    if candidate.startswith("wiki/"):
+        candidate = candidate[len("wiki/"):]
+    if candidate.endswith(".md"):
+        candidate = candidate[: -len(".md")]
+    existing = {page_key(p) for p in pages}
+    return candidate if candidate in existing else None
+
+
+def print_inbound(target_arg: str) -> int:
+    pages = wiki_pages()
+    key = resolve_page_key(target_arg, pages)
+    if key is None:
+        print(f"오류: '{target_arg}' 에 해당하는 위키 페이지를 찾을 수 없습니다.", file=sys.stderr)
+        return 2
+
+    inbound = build_inbound_map(pages)
+    sources = sorted(inbound.get(key, []))
+    print(f"## wiki/{key}.md 인바운드 링크 ({len(sources)}건)")
+    if not sources:
+        print("(없음)")
+    else:
+        for src in sources:
+            print(f"- wiki/{src}.md")
+    return 0
+
+
 def main() -> int:
+    parser = argparse.ArgumentParser(description="위키 결정적 lint / 인바운드 링크 조회")
+    parser.add_argument(
+        "--inbound",
+        metavar="PAGE",
+        help="전체 lint 대신, 지정한 페이지(경로 또는 슬러그)로 들어오는 인바운드 링크만 출력하고 종료",
+    )
+    args = parser.parse_args()
+
     if not WIKI.is_dir() or not RAW.is_dir():
         print(f"오류: {ROOT} 아래에 wiki/ 또는 raw/ 가 없습니다.", file=sys.stderr)
         return 2
+
+    if args.inbound is not None:
+        return print_inbound(args.inbound)
 
     pages = wiki_pages()
     check_wikilinks(pages)
@@ -146,10 +229,11 @@ def main() -> int:
     check_frontmatter(pages)
     check_index_coverage(pages)
     check_orphans(pages)
+    check_link_format(pages)
 
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
-        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0)")
+        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과)")
         return 0
 
     by_cat = {}
