@@ -13,9 +13,12 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
      소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락/형식 오류,
      본문 내 서식 없는 '#숫자' 인용(Quartz가 태그로 오인식)
+  7. 태그 위생 리포트 (docs/rules/wiki-content.md §4.1) — 대소문자/하이픈/스크립트만
+     다른 충돌 가능 태그 쌍, 단일 사용(singleton) 태그 목록. 정보성 경고이며
+     종료 코드에는 반영되지 않는다(태그 통합은 편집 판단이 필요한 사안).
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
-종료 코드: 문제 0건이면 0, 있으면 1
+종료 코드: 문제 0건이면 0, 있으면 1 (태그 위생 리포트는 경고 전용이라 반영되지 않음)
 
 --inbound <경로|슬러그> 를 주면 전체 lint 대신 해당 페이지로 들어오는
 인바운드 링크(고아 페이지 검사와 동일한 기준으로 계산) 목록만 출력하고 종료한다.
@@ -37,6 +40,17 @@ FENCE_RE = re.compile(r"```.*?```", re.S)
 INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 BARE_CITATION_RE = re.compile(r"#\d+")
 HANGUL_RE = re.compile(r"[가-힣]")
+
+# docs/rules/wiki-content.md §4.1의 감사된 태그 변형 그룹. 대소문자·하이픈 정규화만으로는
+# 한글/영문처럼 스크립트가 다른 변형(예: 클로드코드 vs ClaudeCode)을 같은 개념으로 묶을 수
+# 없어, 사람이 감사한 그룹을 여기 함께 참조한다. wiki-content.md에 새 변형 쌍이 추가되면 맞춰 갱신한다.
+KNOWN_TAG_VARIANT_GROUPS = [
+    {"하네스", "하네스엔지니어링"},
+    {"클로드코드", "ClaudeCode", "클로드봇"},
+    {"클로드md", "claude-md", "CLAUDE-md"},
+    {"코덱스", "Codex"},
+    {"온디바이스AI", "엣지AI"},
+]
 
 issues = []
 
@@ -265,6 +279,79 @@ def print_inbound(target_arg: str) -> int:
     return 0
 
 
+def collect_tags(pages) -> dict:
+    """페이지별 tags frontmatter(`[태그1, 태그2]`)를 파싱해 태그 → 사용 페이지 목록 매핑을 만든다."""
+    tag_pages: dict = {}
+    for page in pages:
+        fm = parse_frontmatter(page.read_text(encoding="utf-8"))
+        if fm is None or "tags" not in fm:
+            continue
+        raw = fm["tags"].strip()
+        if raw.startswith("[") and raw.endswith("]"):
+            raw = raw[1:-1]
+        for tag in (t.strip() for t in raw.split(",")):
+            if tag:
+                tag_pages.setdefault(tag, []).append(page_key(page))
+    return tag_pages
+
+
+def normalize_tag(tag: str) -> str:
+    """대소문자·하이픈·공백을 무시한 태그 비교 키."""
+    return re.sub(r"[-\s]", "", tag).lower()
+
+
+def find_tag_collisions(tag_pages: dict) -> list:
+    """정규화(대소문자/하이픈/공백 무시) 또는 KNOWN_TAG_VARIANT_GROUPS 기준으로
+    같은 개념을 가리키는 태그 묶음(2개 이상)을 찾는다."""
+    parent = {tag: tag for tag in tag_pages}
+
+    def find(t):
+        while parent[t] != t:
+            parent[t] = parent[parent[t]]
+            t = parent[t]
+        return t
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
+
+    by_norm: dict = {}
+    for tag in tag_pages:
+        by_norm.setdefault(normalize_tag(tag), []).append(tag)
+    for group in by_norm.values():
+        for tag in group[1:]:
+            union(tag, group[0])
+
+    for group in KNOWN_TAG_VARIANT_GROUPS:
+        present = [tag for tag in group if tag in tag_pages]
+        for tag in present[1:]:
+            union(tag, present[0])
+
+    clusters: dict = {}
+    for tag in tag_pages:
+        clusters.setdefault(find(tag), []).append(tag)
+    return [sorted(members) for members in clusters.values() if len(members) > 1]
+
+
+def print_tag_hygiene_report(pages) -> None:
+    """태그 위생 리포트 — 경고(warning) 성격이며 종료 코드에 영향을 주지 않는다.
+    태그 통합은 편집 판단이 필요한 사안이라 lint가 강제하지 않는다."""
+    tag_pages = collect_tags(pages)
+    collisions = find_tag_collisions(tag_pages)
+    singletons = sorted(tag for tag, ps in tag_pages.items() if len(ps) == 1)
+
+    print(f"\n## 태그 위생 리포트 (경고 — 종료 코드에 영향 없음, 총 태그 {len(tag_pages)}종)")
+    print(f"\n### 충돌 가능 태그 쌍 ({len(collisions)}건)")
+    if not collisions:
+        print("(없음)")
+    else:
+        for group in collisions:
+            print(f"- {' / '.join(group)}")
+    print(f"\n### 단일 사용 태그 ({len(singletons)}개)")
+    print(", ".join(singletons) if singletons else "(없음)")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="위키 결정적 lint / 인바운드 링크 조회")
     parser.add_argument(
@@ -293,17 +380,20 @@ def main() -> int:
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
         print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과)")
-        return 0
+        exit_code = 0
+    else:
+        by_cat = {}
+        for cat, msg in issues:
+            by_cat.setdefault(cat, []).append(msg)
+        for cat, msgs in by_cat.items():
+            print(f"\n### {cat} ({len(msgs)}건)")
+            for msg in msgs:
+                print(f"- {msg}")
+        print(f"\n총 {len(issues)}건 — 위 항목을 wiki-lint 절차에 따라 처리하세요.")
+        exit_code = 1
 
-    by_cat = {}
-    for cat, msg in issues:
-        by_cat.setdefault(cat, []).append(msg)
-    for cat, msgs in by_cat.items():
-        print(f"\n### {cat} ({len(msgs)}건)")
-        for msg in msgs:
-            print(f"- {msg}")
-    print(f"\n총 {len(issues)}건 — 위 항목을 wiki-lint 절차에 따라 처리하세요.")
-    return 1
+    print_tag_hygiene_report(pages)
+    return exit_code
 
 
 if __name__ == "__main__":
