@@ -5,13 +5,13 @@ description: Health-check and tidy the wiki. Use when the user says "점검 / �
 
 # Wiki Lint
 
-> **WORKDIR: /Users/tomo/Desktop/ai-llm-wiki** — Execute all operations under this directory.
-> **AGENTS.md: /Users/tomo/Desktop/ai-llm-wiki/AGENTS.md** — Read this file first and follow its rules for all wiki content.
+> **CLAUDE.md** — Read this file first and follow its rules for all wiki content.
+> **Rules module: `docs/rules/wiki-content.md`** — Read this too; it holds the page authoring / index / domain rules for all wiki content.
 
 A periodic check that finds and fixes the problems that accumulate as the wiki grows.
 Humans abandon wikis because of the maintenance burden — you carry that burden.
 
-> **All wiki content you write must be in Korean.** Also report to the user in Korean. See AGENTS.md LANGUAGE RULE.
+> **All wiki content you write must be in Korean.** Also report to the user in Korean. See CLAUDE.md LANGUAGE RULE.
 
 ## What to check
 
@@ -32,7 +32,7 @@ Get the full page list from `wiki/index.md`, then scan pages for:
    ```
    It mechanically checks wikilink integrity, `raw/` ↔ `wiki/sources/` parity (the most commonly missed check), frontmatter required keys, index.md coverage, and orphan pages (zero inbound links besides index.md). These are objective — fix everything it reports and re-run until it exits clean, then move on. The LLM checks below are only for what the script cannot judge.
 
-2. Run the judgment checks above (contradictions, stale claims, missing pages, missing cross-refs, data gaps) and **report findings grouped by category** (in Korean). For stale claims, prioritize time-sensitive claims whose as-of date (AGENTS.md §2) is older than ~6 months.
+2. Run the judgment checks above (contradictions, stale claims, missing pages, missing cross-refs, data gaps) and **report findings grouped by category** (in Korean). For stale claims, prioritize time-sensitive claims whose as-of date (docs/rules/wiki-content.md §1) is older than ~6 months.
 3. Apply obvious fixes immediately (link orphans, add missing cross-refs, update index).
 4. For judgment calls (how to resolve a contradiction, how to handle a stale claim, whether to create a new page), **confirm with the user first.**
 5. Additionally, propose **questions worth investigating next** and **sources worth looking for** (the added value of lint).
