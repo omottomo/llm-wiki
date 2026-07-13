@@ -2,7 +2,7 @@
 title: 미첼 하시모토 (Mitchell Hashimoto)
 type: entity
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-07-12
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w]
 tags: [인물, HashiCorp, 하네스]
 ---
@@ -11,8 +11,8 @@ tags: [인물, HashiCorp, 하네스]
 HashiCorp 공동창립자(Terraform 제작자)이자 터미널 에뮬레이터 **Ghostty**의 제작자다. 이 위키에서는 '하네스(harness)' 개념을 대중화한 인물로 언급된다.
 
 ## 이 위키에서의 등장
-- 자막상 [[concepts/harness-engineering]](하네스 엔지니어링)의 '하네스(harness)' 용어를 제시한 인물로 언급된다 (→ [[sources/youtube-6cr4PeilKJk]], [[sources/youtube-DrekqeDlO1w]]).
-- 이는 "$9 vs $200"으로 표현되는 하네스 설계의 비용·성능 차이 논의 및 공식 하네스 문서 학습 맥락에서 등장한다 (→ [[sources/youtube-6cr4PeilKJk]], [[sources/youtube-DrekqeDlO1w]]).
+- 자막상 [[concepts/harness-engineering|하네스 엔지니어링]](하네스 엔지니어링)의 '하네스(harness)' 용어를 제시한 인물로 언급된다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
+- 이는 "`$9` vs `$200`"으로 표현되는 하네스 설계의 비용·성능 차이 논의 및 공식 하네스 문서 학습 맥락에서 등장한다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
 ## 외부 검증 (2026-06-23, 웹)
 - **부분확인 — 용어 "창시"가 아니라 "대중화".** 하시모토는 2026년 2월 "My AI Adoption Journey" 글에서 "engineering the harness" 개념과 **"에이전트 = 모델 + 하네스(Agent = Model + Harness)"** 정식화를 제시해 이 분야를 널리 알린 핵심 인물이 맞다. 다만 'harness engineering'이라는 **명칭 자체**는 며칠 뒤 OpenAI 측 정리에서 굳어졌고, 마틴 파울러가 'guides-and-sensors' 분류를 더했다. 따라서 자막의 "용어를 제시"는 "개념 대중화·정식화"로 이해하는 것이 정확하다 (→ https://www.softwareimprovementgroup.com/blog/what-is-harness-engineering/ , https://www.augmentcode.com/guides/harness-engineering-ai-coding-agents ).

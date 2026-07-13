@@ -1,5 +1,6 @@
 ---
 title: "#20 클로드 코드만 쓰면 망한다 (feat. 코덱스) — 멀티 모델 워크플로우"
+label: \"#20 코덱스 멀티 모델"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
@@ -8,7 +9,7 @@ tags: [멀티모델, 코덱스, 검증자동화, 워크플로우, 다이나믹�
 ---
 
 ## 한 줄 요약
-클로드 코드 단독 사용의 불안정성을 지적하며, OpenAI 코덱스를 보조·리뷰어로 병행하는 멀티 모델 워크플로우(코덱스 리뷰·레스큐·어드버서리얼 플랜 리뷰)를 소개하는 영상으로, [[concepts/multi-model-workflow]]의 핵심 출처.
+클로드 코드 단독 사용의 불안정성을 지적하며, OpenAI 코덱스를 보조·리뷰어로 병행하는 멀티 모델 워크플로우(코덱스 리뷰·레스큐·어드버서리얼 플랜 리뷰)를 소개하는 영상으로, [[concepts/multi-model-workflow|멀티 모델 워크플로우]]의 핵심 출처.
 
 ## 핵심 내용
 - 흐름의 배경: 클로드 코드의 불확실성·가이드 미준수·일시적 성능 저하(올해 2~3월) 때문에 코덱스를 병행하거나 코덱스로 리뷰를 돌리는 케이스가 급증. 26년 3월 말 OpenAI가 "Codex Plugin CC"를 공개해 클로드 코드 안에서 슬래시 커맨드로 코덱스 호출이 가능해짐.
@@ -18,15 +19,15 @@ tags: [멀티모델, 코덱스, 검증자동화, 워크플로우, 다이나믹�
 - 핵심 패턴(가장 강조): Opus에게 플랜을 시키고 마크다운 파일로 저장 → 바로 구현하지 않고 "코덱스 어드버서리얼 리뷰"로 설계 자체를 비판적으로 검토 → 지적사항 반영 후 구현 → 마지막에 코덱스 리뷰. 플랜 단계에서 잡으면 수정 비용이 거의 0.
 
 ## 주요 주장 / 데이터
-- 비용 비교: 전부 Opus로 돌리면 토큰당 약 $1.50, "플랜만 Opus + 나머지 Sonnet" 조합은 약 $0.48로 거의 1/3 토막.
+- 비용 비교: 전부 Opus로 돌리면 토큰당 약 `$1.50`, "플랜만 Opus + 나머지 Sonnet" 조합은 약 `$0.48`로 거의 1/3 토막.
 - 어드버서리얼 리뷰 3라운드로 인증 모델 누락 등 14개 문제를 플랜 단계에서 사전 차단한 사례.
-- 설치: 클로드 코드 + 코덱스 CLI 필요(GPT Plus 월 $20 권장), 슬래시 플러그인 마켓플레이스 add → install → setup 3줄. 슬래시 커맨드 6개 생성, 주력은 코덱스 리뷰·코덱스 레스큐.
+- 설치: 클로드 코드 + 코덱스 CLI 필요(GPT Plus 월 `$20` 권장), 슬래시 플러그인 마켓플레이스 add → install → setup 3줄. 슬래시 커맨드 6개 생성, 주력은 코덱스 리뷰·코덱스 레스큐.
 - 주의: 코덱스 레스큐가 가끔 무한 루프(같은 파일 반복 읽기)에 빠지거나 맥에서 멈춤 → 5분 넘게 무응답이면 코덱스 캔슬 후 재시도. "아직 완성된 기능은 아니므로 맹신 금물."
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/multi-model-workflow]]의 핵심 출처 — 코덱스 병행/리뷰/레스큐, 어드버서리얼 플랜 리뷰를 정립. [[concepts/verification-automation]](교차 검증), [[entities/codex]]·[[entities/openai]]를 강화 (→ [[sources/youtube-f0hcByvsyjU]]).
-- 모순/긴장: [[entities/boris-cherny]]의 "거의 바닐라 세팅"·클로드 코드 단독 권장(→ [[sources/youtube-hXlB1QstQ-Y]] #17)과 정면 긴장 관계 — 본 영상은 "클로드 코드만 쓰면 망한다"며 멀티 모델을 권장. → [[concepts/multi-model-workflow]]·[[entities/boris-cherny]]에 이 긴장을 명시.
-- 신규: opus-plan(Opus 설계 + Sonnet 구현) 비용 최적화 패턴, "코덱스 어드버서리얼 플랜 리뷰" 워크플로우를 도입 (→ [[sources/youtube-f0hcByvsyjU]]).
+- 강화: [[concepts/multi-model-workflow|멀티 모델 워크플로우]]의 핵심 출처 — 코덱스 병행/리뷰/레스큐, 어드버서리얼 플랜 리뷰를 정립. [[concepts/verification-automation|검증 자동화]](교차 검증), [[entities/codex|Codex]]·[[entities/openai|OpenAI]]를 강화.
+- 모순/긴장: [[entities/boris-cherny|보리스 체르니]]의 "거의 바닐라 세팅"·클로드 코드 단독 권장(→ [[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]])과 정면 긴장 관계 — 본 영상은 "클로드 코드만 쓰면 망한다"며 멀티 모델을 권장. → [[concepts/multi-model-workflow|멀티 모델 워크플로우]]·[[entities/boris-cherny|보리스 체르니]]에 이 긴장을 명시.
+- 신규: opus-plan(Opus 설계 + Sonnet 구현) 비용 최적화 패턴, "코덱스 어드버서리얼 플랜 리뷰" 워크플로우를 도입.
 
 ## 출처 정보
 - raw: raw/youtube-f0hcByvsyjU.md

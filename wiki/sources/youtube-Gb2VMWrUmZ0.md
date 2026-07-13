@@ -1,5 +1,6 @@
 ---
 title: "#3 Claude Code Teams (10x Smarter)"
+label: \"#3 Claude Code Teams"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
@@ -11,7 +12,7 @@ sources: [youtube-Gb2VMWrUmZ0]
 Anthropic이 Opus 4.6과 함께 공식 지원하기 시작한 "Claude Code Teams(에이전트 팀)" 기능 — 하나의 메인 클로드 코드가 독립적인 여러 클로드 코드 인스턴스를 오케스트레이션하는 방법과, 기존 서브에이전트와의 차이·설정·비용 트레이드오프를 실연하는 영상.
 
 ## 핵심 내용
-- 에이전트 팀은 메인 클로드 코드가 "오케스트레이터"가 되어 독립적인 여러 클로드 코드 인스턴스를 생성·관리하는 기능. 각 인스턴스는 자기만의 대화창과 컨텍스트 윈도우를 가지며, 사용자가 팀원에게 직접 태스크를 던질 수도 있다 (→ [[sources/youtube-Gb2VMWrUmZ0]]).
+- 에이전트 팀은 메인 클로드 코드가 "오케스트레이터"가 되어 독립적인 여러 클로드 코드 인스턴스를 생성·관리하는 기능. 각 인스턴스는 자기만의 대화창과 컨텍스트 윈도우를 가지며, 사용자가 팀원에게 직접 태스크를 던질 수도 있다.
 - 기존 서브에이전트와의 차이: 서브에이전트는 같은 클로드 코드 창 안에서 실행되어 결과만 메인에 보고하고, 시작 후에는 건드릴 수 없었다. 반면 에이전트 팀은 완전히 독립적인 인스턴스로, 팀원끼리 실시간으로 직접 메시지를 주고받으며 공유 작업 목록(task list)을 함께 조율한다.
 - 적합한 작업: 연구/검토(여러 팀원이 한 문제의 다른 측면을 동시 조사 후 발견을 공유·반박), 새로운 모듈/기능(팀원이 각자 별도 부분 소유), 프론트엔드/백엔드 같은 교차 계층 조율. 부적합: 순차적 작업·동일 파일 편집·종속성 많은 작업은 단일 세션이나 서브에이전트가 더 효과적.
 - 설정: `settings.json`에 실험 플래그 `claude-code-experiment-agent-teams: 1`을 넣고, teammate 모드를 `teamwork`(권장) 또는 `inprocess`로 지정. teamwork는 tmux로 스플릿 페인을 띄워 각 팀원 창을 직접 보고 타이핑 가능, inprocess는 한 창에서 Shift 위아래로 팀원 전환. 플래그로 강제 실행도 가능. 베타라서 설정이 안 먹을 때가 있어 재실행이 필요.
@@ -25,9 +26,9 @@ Anthropic이 Opus 4.6과 함께 공식 지원하기 시작한 "Claude Code Teams
 - 데모: 검증 스킬 4개를 팀메이트 4명에게 각각 실행시키는 사례, 그리고 개발자 블로그를 코디네이터+레이아웃/블로그 엔지니어+컨텐츠 스타일리스트 팀으로 분할 구현하는 사례.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/subagents-agent-teams]]의 핵심 1차 자료 — 서브에이전트 vs 에이전트 팀 비교의 근거. [[concepts/harness-engineering]](하네스로 역량 증폭)과 [[concepts/verification-automation]](검증 스킬을 팀으로 병렬 실행)을 뒷받침. [[entities/anthropic]]·[[entities/claude-code]]의 공식 기능.
-- 모순: 없음(직접 충돌 없음). 단 "토큰 비용 폭증" 경고는 [[sources/youtube-dYXHJKnIT_I]]의 사용량 모니터링 권고, $9 vs $200 논쟁(재생목록 #13) 등 비용 긴장과 같은 축.
-- 신규: [[concepts/subagents-agent-teams]](에이전트 팀/오케스트레이션/공유 task list/teamwork·inprocess 모드/tmux 연동) 도입. [[concepts/skills]]의 "검증 스킬을 팀에 분배" 활용도 신규.
+- 강화: [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]]의 핵심 1차 자료 — 서브에이전트 vs 에이전트 팀 비교의 근거. [[concepts/harness-engineering|하네스 엔지니어링]](하네스로 역량 증폭)과 [[concepts/verification-automation|검증 자동화]](검증 스킬을 팀으로 병렬 실행)을 뒷받침. [[entities/anthropic|Anthropic]]·[[entities/claude-code|Claude Code]]의 공식 기능.
+- 모순: 없음(직접 충돌 없음). 단 "토큰 비용 폭증" 경고는 [[sources/youtube-dYXHJKnIT_I|#2 Claudebot 실전 워크플로우]]의 사용량 모니터링 권고, `$9` vs `$200` 논쟁(재생목록 #13) 등 비용 긴장과 같은 축.
+- 신규: [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]](에이전트 팀/오케스트레이션/공유 task list/teamwork·inprocess 모드/tmux 연동) 도입. [[concepts/skills|스킬]]의 "검증 스킬을 팀에 분배" 활용도 신규.
 
 ## 출처 정보
 - raw: raw/youtube-Gb2VMWrUmZ0.md
