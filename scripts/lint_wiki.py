@@ -6,7 +6,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
 
   1. 위키링크 무결성 — 모든 [[...]] 대상 페이지가 실제로 존재하는가
   2. raw/ ↔ wiki/sources/ 1:1 패리티
-  3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값
+  3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값 +
+     sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외)
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
@@ -35,6 +36,7 @@ LABEL_CONTENT_RE = re.compile(r"^#\d+ \S")
 FENCE_RE = re.compile(r"```.*?```", re.S)
 INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 BARE_CITATION_RE = re.compile(r"#\d+")
+HANGUL_RE = re.compile(r"[가-힣]")
 
 issues = []
 
@@ -136,6 +138,10 @@ def check_frontmatter(pages):
             add("frontmatter", f"{rel} — 필수 키 누락: {', '.join(missing)}")
         if "type" in fm and fm["type"] not in VALID_TYPES:
             add("frontmatter", f"{rel} — 잘못된 type 값: '{fm['type']}'")
+        key = page_key(page)
+        if (key.startswith("sources/") or key.startswith("concepts/")) and "title" in fm:
+            if not HANGUL_RE.search(fm["title"]):
+                add("frontmatter", f"{rel} — title에 한글 없음(영문 제목): {fm['title']}")
 
 
 def check_index_coverage(pages):
