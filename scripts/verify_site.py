@@ -41,11 +41,19 @@ def repo_rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
-def check_symlink() -> None:
-    """site/content -> ../wiki is an architecture invariant of the published site
-    (docs/rules/site-code.md §2.2), not a per-directory audit item, so it is not
-    parameterized: site-test/content is a real directory of symlinks by design (T02)."""
-    content = ROOT / "site" / "content"
+def check_symlink(site: Path) -> None:
+    """The content root is a symlink to ../wiki only for the published site/
+    (docs/rules/site-code.md §2.2). Other site directories connect their content a
+    different way — site-test/content is a real directory of symlinks (T02) — so this
+    check applies to site/ alone, and an audit of any other directory skips it rather
+    than letting its verdict depend on a directory it was not asked to audit."""
+    if site != ROOT / "site":
+        print(
+            f"SKIP: content-root symlink check — {repo_rel(site)}/ uses a directory "
+            "of symlinks (see T02), not a content symlink"
+        )
+        return
+    content = site / "content"
     if not content.is_symlink():
         report(False, "site/content is not a symlink")
         return
@@ -157,7 +165,7 @@ def main() -> int:
     site = ROOT / parser.parse_args().site_dir
     public = site / "public"
 
-    check_symlink()
+    check_symlink(site)
     check_artifacts_ignored(site)
     check_no_unresolved_wikilinks(public)
     check_raw_leak(public)
