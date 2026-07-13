@@ -96,3 +96,56 @@ Domain-specific rules accumulated so far:
 - This domain changes monthly. The as-of dating rule in §1 is mandatory, and lint should treat claims older than ~6 months as candidates for re-verification.
 
 Adjust the `entities/` and `concepts/` taxonomy and the page templates to fit the domain, and record any changed rules in this file so the next session inherits them.
+
+---
+
+## 4. Conventions (tags, citations, dates, titles)
+
+### 4.1 Controlled tag vocabulary
+
+Tags are **Korean by default** (§1 frontmatter). Each concept gets **exactly one canonical
+tag form** — no case variants (`Codex` vs `codex`), no script variants (Latin vs Korean for
+the same referent), no spacing/hyphenation variants. When you add a tag, check it against the
+merge table below before writing it; when you encounter an existing page with a non-canonical
+variant, normalize it to the canonical form as part of whatever edit touches that page (do not
+do a repo-wide sweep just for this — that is lint's job, not authoring's).
+
+Audited variant pairs and their canonical form:
+
+| Variant forms found in the corpus | Canonical tag |
+|---|---|
+| 하네스 / 하네스엔지니어링 | `하네스엔지니어링` |
+| 클로드코드 / ClaudeCode / 클로드봇 | `클로드코드` |
+| 클로드md / claude-md / CLAUDE-md | `클로드md` |
+| 코덱스 / Codex | `코덱스` |
+| 온디바이스AI / 엣지AI | `온디바이스AI` |
+
+This table is not exhaustive — it records what a corpus audit found, not every tag that could
+ever collide. When wiki-lint's tag-hygiene report flags a new variant pair, add it here.
+
+### 4.2 Source citations use the wikilink-alias form, never a bare `#N`
+
+Every in-body citation to a source must be a wikilink with an alias, per §1: `(→ [[sources/article-foo|라벨]])`. **Never write a bare `#7` or `#7번`** as a citation — a leading `#`
+followed by digits is exactly the syntax Quartz's tag plugin scans for, so a bare hash-number in
+body text gets parsed as a tag, not read as a citation. If you need to reference a source's
+playlist number in prose, embed it inside the wikilink alias (the `label` frontmatter field
+already carries this, e.g. `label: "#7 메타 엔지니어 실전편"`) rather than writing the hash mark
+loose in a sentence.
+
+### 4.3 Bump `updated` only when content changes
+
+The frontmatter `updated` date (§1) reflects the last time the page's **claims, structure, or
+sources** changed — not the last time it was touched. A formatting-only pass (fixing a wikilink
+alias, normalizing a tag per §4.1, correcting a typo) leaves `updated` as-is. If you're unsure
+whether an edit counts as content, ask: would a reader who last read this page need to re-read
+it to stay current? If no, don't bump the date.
+
+### 4.4 Frontmatter titles must be Korean, with a proper-noun exception for entities
+
+`sources/` and `concepts/` page titles must contain Hangul — the title is not required to be
+*entirely* Korean (a page can still name a Latin proper noun, e.g. `CLAUDE.md (컨텍스트 파일)`),
+but at least one Hangul character must be present. `entities/` pages may use a Latin proper noun
+as the title with no Hangul requirement (e.g. `Claude Code`, `Codex (OpenAI)`) — the entity
+*is* the proper noun, and forcing a Korean gloss into the title would be awkward where the
+industry itself uses the Latin name. This does not relax the body-text language rule in
+`CLAUDE.md` — only the frontmatter `title` field gets this exception, and only for entities.

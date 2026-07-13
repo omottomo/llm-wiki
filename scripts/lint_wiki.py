@@ -6,14 +6,19 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
 
   1. 위키링크 무결성 — 모든 [[...]] 대상 페이지가 실제로 존재하는가
   2. raw/ ↔ wiki/sources/ 1:1 패리티
-  3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값
+  3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값 +
+     sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외)
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
-     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락
+     소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락/형식 오류,
+     본문 내 서식 없는 '#숫자' 인용(Quartz가 태그로 오인식)
+  7. 태그 위생 리포트 (docs/rules/wiki-content.md §4.1) — 대소문자/하이픈/스크립트만
+     다른 충돌 가능 태그 쌍, 단일 사용(singleton) 태그 목록. 정보성 경고이며
+     종료 코드에는 반영되지 않는다(태그 통합은 편집 판단이 필요한 사안).
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
-종료 코드: 문제 0건이면 0, 있으면 1
+종료 코드: 문제 0건이면 0, 있으면 1 (태그 위생 리포트는 경고 전용이라 반영되지 않음)
 
 --inbound <경로|슬러그> 를 주면 전체 lint 대신 해당 페이지로 들어오는
 인바운드 링크(고아 페이지 검사와 동일한 기준으로 계산) 목록만 출력하고 종료한다.
@@ -30,6 +35,22 @@ RAW = ROOT / "raw"
 REQUIRED_KEYS = ["title", "type", "created", "updated", "sources", "tags"]
 VALID_TYPES = {"entity", "concept", "source", "analysis", "overview"}
 WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
+LABEL_CONTENT_RE = re.compile(r"^#\d+ \S")
+FENCE_RE = re.compile(r"```.*?```", re.S)
+INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
+BARE_CITATION_RE = re.compile(r"#\d+")
+HANGUL_RE = re.compile(r"[가-힣]")
+
+# docs/rules/wiki-content.md §4.1의 감사된 태그 변형 그룹. 대소문자·하이픈 정규화만으로는
+# 한글/영문처럼 스크립트가 다른 변형(예: 클로드코드 vs ClaudeCode)을 같은 개념으로 묶을 수
+# 없어, 사람이 감사한 그룹을 여기 함께 참조한다. wiki-content.md에 새 변형 쌍이 추가되면 맞춰 갱신한다.
+KNOWN_TAG_VARIANT_GROUPS = [
+    {"하네스", "하네스엔지니어링"},
+    {"클로드코드", "ClaudeCode", "클로드봇"},
+    {"클로드md", "claude-md", "CLAUDE-md"},
+    {"코덱스", "Codex"},
+    {"온디바이스AI", "엣지AI"},
+]
 
 issues = []
 
@@ -42,6 +63,31 @@ def normalize_target(raw_target: str) -> str:
     r"""[[대상|별칭]] / [[대상\|별칭]] / [[대상#섹션]] → '대상'만 남긴다."""
     target = raw_target.replace("\\|", "|").split("|")[0].split("#")[0].strip()
     return target
+
+
+def label_issue(value: str) -> str | None:
+    """소스 페이지 frontmatter의 label 값이 잘 정형화되어 있으면 None, 아니면 문제 사유를 반환한다.
+    정형화된 값: backslash 없음 + 따옴표가 없거나 앞뒤로 균형 있게 한 쌍만 있음 +
+    (따옴표를 벗겨낸) 본문이 '#숫자 제목' 형태로 시작."""
+    if "\\" in value:
+        return "backslash 문자 포함"
+
+    quote_positions = [i for i, c in enumerate(value) if c in "\"'"]
+    if quote_positions:
+        if (
+            len(quote_positions) != 2
+            or quote_positions[0] != 0
+            or quote_positions[1] != len(value) - 1
+            or value[0] != value[-1]
+        ):
+            return "따옴표가 불균형하거나 남아있음"
+        content = value[1:-1]
+    else:
+        content = value
+
+    if not LABEL_CONTENT_RE.match(content):
+        return "'#숫자 제목' 형식이 아님"
+    return None
 
 
 def resolve(target: str) -> Path:
@@ -106,6 +152,10 @@ def check_frontmatter(pages):
             add("frontmatter", f"{rel} — 필수 키 누락: {', '.join(missing)}")
         if "type" in fm and fm["type"] not in VALID_TYPES:
             add("frontmatter", f"{rel} — 잘못된 type 값: '{fm['type']}'")
+        key = page_key(page)
+        if (key.startswith("sources/") or key.startswith("concepts/")) and "title" in fm:
+            if not HANGUL_RE.search(fm["title"]):
+                add("frontmatter", f"{rel} — title에 한글 없음(영문 제목): {fm['title']}")
 
 
 def check_index_coverage(pages):
@@ -171,10 +221,32 @@ def check_link_format(pages):
         if src_key.startswith("sources/") and f"[[{src_key}" in body:
             add("링크 형식", f"{rel} — 자기 자신을 인용함 ([[{src_key}...]])")
 
-        # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 한다
+        # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 하고, 값의 형식도 올바라야 한다
         fm = parse_frontmatter(text)
-        if src_key.startswith("sources/") and fm is not None and "label" not in fm:
-            add("링크 형식", f"{rel} — frontmatter에 label(짧은 인용 라벨) 없음")
+        if src_key.startswith("sources/") and fm is not None:
+            if "label" not in fm:
+                add("링크 형식", f"{rel} — frontmatter에 label(짧은 인용 라벨) 없음")
+            else:
+                reason = label_issue(fm["label"])
+                if reason:
+                    add("링크 형식", f"{rel} — label 값 형식 오류({reason}): {fm['label']}")
+
+
+def check_bare_citations(pages):
+    """맨 '#숫자' 본문 인용 검사 (docs/rules/wiki-content.md) — Quartz가 이를 태그로 파싱해
+    쓰레기 태그 페이지를 만든다. 위키링크(별칭 포함)·인라인 코드·펜스 코드블록·frontmatter 내부는 제외."""
+    for page in pages:
+        body = split_body(page.read_text(encoding="utf-8"))
+        cleaned = WIKILINK_RE.sub("", FENCE_RE.sub("", body))
+        cleaned = INLINE_CODE_RE.sub("", cleaned)
+        matches = BARE_CITATION_RE.findall(cleaned)
+        if matches:
+            rel = page.relative_to(ROOT)
+            uniq = ", ".join(sorted(set(matches)))
+            add(
+                "링크 형식",
+                f"{rel} — 본문에 서식 없는 '#숫자' 인용 {len(matches)}건 ({uniq}) — 위키링크 별칭 형태로 바꿀 것",
+            )
 
 
 def resolve_page_key(arg: str, pages) -> str | None:
@@ -207,6 +279,79 @@ def print_inbound(target_arg: str) -> int:
     return 0
 
 
+def collect_tags(pages) -> dict:
+    """페이지별 tags frontmatter(`[태그1, 태그2]`)를 파싱해 태그 → 사용 페이지 목록 매핑을 만든다."""
+    tag_pages: dict = {}
+    for page in pages:
+        fm = parse_frontmatter(page.read_text(encoding="utf-8"))
+        if fm is None or "tags" not in fm:
+            continue
+        raw = fm["tags"].strip()
+        if raw.startswith("[") and raw.endswith("]"):
+            raw = raw[1:-1]
+        for tag in (t.strip() for t in raw.split(",")):
+            if tag:
+                tag_pages.setdefault(tag, []).append(page_key(page))
+    return tag_pages
+
+
+def normalize_tag(tag: str) -> str:
+    """대소문자·하이픈·공백을 무시한 태그 비교 키."""
+    return re.sub(r"[-\s]", "", tag).lower()
+
+
+def find_tag_collisions(tag_pages: dict) -> list:
+    """정규화(대소문자/하이픈/공백 무시) 또는 KNOWN_TAG_VARIANT_GROUPS 기준으로
+    같은 개념을 가리키는 태그 묶음(2개 이상)을 찾는다."""
+    parent = {tag: tag for tag in tag_pages}
+
+    def find(t):
+        while parent[t] != t:
+            parent[t] = parent[parent[t]]
+            t = parent[t]
+        return t
+
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
+
+    by_norm: dict = {}
+    for tag in tag_pages:
+        by_norm.setdefault(normalize_tag(tag), []).append(tag)
+    for group in by_norm.values():
+        for tag in group[1:]:
+            union(tag, group[0])
+
+    for group in KNOWN_TAG_VARIANT_GROUPS:
+        present = [tag for tag in group if tag in tag_pages]
+        for tag in present[1:]:
+            union(tag, present[0])
+
+    clusters: dict = {}
+    for tag in tag_pages:
+        clusters.setdefault(find(tag), []).append(tag)
+    return [sorted(members) for members in clusters.values() if len(members) > 1]
+
+
+def print_tag_hygiene_report(pages) -> None:
+    """태그 위생 리포트 — 경고(warning) 성격이며 종료 코드에 영향을 주지 않는다.
+    태그 통합은 편집 판단이 필요한 사안이라 lint가 강제하지 않는다."""
+    tag_pages = collect_tags(pages)
+    collisions = find_tag_collisions(tag_pages)
+    singletons = sorted(tag for tag, ps in tag_pages.items() if len(ps) == 1)
+
+    print(f"\n## 태그 위생 리포트 (경고 — 종료 코드에 영향 없음, 총 태그 {len(tag_pages)}종)")
+    print(f"\n### 충돌 가능 태그 쌍 ({len(collisions)}건)")
+    if not collisions:
+        print("(없음)")
+    else:
+        for group in collisions:
+            print(f"- {' / '.join(group)}")
+    print(f"\n### 단일 사용 태그 ({len(singletons)}개)")
+    print(", ".join(singletons) if singletons else "(없음)")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="위키 결정적 lint / 인바운드 링크 조회")
     parser.add_argument(
@@ -230,21 +375,25 @@ def main() -> int:
     check_index_coverage(pages)
     check_orphans(pages)
     check_link_format(pages)
+    check_bare_citations(pages)
 
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
         print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과)")
-        return 0
+        exit_code = 0
+    else:
+        by_cat = {}
+        for cat, msg in issues:
+            by_cat.setdefault(cat, []).append(msg)
+        for cat, msgs in by_cat.items():
+            print(f"\n### {cat} ({len(msgs)}건)")
+            for msg in msgs:
+                print(f"- {msg}")
+        print(f"\n총 {len(issues)}건 — 위 항목을 wiki-lint 절차에 따라 처리하세요.")
+        exit_code = 1
 
-    by_cat = {}
-    for cat, msg in issues:
-        by_cat.setdefault(cat, []).append(msg)
-    for cat, msgs in by_cat.items():
-        print(f"\n### {cat} ({len(msgs)}건)")
-        for msg in msgs:
-            print(f"- {msg}")
-    print(f"\n총 {len(issues)}건 — 위 항목을 wiki-lint 절차에 따라 처리하세요.")
-    return 1
+    print_tag_hygiene_report(pages)
+    return exit_code
 
 
 if __name__ == "__main__":
