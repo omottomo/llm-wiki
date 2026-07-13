@@ -202,7 +202,15 @@ plugins:
     options:
       links: {}
   - source: github:quartz-community/recent-notes
-    enabled: false
+    enabled: true
+    options:
+      title: "최근 변경"
+      limit: 8
+      linkToMore: catalog
+      showTags: false
+    layout:
+      position: right
+      priority: 40
   - source: github:quartz-community/spacer
     enabled: true
     options: {}
