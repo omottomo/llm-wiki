@@ -3,3 +3,10 @@
 .obsidian/workspace-mobile.json
 .claude/settings.local.json
 __pycache__/
+
+# Quartz test-site build artifacts. Declared here, not in site-test/.gitignore:
+# that vendored file ignores itself, so it is untracked and absent in a fresh clone.
+# No trailing slashes — .quartz/ only matches once the directory exists.
+site-test/node_modules
+site-test/public
+site-test/.quartz
