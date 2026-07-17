@@ -1,5 +1,5 @@
 ---
-title: "#2 Claudebot's practical workflow that will change your life"
+title: "#2 Claudebot 실전 워크플로우: 인생을 바꾸는 자동화"
 label: "#2 Claudebot 실전 워크플로우"
 type: source
 created: 2026-06-23

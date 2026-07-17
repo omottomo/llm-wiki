@@ -1,5 +1,5 @@
 ---
-title: "#4 With just skills.sh, your AI coding level will change"
+title: "#4 skills.sh 하나로 AI 코딩 레벨이 달라진다"
 label: "#4 skills.sh"
 type: source
 created: 2026-06-23

@@ -1,12 +1,12 @@
 ---
-title: MCP (Model Context Protocol)
+title: MCP (모델 컨텍스트 프로토콜)
 type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-BssPGKsP60s, youtube-DCsv0rKKrN4, youtube-6MYZ7fMhKPY]
 tags: [클로드코드, MCP, 도구연결, 하네스엔지니어링, 토큰관리]
 ---
-# MCP (Model Context Protocol)
+# MCP (모델 컨텍스트 프로토콜)
 
 MCP는 AI 에이전트가 외부 도구를 쓸 수 있게 연결해 주는 것이다 — 브라우저 자동화, 문서 검색, 디자인 도구 연결, 데이터베이스 접근 등 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]). [[concepts/harness-engineering|하네스 엔지니어링]]의 핵심 구성 요소로, "AI가 쓸 수 있는 도구 목록을 미리 정해 주는 것"으로도 설명된다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]] 참조).
 

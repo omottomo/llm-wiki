@@ -1,5 +1,5 @@
 ---
-title: "#3 Claude Code Teams (10x Smarter)"
+title: "#3 Claude Code Teams: 클로드 코드를 10배 똑똑하게"
 label: "#3 Claude Code Teams"
 type: source
 created: 2026-06-23
