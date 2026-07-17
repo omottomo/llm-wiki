@@ -1,5 +1,6 @@
 ---
 title: "#2 Claudebot's practical workflow that will change your life"
+label: "#2 Claudebot 실전 워크플로우"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
@@ -11,7 +12,7 @@ sources: [youtube-dYXHJKnIT_I]
 "날씨만 물어보는" 수준을 넘어, 클로드봇(원격 클로드 코드)을 실서비스에 붙여 자동화하는 실전 유스케이스(E2E 테스트, 서비스 비서 연동, 콘텐츠/뉴스 크롤링)와 폴링·큐·보안 설계 팁을 정리한 영상.
 
 ## 핵심 내용
-- AI 기반 E2E 테스트: 클로드봇을 스테이징 서버에 붙여 자연어 인스트럭션(TCREI 기법, 퓨샷 예시)으로 테스트 워크플로우를 스스로 만들게 한다. 코드 트리(DOM 셀렉터)를 보는 Playwright와 달리, 클로드봇은 "사람처럼 화면을 보고 이해"하므로 버튼 위치가 바뀌거나 다른 페이지로 이동해도 워크플로우를 따라갈 수 있다 (→ [[sources/youtube-dYXHJKnIT_I]]).
+- AI 기반 E2E 테스트: 클로드봇을 스테이징 서버에 붙여 자연어 인스트럭션(TCREI 기법, 퓨샷 예시)으로 테스트 워크플로우를 스스로 만들게 한다. 코드 트리(DOM 셀렉터)를 보는 Playwright와 달리, 클로드봇은 "사람처럼 화면을 보고 이해"하므로 버튼 위치가 바뀌거나 다른 페이지로 이동해도 워크플로우를 따라갈 수 있다.
 - 그러나 결정론적(deterministic) Playwright E2E 테스트를 버리면 안 된다. DB 접근·정확한 셀렉터 기반 검증은 여전히 유효하므로, 결정론적 테스트와 비결정론적(클로드봇) 테스트를 병행해 "이중 품질 관리"를 가져가라.
 - 서비스 비서 연동: 사이트에서 봇을 멘션(@태그)하면 댓글/포럼/쇼케이스에 답변을 생성하거나 워크플로우를 실행하게 한다. 운영 중인 사이트라면 자동화 가능성이 무궁무진하다.
 - 아키텍처 선택지: (1) "무지성 폴링" — 크론으로 1분마다 요청을 쏘는 가장 쉬운 방식, (2) 웹소켓/SSE 이벤트 방식, (3) 텔레그램으로 이벤트를 쏘고 봇이 수신, (4) 분산 환경에서 완료 상태 보장이 필요하면 큐(Queue)를 두는 전형적 패턴.
@@ -25,9 +26,9 @@ sources: [youtube-dYXHJKnIT_I]
 - 클로드봇이 "디테일하게 테스트한다고 미친 듯이 날뛸" 수 있으니 사용량 모니터링과 사용량 스파이크 알림 등 보호 플랜을 두라는 비용 경고.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/agentic-coding]](AI 에이전트가 자율적으로 워크플로우를 만들고 실행)와 [[concepts/verification-automation]](검증/테스트 자동화)를 실서비스 운영 관점에서 뒷받침. [[entities/claude-code]]의 원격/봇 활용 사례.
-- 모순: 없음(직접 충돌 없음). 다만 비용 측면에서 [[concepts/harness-engineering]]·[[sources/youtube-Gb2VMWrUmZ0]]의 "토큰 비용 폭증" 경고와 같은 맥락의 모니터링 권고.
-- 신규: 클로드봇/원격 에이전트 운영 패턴(폴링·큐·프롬프트 인젝션 방어·단일 파일 HTML 리포트)을 [[concepts/agentic-coding]] 하위 실전 패턴으로 도입.
+- 강화: [[concepts/agentic-coding|에이전틱 코딩]](AI 에이전트가 자율적으로 워크플로우를 만들고 실행)와 [[concepts/verification-automation|검증 자동화]](검증/테스트 자동화)를 실서비스 운영 관점에서 뒷받침. [[entities/claude-code|Claude Code]]의 원격/봇 활용 사례.
+- 모순: 없음(직접 충돌 없음). 다만 비용 측면에서 [[concepts/harness-engineering|하네스 엔지니어링]]·[[sources/youtube-Gb2VMWrUmZ0|#3 Claude Code Teams]]의 "토큰 비용 폭증" 경고와 같은 맥락의 모니터링 권고.
+- 신규: 클로드봇/원격 에이전트 운영 패턴(폴링·큐·프롬프트 인젝션 방어·단일 파일 HTML 리포트)을 [[concepts/agentic-coding|에이전틱 코딩]] 하위 실전 패턴으로 도입.
 
 ## 출처 정보
 - raw: raw/youtube-dYXHJKnIT_I.md

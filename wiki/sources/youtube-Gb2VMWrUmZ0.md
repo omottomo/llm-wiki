@@ -1,6 +1,6 @@
 ---
 title: "#3 Claude Code Teams (10x Smarter)"
-label: \"#3 Claude Code Teams"
+label: "#3 Claude Code Teams"
 type: source
 created: 2026-06-23
 updated: 2026-07-12

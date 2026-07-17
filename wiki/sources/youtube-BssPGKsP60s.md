@@ -1,5 +1,6 @@
 ---
 title: "#5 AI 잘 쓰는 사람은 조용히 설계합니다 (harness engineering)"
+label: "#5 조용히 설계한다"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
@@ -11,8 +12,8 @@ sources: [youtube-BssPGKsP60s]
 "프롬프트 엔지니어링 → 컨텍스트 엔지니어링 → 하네스 엔지니어링"으로 메타가 진화했음을 짚고, 하네스(CLAUDE.md·MCP·스킬·에이전트 설정의 전체 환경)가 모델보다 더 중요한 병목이라는 점을 OpenAI Codex 내부 실험 사례로 설득하는 영상.
 
 ## 핵심 내용
-- 진화 서사: 프롬프트 엔지니어링("뭘 물어볼까")은 ChatGPT 초기의 역할 부여·단계화·예시 넣기였고, 25년에 컨텍스트 엔지니어링("뭘 보여 줄까")이 등장했으며, 최근에는 하네스 엔지니어링("AI를 감싸는 전체 환경을 어떻게 설계할까")으로 한 단계 더 넘어갔다 (→ [[sources/youtube-BssPGKsP60s]]).
-- 하네스 엔지니어링이란 컨텍스트 엔지니어링을 포함해 AI 에이전트를 감싸는 모든 설정 파일(=프로젝트 자체)을 말한다. 구성 요소: [[concepts/claude-md]] 같은 프로젝트 지시사항, [[concepts/mcp]] 서버 설정(외부 도구 연결), [[concepts/skills]] 파일(전문 기술), 에이전트 설정(커스텀 전문가). 즉 컨텍스트 엔지니어링은 하네스의 일부.
+- 진화 서사: 프롬프트 엔지니어링("뭘 물어볼까")은 ChatGPT 초기의 역할 부여·단계화·예시 넣기였고, 25년에 컨텍스트 엔지니어링("뭘 보여 줄까")이 등장했으며, 최근에는 하네스 엔지니어링("AI를 감싸는 전체 환경을 어떻게 설계할까")으로 한 단계 더 넘어갔다.
+- 하네스 엔지니어링이란 컨텍스트 엔지니어링을 포함해 AI 에이전트를 감싸는 모든 설정 파일(=프로젝트 자체)을 말한다. 구성 요소: [[concepts/claude-md|CLAUDE.md]] 같은 프로젝트 지시사항, [[concepts/mcp|MCP]] 서버 설정(외부 도구 연결), [[concepts/skills|스킬]] 파일(전문 기술), 에이전트 설정(커스텀 전문가). 즉 컨텍스트 엔지니어링은 하네스의 일부.
 - 주방 비유: 컨텍스트 엔지니어링=좋은 재료 고르기, MCP=수산시장/정육점/농장과 직통 연결하는 어댑터, 스킬=레시피 정리, 에이전트=셰프 만들기. 이를 다 합쳐 주방 전체를 설계하는 게 하네스 엔지니어링. 주방이 잘 세팅되면 평범한 재료로도 훌륭한 요리가 나온다.
 - "모델이 병목이 아니라 하네스가 병목이다" — 같은 모델이라도 환경 세팅에 따라 결과가 10배 차이날 수 있다(좋은 감독 밑 발롱도르 vs 엉망인 팀 벤치 비유).
 - 실천 가이드 4단계: ① CLAUDE.md 같은 컨텍스트 파일을 제대로 쓰기, ② MCP 서버 세팅(단 많이 줄수록 좋은 게 아니며 토큰이 터지지 않게 테크닉 필요), ③ 스킬 파일 만들기, ④ 위 세 가지(컨텍스트 파일·MCP 연결·스킬 정리)부터 시작.
@@ -26,9 +27,9 @@ sources: [youtube-BssPGKsP60s]
 - "25년이 컨텍스트 엔지니어링의 해였다면 26년은 하니스의 해"라는 선언. 가트너가 "프롬프트 엔지니어링 시대는 끝났다"고 공식 선언했다고 인용.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/harness-engineering]]의 정의·구성 요소·"모델이 아니라 하네스가 병목" 명제를 가장 명확히 제시하는 핵심 1차 자료. [[concepts/context-engineering]]·[[concepts/prompt-engineering]]·[[concepts/developer-role-change]]의 진화 서사, [[concepts/claude-md]]·[[concepts/mcp]]·[[concepts/skills]]·[[concepts/subagents-agent-teams]]가 하네스의 부품임을 뒷받침. [[entities/openai]]·[[entities/codex]]의 내부 자동화 실험 근거.
-- 모순: 없음(직접 충돌 없음). 단, 본 영상의 "하네스를 쌓아라"는 권고는 #24 "낡은 하네스는 빼라/제품 내장기능과 중복"(→ [[sources/youtube-fInMcawbKng]])과 긴장 관계이며, 이는 [[concepts/harness-engineering]]에 '하네스 다이어트' 보완으로 기록됨. CLAUDE.md를 "제대로 쓰라"는 권고는 #6 "Delete CLAUDE.md"(→ [[sources/youtube-c7_ANA1NiS0]])와의 모순①에서 "짧고 검증 가능한 최소 규칙" 쪽에 선다.
-- 신규: [[concepts/harness-engineering]] 개념을 본격 도입(재생목록의 핵심 축). OpenAI Codex 내부 실험 데이터(100만 줄/1,500 PR/3.5작업) 신규.
+- 강화: [[concepts/harness-engineering|하네스 엔지니어링]]의 정의·구성 요소·"모델이 아니라 하네스가 병목" 명제를 가장 명확히 제시하는 핵심 1차 자료. [[concepts/context-engineering|컨텍스트 엔지니어링]]·[[concepts/prompt-engineering|프롬프트 엔지니어링]]·[[concepts/developer-role-change|개발자 역할의 변화]]의 진화 서사, [[concepts/claude-md|CLAUDE.md]]·[[concepts/mcp|MCP]]·[[concepts/skills|스킬]]·[[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]]이 하네스의 부품임을 뒷받침. [[entities/openai|OpenAI]]·[[entities/codex|Codex]]의 내부 자동화 실험 근거.
+- 모순: 없음(직접 충돌 없음). 단, 본 영상의 "하네스를 쌓아라"는 권고는 #24 "낡은 하네스는 빼라/제품 내장기능과 중복"(→ [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]])과 긴장 관계이며, 이는 [[concepts/harness-engineering|하네스 엔지니어링]]에 '하네스 다이어트' 보완으로 기록됨. CLAUDE.md를 "제대로 쓰라"는 권고는 #6 "Delete CLAUDE.md"(→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]])와의 모순①에서 "짧고 검증 가능한 최소 규칙" 쪽에 선다.
+- 신규: [[concepts/harness-engineering|하네스 엔지니어링]] 개념을 본격 도입(재생목록의 핵심 축). OpenAI Codex 내부 실험 데이터(100만 줄/1,500 PR/3.5작업) 신규.
 
 ## 출처 정보
 - raw: raw/youtube-BssPGKsP60s.md

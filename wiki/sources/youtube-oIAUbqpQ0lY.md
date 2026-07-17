@@ -1,5 +1,6 @@
 ---
 title: "#16 2026년 최악의 코더 — 기초 없는 바이브 코딩 경고"
+label: "#16 2026 최악의 코더"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
@@ -24,9 +25,9 @@ AI 프롬프트로만 코드를 찍어내며 내부 동작을 0% 이해하는 "�
 - 채널 운영자는 "바이브 코딩을 쓰는 학생은 단 한 명도 채용하지 않는다"고 단언.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/agentic-coding]]의 한계·위험 측면을 강화 — 이해 없는 자동 생성의 위험. [[concepts/developer-role-change]]에 대해 "기초 역량은 여전히 필수"라는 보수적 관점을 보강 (→ [[sources/youtube-oIAUbqpQ0lY]]).
-- 모순: [[concepts/agentic-coding]] 계열의 "말 한마디로 만든다"는 낙관론(예: [[sources/youtube-jKjbXXBahiY]])과 톤이 정면으로 대비됨 — 본 영상은 그 접근이 채용·실무 생존을 보장하지 않는다고 봄.
-- 신규: 보안·시스템 설계 이해의 중요성, "AI를 통제하려면 먼저 마스터가 되어야 한다"는 태도를 강조 (→ [[sources/youtube-oIAUbqpQ0lY]]).
+- 강화: [[concepts/agentic-coding|에이전틱 코딩]]의 한계·위험 측면을 강화 — 이해 없는 자동 생성의 위험. [[concepts/developer-role-change|개발자 역할의 변화]]에 대해 "기초 역량은 여전히 필수"라는 보수적 관점을 보강.
+- 모순: [[concepts/agentic-coding|에이전틱 코딩]] 계열의 "말 한마디로 만든다"는 낙관론(예: [[sources/youtube-jKjbXXBahiY|#18 주식 에이전트 팀]])과 톤이 정면으로 대비됨 — 본 영상은 그 접근이 채용·실무 생존을 보장하지 않는다고 봄.
+- 신규: 보안·시스템 설계 이해의 중요성, "AI를 통제하려면 먼저 마스터가 되어야 한다"는 태도를 강조.
 
 ## 출처 정보
 - raw: raw/youtube-oIAUbqpQ0lY.md
