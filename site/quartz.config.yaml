@@ -1,12 +1,12 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: "AI·LLM Wiki"
+  pageTitle: "LLM Wiki"
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
   analytics: null
   locale: ko-KR
-  baseUrl: ai-llm-wiki.pages.dev
+  baseUrl: omottomo-llm-wiki.pages.dev
   ignorePatterns:
     - private
     - templates
