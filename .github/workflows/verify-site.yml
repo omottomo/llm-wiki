@@ -47,3 +47,18 @@ jobs:
 
       - name: Run raw/ boundary audit
         run: python3 scripts/verify_site.py ${{ matrix.site }}
+
+  # Content-quality gate. Independent of the sites, so it neither waits on the
+  # matrix nor reruns per site.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3"
+
+      - name: Lint wiki content
+        run: python3 scripts/lint_wiki.py
