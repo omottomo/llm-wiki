@@ -6,11 +6,22 @@ on:
     paths:
       - "wiki/**"
       - "site/**"
+      - "site-test/**"
       - "scripts/**"
+      # The audit asserts these paths are ignored, so a change here can flip it.
+      - ".gitignore"
+      # Editing the gate must re-run the gate.
+      - ".github/workflows/verify-site.yml"
 
 jobs:
   verify:
     runs-on: ubuntu-latest
+    strategy:
+      # Both sites' results are wanted on every run; a failure in one must not
+      # cancel the other and hide whether it would have passed.
+      fail-fast: false
+      matrix:
+        site: [site, site-test]
     steps:
       - uses: actions/checkout@v7
 
@@ -25,14 +36,14 @@ jobs:
           python-version: "3"
 
       - name: Install site dependencies
-        working-directory: site
+        working-directory: ${{ matrix.site }}
         run: npm ci
 
       - name: Build site
-        working-directory: site
+        working-directory: ${{ matrix.site }}
         run: |
           npx quartz plugin install --from-config
           npx quartz build
 
       - name: Run raw/ boundary audit
-        run: python3 scripts/verify_site.py
+        run: python3 scripts/verify_site.py ${{ matrix.site }}
