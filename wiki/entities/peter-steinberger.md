@@ -2,7 +2,7 @@
 title: 피터 슈타인버거 (Peter Steinberger)
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-z-3BRkxQ5GM]
 tags: [인물, 루프엔지니어링]
 ---

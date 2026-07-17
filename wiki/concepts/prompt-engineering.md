@@ -2,7 +2,7 @@
 title: 프롬프트 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-6gvnDSAcZww, youtube-BssPGKsP60s]
 tags: [프롬프트, 진화서사, 기초개념]
 ---

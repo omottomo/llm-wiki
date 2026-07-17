@@ -2,7 +2,7 @@
 title: Vercel
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-jae2bVCCokc, youtube-z-3BRkxQ5GM]
 tags: [조직, 플랫폼, skills-sh]
 ---

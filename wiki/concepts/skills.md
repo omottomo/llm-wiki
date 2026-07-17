@@ -2,7 +2,7 @@
 title: 스킬 (Skills)
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-jae2bVCCokc, youtube-UClLUoGaCxU, youtube-hXlB1QstQ-Y, youtube-DCsv0rKKrN4]
 tags: [클로드코드, 스킬, 하네스엔지니어링, 컨텍스트엔지니어링]
 ---

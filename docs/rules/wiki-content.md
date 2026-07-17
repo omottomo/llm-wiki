@@ -141,6 +141,16 @@ alias, normalizing a tag per §4.1, correcting a typo) leaves `updated` as-is. I
 whether an edit counts as content, ask: would a reader who last read this page need to re-read
 it to stay current? If no, don't bump the date.
 
+**This rule applies retroactively, and it is not cosmetic.** It was written 2026-07-13, after
+the readability pass that bumped 21 pages for what was purely alias/tag/josa formatting; those
+dates were restored to their pre-pass values on 2026-07-17. The reason to care: `updated` is
+what the site actually sorts by — `created-modified-date` reads `frontmatter` first (see
+`site/quartz.config.yaml`), so the "최근 변경" sidebar ranks on it. A formatting bump does not
+just break a convention, it evicts genuinely-updated pages from that list. When you find a past
+bump that no content change justifies, restore the previous value from git rather than leaving
+it — but confirm it is formatting-only by comparing the prose with every wikilink and citation
+paren stripped, because an alias-level diff looks like a content diff and is not.
+
 ### 4.4 Frontmatter titles must be Korean, with a proper-noun exception for entities
 
 `sources/` and `concepts/` page titles must contain Hangul — the title is not required to be

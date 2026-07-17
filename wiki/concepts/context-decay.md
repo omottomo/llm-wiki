@@ -2,7 +2,7 @@
 title: 컨텍스트 부패 (Context Decay)
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-z-3BRkxQ5GM, youtube-hXlB1QstQ-Y]
 tags: [컨텍스트부패, 컨텍스트윈도우, 신선한컨텍스트, 세션관리, 하네스엔지니어링]
 ---

@@ -2,7 +2,7 @@
 title: skills.sh
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-jae2bVCCokc]
 tags: [도구, 스킬, 패키지매니저]
 ---

@@ -2,7 +2,7 @@
 title: LLM 기초 (트랜스포머/어텐션)
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-HnvitMTkXro]
 tags: [LLM, 트랜스포머, 어텐션, 파라미터, RLHF, 다음단어예측]
 ---

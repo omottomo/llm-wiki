@@ -2,7 +2,7 @@
 title: 구글 Gemma
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-rEamRUk7-pg]
 tags: [모델, 온디바이스AI, 구글]
 ---

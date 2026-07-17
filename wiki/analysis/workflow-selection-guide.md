@@ -2,7 +2,7 @@
 title: "분석 — 워크플로우 선택 가이드: 채팅/스킬/서브에이전트/배치/다이나믹/Goal"
 type: analysis
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-z-3BRkxQ5GM, youtube-Gb2VMWrUmZ0, youtube-DCsv0rKKrN4]
 tags: [분석, 워크플로우, 오케스트레이션, 선택가이드]
 ---

@@ -2,7 +2,7 @@
 title: 루프 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-z-3BRkxQ5GM]
 tags: [루프, 진화서사, 자동화, 완성도]
 ---

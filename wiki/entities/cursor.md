@@ -2,7 +2,7 @@
 title: Cursor
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-9fx2_1aTzq8]
 tags: [도구, AI에디터, 에이전틱코딩]
 ---

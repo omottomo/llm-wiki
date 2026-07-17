@@ -2,7 +2,7 @@
 title: 안드레이 카파시 (Andrej Karpathy)
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-gol5jv4wcfs, youtube-UClLUoGaCxU, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM]
 tags: [인물, OpenAI, 클로드md]
 ---

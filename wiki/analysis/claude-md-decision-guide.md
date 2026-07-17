@@ -2,7 +2,7 @@
 title: "분석 — CLAUDE.md 결정 가이드: 쓸까 말까, 어떻게 쓸까"
 type: analysis
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-c7_ANA1NiS0, youtube-cZ8_Dkk_Ce0, youtube-gol5jv4wcfs, youtube-FBv8hK_DtJ8, youtube-DCsv0rKKrN4, youtube-hXlB1QstQ-Y]
 tags: [분석, 클로드md, 의사결정, 모순]
 ---

@@ -2,7 +2,7 @@
 title: Codex (OpenAI)
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-f0hcByvsyjU]
 tags: [도구, 코딩에이전트, OpenAI]
 ---

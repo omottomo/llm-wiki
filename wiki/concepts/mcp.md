@@ -2,7 +2,7 @@
 title: MCP (모델 컨텍스트 프로토콜)
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-BssPGKsP60s, youtube-DCsv0rKKrN4, youtube-6MYZ7fMhKPY]
 tags: [클로드코드, MCP, 도구연결, 하네스엔지니어링, 토큰관리]
 ---

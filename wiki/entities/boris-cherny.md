@@ -2,7 +2,7 @@
 title: 보리스 체르니 (Boris Cherny)
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-hXlB1QstQ-Y, youtube-cZ8_Dkk_Ce0, youtube-z-3BRkxQ5GM]
 tags: [인물, Anthropic, 클로드코드]
 ---

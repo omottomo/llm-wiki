@@ -2,7 +2,7 @@
 title: Anthropic
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-dYXHJKnIT_I, youtube-hXlB1QstQ-Y, youtube-DrekqeDlO1w]
 tags: [조직, AI기업, Claude]
 ---

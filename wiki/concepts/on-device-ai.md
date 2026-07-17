@@ -2,7 +2,7 @@
 title: 온디바이스 AI
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-rEamRUk7-pg]
 tags: [온디바이스AI, Gemma, 로컬모델, API비용절감]
 ---

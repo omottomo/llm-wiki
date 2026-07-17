@@ -2,7 +2,7 @@
 title: OpenAI
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-06-23
 sources: [youtube-f0hcByvsyjU, youtube-gol5jv4wcfs]
 tags: [조직, AI기업, 코덱스]
 ---
