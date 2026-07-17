@@ -4,7 +4,7 @@ type: entity
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w]
-tags: [인물, HashiCorp, 하네스]
+tags: [인물, HashiCorp, 하네스엔지니어링]
 ---
 # 미첼 하시모토 (Mitchell Hashimoto)
 

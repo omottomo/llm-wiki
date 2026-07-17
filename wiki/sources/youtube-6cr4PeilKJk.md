@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6cr4PeilKJk]
-tags: [하네스엔지니어링, ClaudeCode, 미첼하시모토, 검증자동화, 컨텍스트부패]
+tags: [하네스엔지니어링, 클로드코드, 미첼하시모토, 검증자동화, 컨텍스트부패]
 ---
 
 ## 한 줄 요약

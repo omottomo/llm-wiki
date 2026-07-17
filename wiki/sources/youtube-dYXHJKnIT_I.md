@@ -4,7 +4,7 @@ label: "#2 Claudebot 실전 워크플로우"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
-tags: [클로드봇, 자동화, E2E테스트, 폴링, 보안, 텔레그램, 워크플로우]
+tags: [클로드코드, 자동화, E2E테스트, 폴링, 보안, 텔레그램, 워크플로우]
 sources: [youtube-dYXHJKnIT_I]
 ---
 

@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng]
-tags: [하네스, 에이전트, 환경설계, 진화서사, 핵심개념]
+tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
 
 # 하네스 엔지니어링

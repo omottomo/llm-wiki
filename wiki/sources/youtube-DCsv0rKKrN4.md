@@ -4,7 +4,7 @@ label: "#7 메타 엔지니어 실전편"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
-tags: [클로드md, 컨텍스트엔지니어링, 워크플로우, mcp, 멀티모델, 검증자동화]
+tags: [클로드md, 컨텍스트엔지니어링, 워크플로우, MCP, 멀티모델, 검증자동화]
 sources: [youtube-DCsv0rKKrN4]
 ---
 

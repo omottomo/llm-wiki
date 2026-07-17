@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-BssPGKsP60s, youtube-DCsv0rKKrN4, youtube-6MYZ7fMhKPY]
-tags: [클로드코드, MCP, 도구연결, 하네스, 토큰관리]
+tags: [클로드코드, MCP, 도구연결, 하네스엔지니어링, 토큰관리]
 ---
 # MCP (Model Context Protocol)
 

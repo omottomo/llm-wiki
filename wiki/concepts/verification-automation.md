@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g]
-tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스]
+tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스엔지니어링]
 ---
 
 # 검증 자동화

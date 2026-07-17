@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww]
-tags: [클로드코드, 훅, 하네스, 검증자동화, 프리커밋]
+tags: [클로드코드, 훅, 하네스엔지니어링, 검증자동화, 프리커밋]
 ---
 # 훅 (Hooks)
 

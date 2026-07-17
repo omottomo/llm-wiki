@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-z-3BRkxQ5GM]
-tags: [다이나믹워크플로우, 울트라코드, 딥리서치, 병렬에이전트, 하네스]
+tags: [다이나믹워크플로우, 울트라코드, 딥리서치, 병렬에이전트, 하네스엔지니어링]
 ---
 
 # 다이나믹 워크플로우

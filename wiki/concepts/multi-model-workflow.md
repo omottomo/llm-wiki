@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-f0hcByvsyjU, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY]
-tags: [멀티모델, Codex, 코덱스, 모델조합, 비용절감, 적대적리뷰]
+tags: [멀티모델, 코덱스, 모델조합, 비용절감, 적대적리뷰]
 ---
 
 # 멀티 모델 워크플로우 (Codex 협업)

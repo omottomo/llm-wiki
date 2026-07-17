@@ -119,6 +119,7 @@ Audited variant pairs and their canonical form:
 | 클로드md / claude-md / CLAUDE-md | `클로드md` |
 | 코덱스 / Codex | `코덱스` |
 | 온디바이스AI / 엣지AI | `온디바이스AI` |
+| MCP / mcp | `MCP` — 통용 한글형이 없는 두문자어. 개념 페이지 제목도 `MCP (Model Context Protocol)`. 대소문자 변형이라 lint 가 정규화만으로 잡으므로 `KNOWN_TAG_VARIANT_GROUPS` 에는 넣지 않는다 |
 
 This table is not exhaustive — it records what a corpus audit found, not every tag that could
 ever collide. When wiki-lint's tag-hygiene report flags a new variant pair, add it here.

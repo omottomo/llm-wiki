@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-c7_ANA1NiS0, youtube-cZ8_Dkk_Ce0, youtube-gol5jv4wcfs, youtube-FBv8hK_DtJ8, youtube-DCsv0rKKrN4, youtube-hXlB1QstQ-Y, youtube-BssPGKsP60s]
-tags: [클로드코드, 컨텍스트엔지니어링, 메모리파일, 하네스]
+tags: [클로드코드, 컨텍스트엔지니어링, 메모리파일, 하네스엔지니어링]
 ---
 # CLAUDE.md (컨텍스트 파일)
 
