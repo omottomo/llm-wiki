@@ -2,8 +2,8 @@
 title: 하네스 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
-sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng]
+updated: 2026-07-18
+sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, ibm-infrastructure-as-code]
 tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
 
@@ -92,3 +92,4 @@ tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵�
 - [[concepts/context-decay|컨텍스트 부패]] — 하네스가 해결하려는 두 문제 중 하나(컨텍스트 부패)
 - [[concepts/verification-automation|검증 자동화]] — 생성/검증 에이전트 분리
 - [[concepts/multi-model-workflow|멀티 모델 워크플로우]] — Codex 협업으로 검증 성능을 높이는 변형
+- [[concepts/infrastructure-as-code|코드형 인프라]] — 환경을 코드로 선언하고 자동으로 강제하는 사상의 인프라 영역 선례. '하네스'를 대중화한 하시모토가 대표 IaC 도구 Terraform을 만든 HashiCorp의 공동창립자다 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]])

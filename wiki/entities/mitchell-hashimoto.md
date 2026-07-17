@@ -2,15 +2,16 @@
 title: 미첼 하시모토 (Mitchell Hashimoto)
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
-sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w]
+updated: 2026-07-18
+sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, ibm-infrastructure-as-code]
 tags: [인물, HashiCorp, 하네스엔지니어링]
 ---
 # 미첼 하시모토 (Mitchell Hashimoto)
 
-HashiCorp 공동창립자(Terraform 제작자)이자 터미널 에뮬레이터 **Ghostty**의 제작자다. 이 위키에서는 '하네스(harness)' 개념을 대중화한 인물로 언급된다.
+[[entities/hashicorp|HashiCorp]] 공동창립자([[entities/terraform|Terraform]] 제작자)이자 터미널 에뮬레이터 **Ghostty**의 제작자다. 이 위키에서는 '하네스(harness)' 개념을 대중화한 인물로 언급된다.
 
 ## 이 위키에서의 등장
+- 그가 만든 Terraform은 [[concepts/infrastructure-as-code|코드형 인프라]](IaC)의 대표 도구이며, HashiCorp는 현재 IBM 계열사다 (2026-07 기준) (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). "인프라를 코드로 선언·강제"하던 그의 이력은 하네스 개념 대중화와 사상적으로 이어진다.
 - 자막상 [[concepts/harness-engineering|하네스 엔지니어링]](하네스 엔지니어링)의 '하네스(harness)' 용어를 제시한 인물로 언급된다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 - 이는 "`$9` vs `$200`"으로 표현되는 하네스 설계의 비용·성능 차이 논의 및 공식 하네스 문서 학습 맥락에서 등장한다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 

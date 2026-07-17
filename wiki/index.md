@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-07-18
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -10,7 +10,7 @@ tags: [색인, 카탈로그]
 # 위키 색인 (Index)
 
 > 도메인 전체 조망은 [[overview|도메인 개요]]. 아래는 카테고리별 전체 페이지 목록(각 항목 한 줄 설명).
-> 출처: 유튜브 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 영상 25편 (2026-06-23 흡수). 취업/커리어 관련 페이지(개념 3·출처 3·분석 1)는 2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관 — 이 위키는 기술 주제에 집중한다.
+> 출처: 유튜브 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 영상 25편 (2026-06-23 흡수) + 재생목록 외 웹 문서 (2026-07-18~). 취업/커리어 관련 페이지(개념 3·출처 3·분석 1)는 2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관 — 이 위키는 기술 주제에 집중한다.
 
 ## Concepts
 - [[concepts/harness-engineering|하네스 엔지니어링]] — 이 위키의 중심 개념(환경 설계 = 강제)
@@ -30,6 +30,7 @@ tags: [색인, 카탈로그]
 - [[concepts/context-decay|컨텍스트 부패]] — 길어지면 잊고 조기 종료하는 현상
 - [[concepts/on-device-ai|온디바이스 AI]] — Gemma 4로 API 비용 0
 - [[concepts/llm-basics|LLM 기초]] — 트랜스포머·어텐션·RLHF
+- [[concepts/infrastructure-as-code|코드형 인프라]] — IaC. 환경을 코드로 선언·강제하는 사상의 인프라 영역 선례
 
 ## Entities
 - [[entities/claude-code|Claude Code]] — Anthropic의 에이전틱 코딩 CLI, 위키 전반의 중심 도구
@@ -40,6 +41,8 @@ tags: [색인, 카탈로그]
 - [[entities/vercel|Vercel]] — skills.sh 출시 주체
 - [[entities/skills-sh|skills.sh]] — AI 에이전트용 스킬 패키지 매니저
 - [[entities/google-gemma|구글 Gemma]] — 구글 온디바이스 모델(Gemma 4)
+- [[entities/terraform|Terraform]] — HashiCorp의 멀티 클라우드 IaC 도구
+- [[entities/hashicorp|HashiCorp]] — 하시모토 공동창립, Terraform 제작사(IBM 계열)
 - [[entities/andrej-karpathy|안드레이 카파시]] — Karpathy 가이드라인/65줄 CLAUDE.md 저자(자막상 "André Capaci" 오인식)
 - [[entities/boris-cherny|보리스 체르니]] — Claude Code 창시자, "거의 바닐라 세팅" 발언
 - [[entities/mitchell-hashimoto|미첼 하시모토]] — HashiCorp 공동창립자, 하네스 용어 제시자(추정)
@@ -71,6 +74,7 @@ tags: [색인, 카탈로그]
 - [[sources/youtube-9fx2_1aTzq8|#23 다이나믹 기능 비교]] — 다이나믹 워크플로우 완벽 가이드
 - [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]] — 낡은 하네스의 군살 빼기
 - [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]] — 최신 트렌드
+- [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]] — 2026-07-18 흡수, 재생목록 외 웹 문서. 코드형 인프라 개념 해설
 
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표
