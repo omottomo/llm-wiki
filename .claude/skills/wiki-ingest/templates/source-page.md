@@ -1,11 +1,12 @@
 <!--
 Source summary page template (wiki/sources/<slug>.md).
 Structure keys are English; ALL content you fill in must be Korean.
-This is the canonical form of the inline template in AGENTS.md §2,
+This is the canonical form of the inline template in docs/rules/wiki-content.md §1,
 extended with the 외부 검증 practice this wiki has adopted.
 -->
 ---
 title: "영상/문서 제목 (한국어)"
+label: "#N 짧은 한글 라벨"   # 다른 페이지가 이 소스를 인용할 때 쓰는 별칭 (대괄호·$·| 금지)
 type: source
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
@@ -14,10 +15,10 @@ tags: [태그1, 태그2]
 ---
 
 ## 한 줄 요약
-(이 소스가 무엇을 말하는지 한 문장으로. 핵심 개념은 [[concepts/...]] 로 즉시 링크.)
+(이 소스가 무엇을 말하는지 한 문장으로. 핵심 개념은 `[[concepts/...|한글 별칭]]` 으로 즉시 링크 — 별칭 규칙은 docs/rules/wiki-content.md §1.)
 
 ## 핵심 내용
-- (3~7개 bullet. 각 bullet 끝에 출처 표기: `(→ [[sources/<slug>]])`)
+- (3~7개 bullet. **자기 자신은 인용하지 않는다** — 페이지 전체가 이 소스다. 다른 페이지 인용은 `(→ [[sources/다른슬러그|라벨]])`.)
 - (시점 의존적 주장 — 가격·모델명·도구 기능 — 에는 `(YYYY-MM 기준)` as-of 표기 필수)
 
 ## 주요 주장 / 데이터
