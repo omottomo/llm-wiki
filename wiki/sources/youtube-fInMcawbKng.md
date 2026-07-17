@@ -28,7 +28,7 @@ tags: [다이나믹워크플로우, 하네스다이어트, 하네스엔지니어
 - S키로 워크플로우를 `.claude` 폴더에 자바스크립트로 저장해 재사용 가능.
 
 ## 기존 위키와의 연결
-- 모순/긴장: 긴장② — "하네스를 쌓아라"([[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]#5 등) vs 본 영상의 "낡은 하네스는 빼라/제품 내장 기능과 중복". [[concepts/harness-engineering|하네스 엔지니어링]]에 '하네스 다이어트' 보완 관점으로 기록.
+- 모순/긴장: 긴장② — "하네스를 쌓아라"([[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]] 등) vs 본 영상의 "낡은 하네스는 빼라/제품 내장 기능과 중복". [[concepts/harness-engineering|하네스 엔지니어링]]에 '하네스 다이어트' 보완 관점으로 기록.
 - 강화: [[concepts/dynamic-workflow|다이나믹 워크플로우]]의 동적·백그라운드·적대적 검증 구조를 강화하고 구체 수치를 보강.
 - 강화: [[concepts/claude-md|CLAUDE.md]]의 "짧고 검증가능한 최소 규칙" 입장(모순①)과 같은 방향 — 중복·과도한 전역 컨텍스트 제거를 권장.
 
@@ -36,5 +36,5 @@ tags: [다이나믹워크플로우, 하네스다이어트, 하네스엔지니어
 - raw: raw/youtube-fInMcawbKng.md
 - URL: https://www.youtube.com/watch?v=fInMcawbKng
 - 채널: 개발동생 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#24)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 24)
 - 자막: 한국어 자동생성 (오탈자 가능)

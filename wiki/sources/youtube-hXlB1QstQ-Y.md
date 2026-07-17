@@ -25,7 +25,7 @@ tags: [클로드코드, 컨텍스트엔지니어링, 검증자동화, 스킬, �
 ## 기존 위키와의 연결
 - 강화: [[concepts/context-engineering|컨텍스트 엔지니어링]]·[[concepts/context-decay|컨텍스트 부패]]("신선한 컨텍스트" 원칙), [[concepts/verification-automation|검증 자동화]](검증 장치 2~3배 효과), [[concepts/skills|스킬]](필요할 때만 로드, 유지비 없는 자산)을 강화.
 - 강화: [[concepts/claude-md|CLAUDE.md]]의 "짧고 검증 가능한 최소 규칙(150~200줄)" 권장 측면을 강화하며, 동시에 80%만 따른다는 한계 데이터를 제공.
-- 모순/긴장: "처음부터 하네스 과적재 금지·바닐라" 기조는 [[concepts/harness-engineering|하네스 엔지니어링]]의 "하네스를 쌓아라"(#5,#11,#13,#14)와 긴장 관계 — 본 영상은 '필요에 따라 자라나는' 점진적 세팅을 옹호. 또한 [[entities/boris-cherny|보리스 체르니]]의 "거의 바닐라 세팅"은 [[concepts/multi-model-workflow|멀티 모델 워크플로우]]의 "클로드 단독이면 망한다"(→ [[sources/youtube-f0hcByvsyjU|#20 코덱스 멀티 모델]])와 정면 대비됨.
+- 모순/긴장: "처음부터 하네스 과적재 금지·바닐라" 기조는 [[concepts/harness-engineering|하네스 엔지니어링]]의 "하네스를 쌓아라"([[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]],[[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]],[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]],[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]])와 긴장 관계 — 본 영상은 '필요에 따라 자라나는' 점진적 세팅을 옹호. 또한 [[entities/boris-cherny|보리스 체르니]]의 "거의 바닐라 세팅"은 [[concepts/multi-model-workflow|멀티 모델 워크플로우]]의 "클로드 단독이면 망한다"(→ [[sources/youtube-f0hcByvsyjU|#20 코덱스 멀티 모델]])와 정면 대비됨.
 - 신규: 리와인드(ESC×2) 기반 세션 위생, `/compact`에 요약 방향 지시 기법을 도입.
 
 ## 출처 정보
@@ -33,4 +33,4 @@ tags: [클로드코드, 컨텍스트엔지니어링, 검증자동화, 스킬, �
 - URL: https://www.youtube.com/watch?v=hXlB1QstQ-Y
 - 채널: Jay Choi | 인디해커 라이프 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 자막 언어: 한국어 (ko)
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#17)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 17)

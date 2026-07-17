@@ -34,4 +34,4 @@ AI 프롬프트로만 코드를 찍어내며 내부 동작을 0% 이해하는 "�
 - URL: https://www.youtube.com/watch?v=oIAUbqpQ0lY
 - 채널: Daulat Hussain (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 자막 언어: 영어 (en) — 본 요약은 한국어로 작성
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#16)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 16)

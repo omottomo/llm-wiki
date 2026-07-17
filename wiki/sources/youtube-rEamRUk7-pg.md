@@ -33,5 +33,5 @@ tags: [온디바이스AI, 구글Gemma, 멀티모달, API비용, 모바일앱]
 - raw: raw/youtube-rEamRUk7-pg.md
 - URL: https://www.youtube.com/watch?v=rEamRUk7-pg
 - 채널: 코드팩토리 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #12)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 12)
 - transcript_lang: ko (자동생성 자막 — "제마/재마/제맛" 등 Gemma 오인식 다수, 수치 신중 참고)

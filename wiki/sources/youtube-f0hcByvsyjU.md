@@ -34,4 +34,4 @@ tags: [멀티모델, 코덱스, 검증자동화, 워크플로우, 다이나믹�
 - URL: https://www.youtube.com/watch?v=f0hcByvsyjU
 - 채널: 메이커 에반 | Maker Evan (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 자막 언어: 한국어 (ko)
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#20)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 20)

@@ -25,13 +25,13 @@ tags: [하네스엔지니어링, 에이전틱코딩, 컨텍스트엔지니어링
 - 결론: 개발자 역할은 축소가 아니라 "상향 이동" — 선수에서 감독으로 ([[concepts/developer-role-change|개발자 역할의 변화]]).
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/harness-engineering|하네스 엔지니어링]]의 핵심 정의("실패를 구조적으로 반복 불가능하게")와 4기둥 구조를 강화. #13([[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]])·#14([[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]])와 동일한 OpenAI 3인·"말과 마구" 서사를 공유. [[concepts/developer-role-change|개발자 역할의 변화]]의 "감독으로의 상향 이동" 주장 강화.
-- 모순: 직접적 모순 없음. 다만 "하네스를 점점 더 쌓아라"는 진화적 강화 관점은 [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]](#24 "낡은 하네스는 빼라")와 긴장 관계 → [[concepts/harness-engineering|하네스 엔지니어링]]의 '하네스 다이어트' 보완으로 기록.
+- 강화: [[concepts/harness-engineering|하네스 엔지니어링]]의 핵심 정의("실패를 구조적으로 반복 불가능하게")와 4기둥 구조를 강화. [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]과 동일한 OpenAI 3인·"말과 마구" 서사를 공유. [[concepts/developer-role-change|개발자 역할의 변화]]의 "감독으로의 상향 이동" 주장 강화.
+- 모순: 직접적 모순 없음. 다만 "하네스를 점점 더 쌓아라"는 진화적 강화 관점은 [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]]와 긴장 관계 → [[concepts/harness-engineering|하네스 엔지니어링]]의 '하네스 다이어트' 보완으로 기록.
 - 신규: 4축 프레임워크를 "프롬프트/컨텍스트/하네스/에이전틱"으로 명시적 정리한 점, 라우터-컨텍스트매니저-실행루프-워커격리의 4부품 시스템 다이어그램.
 
 ## 출처 정보
 - raw: raw/youtube-6gvnDSAcZww.md
 - URL: https://www.youtube.com/watch?v=6gvnDSAcZww
 - 채널: 실밸개발자 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #11)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 11)
 - transcript_lang: ko (자동생성 자막 — 오탈자/오인식 주의)

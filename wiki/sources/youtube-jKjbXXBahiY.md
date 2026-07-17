@@ -27,7 +27,7 @@ tags: [에이전트팀, 서브에이전트, 코워크, 스케줄링, 바이브�
 ## 기존 위키와의 연결
 - 강화: [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]](오케스트레이터 + 다중 서브에이전트 병렬 투입), [[concepts/claude-md|CLAUDE.md]](에이전트 정의를 마크다운으로), [[entities/claude-code|Claude Code]] 생태계의 코워크/예약 기능을 강화.
 - 강화: [[concepts/agentic-coding|에이전틱 코딩]]의 "비개발자도 대화만으로" 노선을 강화 — "코딩 배우지 마세요"라는 낙관적 진입 장벽 제거 메시지.
-- 모순: [[sources/youtube-oIAUbqpQ0lY|#16 2026 최악의 코더]](#16 "기초 없이 프롬프트만으로는 망한다")의 비판적 톤과 정면 대비 — 본 영상은 코딩 학습 없이도 실용 에이전트를 만들 수 있다고 주장.
+- 모순: [[sources/youtube-oIAUbqpQ0lY|#16 2026 최악의 코더]]의 비판적 톤과 정면 대비 — 본 영상은 코딩 학습 없이도 실용 에이전트를 만들 수 있다고 주장.
 - 신규: 코워크의 예약(스케줄) 실행 워크플로우, "팀장-팀원" MD 구조화 패턴을 도입.
 
 ## 출처 정보
@@ -35,4 +35,4 @@ tags: [에이전트팀, 서브에이전트, 코워크, 스케줄링, 바이브�
 - URL: https://www.youtube.com/watch?v=jKjbXXBahiY
 - 채널: Theuxlabs (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 자막 언어: 한국어 (ko)
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#18)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 18)

@@ -13,7 +13,7 @@ tags: [분석, 클로드md, 의사결정, 모순]
 
 ## 1. 양측 요약표
 
-| 구분 | "지워라 / 조심하라" (#6) | "품질 2~3배" (#8 · #19) |
+| 구분 | "지워라 / 조심하라" ([[sources/youtube-c7_ANA1NiS0\|#6 CLAUDE.md를 지워라]]) | "품질 2~3배" ([[sources/youtube-cZ8_Dkk_Ce0\|#8 CLAUDE.md 품질 3배]] · [[sources/youtube-gol5jv4wcfs\|#19 65줄 CLAUDE.md]]) |
 |---|---|---|
 | 핵심 주장 | 잘못 쓴 컨텍스트 파일은 안 주느니만 못하다 | 잘 쓴 CLAUDE.md는 최고 레버리지 포인트다 |
 | 근거 1 | LLM이 **자동 생성한** 컨텍스트 파일은 작업 성공률을 떨어뜨림 (Agent Bench 평균 약 2%↓, SW-Bench Lite 약 0.5%↓) (→ [[sources/youtube-c7_ANA1NiS0\|#6 CLAUDE.md를 지워라]]) | Claude가 결과를 스스로 검증하게 해 주면 최종 품질 2~3배 향상 ([[entities/boris-cherny\|보리스 체르니]] 증언) (→ [[sources/youtube-cZ8_Dkk_Ce0\|#8 CLAUDE.md 품질 3배]]·[[sources/youtube-hXlB1QstQ-Y\|#17 800시간 9가지 팁]]) |
@@ -25,9 +25,9 @@ tags: [분석, 클로드md, 의사결정, 모순]
 
 두 입장은 같은 곳을 가리킨다.
 
-- **#6이 비판하는 대상은 "CLAUDE.md 그 자체"가 아니다.** 비판 대상은 ① 자동 생성된, ② 장황하고 불필요한, ③ 지금 작업과 무관한 컨텍스트다. #6 영상도 "CLAUDE.md를 아예 없애라는 뜻은 전혀 아니고, 잘못 작성했을 때의 악영향에 가까운 논문"이라고 명시한다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]).
-- **#8 · #19가 권장하는 대상은 "사람이 수기로 쓴 최소·검증 가능한 규칙"이다.** 짧고(150~200줄), 도메인 용어가 정의되어 있으며, Claude가 스스로 검증할 수 있는 형태 (→ [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]·[[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]]).
-- **결론:** "사람이 작성한 최소·검증 가능한 규칙"은 #6의 논문(사람 작성 시 +19%)과 #8/#19 양쪽 모두에서 효과적이다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]·[[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]). 즉 진짜 권장은 **"CLAUDE.md를 둬라, 단 자동생성·장황함을 피하고 짧게·검증가능하게·수기로 점진 축적하라"**다.
+- **[[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]가 비판하는 대상은 "CLAUDE.md 그 자체"가 아니다.** 비판 대상은 ① 자동 생성된, ② 장황하고 불필요한, ③ 지금 작업과 무관한 컨텍스트다. [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]] 영상도 "CLAUDE.md를 아예 없애라는 뜻은 전혀 아니고, 잘못 작성했을 때의 악영향에 가까운 논문"이라고 명시한다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]).
+- **[[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]] · [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]가 권장하는 대상은 "사람이 수기로 쓴 최소·검증 가능한 규칙"이다.** 짧고(150~200줄), 도메인 용어가 정의되어 있으며, Claude가 스스로 검증할 수 있는 형태 (→ [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]·[[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]]).
+- **결론:** "사람이 작성한 최소·검증 가능한 규칙"은 [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]의 논문(사람 작성 시 +19%)과 [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]/[[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]] 양쪽 모두에서 효과적이다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]·[[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]). 즉 진짜 권장은 **"CLAUDE.md를 둬라, 단 자동생성·장황함을 피하고 짧게·검증가능하게·수기로 점진 축적하라"**다.
 
 ## 3. 실천 가이드 (플로우)
 

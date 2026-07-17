@@ -25,7 +25,7 @@ AI 에이전트의 지식을 패키지처럼 설치하는 마켓플레이스 [[e
 
 ## 기존 위키와의 연결
 - 강화: [[concepts/skills|스킬]]의 핵심 1차 자료(스킬=SKILL.md, 패키지 매니저 비유, 설치/검증 방법). [[entities/skills-sh|skills.sh]]·[[entities/vercel|Vercel]]의 출시·운영 사실. [[concepts/harness-engineering|하네스 엔지니어링]]에서 스킬을 "하네스 구성 요소"로 보는 관점을 뒷받침. [[entities/claude-code|Claude Code]]·[[entities/cursor|Cursor]] 등 다중 에이전트 지원 사실.
-- 모순: 없음(직접 충돌 없음). 다만 "공식·검증된 최소 스킬만"이라는 절제 권고는 #6 "Delete CLAUDE.md"(→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]])의 "장황한 자동생성 컨텍스트는 해롭다"는 절제론과 같은 결.
+- 모순: 없음(직접 충돌 없음). 다만 "공식·검증된 최소 스킬만"이라는 절제 권고는 "Delete CLAUDE.md"(→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]])의 "장황한 자동생성 컨텍스트는 해롭다"는 절제론과 같은 결.
 - 신규: [[entities/skills-sh|skills.sh]](마켓플레이스, 버셀 1월 출시) 도입. [[concepts/skills|스킬]]에 "스킬 보안/품질 검증" 하위 주제 신규 추가.
 
 ## 출처 정보

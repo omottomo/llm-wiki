@@ -31,5 +31,5 @@ sources: [youtube-JzB_GI7SS6g]
 - raw: raw/youtube-JzB_GI7SS6g.md
 - URL: https://www.youtube.com/watch?v=JzB_GI7SS6g
 - 채널: 프롱트 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #9
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 9
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

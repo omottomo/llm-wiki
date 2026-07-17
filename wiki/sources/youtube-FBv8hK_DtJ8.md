@@ -25,13 +25,13 @@ sources: [youtube-FBv8hK_DtJ8]
 - 실천 권장: 지금 CLAUDE.md에 파일 종류별 규칙(테스트·CSS·API)이 섞여 있으면 `rules` 디렉터리로 빼고 프론트매터 조건을 걸어라.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/context-engineering|컨텍스트 엔지니어링]] — 조건부 로딩으로 "지금 작업과 무관한 규칙이 클로드의 주의를 뺏지 않게" 한다는 핵심을 강화. [[concepts/claude-md|CLAUDE.md]] — 대규모 환경에서 단일 파일을 모듈식·조건부로 분리하는 #7([[sources/youtube-DCsv0rKKrN4|#7 메타 엔지니어 실전편]])·#8([[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]])의 권장을 구체적 메커니즘(프론트매터)으로 확장. [[concepts/context-decay|컨텍스트 부패]] — 비대한 규칙이 성능을 떨어뜨린다는 주장의 실사례.
-- 모순: 직접적 모순 없음. [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]](#6 "CLAUDE.md를 지워라")가 지적한 "장황한 컨텍스트의 폐해"에 대해, 본 영상은 '삭제'가 아니라 '조건부 분리·온디맨드 로딩'이라는 해법을 제시 — 모순 쌍(#6 vs #8)의 화해 관점("짧게, 필요한 것만")을 기술적으로 뒷받침한다.
+- 강화: [[concepts/context-engineering|컨텍스트 엔지니어링]] — 조건부 로딩으로 "지금 작업과 무관한 규칙이 클로드의 주의를 뺏지 않게" 한다는 핵심을 강화. [[concepts/claude-md|CLAUDE.md]] — 대규모 환경에서 단일 파일을 모듈식·조건부로 분리하는 [[sources/youtube-DCsv0rKKrN4|#7 메타 엔지니어 실전편]]·[[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]의 권장을 구체적 메커니즘(프론트매터)으로 확장. [[concepts/context-decay|컨텍스트 부패]] — 비대한 규칙이 성능을 떨어뜨린다는 주장의 실사례.
+- 모순: 직접적 모순 없음. [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]가 지적한 "장황한 컨텍스트의 폐해"에 대해, 본 영상은 '삭제'가 아니라 '조건부 분리·온디맨드 로딩'이라는 해법을 제시 — 모순 쌍([[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]] vs [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]])의 화해 관점("짧게, 필요한 것만")을 기술적으로 뒷받침한다.
 - 신규: `.claude/rules` 프론트매터 조건부 로딩, 47,000 단어 모노레포 사례, "트리거 대부"·CockroachDB 오픈소스 사례를 위키에 처음 소개.
 
 ## 출처 정보
 - raw: raw/youtube-FBv8hK_DtJ8.md
 - URL: https://www.youtube.com/watch?v=FBv8hK_DtJ8
 - 채널: 짐코딩 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #10
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 10
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

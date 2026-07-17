@@ -25,13 +25,13 @@ sources: [youtube-DCsv0rKKrN4]
 - **WAT 프레임워크** (유튜버 "네이트" 제안, 자막상 이름 추정): W=Workflow(영어로 작업 흐름 정의), A=Agent(셀프힐링·병렬 처리), T=Tools(거대 스크립트보다 작은 단위 스크립트 + MCP + [[concepts/hooks|훅]]). 핵심은 AI의 추론과 코드 실행을 분리하는 것.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/context-engineering|컨텍스트 엔지니어링]] — 레이지 로딩·세션 분리·스크립트 오프로드로 컨텍스트 엔지니어링 실전 기법을 강화. [[concepts/claude-md|CLAUDE.md]] — "규칙·참조만, 상세는 분리" 원칙을 #8/#10과 일관되게 강화. [[concepts/multi-model-workflow|멀티 모델 워크플로우]] — Codex뿐 아니라 ChatGPT/Gemini 교차 검증으로 확장.
-- 모순: 직접적 모순 없음. 단 [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]](#6)의 "장황한 메모리 파일 폐해"와 같은 문제의식을 공유하되, 해결책으로 '삭제'가 아니라 '분리·레이지 로딩'을 제시한다는 점에서 #6과 결을 같이한다.
+- 강화: [[concepts/context-engineering|컨텍스트 엔지니어링]] — 레이지 로딩·세션 분리·스크립트 오프로드로 컨텍스트 엔지니어링 실전 기법을 강화. [[concepts/claude-md|CLAUDE.md]] — "규칙·참조만, 상세는 분리" 원칙을 [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]/[[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]]와 일관되게 강화. [[concepts/multi-model-workflow|멀티 모델 워크플로우]] — Codex뿐 아니라 ChatGPT/Gemini 교차 검증으로 확장.
+- 모순: 직접적 모순 없음. 단 [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]의 "장황한 메모리 파일 폐해"와 같은 문제의식을 공유하되, 해결책으로 '삭제'가 아니라 '분리·레이지 로딩'을 제시한다는 점에서 [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]와 결을 같이한다.
 - 신규: WAT 프레임워크, `/memory` 오토 메모리, 스크립트 오프로드 전략, 멀티 AI 비평 자동화 스킬을 위키에 처음 소개.
 
 ## 출처 정보
 - raw: raw/youtube-DCsv0rKKrN4.md
 - URL: https://www.youtube.com/watch?v=DCsv0rKKrN4
 - 채널: 실밸개발자 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #7
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 7
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

@@ -28,7 +28,7 @@ tags: [클로드md, 하네스엔지니어링, 카파시, 검증자동화, 골드
 
 ## 기존 위키와의 연결
 - 강화: [[concepts/claude-md|CLAUDE.md]]의 "짧고 검증 가능한 최소 규칙" 권장과 [[concepts/harness-engineering|하네스 엔지니어링]]·[[concepts/verification-automation|검증 자동화]]·[[concepts/skills|스킬]]을 강화.
-- 강화/모순: [[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]](#17), [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]](#8)의 "CLAUDE.md로 품질 향상"을 강화하는 동시에, [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]](#6 "CLAUDE.md를 지워라")와 모순 관계. 화해 관점: #6의 비판 대상은 장황·불필요 규칙이고, 본 영상의 65줄은 "짧고 검증 가능한 최소 규칙"의 모범 사례 → [[concepts/claude-md|CLAUDE.md]]에 양쪽 모두 기록.
+- 강화/모순: [[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]], [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]의 "CLAUDE.md로 품질 향상"을 강화하는 동시에, [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]와 모순 관계. 화해 관점: [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]의 비판 대상은 장황·불필요 규칙이고, 본 영상의 65줄은 "짧고 검증 가능한 최소 규칙"의 모범 사례 → [[concepts/claude-md|CLAUDE.md]]에 양쪽 모두 기록.
 - 신규: [[entities/andrej-karpathy|안드레이 카파시]]를 핵심 인물로 도입(자막상 "안드레 카파시"로 표기되나 동일 인물). "Goal-Driven Execution = 검증 가능한 목표화" 패턴을 강조.
 
 ## 출처 정보
@@ -36,4 +36,4 @@ tags: [클로드md, 하네스엔지니어링, 카파시, 검증자동화, 골드
 - URL: https://www.youtube.com/watch?v=gol5jv4wcfs
 - 채널: castlestudio (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
 - 자막 언어: 한국어 (ko) — 원본 영문 제목은 저자를 "Andre Capaci"로 표기(= 안드레이 카파시 오인식)
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#19)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 19)

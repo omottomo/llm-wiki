@@ -34,5 +34,5 @@ tags: [루프엔지니어링, 하네스엔지니어링, 랄프루프, 메타프�
 - raw: raw/youtube-z-3BRkxQ5GM.md
 - URL: https://www.youtube.com/watch?v=z-3BRkxQ5GM
 - 채널: 코드팩토리 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#25)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 25)
 - 자막: 한국어 자동생성 (오탈자·인명 오인식 가능; "bory/보리스 체니"=[[entities/boris-cherny|보리스 체르니]], "피스타임버거/피터 사인바고"=[[entities/peter-steinberger|피터 슈타인버거]])

@@ -26,12 +26,12 @@ tags: [클로드md, 컨텍스트엔지니어링, 논문, 스킬, 컨텍스트부
 
 ## 기존 위키와의 연결
 - 강화: [[concepts/skills|스킬]] — CLAUDE.md를 가볍게 두고 상세 문서·작업별 지식은 스킬로 옮겨 필요 시점에만 트리거하라는 권장을 강화. [[concepts/context-decay|컨텍스트 부패]] — 무관한 컨텍스트가 성능을 떨어뜨린다는 주장 강화.
-- 모순: [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]](#8 "CLAUDE.md로 품질 3배") 및 [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]](#19)와 표면적으로 충돌. #8/#19/#10([[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]])/#5([[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]])는 "CLAUDE.md를 잘 쓰면 강력하다"고 주장. 화해 관점: 이 영상이 비판하는 대상은 **자동생성·장황·불필요 규칙으로 가득 찬 문서형** CLAUDE.md이고, 권장 진영이 말하는 건 **짧고(150~200줄) 검증 가능한 최소 규칙**이다. 실제로 본 영상도 "사람이 직접 쓴 최소 컨텍스트는 +19%"라며 사람 작성본의 가치를 인정하므로, 두 입장은 '잘못 쓴 CLAUDE.md'와 '잘 쓴 CLAUDE.md'를 두고 갈린다. → [[concepts/claude-md|CLAUDE.md]]에 양쪽 모두 기록.
+- 모순: [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]] 및 [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]와 표면적으로 충돌. [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]/[[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]/[[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]]/[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]는 "CLAUDE.md를 잘 쓰면 강력하다"고 주장. 화해 관점: 이 영상이 비판하는 대상은 **자동생성·장황·불필요 규칙으로 가득 찬 문서형** CLAUDE.md이고, 권장 진영이 말하는 건 **짧고(150~200줄) 검증 가능한 최소 규칙**이다. 실제로 본 영상도 "사람이 직접 쓴 최소 컨텍스트는 +19%"라며 사람 작성본의 가치를 인정하므로, 두 입장은 '잘못 쓴 CLAUDE.md'와 '잘 쓴 CLAUDE.md'를 두고 갈린다. → [[concepts/claude-md|CLAUDE.md]]에 양쪽 모두 기록.
 - 신규: "Repository-level context files helpful for coding agents?" 논문과 자체 "에이전트 벤치" 벤치마크를 위키에 처음 도입. [[concepts/context-decay|컨텍스트 부패]]의 실증 근거로 연결.
 
 ## 출처 정보
 - raw: raw/youtube-c7_ANA1NiS0.md
 - URL: https://www.youtube.com/watch?v=c7_ANA1NiS0
 - 채널: 코드팩토리 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #6
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 6
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

@@ -23,13 +23,13 @@ tags: [하네스엔지니어링, 클로드코드, 미첼하시모토, 검증자�
 - 모델 발전 시 하네스도 진화: Anthropic은 Opus 4.6(자막상 "오프스 4.6", 추정) 출시 후 스프린트 구조를 통째로 제거해 하네스를 간소화 → [[concepts/harness-engineering|하네스 엔지니어링]]의 '하네스 다이어트' 사례.
 
 ## 기존 위키와의 연결
-- 강화: #11([[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]])·#14([[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]])의 핵심 정의·OpenAI 사례·"말과 마구" 서사를 강화하고, 여기에 Anthropic의 "9달러 vs 200달러" 정량 근거를 추가. [[entities/mitchell-hashimoto|미첼 하시모토]] 창시자 설을 #14와 함께 뒷받침. [[concepts/context-decay|컨텍스트 부패]] 강화.
-- 모순: "모델 좋아지면 하네스 빼라"(스프린트 제거)는 #11의 진화적 강화 서사와 긴장 → [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]](#24)와 함께 [[concepts/harness-engineering|하네스 엔지니어링]] '하네스 다이어트'로 기록.
+- 강화: [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]의 핵심 정의·OpenAI 사례·"말과 마구" 서사를 강화하고, 여기에 Anthropic의 "9달러 vs 200달러" 정량 근거를 추가. [[entities/mitchell-hashimoto|미첼 하시모토]] 창시자 설을 [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]과 함께 뒷받침. [[concepts/context-decay|컨텍스트 부패]] 강화.
+- 모순: "모델 좋아지면 하네스 빼라"(스프린트 제거)는 [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]의 진화적 강화 서사와 긴장 → [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]]와 함께 [[concepts/harness-engineering|하네스 엔지니어링]] '하네스 다이어트'로 기록.
 - 신규: "9달러 vs 200달러" 정량 비교, Anthropic 3대 실패 패턴의 구체적 출처(11월·3월 블로그), Opus 4.6 후 스프린트 제거 사례.
 
 ## 출처 정보
 - raw: raw/youtube-6cr4PeilKJk.md
 - URL: https://www.youtube.com/watch?v=6cr4PeilKJk
 - 채널: 짐코딩 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #13)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 13)
 - transcript_lang: ko (자동생성 자막 — 오탈자 주의, 수치는 Anthropic 블로그 기준)

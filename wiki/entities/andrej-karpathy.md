@@ -10,7 +10,7 @@ tags: [인물, OpenAI, 클로드md]
 
 [[entities/openai|OpenAI]] 공동창업자이자 전 Tesla AI 디렉터인 인물이다. 이 위키에서는 짧고 검증 가능한 컨텍스트 파일 작성법을 대표하는 인물로 등장한다.
 
-> 자막 주의: 자동생성 자막에서 영상 #19의 "André Capaci / Andre Capaci"와 여러 영상의 "카파스 / 카파시"는 모두 **동일인 안드레이 카파시(Andrej Karpathy)**를 가리키는 자막 오인식이다. 이 위키는 해당 인물을 [[entities/andrej-karpathy|안드레이 카파시]] 하나로 통합한다.
+> 자막 주의: 자동생성 자막에서 영상 [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]의 "André Capaci / Andre Capaci"와 여러 영상의 "카파스 / 카파시"는 모두 **동일인 안드레이 카파시(Andrej Karpathy)**를 가리키는 자막 오인식이다. 이 위키는 해당 인물을 [[entities/andrej-karpathy|안드레이 카파시]] 하나로 통합한다.
 
 ## 이 위키에서의 등장
 - 이른바 "65줄 [[concepts/claude-md|CLAUDE.md]] / Karpathy Guidelines"의 저자로, 해당 파일이 담긴 저장소가 GitHub 10만+ 스타를 받았다고 소개된다 (→ [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]·[[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).

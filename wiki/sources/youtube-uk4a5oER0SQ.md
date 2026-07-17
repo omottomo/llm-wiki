@@ -24,13 +24,13 @@ AI 자동화와 아웃소싱으로 전통적 개발자 일자리가 줄어드는
 - 핵심 질문: "개발자의 본질이 코딩인가?" 코딩이라 믿으면 위험, 문제 해결·시스템 설계라 보면 기회. 사라지는 것은 "AI를 활용하지 않는 전통적 개발자", 살아남는 것은 AI 활용으로 더 큰 문제를 푸는 개발자.
 
 ## 기존 위키와의 연결
-- 강화: [[concepts/developer-role-change|개발자 역할의 변화]]의 "역할 상향 이동" 명제를, #11([[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]])·#14([[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]])의 "선수→감독" 비유와 다른 각도(회계사·스프레드시트 역사)에서 강화. AI가 코딩 능력을 무용화하는 게 아니라 더 높은 차원의 능력을 요구한다는 주장과 일치.
-- 모순: 직접적 모순 없음. 단, #11/#13/#14가 "어떻게(하네스 설계)"에 집중한다면 이 영상은 "왜(직업·노동시장 변화)"에 집중하는 보완 관계.
+- 강화: [[concepts/developer-role-change|개발자 역할의 변화]]의 "역할 상향 이동" 명제를, [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]의 "선수→감독" 비유와 다른 각도(회계사·스프레드시트 역사)에서 강화. AI가 코딩 능력을 무용화하는 게 아니라 더 높은 차원의 능력을 요구한다는 주장과 일치.
+- 모순: 직접적 모순 없음. 단, [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]/[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]/[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]이 "어떻게(하네스 설계)"에 집중한다면 이 영상은 "왜(직업·노동시장 변화)"에 집중하는 보완 관계.
 - 신규: 노동시장·고용 통계 관점, 아웃소싱 변수, "후임이 아니라 토큰" 프레이밍, 회계사/스프레드시트 역사 비유를 [[concepts/developer-role-change|개발자 역할의 변화]]에 도입.
 
 ## 출처 정보
 - raw: raw/youtube-uk4a5oER0SQ.md
 - URL: https://www.youtube.com/watch?v=uk4a5oER0SQ
 - 채널: 실용주의 개발 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #15)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 15)
 - transcript_lang: ko (자동생성 자막 — 연도·수치는 추정 표기, 신중 참고)

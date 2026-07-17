@@ -27,12 +27,12 @@ tags: [스킬, 클로드코드, 카파시가이드라인, 워크플로우최적�
 
 ## 기존 위키와의 연결
 - 강화: [[concepts/skills|스킬]]의 "반복을 정리해 재사용·진화"라는 핵심을 강화. [[concepts/claude-md|CLAUDE.md]](카파시 가이드라인), [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]](슈퍼파워), [[concepts/context-decay|컨텍스트 부패]](에이전트 메모리)와 연결.
-- 강화: [[entities/andrej-karpathy|안드레이 카파시]]의 "65줄 CLAUDE.md / Karpathy Guidelines" 저자 사실 — [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]](#19)와 동일 인물·동일 문서.
+- 강화: [[entities/andrej-karpathy|안드레이 카파시]]의 "65줄 CLAUDE.md / Karpathy Guidelines" 저자 사실 — [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]와 동일 인물·동일 문서.
 - 신규: Claude 비디오·Understand·에이전트 메모리·스킬 크리에이터 등 구체 스킬 사례를 도입.
 
 ## 출처 정보
 - raw: raw/youtube-UClLUoGaCxU.md
 - URL: https://www.youtube.com/watch?v=UClLUoGaCxU
 - 채널: Jay Choi | 인디해커 라이프 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#22)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 22)
 - 자막: 한국어 자동생성 (오탈자·인명 오인식 가능; "안드레카파시"=[[entities/andrej-karpathy|안드레이 카파시]])

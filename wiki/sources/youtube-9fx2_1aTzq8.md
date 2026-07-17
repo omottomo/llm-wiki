@@ -34,5 +34,5 @@ Claude Code의 [[concepts/dynamic-workflow|다이나믹 워크플로우]](딥리
 - raw: raw/youtube-9fx2_1aTzq8.md
 - URL: https://www.youtube.com/watch?v=9fx2_1aTzq8
 - 채널: 코드팩토리 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#23)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 23)
 - 자막: 한국어 자동생성 (오탈자 가능; "올트라/온트라 코드"=울트라코드)

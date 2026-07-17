@@ -31,7 +31,7 @@ tags: [클로드코드, 컨텍스트엔지니어링, 메모리파일, 하네스�
 - [[entities/andrej-karpathy|안드레이 카파시]]에서 출발한 65줄짜리 CLAUDE.md는 깃허브에서 10만 개 넘는 스타를 받았다 (→ [[sources/youtube-gol5jv4wcfs|#19 65줄 CLAUDE.md]]).
 
 **화해(reconciliation):** 두 입장은 충돌이 아니라 **"어떻게 쓰느냐"**의 문제로 수렴한다.
-- 입장 A의 비판 대상은 **장황하고 불필요한 규칙**(문서처럼 꽉꽉 채운 CLAUDE.md, 지금 작업과 무관한 컨텍스트)이다. #6 영상도 "CLAUDE.md를 아예 없애라는 뜻은 전혀 아니고, 잘못 작성했을 때의 악영향에 가까운 논문"이라고 명시한다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]).
+- 입장 A의 비판 대상은 **장황하고 불필요한 규칙**(문서처럼 꽉꽉 채운 CLAUDE.md, 지금 작업과 무관한 컨텍스트)이다. [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]] 영상도 "CLAUDE.md를 아예 없애라는 뜻은 전혀 아니고, 잘못 작성했을 때의 악영향에 가까운 논문"이라고 명시한다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]).
 - 입장 B/공식 권장은 **짧고(150~200줄/단어), 검증 가능하며, 도메인 용어가 정의된 최소 규칙**이다 (→ [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]·[[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]]).
 - 즉 "사람이 작성한 최소·검증 가능한 규칙"은 양쪽 모두에서 효과적이라는 점에서 일치한다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]·[[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]).
 - 이 모순을 실무 의사결정 절차(쓸까 말까 → 어떻게 쓸까)로 정리한 가이드는 [[analysis/claude-md-decision-guide|CLAUDE.md 결정 가이드]] 참조.
@@ -60,6 +60,6 @@ tags: [클로드코드, 컨텍스트엔지니어링, 메모리파일, 하네스�
 핵심은 단순히 파일을 쪼개는 게 아니라, 불필요한 규칙이 Claude의 주의를 뺏지 않게 "필요한 시점에만 불러오도록 설계"하는 것이다 (→ [[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]]).
 
 ## 연결
-- [[concepts/skills|스킬]] — #6 영상은 CLAUDE.md에 많은 내용을 쓰기 싫어 문서·체크 항목을 전부 스킬로 옮긴다고 했다. 작업별로 필요한 컨텍스트만 주입하는 대안 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]).
+- [[concepts/skills|스킬]] — [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]] 영상은 CLAUDE.md에 많은 내용을 쓰기 싫어 문서·체크 항목을 전부 스킬로 옮긴다고 했다. 작업별로 필요한 컨텍스트만 주입하는 대안 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]).
 - [[concepts/hooks|훅]] — CLAUDE.md가 "부탁"이라면 훅은 "강제"다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]] 참조).
 - [[concepts/harness-engineering|하네스 엔지니어링]], [[concepts/context-engineering|컨텍스트 엔지니어링]], [[concepts/context-decay|컨텍스트 부패]], [[concepts/verification-automation|검증 자동화]].

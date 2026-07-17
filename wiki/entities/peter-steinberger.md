@@ -8,10 +8,10 @@ tags: [인물, 루프엔지니어링]
 ---
 # 피터 슈타인버거 (Peter Steinberger)
 
-이 위키에서는 영상 #25([[concepts/loop-engineering|루프 엔지니어링]] 맥락)에서 발언자로 언급되는 인물이다. **PSPDFKit 창업자**로, 이후 OpenClaw/Clawd를 제작했고 현재는 OpenAI 엔지니어로 활동 중이다(외부 검증).
+이 위키에서는 영상 [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]([[concepts/loop-engineering|루프 엔지니어링]] 맥락)에서 발언자로 언급되는 인물이다. **PSPDFKit 창업자**로, 이후 OpenClaw/Clawd를 제작했고 현재는 OpenAI 엔지니어로 활동 중이다(외부 검증).
 
 ## 이 위키에서의 등장
-- 영상 #25 자막에서 "이제 코딩 에이전트에게 프롬프트하지 말라(don't be prompting coding agents anymore)"는 취지의 발언자로 언급된다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
+- 영상 [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]] 자막에서 "이제 코딩 에이전트에게 프롬프트하지 말라(don't be prompting coding agents anymore)"는 취지의 발언자로 언급된다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
 - 이 발언은 프롬프트/하네스를 넘어 [[concepts/loop-engineering|루프 엔지니어링]](루프 엔지니어링)으로 넘어가는 서사의 일부로 인용된다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
 
 ## 외부 검증 (2026-06-23, 웹)

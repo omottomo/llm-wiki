@@ -27,12 +27,12 @@ sources: [youtube-cZ8_Dkk_Ce0]
 
 ## 기존 위키와의 연결
 - 강화: [[concepts/claude-md|CLAUDE.md]] — "짧고 구체적·검증 가능"이라는 권장 진영의 핵심 근거. [[concepts/verification-automation|검증 자동화]] — 보리스의 "셀프 검증 시 품질 2~3배" 데이터로 강화. [[entities/boris-cherny|보리스 체르니]] — "실수 발견 시 한 줄 추가", "팀 공유 학습 시스템" 일화의 출처. [[concepts/context-engineering|컨텍스트 엔지니어링]] — CLAUDE.md를 컨텍스트 엔지니어링의 기본기로 자리매김.
-- 모순: [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]](#6 "CLAUDE.md를 지워라")와 **정면 대비되는 핵심 모순 쌍**. #6은 잘못 쓰인 자동생성·장황 CLAUDE.md가 성공률을 낮추고 비용을 20%↑ 시킨다고 했고, 본 영상은 "잘 쓴" CLAUDE.md가 품질을 3배 올린다고 주장. 화해 관점: 두 영상은 사실 같은 진단(장문·모호·중복은 해롭다)을 공유하며, 결론도 "짧고 검증 가능한 최소 규칙"으로 수렴한다 — #6은 사람 작성 최소 컨텍스트가 +19%임을 인정하고, 본 영상은 200줄 초과·모호한 지시를 '나쁜 패턴'으로 명시한다. 갈림은 '잘못 쓴 파일' vs '잘 쓴 파일'을 두고 발생. → [[concepts/claude-md|CLAUDE.md]]에 양쪽 모두 기록.
+- 모순: [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]와 **정면 대비되는 핵심 모순 쌍**. [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]는 잘못 쓰인 자동생성·장황 CLAUDE.md가 성공률을 낮추고 비용을 20%↑ 시킨다고 했고, 본 영상은 "잘 쓴" CLAUDE.md가 품질을 3배 올린다고 주장. 화해 관점: 두 영상은 사실 같은 진단(장문·모호·중복은 해롭다)을 공유하며, 결론도 "짧고 검증 가능한 최소 규칙"으로 수렴한다 — [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]]는 사람 작성 최소 컨텍스트가 +19%임을 인정하고, 본 영상은 200줄 초과·모호한 지시를 '나쁜 패턴'으로 명시한다. 갈림은 '잘못 쓴 파일' vs '잘 쓴 파일'을 두고 발생. → [[concepts/claude-md|CLAUDE.md]]에 양쪽 모두 기록.
 - 신규: 도메인 용어 정의 패턴, 오토 메모리 200줄 규칙, `@` 임포트 참조를 위키에 처음 정리.
 
 ## 출처 정보
 - raw: raw/youtube-cZ8_Dkk_Ce0.md
 - URL: https://www.youtube.com/watch?v=cZ8_Dkk_Ce0
 - 채널: 짐코딩 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 #8
+- 게시/수집 정보: 자막 lang=ko, 재생목록 순번 8
 - 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3

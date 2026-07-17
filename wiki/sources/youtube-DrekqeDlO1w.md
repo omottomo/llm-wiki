@@ -25,13 +25,13 @@ tags: [하네스엔지니어링, 미첼하시모토, 말과마구, 컨텍스트�
 - 미래 전망: 리처드 서튼(강화학습 창시자)은 "모델이 똑똑해질수록 하네스는 더 단순해져야 한다"고 말함. 차드 파울러(자막상 "차드 파울라", 추정)는 역할 변화를 "엄밀함의 재배치"로 표현 ([[concepts/developer-role-change|개발자 역할의 변화]]). 하네스가 미래의 서비스 템플릿이 되고 일부는 모델에 흡수될 것.
 
 ## 기존 위키와의 연결
-- 강화: #11([[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]])·#13([[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]])의 정의·3~4기둥 구조·OpenAI 3인 사례·[[entities/mitchell-hashimoto|미첼 하시모토]] 창시 설을 강화. "말과 마구" 비유의 핵심 소스. LangChain 25단계 상승은 "모델보다 하네스" 주장의 정량 근거.
-- 모순: "모델 똑똑할수록 하네스 단순화"(서튼)는 #11의 "하네스를 점점 쌓아라"와 긴장 → [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]](#24)와 함께 [[concepts/harness-engineering|하네스 엔지니어링]] '하네스 다이어트'로 기록.
+- 강화: [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]의 정의·3~4기둥 구조·OpenAI 3인 사례·[[entities/mitchell-hashimoto|미첼 하시모토]] 창시 설을 강화. "말과 마구" 비유의 핵심 소스. LangChain 25단계 상승은 "모델보다 하네스" 주장의 정량 근거.
+- 모순: "모델 똑똑할수록 하네스 단순화"(서튼)는 [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]의 "하네스를 점점 쌓아라"와 긴장 → [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]]와 함께 [[concepts/harness-engineering|하네스 엔지니어링]] '하네스 다이어트'로 기록.
 - 신규: 야생말→경마장 비유, "채팅창=하네스 루프" 직관, LangChain 벤치마크 25단계 상승, 리처드 서튼/차드 파울러 인용, "하네스=서비스 템플릿" 미래 전망.
 
 ## 출처 정보
 - raw: raw/youtube-DrekqeDlO1w.md
 - URL: https://www.youtube.com/watch?v=DrekqeDlO1w
 - 채널: castlestudio (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 #14)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 14)
 - transcript_lang: ko (자동생성 자막 — "하늘스/한네스/한스" 등 하네스 오인식 다수, 인명은 추정 표기)

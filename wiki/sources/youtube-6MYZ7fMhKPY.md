@@ -34,5 +34,5 @@ tags: [하네스엔지니어링, 에이전틱코딩, 바이브코딩, 검증자�
 - raw: raw/youtube-6MYZ7fMhKPY.md
 - URL: https://www.youtube.com/watch?v=6MYZ7fMhKPY
 - 채널: Jay Choi | 인디해커 라이프 (2026-07-12 yt-dlp 조회로 확인; 기존 표기 '미상')
-- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (#21)
+- 재생목록: PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3 (순번 21)
 - 자막: 한국어 자동생성 (오탈자·인명 오인식 가능)
