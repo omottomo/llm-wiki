@@ -1,6 +1,46 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// ── Webfonts ────────────────────────────────────────────────────────────
+// Pretendard (Korean UI) and IBM Plex Mono (code) are declared here because
+// the theme's fontOrigin is `local` (no Google Fonts link is injected) and
+// Pretendard is not on Google Fonts. custom.scss is concatenated *after* the
+// `@layer quartz-base { … }` block, so these unlayered @font-face + :root
+// vars win over both the core theme and the fonts plugin. One variable file
+// covers every Pretendard weight; version-pinned CDN for reproducible builds.
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2")
+    format("woff2-variations");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5/files/ibm-plex-mono-latin-400-normal.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5/files/ibm-plex-mono-latin-600-normal.woff2")
+    format("woff2");
+}
+
+:root {
+  --bodyFont:
+    "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --headerFont:
+    "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --codeFont: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
 
 // Korean typography: break lines at word (어절) boundaries, not mid-syllable.
 // overflow-wrap guards long unbreakable tokens (URLs, video IDs) from overflowing.
@@ -15,5 +55,134 @@ body {
   li,
   blockquote {
     line-height: 1.75;
+  }
+}
+
+// ── Slate & Signal polish ────────────────────────────────────────────────
+// Vertical rhythm, code-block + callout treatment. Scoped to article content
+// so the nav/sidebar are untouched; unlayered, so these win over base.scss.
+
+// Rhythm: more air above section headings, tighter below, so each heading
+// groups with the text it introduces instead of floating between blocks.
+.page article {
+  h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.6rem;
+  }
+  h3 {
+    margin-top: 1.9rem;
+    margin-bottom: 0.5rem;
+  }
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.6rem;
+    margin-bottom: 0.45rem;
+  }
+  p {
+    margin: 0 0 0.95rem;
+  }
+  ul,
+  ol {
+    margin: 0.4rem 0 1.05rem;
+  }
+}
+
+// Code blocks: a real surface tint, roomier even padding, softer corners.
+.page article pre {
+  background: color-mix(in srgb, var(--lightgray) 42%, var(--light));
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+
+  & > code {
+    padding: 0;
+  }
+}
+
+// Inline code: a quieter neutral chip with a hairline edge.
+.page article :not(pre) > code {
+  background: color-mix(in srgb, var(--lightgray) 55%, var(--light));
+  border: 1px solid color-mix(in srgb, var(--lightgray) 85%, transparent);
+  border-radius: 6px;
+  padding: 0.08rem 0.36rem;
+  font-size: 0.86em;
+}
+
+// Callouts: a stronger left edge, softer corners, a little breathing room.
+.callout {
+  border-radius: 8px;
+  border-left: 3px solid var(--color);
+  padding-bottom: 0.55rem;
+}
+.callout-title {
+  padding: 0.85rem 0 0.55rem;
+}
+
+// A bare `> [!note]` adopts the site accent so generic callouts stay on-brand;
+// typed callouts (tip, warning, danger, …) keep their semantic colors.
+.callout[data-callout="note"] {
+  --color: var(--secondary);
+  --border: color-mix(in srgb, var(--secondary) 30%, transparent);
+  --bg: color-mix(in srgb, var(--secondary) 7%, transparent);
+}
+
+// ── Tables ───────────────────────────────────────────────────────────────
+// The wiki leans on dense multi-column comparison tables (2–5 columns of
+// Korean prose per row). Stock Quartz renders them cramped and flat: tiny
+// vertical padding, mid-aligned cells (so uneven cells drift out of line), a
+// hairline under every row, no header treatment. This gives them a rounded,
+// hairline-bordered surface, a slate-tinted header, zebra rows to track a row
+// across many columns, top-aligned cells, and a weighted first column that
+// reads as the row label. Every color is a theme token, so light/dark swap for
+// free. Scoped to article content; unlayered so it wins over base.scss.
+.page article {
+  .table-container {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+
+    & > table {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+
+      th,
+      td {
+        min-width: 6rem;
+        padding: 0.65rem 0.9rem;
+        text-align: left;
+        vertical-align: top;
+        line-height: 1.65;
+      }
+
+      thead th {
+        background: color-mix(in srgb, var(--secondary) 9%, var(--light));
+        color: var(--dark);
+        font-weight: $semiBoldWeight;
+        white-space: nowrap;
+        border-bottom: 1px solid color-mix(in srgb, var(--secondary) 22%, var(--gray));
+      }
+
+      // Zebra bands carry row separation, so drop the base per-row hairline.
+      tr {
+        border-bottom: none;
+      }
+      tbody tr:nth-child(even) {
+        background: color-mix(in srgb, var(--lightgray) 26%, transparent);
+      }
+      tbody tr:hover {
+        background: color-mix(in srgb, var(--secondary) 7%, transparent);
+      }
+
+      // First column is the row label in comparison tables — give it weight.
+      tbody td:first-child {
+        font-weight: $semiBoldWeight;
+        color: var(--dark);
+      }
+    }
   }
 }

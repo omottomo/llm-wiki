@@ -1,23 +1,4 @@
 {
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "teammateMode": "in-process",
-  "hooks": {
-    "TeammateIdle": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/teammate-idle-guard.sh"
-          }
-        ]
-      }
-    ]
-  },
-  "worktree": {
-    "bgIsolation": "none"
-  },
   "permissions": {
     "allow": [
       "Bash(python3 scripts/lint_wiki.py*)",
@@ -29,5 +10,11 @@
       "Bash(npx quartz build*)",
       "Bash(python3 -m youtube_transcript_api*)"
     ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
   }
 }
