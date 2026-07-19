@@ -85,6 +85,16 @@ def test_404_page() -> None:
     assert '<div id="search">' in text
 
 
+def test_design_chrome() -> None:
+    assert (DIST / "style.css").is_file()
+    article = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
+    assert '<link rel="stylesheet" href="/style.css">' in article
+    assert 'id="theme-toggle"' in article           # 다크모드 토글
+    assert "localStorage.getItem" in article        # FOUC 방지 테마 스크립트
+    css = (DIST / "style.css").read_text(encoding="utf-8")
+    assert "--accent" in css and "Pretendard" in css
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):

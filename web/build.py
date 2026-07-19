@@ -94,10 +94,25 @@ def base_html(title: str, content: str) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(head_title)}</title>
+<link rel="stylesheet" href="/style.css">
+<script>const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t;</script>
 </head>
 <body>
-<header class="site-header"><a class="site-name" href="/">{SITE_NAME}</a></header>
+<header class="site-header">
+<a class="site-name" href="/">{SITE_NAME}</a>
+<button id="theme-toggle" aria-label="테마 전환">명암</button>
+</header>
 {content}
+<script>
+document.querySelector("#theme-toggle").addEventListener("click", () => {{
+  const root = document.documentElement;
+  const cur = root.dataset.theme
+    || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = cur === "dark" ? "light" : "dark";
+  root.dataset.theme = next;
+  localStorage.setItem("theme", next);
+}});
+</script>
 </body>
 </html>"""
 
@@ -202,6 +217,7 @@ def main() -> int:
         write_page(f"tags/{tag}", render_listing(f"태그: {tag}", keys, pages))
     (DIST / "index.html").write_text(render_home(pages), encoding="utf-8")
     (DIST / "404.html").write_text(render_404(), encoding="utf-8")
+    shutil.copy(WEB / "style.css", DIST / "style.css")
     print(f"기사 {len(pages)}쪽 생성 → {DIST.relative_to(ROOT)}")
     return 0
 
