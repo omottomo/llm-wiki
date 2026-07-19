@@ -57,6 +57,22 @@ def url_for(key: str) -> str:
     return "/" + urllib.parse.quote(key) + "/"
 
 
+def link_wikilinks(body: str, existing) -> str:
+    """[[대상|별칭]]을 <a>로, 대상 없는 링크는 회색 <span>으로 치환한다.
+    markdown 렌더 전에 실행되며 html=True라 그대로 통과한다."""
+    # ponytail: 코드 펜스 안의 [[..]]도 치환된다. 현재 위키에 해당 사례 0건,
+    # 생기면 lint_wiki.FENCE_RE로 펜스를 보호하는 전처리 추가.
+    def repl(m):
+        raw = m.group(1).replace("\\|", "|")
+        target = lint_wiki.normalize_target(m.group(1))
+        label = raw.split("|", 1)[1].strip() if "|" in raw else target
+        if target in existing:
+            return f'<a href="{url_for(target)}">{html.escape(label)}</a>'
+        return f'<span class="dead-link">{html.escape(label)}</span>'
+
+    return lint_wiki.WIKILINK_RE.sub(repl, body)
+
+
 def base_html(title: str, content: str) -> str:
     head_title = SITE_NAME if title == SITE_NAME else f"{title} · {SITE_NAME}"
     return f"""<!DOCTYPE html>
@@ -73,10 +89,24 @@ def base_html(title: str, content: str) -> str:
 </html>"""
 
 
-def render_article(page: dict) -> str:
-    body_html = md.render(page["body"])
+def render_article(page: dict, pages: dict, inbound: dict) -> str:
+    body_html = md.render(link_wikilinks(page["body"], pages))
     updated = f'<p class="meta">갱신 {page["updated"]}</p>' if page["updated"] else ""
-    return base_html(page["title"], f"<main><article>{updated}\n{body_html}</article></main>")
+    back = sorted(inbound.get(page["key"], set()))
+    back_html = ""
+    if back:
+        items = "\n".join(
+            f'<li><a href="{url_for(k)}">{html.escape(pages[k]["title"])}</a></li>'
+            for k in back
+        )
+        back_html = (
+            '<section class="backlinks"><h2>이 문서를 참조하는 문서</h2>'
+            f"<ul>{items}</ul></section>"
+        )
+    return base_html(
+        page["title"],
+        f"<main><article>{updated}\n{body_html}</article>\n{back_html}</main>",
+    )
 
 
 def write_page(rel: str, html_text: str) -> None:
@@ -89,8 +119,9 @@ def main() -> int:
     if DIST.exists():
         shutil.rmtree(DIST)
     pages = load_pages()
+    inbound = lint_wiki.build_inbound_map(lint_wiki.wiki_pages())
     for page in pages.values():
-        write_page(page["key"], render_article(page))
+        write_page(page["key"], render_article(page, pages, inbound))
     print(f"기사 {len(pages)}쪽 생성 → {DIST.relative_to(ROOT)}")
     return 0
 

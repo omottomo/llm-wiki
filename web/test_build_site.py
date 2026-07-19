@@ -37,6 +37,34 @@ def test_article_has_title_and_body() -> None:
     assert "MCP" in text  # 본문 렌더 확인
 
 
+def test_no_literal_wikilinks() -> None:
+    """어떤 출력 HTML에도 '[[' 리터럴이 남지 않는다 (verify_site.py와 같은 기준)."""
+    offenders = [
+        p.relative_to(DIST)
+        for p in DIST.rglob("*.html")
+        if "[[" in p.read_text(encoding="utf-8")
+    ]
+    assert not offenders, f"미해석 위키링크: {offenders[:5]}"
+
+
+def test_wikilinks_resolve_and_backlinks_render() -> None:
+    """overview는 harness-engineering을 링크하므로: (a) overview HTML에 해당 href가 있고
+    (b) harness-engineering 페이지의 백링크 목록에 overview가 나타난다."""
+    overview = (DIST / "overview" / "index.html").read_text(encoding="utf-8")
+    assert 'href="/concepts/harness-engineering/"' in overview
+    harness = (DIST / "concepts" / "harness-engineering" / "index.html").read_text(encoding="utf-8")
+    assert "이 문서를 참조하는 문서" in harness
+    assert 'href="/overview/"' in harness
+
+
+def test_dead_wikilink_renders_muted() -> None:
+    """대상 없는 위키링크는 <a>가 아니라 회색 <span>으로 렌더된다 (단위 테스트)."""
+    out = build.link_wikilinks("[[없는페이지|라벨]]", set())
+    assert out == '<span class="dead-link">라벨</span>'
+    out2 = build.link_wikilinks("[[concepts/mcp|MCP]]", {"concepts/mcp"})
+    assert out2 == '<a href="/concepts/mcp/">MCP</a>'
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):
