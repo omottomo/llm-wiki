@@ -39,7 +39,9 @@ def main() -> int:
         print(f"[FAIL] golden-wiki → exit {code} (expected 0)")
 
     # 2) each defect must fail with its expected substring
+    n_defects = 0
     for defect in sorted(d for d in DEFECTS.iterdir() if d.is_dir()):
+        n_defects += 1
         expect = (defect / "expect.txt").read_text(encoding="utf-8").strip()
         code, out = run_lint(defect)
         if code == 1 and expect in out:
@@ -49,7 +51,7 @@ def main() -> int:
             reason = f"exit {code} (expected 1)" if code != 1 else f"missing substring '{expect}'"
             print(f"[FAIL] defects/{defect.name} → {reason}")
 
-    total = 1 + sum(1 for d in DEFECTS.iterdir() if d.is_dir())
+    total = 1 + n_defects
     print(f"\n{total - fails}/{total} passed" + ("" if not fails else f", {fails} FAILED"))
     return 1 if fails else 0
 
