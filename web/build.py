@@ -8,6 +8,7 @@
 디자인은 web/style.css 하나. raw/는 절대 읽지 않는다.
 """
 import html
+import re
 import shutil
 import sys
 import urllib.parse
@@ -27,6 +28,8 @@ SECTIONS = [("concepts", "개념"), ("entities", "엔티티"), ("sources", "출�
 
 # html=True: 위키 본문은 운영자 자신이 쓴 신뢰 콘텐츠라 인라인 HTML 허용
 md = MarkdownIt("commonmark", {"html": True}).enable("table").enable("strikethrough")
+
+HREF_RE = re.compile(r'href="(/[^"#?]*)')
 
 
 def parse_tags(value: str) -> list[str]:
@@ -214,6 +217,19 @@ def write_page(rel: str, html_text: str) -> None:
     out.write_text(html_text, encoding="utf-8")
 
 
+def check_internal_links() -> list[str]:
+    """dist/ 안 모든 내부 href가 실제 파일을 가리키는지 검사. /pagefind/는 빌드 후 생성이라 제외."""
+    broken = []
+    for page in DIST.rglob("*.html"):
+        for href in HREF_RE.findall(page.read_text(encoding="utf-8")):
+            if href.startswith("/pagefind/"):
+                continue
+            target = DIST / urllib.parse.unquote(href).strip("/")
+            if not (target.is_file() or (target / "index.html").is_file()):
+                broken.append(f"{page.relative_to(DIST)}: {href}")
+    return broken
+
+
 def main() -> int:
     if DIST.exists():
         shutil.rmtree(DIST)
@@ -228,6 +244,10 @@ def main() -> int:
     (DIST / "index.html").write_text(render_home(pages), encoding="utf-8")
     (DIST / "404.html").write_text(render_404(), encoding="utf-8")
     shutil.copy(WEB / "style.css", DIST / "style.css")
+    broken = check_internal_links()
+    if broken:
+        print(f"깨진 내부 링크 {len(broken)}건:", *broken[:10], sep="\n  ", file=sys.stderr)
+        return 1
     print(f"기사 {len(pages)}쪽 생성 → {DIST.relative_to(ROOT)}")
     return 0
 

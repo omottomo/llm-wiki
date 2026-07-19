@@ -118,6 +118,15 @@ def test_pagefind_index_built() -> None:
     assert (DIST / "pagefind" / "pagefind-ui.js").is_file()
 
 
+def test_verify_site_web() -> None:
+    """raw/ 경계 감사가 web/dist에 대해 통과한다 (누출 0)."""
+    r = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "verify_site.py"), "web"],
+        capture_output=True, text=True,
+    )
+    assert r.returncode == 0, f"verify_site 실패:\n{r.stdout}"
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):

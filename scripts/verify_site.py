@@ -62,7 +62,11 @@ def check_symlink(site: Path) -> None:
 
 
 def check_artifacts_ignored(site: Path) -> None:
-    for artifact in [site / "node_modules", site / "public", site / ".quartz"]:
+    if site.name == "web":
+        artifacts = [site / "dist"]
+    else:
+        artifacts = [site / "node_modules", site / "public", site / ".quartz"]
+    for artifact in artifacts:
         result = subprocess.run(["git", "check-ignore", "-q", repo_rel(artifact)], cwd=ROOT)
         report(result.returncode == 0, f"{repo_rel(artifact)} git-ignored")
 
@@ -163,7 +167,8 @@ def main() -> int:
         help="site directory to audit, relative to the repo root (default: site)",
     )
     site = ROOT / parser.parse_args().site_dir
-    public = site / "public"
+    # web/은 Quartz가 아니라 자체 생성기라 출력 디렉터리 이름이 다르다 (phase-8)
+    public = site / ("dist" if site.name == "web" else "public")
 
     check_symlink(site)
     check_artifacts_ignored(site)
