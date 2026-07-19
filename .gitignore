@@ -14,3 +14,4 @@ site/.quartz
 site-test/node_modules
 site-test/public
 site-test/.quartz
+web/dist/
