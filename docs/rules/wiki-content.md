@@ -84,10 +84,16 @@ Example of the required output (Korean, as mandated by the language rule):
 
 ## 3. Domain customization
 
-> **Wiki domain:** Claude Code and harness engineering — technical topics only.
+> **Wiki charter (2026-07-19):** a growing personal knowledge base in the spirit of Karpathy's
+> LLM-wiki experiment (https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — it
+> absorbs whatever sources the user chooses to ingest and is **not limited to any playlist or
+> medium**. Never describe the wiki itself as "a digest of the YouTube playlist" on wiki pages;
+> the 25-video playlist was only the initial seed (2026-06-23), and non-playlist web documents
+> have been ingested since 2026-07-18.
+> **Current center of gravity:** Claude Code and harness engineering — technical topics.
 > **Focus:** comparing tool and workflow methodologies (the CLAUDE.md debate; building a harness up vs. slimming it down; single-tool vs. multi-model) and how practices shift over time.
 > **Scope boundary (2026-07-12):** developer career strategy (resumes, job hunting, 이직/물경력) lives in the sibling `../career-llm-wiki` repo — the career pages this wiki once held were migrated there. When a new source is career-focused, tell the user it belongs in career-llm-wiki instead of ingesting it here.
-> **Source types:** full YouTube transcripts (mostly Korean, some English) — `raw/youtube-<video_id>.md`
+> **Source types:** full YouTube transcripts (mostly Korean, some English) — `raw/youtube-<video_id>.md`; since 2026-07-18 also web articles / official docs saved as `raw/<slug>.md`.
 
 Domain-specific rules accumulated so far:
 

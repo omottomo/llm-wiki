@@ -51,7 +51,7 @@ tags: [색인, 카탈로그]
 - [[entities/mitchell-hashimoto|미첼 하시모토]] — HashiCorp 공동창립자, 하네스 용어 제시자(추정)
 - [[entities/peter-steinberger|피터 슈타인버거]] — "프롬프팅 그만하라" 발언자(자막 기준)
 
-## Sources (재생목록 순서)
+## Sources (흡수 순서 — 1~25번 재생목록, 26번부터 재생목록 외)
 - [[sources/youtube-HnvitMTkXro|#1 LLM 설명]] — 트랜스포머·어텐션·RLHF 기초(요약 버전)
 - [[sources/youtube-dYXHJKnIT_I|#2 Claudebot 실전 워크플로우]] — E2E 테스트·폴링·보안
 - [[sources/youtube-Gb2VMWrUmZ0|#3 Claude Code Teams]] — 독립 인스턴스 병렬 협업
