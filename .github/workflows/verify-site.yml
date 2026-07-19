@@ -8,6 +8,7 @@ on:
       - "site/**"
       - "site-test/**"
       - "scripts/**"
+      - "tests/**"
       # The audit asserts these paths are ignored, so a change here can flip it.
       - ".gitignore"
       # Editing the gate must re-run the gate.
@@ -62,3 +63,6 @@ jobs:
 
       - name: Lint wiki content
         run: python3 scripts/lint_wiki.py
+
+      - name: Run lint fixture tests
+        run: python3 scripts/test_lint_wiki.py
