@@ -1,0 +1,1 @@
+wiki/entities/foo-entity.md 가 index.md 에 등재되어 있지 않음

@@ -1,0 +1,1 @@
+frontmatter에 label(짧은 인용 라벨) 없음

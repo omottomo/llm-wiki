@@ -394,7 +394,18 @@ def main() -> int:
         metavar="PAGE",
         help="전체 lint 대신, 지정한 페이지(경로 또는 슬러그)로 들어오는 인바운드 링크만 출력하고 종료",
     )
+    parser.add_argument(
+        "--root",
+        metavar="PATH",
+        help="repo 루트 대신 지정한 트리(<PATH>/wiki, <PATH>/raw)를 lint (테스트 픽스처용)",
+    )
     args = parser.parse_args()
+
+    if args.root:
+        global ROOT, WIKI, RAW
+        ROOT = Path(args.root).resolve()
+        WIKI = ROOT / "wiki"
+        RAW = ROOT / "raw"
 
     if not WIKI.is_dir() or not RAW.is_dir():
         print(f"오류: {ROOT} 아래에 wiki/ 또는 raw/ 가 없습니다.", file=sys.stderr)

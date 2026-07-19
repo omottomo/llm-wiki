@@ -1,0 +1,1 @@
+[[entities/foo-entity]] 별칭 없음
