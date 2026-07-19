@@ -2,8 +2,8 @@
 title: 검증 자동화
 type: concept
 created: 2026-06-23
-updated: 2026-07-18
-sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, ibm-infrastructure-as-code]
+updated: 2026-07-19
+sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스엔지니어링]
 ---
 
@@ -50,4 +50,4 @@ tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하
 - [[concepts/multi-model-workflow|멀티 모델 워크플로우]] — Codex 적대적 리뷰 / 결과물 상호 검토
 - [[concepts/hooks|훅]] — 강제 검증 수단
 - [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]] — 생성/검증 분리의 구현 단위
-- [[concepts/infrastructure-as-code|코드형 인프라]] — 배포 전 자동 테스트·CI/CD 게이트로 구성을 검증해 온, AI 이전 인프라 영역의 선례 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]])
+- [[concepts/infrastructure-as-code|코드형 인프라]] — 배포 전 자동 테스트·CI/CD 게이트로 구성을 검증해 온, AI 이전 인프라 영역의 선례 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). 특히 [[entities/terraform|Terraform]]의 **plan/apply 분리**(실행 전 계획을 사람이 검토·승인)와 PR에 speculative plan을 붙여 동료가 변경 의도를 리뷰하는 관행은 "실행 전 검증"의 구체적 인프라 선례다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]])

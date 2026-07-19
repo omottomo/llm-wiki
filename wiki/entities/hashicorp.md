@@ -2,14 +2,14 @@
 title: HashiCorp
 type: entity
 created: 2026-07-18
-updated: 2026-07-18
-sources: [ibm-infrastructure-as-code]
+updated: 2026-07-19
+sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [HashiCorp, 코드형인프라, 기업]
 ---
 
 # HashiCorp
 
-[[entities/mitchell-hashimoto|미첼 하시모토]]가 공동창립한 인프라 소프트웨어 기업으로, 대표 제품은 [[concepts/infrastructure-as-code|코드형 인프라]] 도구 [[entities/terraform|Terraform]]이다. 현재 IBM 계열사다 (2026-07 기준) (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]).
+[[entities/mitchell-hashimoto|미첼 하시모토]]가 공동창립한 인프라 소프트웨어 기업으로, 대표 제품은 [[concepts/infrastructure-as-code|코드형 인프라]] 도구 [[entities/terraform|Terraform]]이다. 현재 IBM 계열사다 (2026-07 기준) (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). 또 다른 공동창립자로 [[entities/armon-dadgar|아몬 다드가]]가 있으며, Terraform 공식 문서에서 도구의 인프라 과제 해결을 설명하는 얼굴로 등장한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 정책 코드화 프레임워크 [[entities/sentinel|Sentinel]]도 이 회사의 제품이다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
 ## 이 위키에서의 의미
 

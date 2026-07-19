@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-07-18
+updated: 2026-07-19
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -41,8 +41,10 @@ tags: [색인, 카탈로그]
 - [[entities/vercel|Vercel]] — skills.sh 출시 주체
 - [[entities/skills-sh|skills.sh]] — AI 에이전트용 스킬 패키지 매니저
 - [[entities/google-gemma|구글 Gemma]] — 구글 온디바이스 모델(Gemma 4)
-- [[entities/terraform|Terraform]] — HashiCorp의 멀티 클라우드 IaC 도구
+- [[entities/terraform|Terraform]] — HashiCorp의 멀티 클라우드 IaC 도구. Write-Plan-Apply 워크플로·state·HCL 상세
 - [[entities/hashicorp|HashiCorp]] — 하시모토 공동창립, Terraform 제작사(IBM 계열)
+- [[entities/armon-dadgar|아몬 다드가]] — HashiCorp 공동창립자, Terraform 소개의 얼굴
+- [[entities/sentinel|Sentinel]] — HashiCorp의 정책 코드화(policy-as-code) 프레임워크
 - [[entities/andrej-karpathy|안드레이 카파시]] — Karpathy 가이드라인/65줄 CLAUDE.md 저자(자막상 "André Capaci" 오인식)
 - [[entities/boris-cherny|보리스 체르니]] — Claude Code 창시자, "거의 바닐라 세팅" 발언
 - [[entities/mitchell-hashimoto|미첼 하시모토]] — HashiCorp 공동창립자, 하네스 용어 제시자(추정)
@@ -75,6 +77,7 @@ tags: [색인, 카탈로그]
 - [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]] — 낡은 하네스의 군살 빼기
 - [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]] — 최신 트렌드
 - [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]] — 2026-07-18 흡수, 재생목록 외 웹 문서. 코드형 인프라 개념 해설
+- [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]] — 2026-07-19 흡수, 코어·언어·CLI 발췌 19페이지. Write-Plan-Apply·state·HCL·모듈·도입 4단계
 
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표

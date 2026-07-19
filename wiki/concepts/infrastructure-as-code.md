@@ -2,8 +2,8 @@
 title: 코드형 인프라 (IaC)
 type: concept
 created: 2026-07-18
-updated: 2026-07-18
-sources: [ibm-infrastructure-as-code]
+updated: 2026-07-19
+sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 ---
 
@@ -20,10 +20,12 @@ tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 
 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]])
 
+> **프레이밍 차이**: [[entities/terraform|Terraform]] 공식 문서는 같은 흐름을 **쓰기 → 계획 → 적용(Write-Plan-Apply)** 3단계로 잡아, 실행 전에 실행 계획을 사람이 검토·승인하는 **Plan을 독립 단계로 격상**시킨다 — IBM 프레이밍의 '버전' 단계는 쓰기 단계의 관행으로 흡수된다. 모순이 아니라 강조점의 차이라 둘 다 기록한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+
 ## 두 가지 핵심 설계 선택
 
 - **선언형 vs 명령형**: 선언형은 원하는 상태(예: "이 사양의 서버 3대")만 명시하면 도구가 구현을 처리하고, 명령형은 단계별 명령을 정확한 순서로 직접 작성한다. 선언형이 일반적이며 명령형은 더 높은 전문성을 요구한다 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]).
-- **가변형 vs 불변형**: 대부분의 조직은 배포 후 변경 불가한 불변형을 선택한다 — 구성 드리프트가 원천 차단되고, 변경마다 버전 지정 인스턴스가 생겨 롤백이 확실하며, 클라우드에선 재프로비저닝이 수분이면 끝난다 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]).
+- **가변형 vs 불변형**: 대부분의 조직은 배포 후 변경 불가한 불변형을 선택한다 — 구성 드리프트가 원천 차단되고, 변경마다 버전 지정 인스턴스가 생겨 롤백이 확실하며, 클라우드에선 재프로비저닝이 수분이면 끝난다 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). 대표 도구인 Terraform도 공식 문서에서 불변 접근을 채택한다고 명시해 이 관행을 뒷받침한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
 ## 이점
 
@@ -40,6 +42,8 @@ tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 - **구성 관리 도구**: Ansible(에이전트리스, YAML 플레이북)·Puppet(대규모 지속 점검·자동 교정)·Chef(쿡북/레시피, 테스트 프레임워크 강점)
 
 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]])
+
+두 부류는 경쟁이 아니라 보완 관계다 — Terraform 공식 문서는 "Terraform은 데이터센터 수준의 상위 추상화에 집중하고, 개별 머신 내부의 소프트웨어 설치·관리는 구성 관리 도구가 강점을 살리게 둔다"고 역할을 나눈다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
 ## 하네스 엔지니어링과의 관계 (위키 차원의 관찰)
 
