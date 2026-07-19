@@ -95,6 +95,8 @@ def base_html(title: str, content: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(head_title)}</title>
 <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+<script src="/pagefind/pagefind-ui.js"></script>
 <script>const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t;</script>
 </head>
 <body>
@@ -111,6 +113,13 @@ document.querySelector("#theme-toggle").addEventListener("click", () => {{
   const next = cur === "dark" ? "light" : "dark";
   root.dataset.theme = next;
   localStorage.setItem("theme", next);
+}});
+</script>
+<script>
+window.addEventListener("DOMContentLoaded", () => {{
+  const el = document.querySelector("#search");
+  if (el && window.PagefindUI)
+    new PagefindUI({{ element: "#search", showSubResults: true, translations: {{ placeholder: "검색..." }} }});
 }});
 </script>
 </body>
@@ -192,9 +201,10 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
             f'<a class="tag" href="{tag_url(t)}">{html.escape(t)}</a>' for t in page["tags"]
         )
         tags_html = f'<footer class="tags">{chips}</footer>'
+    pagefind_attr = "" if page["key"] == "index" else " data-pagefind-body"
     return base_html(
         page["title"],
-        f"<main><article>{updated}\n{body_html}\n{tags_html}</article>\n{back_html}</main>",
+        f"<main><article{pagefind_attr}>{updated}\n{body_html}\n{tags_html}</article>\n{back_html}</main>",
     )
 
 

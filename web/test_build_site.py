@@ -95,6 +95,29 @@ def test_design_chrome() -> None:
     assert "--accent" in css and "Pretendard" in css
 
 
+def test_pagefind_wiring() -> None:
+    home = (DIST / "index.html").read_text(encoding="utf-8")
+    assert "/pagefind/pagefind-ui.js" in home
+    assert "new PagefindUI" in home
+    mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
+    assert "data-pagefind-body" in mcp
+    catalog = (DIST / "index" / "index.html").read_text(encoding="utf-8")
+    assert "data-pagefind-body" not in catalog  # 색인 페이지는 검색 노이즈라 제외
+
+
+def test_pagefind_index_built() -> None:
+    """npx가 있으면 인덱스 생성까지 검증, 없으면 SKIP (CI에는 node 22 존재)."""
+    import shutil as _sh
+    if not _sh.which("npx"):
+        print("SKIP test_pagefind_index_built (npx 없음)")
+        return
+    r = subprocess.run(
+        ["npx", "-y", "pagefind@1", "--site", str(DIST)], capture_output=True, text=True
+    )
+    assert r.returncode == 0, f"pagefind 실패:\n{r.stdout}\n{r.stderr}"
+    assert (DIST / "pagefind" / "pagefind-ui.js").is_file()
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):
