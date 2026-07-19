@@ -2,6 +2,7 @@
 title: Terraform 공식 문서 — 코어·언어·CLI 발췌
 label: "#27 Terraform 공식 문서"
 type: source
+credibility: high
 created: 2026-07-19
 updated: 2026-07-19
 sources: []

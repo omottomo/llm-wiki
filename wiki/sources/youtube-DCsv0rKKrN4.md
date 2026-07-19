@@ -2,6 +2,7 @@
 title: "#7 메타 엔지니어의 클로드 코드 완벽 가이드 [실전편] — 컨텍스트 관리·워크플로우 총정리"
 label: "#7 메타 엔지니어 실전편"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 tags: [클로드md, 컨텍스트엔지니어링, 워크플로우, MCP, 멀티모델, 검증자동화]

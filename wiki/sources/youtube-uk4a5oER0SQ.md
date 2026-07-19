@@ -2,6 +2,7 @@
 title: "#15 모두가 개발을 그만두는 이유"
 label: "#15 개발을 떠나는 이유"
 type: source
+credibility: low
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-uk4a5oER0SQ]

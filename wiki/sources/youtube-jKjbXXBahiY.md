@@ -2,6 +2,7 @@
 title: "#18 코딩 배우지 마세요 — 대화만으로 주식 분석 에이전트 팀 만들기"
 label: "#18 주식 에이전트 팀"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-jKjbXXBahiY]

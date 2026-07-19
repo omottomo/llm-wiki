@@ -10,7 +10,7 @@
       "kind": "builder",
       "depends_on": [],
       "acceptance": "Section 1 defines: (a) credibility as a REQUIRED frontmatter key on wiki/sources/* pages with enum high|medium|low and a judgment rubric — official documentation and primary sources = high; conference talks, vendor blogs, well-known practitioners = medium; personal videos with known caption-error risk or unverifiable attribution = low; (b) aliases as an OPTIONAL frontmatter key on concepts/entities pages, a YAML list of alternate names (typically the English original term for a Korean title), noting Quartz reads it natively for search. Existing rules are not contradicted; the source-citation and template sections reference the new keys where they list frontmatter.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -20,7 +20,7 @@
       "kind": "builder",
       "depends_on": ["T01"],
       "acceptance": "The frontmatter check fails (exit 1) when a wiki/sources/* page is missing credibility or has a value outside high|medium|low, and when any page has an aliases key whose value is not a YAML list of strings. Non-sources pages without credibility pass. The script stays stdlib-only and its existing checks are unchanged (same violations reported on the pre-change tree except the new ones).",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -30,7 +30,7 @@
       "kind": "builder",
       "depends_on": ["T01"],
       "acceptance": "templates/source-page.md includes credibility in its frontmatter block, and wiki-ingest SKILL.md instructs the agent to judge credibility per the rubric in docs/rules/wiki-content.md during ingest (one added step or line, no restructuring of the existing procedure).",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -40,7 +40,7 @@
       "kind": "builder",
       "depends_on": ["T02"],
       "acceptance": "Every page under wiki/sources/ carries a credibility value assigned per the rubric (YouTube playlist talks default to medium, pages with recorded caption errors or unverified attribution to low, official-documentation sources such as the Terraform and IBM pages to high). Body text and updated fields are untouched (frontmatter-only change; the updated-bump rule in wiki-content.md section 4.3 explicitly does not fire for metadata-only edits — confirm the rule allows this or record the exception there). python3 scripts/lint_wiki.py exits 0.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -50,7 +50,7 @@
       "kind": "builder",
       "depends_on": [],
       "acceptance": "SKILL.md defines quick (indexes only), standard (relevant pages + grep, the default), and deep (all pages plus raw/ cross-check) query depths, with user phrasing cues (e.g. 가볍게/깊게) mapped to tiers. Existing procedure text is adjusted, not duplicated.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -60,7 +60,7 @@
       "kind": "builder",
       "depends_on": [],
       "acceptance": "Root backlog.md exists in Korean with a single table (candidate | type | status | note) and a header stating it is never citable as factual evidence in wiki pages. CLAUDE.md section 1 tree gains one line for it (unpublished — content root is wiki/ only, like log.md). wiki-ingest and wiki-query SKILL.md each gain one line: sources mentioned but not ingested now go to backlog.md.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -70,7 +70,7 @@
       "kind": "builder",
       "depends_on": [],
       "acceptance": "docs/benchmarking-nvk-llm-wiki.md (English) records the 2026-07-19 comparison: what nvk/llm-wiki is, the adopted items (credibility, aliases, query depths, backlog, volatility+refresh, retract mode, lint fixtures) each with a one-line rationale, and the rejected items (dual-linking, hub/multi-wiki, full inventory/dataset layers, librarian numeric scoring, lessons-learned op, multi-runtime packaging, token benchmarks, session hooks) each with a one-line reason. docs/index.md lists the new document and the phase-6/phase-7 folders.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -80,7 +80,7 @@
       "kind": "builder",
       "depends_on": [],
       "acceptance": "CLAUDE.md no longer routes code mode to the uninstalled my-skills plugin skills (orchestrate, create-prd-json): section 3 describes code-mode work as executed directly from docs/tasks/ plans/PRDs, and section 1's tree/comment lines match. The .claude/orchestrate.md adapter reference is removed or marked dormant. No other routing (content-mode skills) changes.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     },
     {
@@ -90,7 +90,7 @@
       "kind": "builder",
       "depends_on": ["T03", "T04", "T05", "T06", "T07", "T08"],
       "acceptance": "python3 scripts/lint_wiki.py exits 0; npx quartz build succeeds in site/ and site-test/ and python3 scripts/verify_site.py passes for both; one Korean docs-prefixed close-out line appended to log.md; docs/index.md phase table row updated with completion status.",
-      "status": "pending",
+      "status": "done",
       "attempts": 0
     }
   ]

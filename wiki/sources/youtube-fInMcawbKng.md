@@ -2,6 +2,7 @@
 title: "#24 다이나믹 워크플로우 | 낡은 하네스의 군살을 빼라"
 label: "#24 하네스 다이어트"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-fInMcawbKng]

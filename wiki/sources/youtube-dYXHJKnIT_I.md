@@ -2,6 +2,7 @@
 title: "#2 Claudebot 실전 워크플로우: 인생을 바꾸는 자동화"
 label: "#2 Claudebot 실전 워크플로우"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 tags: [클로드코드, 자동화, E2E테스트, 폴링, 보안, 텔레그램, 워크플로우]

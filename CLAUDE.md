@@ -25,8 +25,7 @@ llm-wiki/
 ├── CLAUDE.md          # this file. common operating rules — always in force.
 ├── .claude/
 │   ├── skills/        # per-task workflows (content: wiki-ingest / wiki-query / wiki-lint / wiki-delete)
-│   │                  #   code-mode skills come from the my-skills plugin — see §3
-│   ├── orchestrate.md # project adapter for the my-skills plugin's orchestrate workflow
+│   ├── orchestrate.md # dormant — adapter for the my-skills plugin (currently uninstalled); see §3
 │   └── settings.json  # project permissions
 ├── scripts/           # deterministic helper scripts (lint_wiki.py, verify_site.py)
 ├── docs/
@@ -45,6 +44,7 @@ llm-wiki/
 │   ├── sources/       # per-source summaries (1:1 with raw/)
 │   └── analysis/      # query answers worth keeping (comparisons, analyses, connections)
 ├── site/              # Quartz 5 static-site generator (content/ → symlink to ../wiki)
+├── backlog.md         # ingest backlog — candidates & open questions (unpublished; not factual evidence)
 └── log.md             # chronological work log (append-only)
 ```
 
@@ -91,11 +91,12 @@ Trigger phrases are quoted in the language the user actually types them in. Matc
 - The user says "점검 / 건강검진 / 정리 / lint" → **wiki-lint**
 - The user says "삭제 / 지워 / 제거 / delete / 위키 비워" → **wiki-delete** (destructive — always confirm scope first; never touch `raw/`)
 
-**Code mode** (you are building the published site; rules: this file + `docs/rules/site-code.md`). These skills ship with the **`my-skills` plugin**, not this repo — their project-specific knowledge (protected paths, verification gate, log convention, language) comes from the adapter at `.claude/orchestrate.md`:
-- A plan has been agreed in conversation and the user says "prd 만들어 / prd.json 생성 / create the prd" → **`/my-skills:create-prd-json`** (writes `docs/tasks/phase-{N}-{slug}/prd.json`)
-- A `plan.md` or `prd.json` exists and the user wants it executed → **`/my-skills:orchestrate @docs/tasks/<phase>/plan.md`** (spawns the planner → evaluator → builders team)
+**Code mode** (you are building the published site; rules: this file + `docs/rules/site-code.md`). Work is organized as **phases** under `docs/tasks/phase-{N}-{slug}/`:
+- When a plan is agreed, write it as `plan.md` and, once decomposed, a `prd.json` of atomic tasks (schema: `id/title/scope/kind/depends_on/acceptance/status/attempts`).
+- Then **execute the tasks directly** in this session — gate on the verification order in `docs/rules/site-code.md` (lint → build → `verify_site.py`) and commit per task; append **one** `site` line to `log.md` at phase close-out.
+- *(History: the `my-skills` plugin once supplied `create-prd-json` and an `orchestrate` planner/evaluator/builder team for this; it is **currently uninstalled**. `.claude/orchestrate.md` is a dormant adapter kept in case it is reinstalled — ignore it unless the plugin is back.)*
 
-**Routing rule:** if a request would change `wiki/` prose, it is content mode — never send it to the orchestrate skill. If it would change `site/`, `scripts/`, `.github/`, or root config, it is code mode — never do it by hand-editing during an ingest.
+**Routing rule:** if a request would change `wiki/` prose, it is content mode. If it would change `site/`, `scripts/`, `.github/`, or root config, it is code mode — never do it by hand-editing during an ingest.
 
 When running a skill, follow that skill's SKILL.md procedure exactly.
 

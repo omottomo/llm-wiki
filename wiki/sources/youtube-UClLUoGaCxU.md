@@ -2,6 +2,7 @@
 title: "#22 800시간 사용 후 꼽은 필수 Claude Code 스킬 6가지"
 label: "#22 필수 스킬 6가지"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-UClLUoGaCxU]

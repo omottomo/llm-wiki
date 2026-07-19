@@ -2,6 +2,7 @@
 title: "#17 클로드 코드 800시간 후 9가지 팁 — 바닐라·컨텍스트·검증"
 label: "#17 800시간 9가지 팁"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-hXlB1QstQ-Y]

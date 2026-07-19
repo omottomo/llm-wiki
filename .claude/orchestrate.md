@@ -1,5 +1,10 @@
 # Orchestrate Adapter — llm-wiki
 
+> **DORMANT (2026-07-19):** the `my-skills` plugin this adapts is currently uninstalled, so
+> code-mode work runs **directly** in-session from `docs/tasks/` plans/PRDs (see `CLAUDE.md` §3).
+> The protected-path and verification rules below still hold for that direct work — only the
+> planner/builder/evaluator team is gone. Kept in case the plugin is reinstalled.
+
 Project-specific rules for the `my-skills` plugin's orchestrate workflow (planner / builder / evaluator). Read together with `CLAUDE.md` and `docs/rules/site-code.md`.
 
 ## Protected paths

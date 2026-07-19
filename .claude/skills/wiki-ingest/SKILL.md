@@ -52,6 +52,7 @@ Join segment texts with newlines (in time order) to produce a plain-text body be
 ### 1. Understand the source
 - Read the target file in `raw/` in full (if markdown with inline images, read text first then open referenced images from `raw/assets/` separately).
 - Capture source metadata: author, date, URL, raw path.
+- Judge `credibility` (high|medium|low) per the rubric in `docs/rules/wiki-content.md` §1 — record it in the source page frontmatter (step 4.1).
 
 ### 2. Surface the key points with the user (optional but recommended)
 - Briefly tell the user 3–5 key takeaways and lightly agree on what to emphasize. Communicate in Korean.
@@ -83,3 +84,4 @@ Briefly tell the user (in Korean) what you created/changed (page list) and espec
 - Never modify `raw/`.
 - Never fabricate facts without a source. If uncertain, say so.
 - If asked to ingest several sources at once, repeat the procedure per source, but consolidate shared pages once at the end.
+- If the source references another source worth reading later (but not now), add it to root `backlog.md` — the ingest backlog — rather than ingesting it inline. `backlog.md` is a candidate queue, never citable as factual evidence.

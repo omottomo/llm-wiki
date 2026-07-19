@@ -9,6 +9,7 @@ language rule in `CLAUDE.md`.)
 ```
 docs/
 ├── index.md                        # this catalog
+├── benchmarking-nvk-llm-wiki.md    # 2026-07-19 comparison vs nvk/llm-wiki; drives phase-6/7 adoption
 ├── rules/                          # mode-specific rule modules, split out of CLAUDE.md
 │   ├── wiki-content.md             # content mode: page authoring, wiki index catalog, domain rules
 │   └── site-code.md                # code mode: coding discipline, Quartz/Cloudflare publishing, verification
@@ -42,6 +43,12 @@ docs/
 Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the common rules
 (language rule, repo structure, core principles, log.md, skill routing).
 
+## Standalone documents
+
+| Document | What it is |
+|---|---|
+| [benchmarking-nvk-llm-wiki.md](benchmarking-nvk-llm-wiki.md) | 2026-07-19 comparison against `nvk/llm-wiki`: what it is, adopted items (with rationale) and rejected items (with reasons). Drives `phase-6-nvk-schema-docs` and `phase-7-nvk-skills-tests`. |
+
 ## tasks/ — phase plans and PRDs
 
 | Phase | Contents |
@@ -51,5 +58,5 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 | [tasks/phase-3-wiki-site-quality/](tasks/phase-3-wiki-site-quality/prd.json) | `prd.json` — 9 tasks (7 builder + 2 manual) from the 2026-07-13 wiki/site audit: four new lint quality gates (label format, bare `#N` citations, Korean titles, tag hygiene), content conventions in wiki-content.md, font cleanup, CI workflow running `verify_site.py`, Cloudflare go-live + Korean-search verification |
 | [tasks/phase-4-namu-test-site/](tasks/phase-4-namu-test-site/prd.json) | `prd.json` — 13 tasks (11 builder + 2 manual): a parallel `site-test/` (production `site/` untouched) serving a site-owned Korean landing page at the root and the wiki catalog at `/catalog` via symlinks, with folder navigation replaced by namu-style tag chips and a recent-changes sidebar. T01–T11 done (2026-07-13); manual T12 (Cloudflare test project) / T13 (human QA) open |
 | [tasks/phase-5-guided-home-redesign/](tasks/phase-5-guided-home-redesign/plan.md) | `plan.md` — guided-home redesign of `site-test/` for first-time visitors (직관·단순·가독): card-layout home in site-owned `index.md` + `custom.scss`, graph view removed, explorer re-enabled, breadcrumbs on. Scope site-test only; `wiki/` untouched. Executed directly from `plan.md` 2026-07-19 (no prd.json); build/leak/nav/card checks pass, human visual QA pending |
-| [tasks/phase-6-nvk-schema-docs/](tasks/phase-6-nvk-schema-docs/prd.json) | `plan.md` + `prd.json` — 9 builder tasks from the 2026-07-19 nvk/llm-wiki benchmark, part A: required `credibility` enum on source pages (rubric + lint + 27-page migration), optional `aliases` on concepts/entities, three wiki-query depths, root `backlog.md` ingest queue, the benchmark report (`docs/benchmarking-nvk-llm-wiki.md`), CLAUDE.md routing cleanup after the my-skills plugin removal |
+| [tasks/phase-6-nvk-schema-docs/](tasks/phase-6-nvk-schema-docs/prd.json) | `plan.md` + `prd.json` — 9 builder tasks from the 2026-07-19 nvk/llm-wiki benchmark, part A: required `credibility` enum on source pages (rubric + lint + 27-page migration), optional `aliases` on concepts/entities, three wiki-query depths, root `backlog.md` ingest queue, the benchmark report (`docs/benchmarking-nvk-llm-wiki.md`), CLAUDE.md routing cleanup after the my-skills plugin removal. **T01–T09 done (2026-07-19)**; lint + both site builds + leak audits green |
 | [tasks/phase-7-nvk-skills-tests/](tasks/phase-7-nvk-skills-tests/prd.json) | `plan.md` + `prd.json` — 6 tasks (5 builder + 1 manual), nvk benchmark part B: required `volatility` enum + migration, human-gated `wiki-refresh` skill for living web sources, source-retraction mode in wiki-delete with `<!--RETRACTED-SOURCE-->` marker lint, golden/defect fixture test suite (`scripts/test_lint_wiki.py`) wired into CI. Depends on phase-6 |

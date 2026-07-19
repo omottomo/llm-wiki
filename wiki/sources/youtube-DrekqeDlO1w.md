@@ -2,6 +2,7 @@
 title: "#14 공식 하네스 문서를 100번 읽은 느낌이 들게 해드립니다"
 label: "#14 하네스 문서 100번"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-DrekqeDlO1w]

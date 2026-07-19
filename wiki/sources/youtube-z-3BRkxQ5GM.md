@@ -2,6 +2,7 @@
 title: "#25 루프 엔지니어링: 최신 트렌드"
 label: "#25 루프 엔지니어링"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-z-3BRkxQ5GM]

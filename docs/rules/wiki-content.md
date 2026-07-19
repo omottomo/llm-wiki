@@ -18,12 +18,33 @@ Every page under `wiki/` follows this format. **Body text is Korean; structure a
 title: <page title, in Korean>
 label: "<short Korean citation label>"     # source pages ONLY, e.g. "#7 메타 엔지니어 실전편"
 type: entity | concept | source | analysis | overview
+credibility: high | medium | low          # source pages ONLY — reliability of the source's claims (rubric below)
 created: 2026-05-31
 updated: 2026-05-31
 sources: [source-slug-1, source-slug-2]   # source slugs this page relies on
+aliases: [alt-name-1, alt-name-2]         # OPTIONAL, concepts/entities — alternate search names (see below)
 tags: [<tag1>, <tag2>]                    # tags in Korean
 ---
 ```
+
+**`credibility` (source pages only, required).** Grades how much a reader should trust the
+source's factual claims — a signal `wiki-query` uses to weight one source over another when
+sources disagree (a `high` source outweighs a `low` one). Judge it once at ingest:
+
+- **high** — official documentation, specifications, or first-party / primary sources. (e.g. the Terraform and IBM pages.)
+- **medium** — secondary explainer content whose load-bearing claims are corroborated by primary sources or by other wiki pages; identifiable practitioner talks or company blogs.
+- **low** — sources with unverifiable authorship (`미상` / `불확인`), known caption / transcription errors on load-bearing facts, or primarily speculative / opinion framing without corroboration. Auto-generated captions raise error risk (§3) but do **not** by themselves force `low` — downgrade only when a material error was actually found, or attribution can't be confirmed *and* the claims aren't corroborated elsewhere.
+
+`credibility` is graded from source quality, independent of `updated`; a metadata-only change to
+it does not bump `updated` (§4.3).
+
+**`aliases` (concepts / entities, optional).** A YAML list of alternate names for the page —
+typically the English original term behind a Korean title (`title: 컨텍스트 엔지니어링` →
+`aliases: [context engineering]`), or a common abbreviation. Quartz reads `aliases` natively,
+so an alias makes the page findable by its English term in site search even though the title is
+Korean (the Korean-title rule in §4.4 otherwise hides the original term from search). Add one
+whenever a page's subject is widely known under a second name; leave it off otherwise. Not a
+citation surface — `[[...]]` links still target the slug.
 
 ### Body
 - **Cross-links use wikilink syntax** `[[page-name]]` (compatible with Obsidian graph view).

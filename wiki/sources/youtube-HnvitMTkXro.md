@@ -2,6 +2,7 @@
 title: "#1 LLM 설명 (요약버전)"
 label: "#1 LLM 설명"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-HnvitMTkXro]

@@ -2,6 +2,7 @@
 title: "#6 CLAUDE.md를 지워라 (Delete CLAUDE.md) — 논문이 말하는 컨텍스트 파일의 역설"
 label: "#6 CLAUDE.md를 지워라"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-c7_ANA1NiS0]

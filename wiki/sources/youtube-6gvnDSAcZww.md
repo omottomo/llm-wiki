@@ -2,6 +2,7 @@
 title: "#11 프롬프트 엔지니어링은 끝났습니다: 이제 '하네스'의 시대입니다"
 label: "#11 프롬프트는 끝났다"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6gvnDSAcZww]

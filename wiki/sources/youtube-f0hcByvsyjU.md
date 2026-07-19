@@ -2,6 +2,7 @@
 title: "#20 클로드 코드만 쓰면 망한다 (feat. 코덱스) — 멀티 모델 워크플로우"
 label: "#20 코덱스 멀티 모델"
 type: source
+credibility: medium
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-f0hcByvsyjU]

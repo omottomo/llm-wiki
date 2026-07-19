@@ -7,7 +7,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   1. 위키링크 무결성 — 모든 [[...]] 대상 페이지가 실제로 존재하는가
   2. raw/ ↔ wiki/sources/ 1:1 패리티
   3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값 +
-     sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외)
+     sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외) +
+     sources/ 페이지의 credibility 값(high|medium|low) + aliases 값의 리스트 형식
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
@@ -34,6 +35,7 @@ RAW = ROOT / "raw"
 
 REQUIRED_KEYS = ["title", "type", "created", "updated", "sources", "tags"]
 VALID_TYPES = {"entity", "concept", "source", "analysis", "overview"}
+VALID_CREDIBILITY = {"high", "medium", "low"}
 WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 LABEL_CONTENT_RE = re.compile(r"^#\d+ \S")
 FENCE_RE = re.compile(r"```.*?```", re.S)
@@ -156,6 +158,17 @@ def check_frontmatter(pages):
         if (key.startswith("sources/") or key.startswith("concepts/")) and "title" in fm:
             if not HANGUL_RE.search(fm["title"]):
                 add("frontmatter", f"{rel} — title에 한글 없음(영문 제목): {fm['title']}")
+        # sources/ 페이지는 credibility(high|medium|low) 필수 (docs/rules/wiki-content.md §1)
+        if key.startswith("sources/"):
+            if "credibility" not in fm:
+                add("frontmatter", f"{rel} — sources 페이지에 credibility 키 없음")
+            elif fm["credibility"] not in VALID_CREDIBILITY:
+                add("frontmatter", f"{rel} — 잘못된 credibility 값: '{fm['credibility']}' (high|medium|low)")
+        # aliases는 선택 키지만, 있으면 인라인 리스트 형식([...])이어야 한다
+        if "aliases" in fm:
+            v = fm["aliases"].strip()
+            if not (v.startswith("[") and v.endswith("]")):
+                add("frontmatter", f"{rel} — aliases 값이 리스트 형식이 아님([...]): {fm['aliases']}")
 
 
 def check_index_coverage(pages):
