@@ -3,6 +3,7 @@ title: "#23 다이나믹 워크플로우 기능 비교: 완벽 가이드"
 label: "#23 다이나믹 기능 비교"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-9fx2_1aTzq8]

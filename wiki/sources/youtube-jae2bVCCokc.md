@@ -3,6 +3,7 @@ title: "#4 skills.sh 하나로 AI 코딩 레벨이 달라진다"
 label: "#4 skills.sh"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 tags: [skills, skills-sh, 버셀, 패키지매니저, 보안, 클로드코드, 커서]

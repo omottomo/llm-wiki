@@ -3,6 +3,7 @@ title: "#13 하네스 엔지니어링, 9달러 vs 200달러의 비밀 (Claude Co
 label: "#13 하네스의 비밀"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6cr4PeilKJk]

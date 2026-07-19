@@ -3,6 +3,7 @@ title: "#10 대규모 프로젝트 컨텍스트 엔지니어링 — .claude/rule
 label: "#10 대규모 컨텍스트 분리"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 tags: [클로드md, 컨텍스트엔지니어링, 조건부규칙, 프론트매터, 대규모프로젝트]

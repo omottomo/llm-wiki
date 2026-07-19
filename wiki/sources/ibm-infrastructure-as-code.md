@@ -3,6 +3,7 @@ title: "코드형 인프라(IaC)란 무엇인가? (IBM Think)"
 label: "#26 IBM IaC 해설"
 type: source
 credibility: high
+volatility: warm
 created: 2026-07-18
 updated: 2026-07-18
 sources: [ibm-infrastructure-as-code]

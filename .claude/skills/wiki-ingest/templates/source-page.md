@@ -9,6 +9,7 @@ title: "영상/문서 제목 (한국어)"
 label: "#N 짧은 한글 라벨"   # 다른 페이지가 이 소스를 인용할 때 쓰는 별칭 (대괄호·$·| 금지)
 type: source
 credibility: medium        # high|medium|low — 소스 주장의 신뢰도, docs/rules/wiki-content.md §1 루브릭
+volatility: cold           # hot|warm|cold — 원본이 이후 바뀔 가능성, docs/rules/wiki-content.md §1 루브릭
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 sources: [<slug>]

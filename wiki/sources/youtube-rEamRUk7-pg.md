@@ -3,6 +3,7 @@ title: "#12 온디바이스 AI 끝판왕, Gemma 4로 API 비용 제로!"
 label: "#12 Gemma 4 온디바이스"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-rEamRUk7-pg]

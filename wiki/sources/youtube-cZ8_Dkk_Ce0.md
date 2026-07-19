@@ -3,6 +3,7 @@ title: "#8 CLAUDE.md만으로 AI 코딩 품질이 3배 — 메모리 파일 제�
 label: "#8 CLAUDE.md 품질 3배"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 tags: [클로드md, 컨텍스트엔지니어링, 보리스체르니, 검증자동화, 도메인용어]

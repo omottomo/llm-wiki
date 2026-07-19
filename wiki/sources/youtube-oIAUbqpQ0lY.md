@@ -3,6 +3,7 @@ title: "#16 2026년 최악의 코더 — 기초 없는 바이브 코딩 경고"
 label: "#16 2026 최악의 코더"
 type: source
 credibility: low
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-oIAUbqpQ0lY]

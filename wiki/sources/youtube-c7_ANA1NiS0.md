@@ -3,6 +3,7 @@ title: "#6 CLAUDE.md를 지워라 (Delete CLAUDE.md) — 논문이 말하는 컨
 label: "#6 CLAUDE.md를 지워라"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-c7_ANA1NiS0]

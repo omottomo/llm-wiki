@@ -3,6 +3,7 @@ title: "#3 Claude Code Teams: 클로드 코드를 10배 똑똑하게"
 label: "#3 Claude Code Teams"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 tags: [클로드코드, 에이전트팀, 오케스트레이션, tmux, 서브에이전트, 비용절감]

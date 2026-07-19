@@ -8,7 +8,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   2. raw/ ↔ wiki/sources/ 1:1 패리티
   3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값 +
      sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외) +
-     sources/ 페이지의 credibility 값(high|medium|low) + aliases 값의 리스트 형식
+     sources/ 페이지의 credibility 값(high|medium|low) · volatility 값(hot|warm|cold) +
+     aliases 값의 리스트 형식
   4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
   5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
@@ -36,6 +37,7 @@ RAW = ROOT / "raw"
 REQUIRED_KEYS = ["title", "type", "created", "updated", "sources", "tags"]
 VALID_TYPES = {"entity", "concept", "source", "analysis", "overview"}
 VALID_CREDIBILITY = {"high", "medium", "low"}
+VALID_VOLATILITY = {"hot", "warm", "cold"}
 WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 LABEL_CONTENT_RE = re.compile(r"^#\d+ \S")
 FENCE_RE = re.compile(r"```.*?```", re.S)
@@ -164,6 +166,12 @@ def check_frontmatter(pages):
                 add("frontmatter", f"{rel} — sources 페이지에 credibility 키 없음")
             elif fm["credibility"] not in VALID_CREDIBILITY:
                 add("frontmatter", f"{rel} — 잘못된 credibility 값: '{fm['credibility']}' (high|medium|low)")
+        # sources/ 페이지는 volatility(hot|warm|cold) 필수 (docs/rules/wiki-content.md §1)
+        if key.startswith("sources/"):
+            if "volatility" not in fm:
+                add("frontmatter", f"{rel} — sources 페이지에 volatility 키 없음")
+            elif fm["volatility"] not in VALID_VOLATILITY:
+                add("frontmatter", f"{rel} — 잘못된 volatility 값: '{fm['volatility']}' (hot|warm|cold)")
         # aliases는 선택 키지만, 있으면 인라인 리스트 형식([...])이어야 한다
         if "aliases" in fm:
             v = fm["aliases"].strip()

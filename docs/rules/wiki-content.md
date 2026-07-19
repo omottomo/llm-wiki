@@ -19,6 +19,7 @@ title: <page title, in Korean>
 label: "<short Korean citation label>"     # source pages ONLY, e.g. "#7 메타 엔지니어 실전편"
 type: entity | concept | source | analysis | overview
 credibility: high | medium | low          # source pages ONLY — reliability of the source's claims (rubric below)
+volatility: hot | warm | cold             # source pages ONLY — how often the underlying source changes (rubric below)
 created: 2026-05-31
 updated: 2026-05-31
 sources: [source-slug-1, source-slug-2]   # source slugs this page relies on
@@ -37,6 +38,20 @@ sources disagree (a `high` source outweighs a `low` one). Judge it once at inges
 
 `credibility` is graded from source quality, independent of `updated`; a metadata-only change to
 it does not bump `updated` (§4.3).
+
+**`volatility` (source pages only, required).** Grades how likely the underlying source is to
+change after ingest — a signal the wiki-refresh skill uses to target re-checks. Judge it once at
+ingest, from the source's nature, not its content:
+
+- **cold** — a fixed snapshot: a published article, a YouTube talk, anything captured once and
+  frozen at ingest time (e.g. `raw/youtube-*.md`).
+- **hot** / **warm** — living official documentation that gets edited over time (e.g. the
+  Terraform and IBM pages); `hot` for documentation revised frequently, `warm` for documentation
+  that still changes but less often. When unsure between a fixed article and living docs, default
+  to `cold` — only genuinely living documentation earns `hot`/`warm`.
+
+Like `credibility`, `volatility` is metadata about the source, not its content; a metadata-only
+change to it does not bump `updated` (§4.3).
 
 **`aliases` (concepts / entities, optional).** A YAML list of alternate names for the page —
 typically the English original term behind a Korean title (`title: 컨텍스트 엔지니어링` →

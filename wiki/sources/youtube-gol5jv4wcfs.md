@@ -3,6 +3,7 @@ title: "#19 65줄 CLAUDE.md로 10만 깃허브 스타 — 카파시 4대 원칙"
 label: "#19 65줄 CLAUDE.md"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-gol5jv4wcfs]

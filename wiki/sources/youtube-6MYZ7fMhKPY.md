@@ -3,6 +3,7 @@ title: "#21 하네스 엔지니어링: 바이브 코딩에서 에이전틱 코�
 label: "#21 바이브에서 에이전틱으로"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-6MYZ7fMhKPY]

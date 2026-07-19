@@ -3,6 +3,7 @@ title: "#9 AI 에이전트를 다루는 10가지 팁 (주니어 개발자 관점
 label: "#9 에이전트 10가지 팁"
 type: source
 credibility: medium
+volatility: cold
 created: 2026-06-23
 updated: 2026-07-12
 tags: [에이전틱코딩, 개발자역할변화, 검증자동화, 플랜모드, 도메인지식]
