@@ -21,6 +21,7 @@ Determine exactly which pages are targeted:
 - **Single / few pages**: list each target page by path.
 - **By topic/source**: read `wiki/index.md` to enumerate the matching pages, then list them.
 - **Whole wiki**: every file under `wiki/`.
+- **Source retraction**: remove a source's *influence* from the wiki without necessarily deleting its page — a different operation from the three above. See "Retraction" below.
 
 **삭제 범위를 세 가지 옵션으로 구분하여 사용자에게 확인한다:**
 1. **wiki/ 만 삭제** — wiki/ 아래 모든 파일 (page, sources, analysis 등); `raw/` 원본은 보존
@@ -55,7 +56,21 @@ After deletion, no page should point to a now-missing page. Go through the inbou
 - Commit: `git add -A && git commit -m "delete: <삭제 요지> — 페이지 N개"`. The pre-delete state stays recoverable from the previous commit.
 - Tell the user (in Korean) what was deleted and what links were repaired.
 
+## Retraction (fourth scope — source unreliable/withdrawn)
+
+Use when a source turns out to be unreliable or withdrawn: remove its **influence** from the wiki, not just its page. Still human-gated — confirm scope (which source, which pages) before touching anything, same as step 1.
+
+1. **Map blast radius**: `python3 scripts/lint_wiki.py --inbound <source-slug>` — the same inbound-link report from step 2, run against the source page.
+2. **Flag**: mark every claim/paragraph that cites the retracted source with a `<!--RETRACTED-SOURCE-->` marker (an HTML comment, invisible in rendered output).
+3. **Re-synthesize**: rewrite each flagged paragraph from the *remaining* sources only — keep what the surviving sources still support, cut what depended solely on the retracted one.
+4. **Remove the markers** once each flagged spot is resolved. `scripts/lint_wiki.py` fails (exit 1) if any `<!--RETRACTED-SOURCE-->` marker is left in the wiki — run it to confirm none remain before finishing.
+5. **Raw is opt-in, same HARD RULE as above**: the raw file and its `wiki/sources/<slug>.md` page are deleted **only** with explicit user confirmation. A retraction can legitimately end with the raw file kept (flagged unreliable but retained for the record) — do not delete it by default.
+
+Confirm before flagging: "다음 원본을 철회 처리합니다: `<source-slug>`. 인용 문단 N곳에 마커를 답니다. `raw/` 원본은 별도로 명시적 삭제를 요청하지 않는 한 보존합니다. 진행할까요?"
+
+Log and commit like step 5–6, but with a `retract` prefix instead of `delete`: `## [date] retract | 철회 대상 요지 — 마커 N건 재종합` / `git commit -m "retract: <철회 요지> — 문단 N건 재종합"`.
+
 ## Notes
-- Read-only on `raw/` by default. Deleting a source means deleting its wiki pages, never the raw file — unless the user explicitly chooses option 2.
+- Read-only on `raw/` by default. Deleting a source means deleting its wiki pages, never the raw file — unless the user explicitly chooses option 2 (or, for retraction, explicitly confirms raw deletion in step 5 above).
 - Prefer the smallest scope that satisfies the request. When in doubt, confirm.
 - The wiki is git-backed: if the user later regrets a deletion, recover it via git history (`git log` → `git checkout <commit> -- <path>`).

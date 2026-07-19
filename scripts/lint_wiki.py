@@ -18,6 +18,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
   7. 태그 위생 리포트 (docs/rules/wiki-content.md §4.1) — 대소문자/하이픈/스크립트만
      다른 충돌 가능 태그 쌍, 단일 사용(singleton) 태그 목록. 정보성 경고이며
      종료 코드에는 반영되지 않는다(태그 통합은 편집 판단이 필요한 사안).
+  8. 미해결 소스 철회 마커 — wiki-delete의 retract 절차가 남긴
+     <!--RETRACTED-SOURCE--> 마커가 재종합·제거되지 않은 채 남아있는지 검사
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
 종료 코드: 문제 0건이면 0, 있으면 1 (태그 위생 리포트는 경고 전용이라 반영되지 않음)
@@ -44,6 +46,7 @@ FENCE_RE = re.compile(r"```.*?```", re.S)
 INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 BARE_CITATION_RE = re.compile(r"#\d+")
 HANGUL_RE = re.compile(r"[가-힣]")
+RETRACTED_MARKER = "<!--RETRACTED-SOURCE-->"
 
 # docs/rules/wiki-content.md §4.1의 감사된 태그 변형 그룹. 대소문자·하이픈 정규화만으로는
 # 한글/영문처럼 스크립트가 다른 변형(예: 클로드코드 vs ClaudeCode)을 같은 개념으로 묶을 수
@@ -270,6 +273,17 @@ def check_bare_citations(pages):
             )
 
 
+def check_retracted_markers(pages):
+    """wiki-delete의 retract 절차(.claude/skills/wiki-delete/SKILL.md)가 남긴
+    <!--RETRACTED-SOURCE--> 마커가 재종합·제거되지 않고 남아있으면 문제로 보고한다."""
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+        count = text.count(RETRACTED_MARKER)
+        if count:
+            rel = page.relative_to(ROOT)
+            add("미해결 마커", f"{rel} — RETRACTED-SOURCE 마커 {count}건 남아있음 (재종합 후 마커 제거 필요)")
+
+
 def resolve_page_key(arg: str, pages) -> str | None:
     """경로('wiki/concepts/hooks.md', 'concepts/hooks.md') 또는 슬러그('concepts/hooks')를
     page_key 형식으로 정규화한다. 대상 페이지가 없으면 None."""
@@ -397,10 +411,11 @@ def main() -> int:
     check_orphans(pages)
     check_link_format(pages)
     check_bare_citations(pages)
+    check_retracted_markers(pages)
 
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
-        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과)")
+        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과 · 미해결 마커 0)")
         exit_code = 0
     else:
         by_cat = {}
