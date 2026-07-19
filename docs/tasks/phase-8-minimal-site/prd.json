@@ -1,0 +1,77 @@
+{
+  "phase": "phase-8-minimal-site",
+  "goal": "Replace both Quartz sites with a hand-rolled minimal search-first static site in web/: one Python generator reusing lint_wiki.py parsing, one hand-written stylesheet (cold monochrome, Pretendard, dark mode), Pagefind Korean full-text search, wired into verify_site.py and CI. Detailed steps: implementation.md; design: plan.md.",
+  "created_at": "2026-07-20",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Scaffold + core generator (article pages render)",
+      "scope": "web/build.py (new), web/test_build_site.py (new), web/requirements.txt (new), .gitignore",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "python3 web/build.py renders every wiki/*.md to web/dist/<key>/index.html via markdown-it-py, importing wiki_pages/page_key/parse_frontmatter/split_body from scripts/lint_wiki.py (no reimplementation). frontmatter title appears in <title> only (body h1 renders as written). web/dist/ is git-ignored. python3 web/test_build_site.py passes: all 67 pages built, concepts/mcp page carries its Korean title.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Wikilinks + backlinks + dead-link handling",
+      "scope": "web/build.py, web/test_build_site.py",
+      "kind": "builder",
+      "depends_on": ["T01"],
+      "acceptance": "[[target|label]] renders as <a href=\"/target/\">label</a> for existing pages and <span class=\"dead-link\">label</span> for missing ones (unit-tested via importable link_wikilinks). No literal '[[' remains in any output HTML. Every article with inbound links shows a '이 문서를 참조하는 문서' section computed from lint_wiki.build_inbound_map: harness-engineering lists overview. Test suite passes.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Search-first home, section listings, tag pages, 404",
+      "scope": "web/build.py, web/test_build_site.py",
+      "kind": "builder",
+      "depends_on": ["T02"],
+      "acceptance": "dist/index.html is a search-first home: #search div, entry links to /overview/, four section listings with page counts, /index/ full-catalog link, and a 최근 갱신 list of the 5 most recently updated pages. /concepts/ /entities/ /sources/ /analysis/ are listing pages (title + updated). Every frontmatter tag gets /tags/<tag>/ (Korean slugs kept, percent-encoded hrefs). dist/404.html exists with a search div. Test suite passes.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Design: style.css, chrome, dark mode",
+      "scope": "web/style.css (new), web/build.py, web/test_build_site.py",
+      "kind": "builder",
+      "depends_on": ["T03"],
+      "acceptance": "Single hand-written web/style.css copied to dist/: cold monochrome tokens (light #fafafa/#16181c, dark #111214/#d9dce1, steel-blue accent #3b6ea5/#7da7d9, all WCAG AA), Pretendard variable font, body 17px/1.75 with word-break:keep-all, no cards (hairline separation), hover transitions only. base_html links the stylesheet, sets data-theme from localStorage before paint (no FOUC), and renders a #theme-toggle button that persists the choice. Test suite passes; local http.server smoke check renders correctly in both modes.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Pagefind Korean full-text search",
+      "scope": "web/build.py, web/test_build_site.py",
+      "kind": "builder",
+      "depends_on": ["T04"],
+      "acceptance": "Article pages (except the /index/ catalog) carry data-pagefind-body; every page loads /pagefind/pagefind-ui.{css,js} and instantiates PagefindUI on #search with Korean placeholder. npx -y pagefind@1 --site web/dist builds the index (run inside the test suite when npx exists); dist/pagefind/pagefind-ui.js exists afterward. Searching 하네스 on the local server returns results with Korean excerpts. Test suite passes.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Internal link check, web/ leak audit, CI job",
+      "scope": "web/build.py, scripts/verify_site.py, .github/workflows/verify-site.yml, web/test_build_site.py",
+      "kind": "builder",
+      "depends_on": ["T05"],
+      "acceptance": "build.py fails (exit 1) when any internal href in dist/ resolves to no file (/pagefind/ excluded as post-build). verify_site.py audits web/ by mapping output dir to web/dist and artifact list to [web/dist]; python3 scripts/verify_site.py web exits 0 and the existing site/ audit still exits 0. verify-site.yml gains a verify-web job (checkout, node 22, python, pip install -r web/requirements.txt, python3 web/test_build_site.py, verify_site.py web) and web/** in path triggers. Full local gate green: test_build_site.py, verify_site.py site, lint_wiki.py, test_lint_wiki.py all exit 0.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "Cloudflare Pages deploy + human QA + close-out",
+      "scope": "Cloudflare Pages config (manual), docs/rules/site-code.md, log.md, docs/index.md, docs/tasks/phase-8-minimal-site/prd.json",
+      "kind": "manual",
+      "depends_on": ["T06"],
+      "acceptance": "Pages project builds with 'pip install -r web/requirements.txt && python3 web/build.py && npx -y pagefind@1 --site web/dist', output web/dist. Human QA passes: first-screen intuitiveness, Korean search feel (하네스/MCP/클로드), readability in both modes at desktop+mobile widths, theme persistence without flash. After approval: deploy config recorded in site-code.md Accumulated rules, ONE Korean site line appended to log.md, prd.json statuses and docs/index.md phase row updated. Deleting site/ and site-test/ stays a SEPARATE user-confirmed decision, not part of this task.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
