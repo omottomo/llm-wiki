@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-HnvitMTkXro]
-tags: [LLM, 트랜스포머, 어텐션, 사전훈련, 기초]
+tags: [LLM, 트랜스포머, 어텐션, 사전훈련, 기초개념]
 ---
 
 ## 한 줄 요약

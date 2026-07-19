@@ -12,7 +12,7 @@ tags: [코드형인프라, HashiCorp, 공식문서]
 
 ## 한 줄 요약
 
-HashiCorp의 Terraform 공식 문서에서 Introduction 전체와 구성 언어·CLI 개요 19페이지를 발췌한 자료로, **"쓰기 → 계획 → 적용(Write-Plan-Apply)" 워크플로**와 **상태(state) 파일**을 축으로 Terraform의 작동 원리와 팀 협업으로의 확장 경로를 설명한다.
+[[entities/hashicorp|HashiCorp]]의 Terraform 공식 문서에서 Introduction 전체와 구성 언어·CLI 개요 19페이지를 발췌한 자료로, **"쓰기 → 계획 → 적용(Write-Plan-Apply)" 워크플로**와 **상태(state) 파일**을 축으로 Terraform의 작동 원리와 팀 협업으로의 확장 경로를 설명한다.
 
 ## 핵심 내용
 

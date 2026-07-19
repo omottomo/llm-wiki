@@ -2,8 +2,8 @@
 title: 훅 (Hooks)
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
-sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww]
+updated: 2026-07-19
+sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww, hashicorp-terraform-docs]
 tags: [클로드코드, 훅, 하네스엔지니어링, 검증자동화, 프리커밋]
 ---
 # 훅 (Hooks)
@@ -41,5 +41,8 @@ tags: [클로드코드, 훅, 하네스엔지니어링, 검증자동화, 프리�
 - WAT 프레임워크의 도구(T) 예: MCP로 PR 생성, **훅으로 커밋마다 테스트를 자동 실행**하게 만든다 (→ [[sources/youtube-DCsv0rKKrN4|#7 메타 엔지니어 실전편]] 참조).
 - 모델이 좋아지면 불필요해진 제약(훅 포함)은 빼야 한다 — Anthropic도 Opus 4.6 출시 후 하네스를 간소화했다([[concepts/harness-engineering|하네스 엔지니어링]]의 '하네스 다이어트' 긴장과 연결) (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]).
 
+## 인프라 영역 선례 — policy-as-code
+[[entities/terraform|Terraform]] 도입의 성숙 단계(Govern)에서 조직 표준을 [[entities/sentinel|Sentinel]]·OPA 정책 코드로 apply 이전에 자동 강제하는 것은, 훅이 [[concepts/claude-md|CLAUDE.md]]의 '부탁'을 '강제'로 승격시키는 것과 같은 **규칙의 코드화·자동 강제** 계보다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 즉 훅은 이 오래된 인프라 사상을 에이전트 환경에 옮긴 장치로 볼 수 있다(위키 차원의 해석).
+
 ## 연결
-- [[concepts/harness-engineering|하네스 엔지니어링]] (훅은 하네스의 세 기둥 중 '자동 강제 시스템'에 속함), [[concepts/claude-md|CLAUDE.md]] (부탁 vs 강제), [[concepts/verification-automation|검증 자동화]], [[concepts/context-decay|컨텍스트 부패]], [[concepts/mcp|MCP]], [[entities/mitchell-hashimoto|미첼 하시모토]].
+- [[concepts/harness-engineering|하네스 엔지니어링]] (훅은 하네스의 세 기둥 중 '자동 강제 시스템'에 속함), [[concepts/claude-md|CLAUDE.md]] (부탁 vs 강제), [[concepts/verification-automation|검증 자동화]], [[concepts/context-decay|컨텍스트 부패]], [[concepts/mcp|MCP]], [[entities/mitchell-hashimoto|미첼 하시모토]], [[entities/sentinel|Sentinel]] (인프라 영역의 policy-as-code 선례).

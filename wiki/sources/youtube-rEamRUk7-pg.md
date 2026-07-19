@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-rEamRUk7-pg]
-tags: [온디바이스AI, 구글Gemma, 멀티모달, API비용, 모바일앱]
+tags: [온디바이스AI, 구글Gemma, 멀티모달, 비용절감, 모바일앱]
 ---
 
 ## 한 줄 요약

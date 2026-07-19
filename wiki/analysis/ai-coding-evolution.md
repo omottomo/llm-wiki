@@ -4,7 +4,7 @@ type: analysis
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-DrekqeDlO1w, youtube-6cr4PeilKJk, youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-9fx2_1aTzq8, youtube-fInMcawbKng]
-tags: [분석, 진화, 패러다임, 비교]
+tags: [분석, 진화서사, 패러다임, 비교]
 ---
 
 # 분석 — AI 코딩 패러다임의 진화: 프롬프트 → 컨텍스트 → 하네스 → 루프

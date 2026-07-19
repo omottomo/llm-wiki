@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-uk4a5oER0SQ]
-tags: [개발자역할, AI자동화, 아웃소싱, 직업변화, 회계사비유]
+tags: [개발자역할변화, 자동화, 아웃소싱, 회계사비유]
 ---
 
 ## 한 줄 요약

@@ -4,7 +4,7 @@ label: "#5 조용히 설계한다"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
-tags: [하네스엔지니어링, 컨텍스트엔지니어링, 프롬프트엔지니어링, MCP, 스킬, 코덱스, 개발자역할]
+tags: [하네스엔지니어링, 컨텍스트엔지니어링, 프롬프트엔지니어링, MCP, 스킬, 코덱스, 개발자역할변화]
 sources: [youtube-BssPGKsP60s]
 ---
 

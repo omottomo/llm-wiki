@@ -51,3 +51,4 @@ tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하
 - [[concepts/hooks|훅]] — 강제 검증 수단
 - [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]] — 생성/검증 분리의 구현 단위
 - [[concepts/infrastructure-as-code|코드형 인프라]] — 배포 전 자동 테스트·CI/CD 게이트로 구성을 검증해 온, AI 이전 인프라 영역의 선례 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). 특히 [[entities/terraform|Terraform]]의 **plan/apply 분리**(실행 전 계획을 사람이 검토·승인)와 PR에 speculative plan을 붙여 동료가 변경 의도를 리뷰하는 관행은 "실행 전 검증"의 구체적 인프라 선례다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]])
+- [[entities/sentinel|Sentinel]] — apply 이전에 정책을 자동 강제하는 policy-as-code 프레임워크. "실행 전 검증"을 인프라 거버넌스에서 구현한 순수 사례 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]])

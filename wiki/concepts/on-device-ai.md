@@ -2,9 +2,9 @@
 title: 온디바이스 AI
 type: concept
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-07-19
 sources: [youtube-rEamRUk7-pg]
-tags: [온디바이스AI, Gemma, 로컬모델, API비용절감]
+tags: [온디바이스AI, Gemma, 로컬모델, 비용절감]
 ---
 
 # 온디바이스 AI
@@ -13,7 +13,7 @@ tags: [온디바이스AI, Gemma, 로컬모델, API비용절감]
 
 ## 구글 Gemma — 사이즈 대비 퍼포먼스 지향
 
-[[entities/google-gemma|Gemma]] 모델군은 고성능보다 **엣지에서 사용할 수 있는 AI**를 지향하며, 사이즈 대비 높은 퍼포먼스를 목표로 한다 (→ [[sources/youtube-rEamRUk7-pg|#12 Gemma 4 온디바이스]]). 영상은 새로 나온 **Gemma 4** 모델을 다룬다.
+[[entities/google-gemma|Gemma]] 모델군은 고성능보다 **엣지에서 사용할 수 있는 AI**를 지향하며, 사이즈 대비 높은 퍼포먼스를 목표로 한다 (→ [[sources/youtube-rEamRUk7-pg|#12 Gemma 4 온디바이스]]). 영상은 **Gemma 4** 모델(2026-03-31 출시, 영상 시점 최신)을 다룬다 — 2026-07 현재는 [[entities/google-gemma|Gemma]] 다음 세대가 전망되는 단계다.
 
 - 베리에이션: 고성능 컴퓨팅용 31B·26B 모델과, 온디바이스용 **E2B(2B 파라미터)·E4B(4B 파라미터)** 모델이 있다. `E`는 엣지(Edge)를 뜻하는 것으로 추정된다 (자막상 발표자 추정) (→ [[sources/youtube-rEamRUk7-pg|#12 Gemma 4 온디바이스]]).
 - 기능: 어드밴스드 리즈닝, 에이전트 워크플로, 펑션 콜링, 코드 생성, 비전(이미지·오디오 인식)까지 지원한다. 컨텍스트는 **128K**까지, 언어는 **140개 이상**을 지원한다 (→ [[sources/youtube-rEamRUk7-pg|#12 Gemma 4 온디바이스]]).

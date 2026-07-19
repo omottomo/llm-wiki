@@ -2,7 +2,7 @@
 title: 스킬 (Skills)
 type: concept
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-07-19
 sources: [youtube-jae2bVCCokc, youtube-UClLUoGaCxU, youtube-hXlB1QstQ-Y, youtube-DCsv0rKKrN4]
 tags: [클로드코드, 스킬, 하네스엔지니어링, 컨텍스트엔지니어링]
 ---
@@ -15,15 +15,15 @@ tags: [클로드코드, 스킬, 하네스엔지니어링, 컨텍스트엔지니�
 - 이 때문에 [[concepts/claude-md|CLAUDE.md]]에 모든 문서를 넣는 대신 스킬로 옮기면, 특정 작업을 할 때 그 작업에 필요한 컨텍스트만 주입되도록 설계할 수 있다 (→ [[sources/youtube-c7_ANA1NiS0|#6 CLAUDE.md를 지워라]] 참조 — claude-md 페이지에 정리).
 
 ## skills.sh — AI 에이전트 지식의 패키지 매니저
-- [[entities/skills-sh|skills.sh]]는 [[entities/vercel|Vercel]](버셀)이 올해 1월 공식 출시한 스킬 마켓플레이스로, 완전 무료 오픈소스다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
+- [[entities/skills-sh|skills.sh]]는 [[entities/vercel|Vercel]](버셀)이 2026년 1월 공식 출시한 스킬 마켓플레이스로, 완전 무료 오픈소스다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
 - npm이 코드 라이브러리의 패키지 매니저라면, skills.sh는 AI 에이전트 지식의 패키지 매니저다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
-- 설치는 `npx skills.sh add` 한 줄. CLI가 어떤 에이전트를 쓰는지 감지해 알맞게 설치하며, [[entities/claude-code|Claude Code]]·[[entities/cursor|Cursor]]·Copilot 등 18개 이상 에이전트를 지원한다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]). 최상위 스킬은 19만 건 이상 설치됐다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
+- 설치는 `npx skills.sh add` 한 줄. CLI가 어떤 에이전트를 쓰는지 감지해 알맞게 설치하며, [[entities/claude-code|Claude Code]]·[[entities/cursor|Cursor]]·Copilot 등 18개 이상 에이전트를 지원한다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]). 최상위 스킬은 19만 건 이상 설치됐다(2026-06 자막 기준, 설치 수는 지속 증가하는 유동 지표) (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
 - 추천 스킬: find-skills(필요 스킬 검색), 버셀 React 베스트 프랙티스, 웹 디자인 가이드라인(특히 shadcn/ui 조합에 강함), Remotion 베스트 프랙티스(약 85,000건 설치), 프런트엔드 디자인(6만 건+) (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
 - **보안·품질 주의:** 커뮤니티 제출 스킬 중 저품질이 많고(레딧에서 "80%가 AI가 대충 만든 저품질"이라는 말), 일부 스킬에서 숨겨진 악성 명령어가 발견된 적도 있다. 규칙 세 가지 — ① 공식 밴더(버셀·Anthropic) 스킬 우선, ② 설치 수 확인, ③ 깃허브에서 `SKILL.md` 코드 직접 확인 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]).
 
 ## 800시간 후의 6가지 필수 스킬
-(→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]) 화려한 스킬보다 매일 손이 가는 단순한 스킬이 낫다는 관점으로 소개된 목록:
-1. **Andrej Karpathy 스킬** — 단 한 장의 마크다운 파일인데 깃허브 스타 15만 개+. AI의 세 가지 고질병(모르면서 바로 코딩 시작, 100줄이면 될 걸 1000줄로, 버그 하나 고치라니 주변까지 수정)을 네 가지 규칙으로 정리. [[entities/andrej-karpathy|안드레이 카파시]] 참조 (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).
+(→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]) 화려한 스킬보다 매일 손이 가는 단순한 스킬이 낫다는 관점으로 소개된 목록이다(이하 스타·설치 수치는 모두 이 영상 자막 기준 2026-06 시점이며, 지속 증가하는 유동 지표다):
+1. **Andrej Karpathy 스킬** — 단 한 장의 마크다운 파일인데 깃허브 스타 15만 개+(자막 수치라 편차가 있다 — 카파시 외부검증 기준 단일 저장소 약 9만·미러 합산 약 22만; 아래 참조). AI의 세 가지 고질병(모르면서 바로 코딩 시작, 100줄이면 될 걸 1000줄로, 버그 하나 고치라니 주변까지 수정)을 네 가지 규칙으로 정리. [[entities/andrej-karpathy|안드레이 카파시]] 참조 (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).
 2. **claude-video** — Claude가 유튜브 영상을 다운로드·프레임 추출·자막까지 읽어 실제로 "볼 수" 있게 함. 영상 길이에 따라 프레임 수 자동 조절(30초 이하 약 30프레임, 10분+ 약 100프레임) (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).
 3. **superpowers (슈퍼파워)** — 깃허브 스타 20만 개+, Anthropic 공식 마켓 등록. Claude에게 시니어 개발자 프로세스를 강제: 코드 전에 스펙 정리→계획→테스트 먼저 작성(테스트 안 쓰면 코드 삭제). 서브에이전트를 활용해 각 태스크를 깨끗한 컨텍스트에서 돌리고 끝나면 두 번 리뷰. 첫 결과물 품질이 60점→80점으로 (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]). [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]] 참조.
 4. **understand** — 깃허브 스타 4만 개+. `/understand`로 멀티에이전트가 코드베이스 전체를 스캔해 지식 그래프·인터랙티브 대시보드·가이드 투어를 만든다. PDF·마크다운·이미지까지 비전으로 읽음 (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).

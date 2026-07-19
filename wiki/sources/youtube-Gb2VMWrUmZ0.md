@@ -4,7 +4,7 @@ label: "#3 Claude Code Teams"
 type: source
 created: 2026-06-23
 updated: 2026-07-12
-tags: [클로드코드, 에이전트팀, 오케스트레이션, tmux, 서브에이전트, 토큰비용]
+tags: [클로드코드, 에이전트팀, 오케스트레이션, tmux, 서브에이전트, 비용절감]
 sources: [youtube-Gb2VMWrUmZ0]
 ---
 

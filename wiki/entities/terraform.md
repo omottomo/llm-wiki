@@ -39,9 +39,9 @@ HCL 문법은 **블록·인수·표현식** 세 요소가 전부이며, 언어�
 
 ## 조직 도입 4단계
 
-공식 문서는 도입 성숙도를 Adopt(개인 실무자) → Collaborate(원격 state 백엔드로 협업) → Scale(인프라 소유권 경계·클라우드 전략 결정) → Govern(조직 표준을 [[entities/sentinel|Sentinel]]·OPA 정책 코드로 자동 강제)의 4단계로 제시한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+공식 문서는 도입 성숙도를 Adopt(개인 실무자) → Collaborate(원격 state 백엔드로 협업) → Scale(인프라 소유권 경계·클라우드 전략 결정) → Govern(조직 표준을 [[entities/sentinel|Sentinel]]·[[entities/opa|OPA]] 정책 코드로 자동 강제)의 4단계로 제시한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
 ## 이 위키에서의 의미
 
-- 제작사 HashiCorp의 공동창립자가 '하네스' 개념을 대중화한 [[entities/mitchell-hashimoto|미첼 하시모토]]다 — "환경을 코드로 선언하고 자동으로 강제한다"는 [[concepts/harness-engineering|하네스 엔지니어링]]의 사상적 선례가 Terraform으로 대표되는 IaC라는 연결이 성립한다 (연결 근거 → [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]).
+- 제작사 HashiCorp의 공동창립자가 '하네스' 개념을 대중화한 [[entities/mitchell-hashimoto|미첼 하시모토]]다(또 다른 공동창립자 [[entities/armon-dadgar|아몬 다드가]]가 공식 문서에서 도구를 소개한다) — "환경을 코드로 선언하고 자동으로 강제한다"는 [[concepts/harness-engineering|하네스 엔지니어링]]의 사상적 선례가 Terraform으로 대표되는 IaC라는 연결이 성립한다 (연결 근거 → [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]).
 - plan/apply 분리(실행 전 계획을 사람이 검토·승인)와 PR speculative plan 리뷰 관행은 [[concepts/verification-automation|검증 자동화]]가 말하는 "실행 전 검증"의 인프라 영역 선례이고, Govern 단계의 Sentinel 정책 강제는 [[concepts/hooks|훅]]식 "규칙의 코드화·자동 강제"의 선례다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 단, 이 유비 자체는 소스가 아니라 위키의 해석이다.

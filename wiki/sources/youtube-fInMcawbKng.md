@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-fInMcawbKng]
-tags: [다이나믹워크플로우, 하네스다이어트, 하네스엔지니어링, 적대적검증]
+tags: [다이나믹워크플로우, 하네스다이어트, 하네스엔지니어링, 적대적리뷰]
 ---
 
 ## 한 줄 요약

@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-UClLUoGaCxU]
-tags: [스킬, 클로드코드, 카파시가이드라인, 워크플로우최적화]
+tags: [스킬, 클로드코드, 카파시가이드라인, 워크플로우]
 ---
 
 ## 한 줄 요약

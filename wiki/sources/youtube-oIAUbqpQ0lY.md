@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-oIAUbqpQ0lY]
-tags: [바이브코딩, 개발자역할, 기초역량, 보안, 비판]
+tags: [바이브코딩, 개발자역할변화, 기초개념, 보안, 비판]
 ---
 
 ## 한 줄 요약

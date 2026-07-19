@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-uk4a5oER0SQ, youtube-oIAUbqpQ0lY, youtube-6gvnDSAcZww, youtube-DrekqeDlO1w, youtube-BssPGKsP60s, youtube-6cr4PeilKJk, youtube-JzB_GI7SS6g]
-tags: [개발자, 역할변화, 일자리, 상향이동, 이해]
+tags: [개발자, 개발자역할변화, 일자리, 상향이동, 이해]
 ---
 
 # 개발자 역할의 변화

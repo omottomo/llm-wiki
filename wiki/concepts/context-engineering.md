@@ -4,7 +4,7 @@ type: concept
 created: 2026-06-23
 updated: 2026-06-23
 sources: [youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-BssPGKsP60s, youtube-6gvnDSAcZww]
-tags: [컨텍스트, 환경설계, 진화서사, 메모리관리]
+tags: [컨텍스트엔지니어링, 환경설계, 진화서사, 메모리관리]
 ---
 
 # 컨텍스트 엔지니어링

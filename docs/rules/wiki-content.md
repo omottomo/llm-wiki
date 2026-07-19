@@ -121,6 +121,27 @@ Audited variant pairs and their canonical form:
 | 온디바이스AI / 엣지AI | `온디바이스AI` |
 | MCP / mcp | `MCP` — 통용 한글형이 없는 두문자어. 개념 페이지 제목도 `MCP (Model Context Protocol)`. 대소문자 변형이라 lint 가 정규화만으로 잡으므로 `KNOWN_TAG_VARIANT_GROUPS` 에는 넣지 않는다 |
 
+**Semantic consolidations (2026-07-19 lint).** Unlike the rows above (case/script/spacing
+variants the deterministic linter catches by normalization), these are *semantic* near-duplicates
+that the linter reports 0 hard collisions for. A lint pass merged them to the canonical form:
+
+| Variant forms found in the corpus | Canonical tag |
+|---|---|
+| 역할변화 / 직업변화 / 개발자역할 / 개발자역할변화 | `개발자역할변화` (단 `개발자`·`일자리` 는 더 포괄적이라 유지) |
+| API비용 / API비용절감 / 토큰비용 / 비용절감 | `비용절감` (단 `토큰관리` 는 관리 측면이라 별개) |
+| 기초 / 기초역량 / 기초개념 | `기초개념` (단 `핵심개념` 은 "핵심"이라 별개) |
+| 진화 / 진화서사 | `진화서사` |
+| 적대적검증 / 적대적리뷰 | `적대적리뷰` (본문 헤더가 "적대적 리뷰(Adversarial Review)") |
+| 워크플로우최적화 / 워크플로우 | `워크플로우` |
+| 기업 / 조직 | `조직` — 엔티티 유형 태그. `AI기업` 은 하위 성격 태그라 병기 유지 |
+| AI자동화 / 자동화 | `자동화` |
+| 컨텍스트 / 컨텍스트엔지니어링 | `컨텍스트엔지니어링` (단 `컨텍스트부패`·`신선한컨텍스트` 는 별개 개념) |
+
+의도적으로 병합하지 **않은** 근접쌍: `카파시`(인물) vs `카파시가이드라인`(그의 65줄 지침) — 지시 대상이
+다른 별개 개념이다. 위 표는 문서(사람·에이전트)용 기록이며, 이 시맨틱 변형들을 결정적 linter 의
+`KNOWN_TAG_VARIANT_GROUPS` 에 넣어 재도입을 자동 차단하는 것은 code-mode 후속 작업으로 남긴다
+(정규화가 아닌 이름 매핑이라 스크립트 수정이 필요).
+
 This table is not exhaustive — it records what a corpus audit found, not every tag that could
 ever collide. When wiki-lint's tag-hygiene report flags a new variant pair, add it here.
 

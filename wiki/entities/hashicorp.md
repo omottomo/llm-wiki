@@ -4,7 +4,7 @@ type: entity
 created: 2026-07-18
 updated: 2026-07-19
 sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs]
-tags: [HashiCorp, 코드형인프라, 기업]
+tags: [HashiCorp, 코드형인프라, 조직]
 ---
 
 # HashiCorp

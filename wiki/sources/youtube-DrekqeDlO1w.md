@@ -5,7 +5,7 @@ type: source
 created: 2026-06-23
 updated: 2026-07-12
 sources: [youtube-DrekqeDlO1w]
-tags: [하네스엔지니어링, 미첼하시모토, 말과마구, 컨텍스트부패, 개발자역할]
+tags: [하네스엔지니어링, 미첼하시모토, 말과마구, 컨텍스트부패, 개발자역할변화]
 ---
 
 ## 한 줄 요약
