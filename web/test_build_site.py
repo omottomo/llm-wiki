@@ -65,6 +65,26 @@ def test_dead_wikilink_renders_muted() -> None:
     assert out2 == '<a href="/concepts/mcp/">MCP</a>'
 
 
+def test_home_page() -> None:
+    text = (DIST / "index.html").read_text(encoding="utf-8")
+    assert '<div id="search">' in text          # 검색 중심 첫 화면
+    assert "최근 갱신" in text
+    for href in ["/overview/", "/concepts/", "/sources/", "/analysis/", "/index/"]:
+        assert f'href="{href}"' in text, f"홈 진입점 누락: {href}"
+
+
+def test_section_listing_and_tag_page() -> None:
+    concepts = (DIST / "concepts" / "index.html").read_text(encoding="utf-8")
+    assert 'href="/concepts/mcp/"' in concepts
+    tag_mcp = (DIST / "tags" / "MCP" / "index.html").read_text(encoding="utf-8")
+    assert 'href="/concepts/mcp/"' in tag_mcp   # concepts/mcp의 tags에 MCP 존재
+
+
+def test_404_page() -> None:
+    text = (DIST / "404.html").read_text(encoding="utf-8")
+    assert '<div id="search">' in text
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):

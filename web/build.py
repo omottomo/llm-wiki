@@ -23,6 +23,7 @@ WIKI = ROOT / "wiki"
 WEB = ROOT / "web"
 DIST = WEB / "dist"
 SITE_NAME = "LLM 위키"
+SECTIONS = [("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
 
 # html=True: 위키 본문은 운영자 자신이 쓴 신뢰 콘텐츠라 인라인 HTML 허용
 md = MarkdownIt("commonmark", {"html": True}).enable("table").enable("strikethrough")
@@ -57,6 +58,18 @@ def url_for(key: str) -> str:
     return "/" + urllib.parse.quote(key) + "/"
 
 
+def tag_url(tag: str) -> str:
+    return "/tags/" + urllib.parse.quote(tag) + "/"
+
+
+def collect_tags(pages: dict) -> dict[str, list[str]]:
+    tags: dict[str, list[str]] = {}
+    for p in pages.values():
+        for t in p["tags"]:
+            tags.setdefault(t, []).append(p["key"])
+    return tags
+
+
 def link_wikilinks(body: str, existing) -> str:
     """[[대상|별칭]]을 <a>로, 대상 없는 링크는 회색 <span>으로 치환한다.
     markdown 렌더 전에 실행되며 html=True라 그대로 통과한다."""
@@ -89,6 +102,61 @@ def base_html(title: str, content: str) -> str:
 </html>"""
 
 
+def render_listing(title: str, keys, pages: dict) -> str:
+    items = "\n".join(
+        f'<li><a href="{url_for(k)}">{html.escape(pages[k]["title"])}</a>'
+        f'<span class="meta">{pages[k]["updated"]}</span></li>'
+        for k in sorted(keys, key=lambda k: pages[k]["title"])
+    )
+    return base_html(
+        title, f'<main><h1>{html.escape(title)}</h1><ul class="listing">{items}</ul></main>'
+    )
+
+
+def render_home(pages: dict) -> str:
+    def count(prefix: str) -> int:
+        return sum(1 for k in pages if k.startswith(prefix + "/"))
+
+    entries = (
+        [("/overview/", "개요", None)]
+        + [(f"/{s}/", label, count(s)) for s, label in SECTIONS]
+        + [("/index/", "전체 색인", None)]
+    )
+    entry_html = "\n".join(
+        f'<a class="entry" href="{u}">{label}'
+        + (f' <span class="count">{n}</span>' if n is not None else "")
+        + "</a>"
+        for u, label, n in entries
+    )
+    recent = sorted(
+        (p for p in pages.values() if "/" in p["key"]),  # index/overview 제외
+        key=lambda p: p["updated"],
+        reverse=True,
+    )[:5]
+    recent_html = "\n".join(
+        f'<li><a href="{url_for(p["key"])}">{html.escape(p["title"])}</a>'
+        f'<span class="meta">{p["updated"]}</span></li>'
+        for p in recent
+    )
+    content = f"""<main class="home">
+<h1>{SITE_NAME}</h1>
+<div id="search"></div>
+<nav class="entries">{entry_html}</nav>
+<section class="recent"><h2>최근 갱신</h2><ul>{recent_html}</ul></section>
+</main>"""
+    return base_html(SITE_NAME, content)
+
+
+def render_404() -> str:
+    content = f"""<main class="home">
+<h1>페이지가 없습니다</h1>
+<p class="meta">주소를 확인하거나 검색해 보세요.</p>
+<div id="search"></div>
+<p><a href="/">{SITE_NAME} 홈으로</a></p>
+</main>"""
+    return base_html("페이지 없음", content)
+
+
 def render_article(page: dict, pages: dict, inbound: dict) -> str:
     body_html = md.render(link_wikilinks(page["body"], pages))
     updated = f'<p class="meta">갱신 {page["updated"]}</p>' if page["updated"] else ""
@@ -103,9 +171,15 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
             '<section class="backlinks"><h2>이 문서를 참조하는 문서</h2>'
             f"<ul>{items}</ul></section>"
         )
+    tags_html = ""
+    if page["tags"]:
+        chips = " ".join(
+            f'<a class="tag" href="{tag_url(t)}">{html.escape(t)}</a>' for t in page["tags"]
+        )
+        tags_html = f'<footer class="tags">{chips}</footer>'
     return base_html(
         page["title"],
-        f"<main><article>{updated}\n{body_html}</article>\n{back_html}</main>",
+        f"<main><article>{updated}\n{body_html}\n{tags_html}</article>\n{back_html}</main>",
     )
 
 
@@ -122,6 +196,12 @@ def main() -> int:
     inbound = lint_wiki.build_inbound_map(lint_wiki.wiki_pages())
     for page in pages.values():
         write_page(page["key"], render_article(page, pages, inbound))
+    for s, label in SECTIONS:
+        write_page(s, render_listing(label, [k for k in pages if k.startswith(s + "/")], pages))
+    for tag, keys in collect_tags(pages).items():
+        write_page(f"tags/{tag}", render_listing(f"태그: {tag}", keys, pages))
+    (DIST / "index.html").write_text(render_home(pages), encoding="utf-8")
+    (DIST / "404.html").write_text(render_404(), encoding="utf-8")
     print(f"기사 {len(pages)}쪽 생성 → {DIST.relative_to(ROOT)}")
     return 0
 
