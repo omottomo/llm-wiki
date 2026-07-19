@@ -1,0 +1,67 @@
+{
+  "phase": "phase-7-nvk-skills-tests",
+  "goal": "Adopt part B of the nvk/llm-wiki benchmark: a volatility field with migration, a human-gated wiki-refresh skill for living web sources, a source-retraction mode in wiki-delete with marker tracking, and a golden/defect fixture test suite for lint_wiki.py wired into CI.",
+  "created_at": "2026-07-19",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Add volatility field: rules, lint, template, migration",
+      "scope": "docs/rules/wiki-content.md, scripts/lint_wiki.py, .claude/skills/wiki-ingest/templates/source-page.md, wiki/sources/*.md (frontmatter only)",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "volatility is documented in wiki-content.md section 1 as REQUIRED on wiki/sources/* with enum hot|warm|cold (fixed snapshots such as YouTube talks = cold; living official documentation = hot or warm), enforced by lint_wiki.py (exit 1 on missing/invalid), present in the source-page template, and assigned on all 27 existing source pages (frontmatter-only edit, no updated bump). python3 scripts/lint_wiki.py exits 0.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Create wiki-refresh skill",
+      "scope": ".claude/skills/wiki-refresh/SKILL.md (new), docs/rules/wiki-content.md (workflow rules), CLAUDE.md (section 3 routing row)",
+      "kind": "builder",
+      "depends_on": ["T01"],
+      "acceptance": "The skill selects hot/warm sources, re-fetches their URLs, diffs against the stored raw/ capture, classifies each change as cosmetic, additive, or contradictory, and presents the assessment for human confirmation BEFORE touching any wiki page. It never edits raw/ files: a materially changed source is saved as a new raw file with the source page recording refresh history; contradictions follow the existing keep-both-and-flag principle. CLAUDE.md section 3 routes 최신화/refresh phrasing to the skill; wiki-content.md documents the workflow.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Add retract mode to wiki-delete and marker check to lint",
+      "scope": ".claude/skills/wiki-delete/SKILL.md, scripts/lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "wiki-delete SKILL.md offers source retraction alongside the existing three scopes: map blast radius with lint_wiki.py --inbound, flag claims citing the retracted source with <!--RETRACTED-SOURCE--> markers, re-synthesize affected paragraphs from remaining sources, then remove markers; the raw file and source page are deleted only with explicit user confirmation (raw/ deletion stays opt-in per the existing rule). lint_wiki.py gains a check that reports any remaining <!--RETRACTED-SOURCE--> marker as a violation (exit 1).",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Build golden and defect fixtures with a stdlib test runner",
+      "scope": "tests/fixtures/golden-wiki/ (new), tests/fixtures/defects/ (new), scripts/test_lint_wiki.py (new)",
+      "kind": "builder",
+      "depends_on": ["T01", "T03"],
+      "acceptance": "tests/fixtures/golden-wiki/ is a minimal known-good wiki (about 2 sources + 1 concept + 1 entity + index.md + matching raw/ stubs) on which lint_wiki.py exits 0. tests/fixtures/defects/ holds one broken variant per lint check (including the new credibility, volatility, and retraction-marker checks), each failing lint with the intended violation. scripts/test_lint_wiki.py is a stdlib assert-based runner (no framework) that runs lint against golden expecting exit 0 and against each defect expecting exit 1 plus the right violation substring, and itself exits nonzero on any mismatch.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Wire the lint test runner into CI",
+      "scope": ".github/workflows/verify-site.yml (lint job)",
+      "kind": "builder",
+      "depends_on": ["T04"],
+      "acceptance": "The existing lint job runs python3 scripts/test_lint_wiki.py after lint_wiki.py, and the workflow paths trigger includes tests/. The verify matrix jobs are unchanged.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Dry-run refresh and retract, then phase gate",
+      "scope": "dry-runs (no permanent wiki mutation), log.md (append), docs/index.md, docs/rules/site-code.md (accumulated rules)",
+      "kind": "manual",
+      "depends_on": ["T02", "T03", "T04", "T05"],
+      "acceptance": "wiki-refresh dry-run against the Terraform docs source reaches the human-confirmation step with a coherent change classification and is aborted without edits; retract dry-run executes end-to-end on a COPY of the golden fixture (never the real wiki). The lint-rules-are-the-schema principle is recorded in site-code.md accumulated rules. Repo lint and test runner exit 0, CI is green on push, and one Korean docs-prefixed close-out line is appended to log.md with the docs/index.md phase row updated.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
