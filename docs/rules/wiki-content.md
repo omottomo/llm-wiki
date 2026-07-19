@@ -2,9 +2,9 @@
 
 > Module of the repo's operating rules, split out of `CLAUDE.md`.
 > **Read this before creating or editing anything under `wiki/`.** It governs the librarian
-> skills (`wiki-ingest` / `wiki-query` / `wiki-lint` / `wiki-delete`) and any other change to
-> wiki prose. The common rules in `CLAUDE.md` (language rule, core principles, log.md, skill
-> routing) always apply on top of this file.
+> skills (`wiki-ingest` / `wiki-query` / `wiki-lint` / `wiki-delete` / `wiki-refresh`) and any
+> other change to wiki prose. The common rules in `CLAUDE.md` (language rule, core principles,
+> log.md, skill routing) always apply on top of this file.
 
 ---
 
