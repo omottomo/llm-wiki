@@ -90,6 +90,7 @@ Trigger phrases are quoted in the language the user actually types them in. Matc
 - The user asks a question about the wiki → **wiki-query**
 - The user says "점검 / 건강검진 / 정리 / lint" → **wiki-lint**
 - The user says "삭제 / 지워 / 제거 / delete / 위키 비워" → **wiki-delete** (destructive — always confirm scope first; never touch `raw/`)
+- The user says "최신화 / 갱신 / refresh" about a hot/warm source → **wiki-refresh** (human-gated — no wiki edit before confirmation; never edits `raw/`, only adds a new dated capture)
 
 **Code mode** (you are building the published site; rules: this file + `docs/rules/site-code.md`). Work is organized as **phases** under `docs/tasks/phase-{N}-{slug}/`:
 - When a plan is agreed, write it as `plan.md` and, once decomposed, a `prd.json` of atomic tasks (schema: `id/title/scope/kind/depends_on/acceptance/status/attempts`).

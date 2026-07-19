@@ -223,3 +223,32 @@ as the title with no Hangul requirement (e.g. `Claude Code`, `Codex (OpenAI)`) �
 *is* the proper noun, and forcing a Korean gloss into the title would be awkward where the
 industry itself uses the Latin name. This does not relax the body-text language rule in
 `CLAUDE.md` — only the frontmatter `title` field gets this exception, and only for entities.
+
+---
+
+## 5. Refresh workflow (wiki-refresh)
+
+Governs `wiki-refresh`, the skill that re-checks `hot`/`warm` sources (§1 `volatility`) for
+drift and updates the wiki only after the human confirms. `cold` sources are out of scope —
+they are frozen snapshots by design.
+
+**New-capture naming.** `raw/` is immutable (CLAUDE.md core principle 1) — a refresh never
+edits the original `raw/<slug>.md`. When a re-fetch turns up a *material* (non-cosmetic) change,
+save the fresh fetch as a new file `raw/<slug>-<YYYY-MM-DD>.md` (original slug + refresh date,
+ISO). Cosmetic-only changes (wording/formatting with no factual delta) need no new capture.
+
+**Refresh history.** Every refresh check, whatever its outcome, is recorded on the source page
+`wiki/sources/<slug>.md` under a `## 최신화 이력` section (create it after `## 출처 정보` if
+absent), one line per check: date, classification (cosmetic/additive/contradictory), and the new
+raw slug if one was created. When a new capture is added, also append its slug to the source
+page's frontmatter `sources:` list (§1) and bump `updated` — a material capture is real content,
+not metadata, so the §4.3 metadata-only exemption does not apply.
+
+**Contradictions.** Handled exactly like ingest (§1 `기존 위키와의 연결` / 모순): keep both the
+old and new claim, flag the contradiction explicitly on the affected page(s) — never silently
+overwrite (CLAUDE.md core principle 4).
+
+**Human gate.** No wiki page is edited, and no new raw file is saved, until the human has seen
+the diff classification and confirmed. This mirrors `wiki-delete`'s confirm-before-mutate
+discipline — refresh mutates less destructively, but the same one-way-door caution applies to
+any content change on a page the human may already be relying on.
