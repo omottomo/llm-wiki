@@ -20,8 +20,10 @@ docs/
     │   └── prd.json                # 13 builder tasks: fix operating-file drift/duplication, add deterministic helpers
     ├── phase-3-wiki-site-quality/
     │   └── prd.json                # 9 tasks (7 builder + 2 manual): lint quality gates, fonts, CI boundary audit, go-live
-    └── phase-4-namu-test-site/
-        └── prd.json                # 13 tasks (11 builder + 2 manual): parallel site-test/ with a namu-style landing page and navigation
+    ├── phase-4-namu-test-site/
+    │   └── prd.json                # 13 tasks (11 builder + 2 manual): parallel site-test/ with a namu-style landing page and navigation
+    └── phase-5-guided-home-redesign/
+        └── plan.md                 # site-test guided home: card landing page, graph off, explorer + breadcrumbs on
 ```
 
 ## rules/ — when to read which
@@ -42,3 +44,4 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 | [tasks/phase-2-harness-efficiency/](tasks/phase-2-harness-efficiency/prd.json) | `prd.json` — 13 builder tasks from the 2026-07-13 harness audit: replace the drifted raw-leak check in evaluator/planner, de-duplicate the verification matrix and PRD schema, drop wrong-path WORKDIR blocks from the four wiki skills, consolidate extraction references, add `lint_wiki.py --inbound`, permission allowlist, CLAUDE.md tree-label fix |
 | [tasks/phase-3-wiki-site-quality/](tasks/phase-3-wiki-site-quality/prd.json) | `prd.json` — 9 tasks (7 builder + 2 manual) from the 2026-07-13 wiki/site audit: four new lint quality gates (label format, bare `#N` citations, Korean titles, tag hygiene), content conventions in wiki-content.md, font cleanup, CI workflow running `verify_site.py`, Cloudflare go-live + Korean-search verification |
 | [tasks/phase-4-namu-test-site/](tasks/phase-4-namu-test-site/prd.json) | `prd.json` — 13 tasks (11 builder + 2 manual): a parallel `site-test/` (production `site/` untouched) serving a site-owned Korean landing page at the root and the wiki catalog at `/catalog` via symlinks, with folder navigation replaced by namu-style tag chips and a recent-changes sidebar. T01–T11 done (2026-07-13); manual T12 (Cloudflare test project) / T13 (human QA) open |
+| [tasks/phase-5-guided-home-redesign/](tasks/phase-5-guided-home-redesign/plan.md) | `plan.md` — guided-home redesign of `site-test/` for first-time visitors (직관·단순·가독): card-layout home in site-owned `index.md` + `custom.scss`, graph view removed, explorer re-enabled, breadcrumbs on. Scope site-test only; `wiki/` untouched. PRD not yet authored |
