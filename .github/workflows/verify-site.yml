@@ -6,8 +6,6 @@ on:
     paths:
       - "wiki/**"
       - "site/**"
-      - "site-test/**"
-      - "web/**"
       - "scripts/**"
       - "tests/**"
       # The audit asserts these paths are ignored, so a change here can flip it.
@@ -16,60 +14,8 @@ on:
       - ".github/workflows/verify-site.yml"
 
 jobs:
+  # Minimal site (build.py → site/dist/): build + invariant tests + boundary audit.
   verify:
-    runs-on: ubuntu-latest
-    strategy:
-      # Both sites' results are wanted on every run; a failure in one must not
-      # cancel the other and hide whether it would have passed.
-      fail-fast: false
-      matrix:
-        site: [site, site-test]
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3"
-
-      - name: Install site dependencies
-        working-directory: ${{ matrix.site }}
-        run: npm ci
-
-      - name: Build site
-        working-directory: ${{ matrix.site }}
-        run: |
-          npx quartz plugin install --from-config
-          npx quartz build
-
-      - name: Run raw/ boundary audit
-        run: python3 scripts/verify_site.py ${{ matrix.site }}
-
-  # Content-quality gate. Independent of the sites, so it neither waits on the
-  # matrix nor reruns per site.
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3"
-
-      - name: Lint wiki content
-        run: python3 scripts/lint_wiki.py
-
-      - name: Run lint fixture tests
-        run: python3 scripts/test_lint_wiki.py
-
-  # phase-8 minimal site: build + invariant tests + boundary audit.
-  verify-web:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -85,10 +31,28 @@ jobs:
           python-version: "3"
 
       - name: Install build dependency
-        run: pip install -r web/requirements.txt
+        run: pip install -r site/requirements.txt
 
-      - name: Build web + search index + run test suite
-        run: python3 web/test_build_site.py
+      - name: Build site + search index + run test suite
+        run: python3 site/test_build_site.py
 
       - name: Run raw/ boundary audit
-        run: python3 scripts/verify_site.py web
+        run: python3 scripts/verify_site.py
+
+  # Content-quality gate. Independent of the site, so it neither waits on the
+  # build nor reruns per anything.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3"
+
+      - name: Lint wiki content
+        run: python3 scripts/lint_wiki.py
+
+      - name: Run lint fixture tests
+        run: python3 scripts/test_lint_wiki.py

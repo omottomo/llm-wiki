@@ -6,8 +6,8 @@
       "Bash(git status*)",
       "Bash(git diff*)",
       "Bash(git log*)",
-      "Bash(cd site && npx quartz build*)",
-      "Bash(npx quartz build*)",
+      "Bash(python3 site/build.py*)",
+      "Bash(python3 site/test_build_site.py*)",
       "Bash(python3 -m youtube_transcript_api*)"
     ]
   },

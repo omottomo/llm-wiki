@@ -4,14 +4,5 @@
 .claude/settings.local.json
 __pycache__/
 
-# Quartz build artifacts for both sites. Declared here, not in the vendored
-# site/.gitignore and site-test/.gitignore: those files ignore themselves, so they
-# are untracked and absent in a fresh clone — including CI's.
-# No trailing slashes — .quartz/ only matches once the directory exists.
-site/node_modules
-site/public
-site/.quartz
-site-test/node_modules
-site-test/public
-site-test/.quartz
-web/dist/
+# Generated static site (build.py output) and Pagefind search index.
+site/dist/

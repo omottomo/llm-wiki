@@ -43,7 +43,7 @@ llm-wiki/
 │   ├── concepts/      # concepts, topics, themes
 │   ├── sources/       # per-source summaries (1:1 with raw/)
 │   └── analysis/      # query answers worth keeping (comparisons, analyses, connections)
-├── site/              # Quartz 5 static-site generator (content/ → symlink to ../wiki)
+├── site/              # static-site generator (build.py reads wiki/ → site/dist/, Pagefind search)
 ├── backlog.md         # ingest backlog — candidates & open questions (unpublished; not factual evidence)
 └── log.md             # chronological work log (append-only)
 ```

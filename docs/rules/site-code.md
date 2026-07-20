@@ -55,44 +55,49 @@
 
 ---
 
-## 2. Site publishing (Quartz 5 → Cloudflare Pages)
+## 2. Site publishing (build.py → site/dist/ → Cloudflare Pages)
 
-The wiki is published as a public website via **Quartz 5**, vendored into `site/`, deployed on **Cloudflare Pages**. Phase plans and PRDs live under `docs/tasks/`.
+The wiki is published as a public website by a hand-rolled static generator, `site/build.py`,
+which renders `wiki/*.md` to `site/dist/` and adds Pagefind full-text search. Deploy target is
+**Cloudflare Pages**. Phase plans and PRDs live under `docs/tasks/`. (History: phases 1–7 used
+Quartz 5 vendored into `site/` plus a `site-test/` redesign variant; both were retired in the
+phase-8 consolidation — see §2.4.)
 
 ### 2.1 The `raw/` boundary — non-negotiable
 
 `raw/` holds full auto-generated transcripts of **other people's** YouTube videos. It must **never** be published to the web, and must **never** land in a public repo. Two protections, both required:
 
 1. The GitHub repo stays **private**. (This is why Cloudflare Pages was chosen over GitHub Pages — the free GitHub Pages tier requires a public repo.)
-2. The Quartz **content root is `wiki/` only** — `raw/`, `log.md`, `CLAUDE.md`, `docs/`, `.claude/`, `.obsidian/` all sit outside it and are structurally excluded.
+2. The generator's **content root is `wiki/` only** — `site/build.py` renders exactly the pages in `lint_wiki.wiki_pages()`; `raw/`, `log.md`, `CLAUDE.md`, `docs/`, `.claude/`, `.obsidian/` all sit outside it and are never read.
 
-**Every build that touches the site or the content root must be audited:** `python3 scripts/verify_site.py` exits `0` — its leak audit checks that no raw-derived page is rendered, no transcript content appears verbatim in the output, no absolute local path (`/Users/...`) leaks, and every literal `raw/` match is a bare source citation. (A naive `grep -ril "raw/" site/public/` always matches — see §2.4.) This is the Evaluator's standing check and the orchestrator's close-out gate. Never flip the repo to public.
+**Every build must be audited:** `python3 scripts/verify_site.py` exits `0` — its leak audit checks that no raw-derived page is rendered, no transcript content appears verbatim in the output, no absolute local path (`/Users/...`) leaks, and every literal `raw/` match is a bare source citation. (A naive `grep -ril "raw/" site/dist/` always matches — see §2.4.) This is the standing close-out gate. Never flip the repo to public.
 
 ### 2.2 Architecture invariants
 
-- **Monorepo + symlink.** Quartz is vendored into `site/` (its `.git` removed, committed as regular files). Content is connected by a **relative** symlink `site/content → ../wiki`. Never replace it with a copy; never make it absolute — absolute paths break in CI.
-- **Node 22+** (`npm >=10.9.2`). Quartz 5 will not install on Node 20. Cloudflare needs `NODE_VERSION=22`.
-- **npm**, not pnpm or yarn.
-- Quartz 5 config is **YAML** (`site/quartz.config.yaml`). After editing the `plugins:` block, re-run `npx quartz plugin install --from-config` and **commit `quartz.lock.json`**.
-- `baseUrl` must match the Cloudflare Pages project name. If they drift, the sitemap and RSS break.
-- Korean UI requires `locale: ko-KR` **and** a font with Korean glyphs (Noto Sans KR) — Quartz's default theme fonts have none.
-- Vendoring means `npx quartz update` is unavailable. To upgrade: clone the new version into a temp directory and swap the code, preserving the config and the content symlink.
+- **One generator, no framework.** `site/build.py` is a single Python script that reuses `scripts/lint_wiki.py`'s parsing (`wiki_pages`, `parse_frontmatter`, `page_key`, wikilink/backlink helpers) and renders with `markdown-it-py` — the only dependency, pinned in `site/requirements.txt`. All styling is one file, `site/style.css`. No Node build, no vendored SSG.
+- **Output is `site/dist/`** — git-ignored (root `.gitignore`), never committed. `build.py` rewrites it from scratch each run and fails (exit 1) on any broken internal link.
+- **Search is Pagefind**, added after the build: `npx -y pagefind@1 --site site/dist` indexes the `data-pagefind-body` articles. It is the only Node touchpoint and needs no install step.
+- **Korean UI**: pages are `lang="ko"`; the display font (Pretendard) is loaded from `site/style.css`. `build.py` reads `wiki/` directly — there is no content symlink.
+- **`baseUrl` must match the Cloudflare Pages project name** (see §2.4 for why no project exists yet and why the name may not be yours to take). If they drift, the sitemap/RSS break.
+- **Deploy (Cloudflare Pages)**: build command `pip install -r site/requirements.txt && python3 site/build.py && npx -y pagefind@1 --site site/dist`, output directory `site/dist`.
 
 ### 2.3 Verification (there is no unit-test suite — verify by running the real thing)
 
 | Check | Command | Pass |
 |---|---|---|
 | Wiki link integrity, frontmatter, index, orphans | `python3 scripts/lint_wiki.py` | exit `0` |
-| Site builds | `cd site && npx quartz build` | exit `0` |
+| Site builds (no broken internal links) | `python3 site/build.py` | exit `0` |
+| Build invariants (pages, wikilinks, backlinks, search wiring) | `python3 site/test_build_site.py` | exit `0` |
 | **`raw/` leak audit (amended — see §2.4)** | `python3 scripts/verify_site.py` | exit `0` |
-| Content symlink is relative | `readlink site/content` | `../wiki` |
-| Artifacts ignored | `git check-ignore site/node_modules site/public` | all ignored |
+| Output artifact ignored | `git check-ignore site/dist` | ignored |
 
-Never commit `site/node_modules/`, `site/public/`, `site/.quartz/`, `.env`, or `.claude/settings.local.json`.
+Never commit `site/dist/`, `.env`, or `.claude/settings.local.json`.
 
 ### 2.4 Accumulated rules
 
 *(When a phase uncovers a constraint the next session would otherwise rediscover the hard way, record it here. Only what would surprise someone who just cloned the repo; do not restate what the code already says.)*
+
+- **The vendored Quartz sites were retired and replaced by `site/build.py`** (2026-07-20, phase-8 consolidation). Phases 1–7 published via Quartz 5 vendored into `site/`, with a `site-test/` variant for redesign experiments; phase-8 built a hand-rolled minimal generator in `web/`. This consolidation deleted both Quartz directories and renamed `web/` → `site/`. Consequences: (a) the Quartz-specific rules further down this list — content symlink vs dir-of-symlinks, `.quartz`/`public`/`node_modules` artifacts, the vendored `.gitignore` self-ignore, `quartz.config.yaml` plugin/`options` handling, `custom.scss` Korean typography, the `og-image` satori font fetch, lowercase-slug URLs, `note-properties` frontmatter parsing — describe infrastructure that **no longer exists** and are kept only as historical record; (b) `verify_site.py` no longer takes a site-dir argument or checks a content symlink — it audits `site/dist` alone; (c) the live constraints that survive the Quartz era are the `raw/` boundary (§2.1), the "CI fires on push to `main`, not on PRs" and "watch your gate go green / a red gate is worse than none" lessons, the "`completed` ≠ verified" and "a lying verification script is a false verdict generator" lessons, the lint-is-the-schema coupling, and the Cloudflare `baseUrl`/project-name rules below.
 
 - **The literal `raw/` grep is a false-positive trap** (2026-07-12). `grep -ril "raw/" site/public/` always matches, because every source page's 출처 정보 section legitimately cites `raw: raw/<slug>.md`. The binding leak audit is `scripts/verify_site.py`: no rendered raw-derived path, no verbatim transcript content in output, no `/Users/` absolute path, and `raw/` string matches whitelisted to bare citations.
 - **Absolute local paths leak the operator's identity** (2026-07-12). Frontmatter like `raw: /Users/<name>/...` ships the username and directory layout into public HTML *and* the search index `static/contentIndex.json`. Five pre-existing source pages had this; fixed in content mode. Authoring rule now in `docs/rules/wiki-content.md`; regression check in `verify_site.py`.
