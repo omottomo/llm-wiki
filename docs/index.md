@@ -9,6 +9,8 @@ language rule in `CLAUDE.md`.)
 ```
 docs/
 ├── index.md                        # this catalog
+├── log.md                          # chronological work log (append-only; Korean entries — content, not operating prose)
+├── backlog.md                      # ingest backlog — candidates & open questions (unpublished; not factual evidence)
 ├── benchmarking-nvk-llm-wiki.md    # 2026-07-19 comparison vs nvk/llm-wiki; drives phase-6/7 adoption
 ├── rules/                          # mode-specific rule modules, split out of CLAUDE.md
 │   ├── wiki-content.md             # content mode: page authoring, wiki index catalog, domain rules
@@ -51,6 +53,8 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 
 | Document | What it is |
 |---|---|
+| [log.md](log.md) | Chronological work log, append-only, one Korean line per action (`## [date] prefix \| ...`). Moved from the repo root 2026-07-20. |
+| [backlog.md](backlog.md) | Ingest backlog — candidate sources & open questions queue. Unpublished, never citable as factual evidence. Moved from the repo root 2026-07-20. |
 | [benchmarking-nvk-llm-wiki.md](benchmarking-nvk-llm-wiki.md) | 2026-07-19 comparison against `nvk/llm-wiki`: what it is, adopted items (with rationale) and rejected items (with reasons). Drives `phase-6-nvk-schema-docs` and `phase-7-nvk-skills-tests`. |
 
 ## tasks/ — phase plans and PRDs

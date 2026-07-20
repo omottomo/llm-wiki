@@ -71,7 +71,7 @@ Do these in order:
 3. For every newly mentioned proper noun/concept, create at least a stub so no orphan links remain.
 4. If the source shifts the big picture, update `wiki/overview.md`.
 5. Reflect new/changed pages in `wiki/index.md`.
-6. Append one line to `log.md`: `## [date] ingest | 자료 제목 — sources/xxx + concepts/yyy + concepts/zzz 갱신`
+6. Append one line to `docs/log.md`: `## [date] ingest | 자료 제목 — sources/xxx + concepts/yyy + concepts/zzz 갱신`
 7. Commit: `git add -A && git commit -m "ingest: <slug> — <자료 제목>"` — the wiki is git-backed; one commit per ingest keeps the audit trail.
 
 > Example: `## [2026-06-05] ingest | 이영희 '이직 플랜 & 경력 기술서 전략' — sources/youtube-aOVxvjLOcQE + concepts/이직플랜 + concepts/면접경험데이터 생성, concepts/경력기술서 + overview + index 갱신`
@@ -84,4 +84,4 @@ Briefly tell the user (in Korean) what you created/changed (page list) and espec
 - Never modify `raw/`.
 - Never fabricate facts without a source. If uncertain, say so.
 - If asked to ingest several sources at once, repeat the procedure per source, but consolidate shared pages once at the end.
-- If the source references another source worth reading later (but not now), add it to root `backlog.md` — the ingest backlog — rather than ingesting it inline. `backlog.md` is a candidate queue, never citable as factual evidence.
+- If the source references another source worth reading later (but not now), add it to `docs/backlog.md` — the ingest backlog — rather than ingesting it inline. `docs/backlog.md` is a candidate queue, never citable as factual evidence.

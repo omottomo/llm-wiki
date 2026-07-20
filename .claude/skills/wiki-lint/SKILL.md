@@ -36,7 +36,7 @@ Get the full page list from `wiki/index.md`, then scan pages for:
 3. Apply obvious fixes immediately (link orphans, add missing cross-refs, update index).
 4. For judgment calls (how to resolve a contradiction, how to handle a stale claim, whether to create a new page), **confirm with the user first.**
 5. Additionally, propose **questions worth investigating next** and **sources worth looking for** (the added value of lint).
-6. Append one line to `log.md`: `## [date] lint | 모순 N건·고아 M건 등 발견 → 처리`
+6. Append one line to `docs/log.md`: `## [date] lint | 모순 N건·고아 M건 등 발견 → 처리`
 7. Commit the pass: `git add -A && git commit -m "lint: <요지>"` — the wiki is git-backed so every maintenance pass leaves an audit-trail commit.
 
 ## Report format

@@ -28,7 +28,7 @@ needs — pick one; the user's phrasing usually signals it:
 ### 2. Synthesize
 - Build the answer from the pages you read. **Attach a source reference to every claim**, using the target's frontmatter `label` as the alias: `(→ [[sources/<slug>|#N 라벨]])`; join multiple citations with `·`. (Full link/citation format: `docs/rules/wiki-content.md` §1 — every body wikilink carries a Korean alias.)
 - If pages contradict each other, don't hide it — present both sides in the answer. When the conflicting claims trace to sources of different `credibility` (source-page frontmatter, high|medium|low), weight the higher one and say which you trust more and why.
-- If the wiki has **no basis to answer**, say so honestly. Don't fill gaps with guesses; instead suggest "이건 자료가 없으니 웹 검색하거나 자료를 더 넣자." When a gap points to a specific source or question worth pursuing later, offer to record it in root `backlog.md` (the ingest backlog — a candidate queue, never citable as evidence).
+- If the wiki has **no basis to answer**, say so honestly. Don't fill gaps with guesses; instead suggest "이건 자료가 없으니 웹 검색하거나 자료를 더 넣자." When a gap points to a specific source or question worth pursuing later, offer to record it in `docs/backlog.md` (the ingest backlog — a candidate queue, never citable as evidence).
 
 ### 3. Choose the right format
 Answer in whatever form fits the question: markdown explanation, comparison table, slides (Marp), chart (matplotlib), diagram, etc.
@@ -38,7 +38,7 @@ If the answer goes beyond a simple fact lookup and produces a **comparison/analy
 1. Save it to `wiki/analysis/<slug>.md` (in Korean; record the source slugs it relied on in frontmatter).
 2. Add `[[...]]` links from the relevant entity/concept pages to this analysis page.
 3. Add it to the Analysis section of `wiki/index.md`.
-4. Append one line to `log.md`: `## [date] query | 질문 요지 — analysis/<slug> 로 보존`
+4. Append one line to `docs/log.md`: `## [date] query | 질문 요지 — analysis/<slug> 로 보존`
 5. Commit: `git add -A && git commit -m "query: analysis/<slug>"` (only when something was filed back).
 
 If it's a low-value one-line fact lookup, you may skip filing — use judgment, or ask the user "이거 위키에 남길까요?"

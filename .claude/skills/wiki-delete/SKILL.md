@@ -49,8 +49,8 @@ After deletion, no page should point to a now-missing page. Go through the inbou
 
 ### 5. Update index and log
 - Remove the deleted pages' entries from `wiki/index.md`.
-- Append one line to `log.md`: `## [date] delete | 삭제 대상 요지 — 페이지 N개 삭제, 링크 M건 정리`
-- (For a full-wiki wipe, you may keep `log.md` itself with a final entry recording the wipe, or remove it too if the user explicitly asks. Default: keep `log.md` so the history survives — confirm with the user.)
+- Append one line to `docs/log.md`: `## [date] delete | 삭제 대상 요지 — 페이지 N개 삭제, 링크 M건 정리`
+- (For a full-wiki wipe, you may keep `docs/log.md` itself with a final entry recording the wipe, or remove it too if the user explicitly asks. Default: keep `docs/log.md` so the history survives — confirm with the user.)
 
 ### 6. Commit and report
 - Commit: `git add -A && git commit -m "delete: <삭제 요지> — 페이지 N개"`. The pre-delete state stays recoverable from the previous commit.

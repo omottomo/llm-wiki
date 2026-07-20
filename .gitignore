@@ -6,3 +6,8 @@ __pycache__/
 
 # Generated static site (build.py output) and Pagefind search index.
 site/dist/
+
+# Local skills-CLI tooling (skills.sh / `npx skills`) — personal setup, not repo content.
+# The CLI requires its lockfile at the repo root, so it is ignored rather than moved.
+skills-lock.json
+.agents/

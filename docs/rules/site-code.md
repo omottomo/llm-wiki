@@ -2,10 +2,8 @@
 
 > Module of the repo's operating rules, split out of `CLAUDE.md`.
 > **Read this before touching `site/`, `scripts/`, `.github/`, or root config.** It governs
-> code-mode work: `/my-skills:orchestrate` runs, `/my-skills:create-prd-json`, the
-> planner/builder/evaluator team, and any direct code edit. The common rules in `CLAUDE.md`
-> (language rule, core principles, log.md, skill routing) always apply on top of this file.
-> The orchestrate team reaches this file through the adapter at `.claude/orchestrate.md`.
+> all code-mode work. The common rules in `CLAUDE.md` (language rule, core principles,
+> `docs/log.md`, skill routing) always apply on top of this file.
 
 ---
 
@@ -68,7 +66,7 @@ phase-8 consolidation — see §2.4.)
 `raw/` holds full auto-generated transcripts of **other people's** YouTube videos. It must **never** be published to the web, and must **never** land in a public repo. Two protections, both required:
 
 1. The GitHub repo stays **private**. (This is why Cloudflare Pages was chosen over GitHub Pages — the free GitHub Pages tier requires a public repo.)
-2. The generator's **content root is `wiki/` only** — `site/build.py` renders exactly the pages in `lint_wiki.wiki_pages()`; `raw/`, `log.md`, `CLAUDE.md`, `docs/`, `.claude/`, `.obsidian/` all sit outside it and are never read.
+2. The generator's **content root is `wiki/` only** — `site/build.py` renders exactly the pages in `lint_wiki.wiki_pages()`; `raw/`, `CLAUDE.md`, `docs/` (which holds `log.md` and `backlog.md`), `.claude/`, `.obsidian/` all sit outside it and are never read.
 
 **Every build must be audited:** `python3 scripts/verify_site.py` exits `0` — its leak audit checks that no raw-derived page is rendered, no transcript content appears verbatim in the output, no absolute local path (`/Users/...`) leaks, and every literal `raw/` match is a bare source citation. (A naive `grep -ril "raw/" site/dist/` always matches — see §2.4.) This is the standing close-out gate. Never flip the repo to public.
 

@@ -11,7 +11,7 @@ generic chatbot. Your job is to **accumulate** what you read into a structured w
 
 > **LANGUAGE RULE (critical):**
 > - This file, every skill and agent definition under `.claude/`, and every operating document under `docs/` (rule modules, plans, PRDs) are written in **English** — these are agent-facing operating files.
-> - But **all wiki content you write — every page under `wiki/`, every `index.md` entry, every `log.md` line, every summary, every page body and frontmatter `title`/`tags` — MUST be written in Korean (한국어).**
+> - But **all wiki content you write — every page under `wiki/`, every `index.md` entry, every `docs/log.md` line, every summary, every page body and frontmatter `title`/`tags` — MUST be written in Korean (한국어).**
 > - Page *filenames/slugs* stay in romanized ASCII for portability (e.g. `sources/article-foo.md`), but the human-readable `title` field and all body text are Korean.
 > - **When you talk to the user in chat, use Korean.**
 > - Korean therefore survives in the operating files in exactly two places, and both are deliberate: (a) **trigger phrases** the user literally types (§3), and (b) **output specimens and required literals** the agent must reproduce verbatim on wiki pages (the log examples in §2, the templates and markers in `docs/rules/wiki-content.md`). Do not "clean these up" into English — that would break skill routing and make the agent write English wiki pages.
@@ -25,7 +25,6 @@ llm-wiki/
 ├── CLAUDE.md          # this file. common operating rules — always in force.
 ├── .claude/
 │   ├── skills/        # per-task workflows (content: wiki-ingest / wiki-query / wiki-lint / wiki-delete)
-│   ├── orchestrate.md # dormant — adapter for the my-skills plugin (currently uninstalled); see §3
 │   └── settings.json  # project permissions
 ├── scripts/           # deterministic helper scripts (lint_wiki.py, verify_site.py)
 ├── docs/
@@ -33,7 +32,9 @@ llm-wiki/
 │   ├── rules/         # area-specific rule modules (see §4)
 │   │   ├── wiki-content.md   # content mode: page authoring, index.md, domain rules
 │   │   └── site-code.md      # code mode: coding discipline, site publishing, verification
-│   └── tasks/         # phase-{N}-{slug}/ — plan.md + prd.json per phase
+│   ├── tasks/         # phase-{N}-{slug}/ — plan.md + prd.json per phase
+│   ├── backlog.md     # ingest backlog — candidates & open questions (unpublished; not factual evidence)
+│   └── log.md         # chronological work log (append-only)
 ├── raw/               # source documents (IMMUTABLE, NEVER PUBLISHED)
 │   └── assets/        # downloaded images, etc.
 ├── wiki/              # markdown you generate & maintain (YOU own this)
@@ -43,9 +44,7 @@ llm-wiki/
 │   ├── concepts/      # concepts, topics, themes
 │   ├── sources/       # per-source summaries (1:1 with raw/)
 │   └── analysis/      # query answers worth keeping (comparisons, analyses, connections)
-├── site/              # static-site generator (build.py reads wiki/ → site/dist/, Pagefind search)
-├── backlog.md         # ingest backlog — candidates & open questions (unpublished; not factual evidence)
-└── log.md             # chronological work log (append-only)
+└── site/              # static-site generator (build.py reads wiki/ → site/dist/, Pagefind search)
 ```
 
 **Two modes, one repo.** **Content mode** — you are the librarian maintaining `wiki/` — is
@@ -63,7 +62,7 @@ before you touch anything.
 
 ---
 
-## 2. log.md (chronological, append-only)
+## 2. docs/log.md (chronological, append-only)
 
 Append one line per action. **Always start with a consistent prefix** so the log stays greppable.
 Entries are Korean — they are content, not operating instructions:
@@ -77,7 +76,7 @@ Entries are Korean — they are content, not operating instructions:
 
 The `site` prefix covers code-mode work (`docs/rules/site-code.md`): a Quartz, scripts, or CI phase gets **one** line at close-out, not one per task.
 
-Check the last 5 entries: `grep "^## \[" log.md | tail -5`
+Check the last 5 entries: `grep "^## \[" docs/log.md | tail -5`
 
 ---
 
@@ -94,8 +93,8 @@ Trigger phrases are quoted in the language the user actually types them in. Matc
 
 **Code mode** (you are building the published site; rules: this file + `docs/rules/site-code.md`). Work is organized as **phases** under `docs/tasks/phase-{N}-{slug}/`:
 - When a plan is agreed, write it as `plan.md` and, once decomposed, a `prd.json` of atomic tasks (schema: `id/title/scope/kind/depends_on/acceptance/status/attempts`).
-- Then **execute the tasks directly** in this session — gate on the verification order in `docs/rules/site-code.md` (lint → build → `verify_site.py`) and commit per task; append **one** `site` line to `log.md` at phase close-out.
-- *(History: the `my-skills` plugin once supplied `create-prd-json` and an `orchestrate` planner/evaluator/builder team for this; it is **currently uninstalled**. `.claude/orchestrate.md` is a dormant adapter kept in case it is reinstalled — ignore it unless the plugin is back.)*
+- Then **execute the tasks directly** in this session — gate on the verification order in `docs/rules/site-code.md` (lint → build → `verify_site.py`) and commit per task; append **one** `site` line to `docs/log.md` at phase close-out.
+- *(History: the `my-skills` plugin once supplied `create-prd-json` and an `orchestrate` planner/evaluator/builder team for this; that flow is retired and its `.claude/orchestrate.md` adapter was deleted 2026-07-20 — code-mode phases are executed directly in-session.)*
 
 **Routing rule:** if a request would change `wiki/` prose, it is content mode. If it would change `site/`, `scripts/`, `.github/`, or root config, it is code mode — never do it by hand-editing during an ingest.
 

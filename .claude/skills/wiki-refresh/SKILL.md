@@ -44,7 +44,7 @@ On `wiki/sources/<slug>.md`, regardless of classification, append one line to a 
 
 ### 8. Update index and log
 - Update `wiki/index.md` if new pages were created.
-- Append one line to `log.md`: `## [date] refresh | 소스 요지 — 변경 유형, 페이지 N개 갱신` (or "변경 없음" if every checked source was cosmetic-only/unchanged).
+- Append one line to `docs/log.md`: `## [date] refresh | 소스 요지 — 변경 유형, 페이지 N개 갱신` (or "변경 없음" if every checked source was cosmetic-only/unchanged).
 
 ### 9. Commit and report
 - Commit: `git add -A && git commit -m "refresh: <slug> — <요지>"` — one commit per refresh pass.
