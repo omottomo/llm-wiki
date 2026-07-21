@@ -11,3 +11,8 @@ site/dist/
 # The CLI requires its lockfile at the repo root, so it is ignored rather than moved.
 skills-lock.json
 .agents/
+
+# terraform
+infra/.terraform/
+*.tfstate
+*.tfstate.*
