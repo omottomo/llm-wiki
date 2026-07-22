@@ -15,7 +15,7 @@
 | `<DOMAIN>` | 구매한 도메인 | `example.com` |
 | `<STATE_BUCKET>` | TF state 버킷명 | `llm-wiki-tfstate-<ACCOUNT_ID>` |
 | `<SITE_BUCKET>` | 사이트 콘텐츠 버킷명 | `llm-wiki-site-<ACCOUNT_ID>` |
-| `<CF_DIST_ID>` | CloudFront 배포판 ID (Task 6 출력) | `E1ABCDEF234567` |
+| `E2P27J8OAFWVRE` | CloudFront 배포판 ID (Task 6 출력) | `E1ABCDEF234567` |
 | `<ROLE_ARN>` | 배포 role ARN (Task 9 출력) | `arn:aws:iam::…:role/llm-wiki-deploy` |
 
 **전역 제약:** Terraform ≥ 1.10 / ACM은 `us-east-1` / 나머지는 `ap-northeast-2` /
@@ -282,7 +282,7 @@ terraform plan    # 리소스 3종 추가 확인
 terraform apply   # yes 입력. 검증 대기 수 분 소요
 ```
 
-- [ ] **4.3 검증**
+- [x] **4.3 검증**
 
 ```bash
 aws acm list-certificates --region us-east-1 \
@@ -290,7 +290,7 @@ aws acm list-certificates --region us-east-1 \
 # 기대: "ISSUED"
 ```
 
-- [ ] **4.4 커밋**
+- [x] **4.4 커밋**
 
 ```bash
 cd ..
@@ -302,7 +302,7 @@ git commit -m "feat(infra): ACM certificate (us-east-1) with DNS validation"
 
 ## Task 5 — 사이트 콘텐츠 S3 버킷
 
-- [ ] **5.1 `infra/s3.tf`**
+- [x] **5.1 `infra/s3.tf`**
 
 ```hcl
 resource "aws_s3_bucket" "site" {
@@ -327,7 +327,7 @@ resource "aws_s3_bucket_public_access_block" "site" {
 
 (버킷 정책은 CloudFront 배포판 ARN이 필요해서 Task 6에서 추가)
 
-- [ ] **5.2 apply + 검증**
+- [x] **5.2 apply + 검증**
 
 ```bash
 cd infra && terraform apply
@@ -335,7 +335,7 @@ aws s3api head-bucket --bucket llm-wiki-site-<ACCOUNT_ID> && echo OK
 # 기대: OK
 ```
 
-- [ ] **5.3 커밋**
+- [x] **5.3 커밋**
 
 ```bash
 cd ..
