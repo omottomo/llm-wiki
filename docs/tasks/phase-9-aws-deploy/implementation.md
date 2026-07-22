@@ -38,14 +38,14 @@ aws --version        # aws-cli/2.x 이상
 terraform version    # v1.10 이상이어야 함 (S3 백엔드 네이티브 락)
 ```
 
-- [ ] **0.3 프로파일 설정** (IAM 사용자의 access key 준비)
+- [x] **0.3 프로파일 설정** (IAM 사용자의 access key 준비)
 
 ```bash
 aws configure --profile llm-wiki
 # Access Key ID / Secret / region: ap-northeast-2 / output: json
 ```
 
-- [ ] **0.4 자격 증명 + 계정 ID 확인**
+- [x] **0.4 자격 증명 + 계정 ID 확인**
 
 ```bash
 export AWS_PROFILE=llm-wiki      # 이후 모든 aws/terraform 명령이 이 프로파일 사용
@@ -62,7 +62,7 @@ aws sts get-caller-identity --query Account --output text
 
 state 버킷은 Terraform 밖에서 만든다 (순환 문제). 4개 명령.
 
-- [ ] **1.1 버킷 생성**
+- [x] **1.1 버킷 생성**
 
 ```bash
 aws s3api create-bucket \
@@ -71,7 +71,7 @@ aws s3api create-bucket \
   --create-bucket-configuration LocationConstraint=ap-northeast-2
 ```
 
-- [ ] **1.2 버저닝 (state 이력 보존)**
+- [x] **1.2 버저닝 (state 이력 보존)**
 
 ```bash
 aws s3api put-bucket-versioning \
@@ -79,7 +79,7 @@ aws s3api put-bucket-versioning \
   --versioning-configuration Status=Enabled
 ```
 
-- [ ] **1.3 퍼블릭 차단**
+- [x] **1.3 퍼블릭 차단**
 
 ```bash
 aws s3api put-public-access-block \
@@ -97,7 +97,7 @@ aws s3api put-bucket-encryption \
   '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]}'
 ```
 
-- [ ] **1.5 검증**
+- [x] **1.5 검증**
 
 ```bash
 aws s3api get-bucket-versioning --bucket llm-wiki-tfstate-<ACCOUNT_ID>
@@ -110,15 +110,15 @@ aws s3api get-bucket-versioning --bucket llm-wiki-tfstate-<ACCOUNT_ID>
 
 도메인 등록은 Terraform 리소스가 아님 — 콘솔에서 1회 수동.
 
-- [ ] **2.1** AWS 콘솔 → Route53 → **Registered domains** → **Register domains** → 원하는 이름 검색 → 구매 (연락처 입력, privacy protection 기본 on 유지)
-- [ ] **2.2** 등록 완료 메일 대기 (수분–수십 분). 상태 확인:
+- [x] **2.1** AWS 콘솔 → Route53 → **Registered domains** → **Register domains** → 원하는 이름 검색 → 구매 (연락처 입력, privacy protection 기본 on 유지)
+- [x] **2.2** 등록 완료 메일 대기 (수분–수십 분). 상태 확인:
 
 ```bash
 aws route53domains list-domains --region us-east-1
 # 도메인 API는 us-east-1 전용
 ```
 
-- [ ] **2.3** 구매 시 자동 생성된 hosted zone 확인:
+- [x] **2.3** 구매 시 자동 생성된 hosted zone 확인:
 
 ```bash
 aws route53 list-hosted-zones --query "HostedZones[].Name"
@@ -131,7 +131,7 @@ aws route53 list-hosted-zones --query "HostedZones[].Name"
 
 ## Task 3 — Terraform 스캐폴드 + init
 
-- [ ] **3.1 디렉터리 + .gitignore**
+- [x] **3.1 디렉터리 + .gitignore**
 
 ```bash
 mkdir -p infra
@@ -146,7 +146,7 @@ EOF
 
 (`.terraform.lock.hcl`은 커밋 대상 — ignore에 넣지 않는다)
 
-- [ ] **3.2 `infra/versions.tf`**
+- [x] **3.2 `infra/versions.tf`**
 
 ```hcl
 terraform {
@@ -168,7 +168,7 @@ terraform {
 }
 ```
 
-- [ ] **3.3 `infra/providers.tf`**
+- [x] **3.3 `infra/providers.tf`**
 
 ```hcl
 provider "aws" {
@@ -182,7 +182,7 @@ provider "aws" {
 }
 ```
 
-- [ ] **3.4 `infra/variables.tf`**
+- [x] **3.4 `infra/variables.tf`**
 
 ```hcl
 variable "domain" {
@@ -202,14 +202,14 @@ variable "github_repo" {
 }
 ```
 
-- [ ] **3.5 `infra/terraform.tfvars`** (커밋해도 됨 — 비밀값 없음)
+- [x] **3.5 `infra/terraform.tfvars`** (커밋해도 됨 — 비밀값 없음)
 
 ```hcl
 domain           = "<DOMAIN>"
 site_bucket_name = "llm-wiki-site-<ACCOUNT_ID>"
 ```
 
-- [ ] **3.6 init + 검증**
+- [x] **3.6 init + 검증**
 
 ```bash
 cd infra
@@ -219,7 +219,7 @@ terraform validate
 # 기대: "Success! The configuration is valid."
 ```
 
-- [ ] **3.7 커밋**
+- [x] **3.7 커밋**
 
 ```bash
 cd ..
@@ -231,7 +231,7 @@ git commit -m "feat(infra): terraform scaffold — s3 backend, providers, variab
 
 ## Task 4 — ACM 인증서 (us-east-1) + DNS 검증
 
-- [ ] **4.1 `infra/acm.tf`**
+- [x] **4.1 `infra/acm.tf`**
 
 ```hcl
 data "aws_route53_zone" "main" {
@@ -274,7 +274,7 @@ resource "aws_acm_certificate_validation" "site" {
 }
 ```
 
-- [ ] **4.2 apply**
+- [x] **4.2 apply**
 
 ```bash
 cd infra
