@@ -22,10 +22,10 @@ resource "aws_route53_record" "cert_validation" {
     }
   }
 
-  zone_id = date.aws_route53_zone.main.zone_id
+  zone_id = data.aws_route53_zone.main.zone_id
   name = each.value.name
   type = each.value.type
-  record = [each.value.record]
+  records = [each.value.record]
   ttl = 300
 }
 
