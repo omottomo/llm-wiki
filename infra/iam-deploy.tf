@@ -22,7 +22,10 @@ data "aws_iam_policy_document" "deploy_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:ref:refs/heads/main"]
+      values = [
+        "repo:${var.github_repo_immutable}:ref:refs/heads/main", # 현재 발급되는 형식
+        "repo:${var.github_repo}:ref:refs/heads/main",           # 레거시 형식 (폴백)
+      ]
     }
   }
 }
