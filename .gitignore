@@ -16,3 +16,6 @@ skills-lock.json
 infra/.terraform/
 *.tfstate
 *.tfstate.*
+
+# vim swap files
+*.sw[op]

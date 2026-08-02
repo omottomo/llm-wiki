@@ -131,14 +131,20 @@ Terraform 순환 문제(state 버킷은 자기가 저장할 state 안에 살 수
    - gate: `python3 site/test_build_site.py` + `python3 scripts/verify_site.py`
      (exit 0 아니면 배포 중단 — raw/ 유출 게이트)
 4. `aws-actions/configure-aws-credentials@v4` — OIDC role ARN + 리전
-5. 업로드 — **Cache-Control 차등 적용이 핵심**:
-   - `aws s3 sync site/dist s3://<bucket> --delete --exclude "*.html" --cache-control
-     "public,max-age=31536000,immutable"` (Pagefind 에셋 — 인덱스 재생성 시 파일명이
-     바뀌므로 immutable 안전)
-   - HTML은 별도: `--include "*.html" --cache-control "public,max-age=0,must-revalidate"`
-     (invalidation 의존도 낮춤)
-   - 주의: `style.css`는 파일명 고정 + 내용 가변 → 빌드에 콘텐츠 해시 붙이기 전까지는
-     HTML과 같은 짧은 캐시 그룹에 둘 것
+5. 업로드 — **Cache-Control 차등 적용이 핵심**. 기준은 "HTML이냐"가 아니라
+   **"파일명에 내용 해시가 박혔느냐"**:
+   - 장기 캐시(화이트리스트): `aws s3 sync site/dist s3://<bucket> --delete
+     --exclude "*" --include "pagefind/fragment/*" --include "pagefind/index/*"
+     --include "pagefind/*.pf_meta" --cache-control "public,max-age=31536000,immutable"`
+   - 짧은 캐시(그 여집합): 같은 sync에 `--delete` +
+     `--exclude "pagefind/fragment/*" --exclude "pagefind/index/*" --exclude "pagefind/*.pf_meta"`
+     + `--cache-control "public,max-age=0,must-revalidate"` (invalidation 의존도 낮춤)
+   - 주의: Pagefind 출력은 해시 이름과 고정 이름이 **섞여 있다**. `pagefind-entry.json`,
+     `pagefind.js`, `pagefind-ui.{js,css}`, `wasm.unknown.pagefind` 등은 이름 고정 + 내용 가변이라
+     immutable 로 굳히면 재빌드 후 `--delete` 된 옛 `.pf_meta` 를 재방문자가 계속 요청해 검색이
+     깨진다(브라우저 캐시라 invalidation 으로 못 고침). `style.css` 도 같은 이유로 짧은 캐시 그룹.
+     그래서 블랙리스트가 아니라 화이트리스트 — 새 고정이름 파일이 생겨도 안전한 쪽으로 떨어진다.
+   - 두 필터가 서로 여집합이라 모든 객체가 정확히 한쪽 `--delete` 관리를 받는다
 6. `aws cloudfront create-invalidation --paths "/*"` (`/*`는 경로 1개로 계산;
    월 1,000 경로 무료 — 비용 문제 없음)
 7. 버킷명/배포판 ID/role ARN은 GitHub repository variables로 주입

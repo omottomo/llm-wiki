@@ -16,7 +16,7 @@
 | `<STATE_BUCKET>` | TF state 버킷명 | `llm-wiki-tfstate-<ACCOUNT_ID>` |
 | `<SITE_BUCKET>` | 사이트 콘텐츠 버킷명 | `llm-wiki-site-<ACCOUNT_ID>` |
 | `E2P27J8OAFWVRE` | CloudFront 배포판 ID (Task 6 출력) | `E1ABCDEF234567` |
-| `<ROLE_ARN>` | 배포 role ARN (Task 9 출력) | `arn:aws:iam::…:role/llm-wiki-deploy` |
+| `<ROLE_ARN>` | 배포 role ARN (Task 9 출력) | `arn:aws:iam::<ACCOUNT_ID>:role/llm-wiki-deploy` |
 
 **전역 제약:** Terraform ≥ 1.10 / ACM은 `us-east-1` / 나머지는 `ap-northeast-2` /
 배포 전 `scripts/verify_site.py` exit 0 필수 / 레포 private 유지.
