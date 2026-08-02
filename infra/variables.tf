@@ -1,5 +1,5 @@
 variable "domain" {
-  type = string 
+  type = string
 }
 
 variable "site_bucket_name" {
@@ -7,6 +7,6 @@ variable "site_bucket_name" {
 }
 
 variable "github_repo" {
-  type = string
+  type    = string
   default = "omottomo/llm-wiki"
 }
