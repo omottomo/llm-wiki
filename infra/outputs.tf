@@ -9,3 +9,7 @@ output "cf_domain_name" {
 output "site_bucket" {
   value = aws_s3_bucket.site.id
 }
+
+output "deploy_role_arn" {
+  value = aws_iam_role.deploy.arn
+}
