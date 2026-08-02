@@ -2,8 +2,8 @@
 title: Terraform
 type: entity
 created: 2026-07-18
-updated: 2026-07-19
-sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs]
+updated: 2026-08-02
+sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs, terraform-hcl-syntax]
 tags: [코드형인프라, HashiCorp, 도구]
 ---
 
@@ -31,7 +31,7 @@ Terraform은 구성과 실세계를 잇는 **상태 파일**(`terraform.tfstate`
 
 ## 구성 언어(HCL)와 모듈
 
-HCL 문법은 **블록·인수·표현식** 세 요소가 전부이며, 언어의 주목적은 리소스 선언이고 나머지 기능은 그것을 유연하게 만드는 보조다. 선언형이라 블록 순서는 의미가 없고, 리소스 간 참조에서 종속성 그래프를 만들어 실행 순서를 결정한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). **모듈**은 함께 관리되는 리소스 묶음으로(루트 모듈이 자식 모듈을 호출), 변수(입력)·로컬(내부 재사용)·출력(외부 노출)이 인터페이스를 이루고, 레지스트리로 공유해 조직의 인프라 표준을 재사용 가능한 코드로 굳힌다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+[[concepts/hcl|HCL]] 문법은 **블록·인수·표현식** 세 요소가 전부이며, 언어의 주목적은 리소스 선언이고 나머지 기능은 그것을 유연하게 만드는 보조다. 선언형이라 블록 순서는 의미가 없고, 리소스 간 참조에서 종속성 그래프를 만들어 실행 순서를 결정한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 블록 라벨 개수·`resource` vs `data`·provider alias·메타 인수 등 구성 파일 수준의 실제 문법은 [[concepts/hcl|HCL]] 페이지에 정리했다 (→ [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]]). **모듈**은 함께 관리되는 리소스 묶음으로(루트 모듈이 자식 모듈을 호출), 변수(입력)·로컬(내부 재사용)·출력(외부 노출)이 인터페이스를 이루고, 레지스트리로 공유해 조직의 인프라 표준을 재사용 가능한 코드로 굳힌다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
 ## CLI 주요 명령
 
