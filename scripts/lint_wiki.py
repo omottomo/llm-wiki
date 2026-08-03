@@ -60,10 +60,16 @@ KNOWN_TAG_VARIANT_GROUPS = [
 ]
 
 issues = []
+warnings = []
 
 
 def add(category: str, message: str) -> None:
     issues.append((category, message))
+
+
+def warn(category: str, message: str) -> None:
+    """종료 코드에 반영하지 않는 경고 — 가독성 규칙처럼 판단이 섞이는 항목용."""
+    warnings.append((category, message))
 
 
 def normalize_target(raw_target: str) -> str:
@@ -284,6 +290,82 @@ def check_retracted_markers(pages):
             add("미해결 마커", f"{rel} — RETRACTED-SOURCE 마커 {count}건 남아있음 (재종합 후 마커 제거 필요)")
 
 
+REQUIRED_HEADINGS = {
+    "concept": ["## 한눈에 요약", "## 함께 읽기"],
+    "entity": ["## 한눈에 요약", "## 이 위키에서의 등장", "## 함께 읽기"],
+    "analysis": ["## 결론 먼저", "## 비교표", "## 함께 읽기"],
+}
+LEGACY_CLOSERS = ["## 관련 문서", "## 같이 보기", "## 연결"]
+MAX_SECTION_CHARS = 1200
+MAX_SENTENCE_CHARS = 100
+SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
+CITATION_PAREN_RE = re.compile(r"\(→[^)]*(?:\)[^)]*)*?\)")
+
+
+def check_page_structure(pages):
+    """docs/rules/wiki-content.md §1.1~§1.2 구조·가독성 검사 (phase-14).
+
+    오류(종료 코드에 반영): 필수 헤딩 누락, 리드 문단 잔존.
+    경고(종료 코드 무관): 구 마무리 헤딩, 과대 H2 덩이, 과대 문장."""
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+        fm = parse_frontmatter(text)
+        page_type = (fm or {}).get("type", "")
+        if page_type not in REQUIRED_HEADINGS:
+            continue
+        rel = page.relative_to(ROOT)
+        body = split_body(text)
+
+        for heading in REQUIRED_HEADINGS[page_type]:
+            if not re.search(rf"^{re.escape(heading)}\s*$", body, re.M):
+                add("페이지 구조", f"{rel} — 필수 헤딩 없음: {heading}")
+
+        # 리드 문단: H1 과 첫 '## ' 사이에 산문이 남아 있으면 안 된다
+        after_h1 = re.split(r"^# .+$", body, maxsplit=1, flags=re.M)
+        if len(after_h1) == 2:
+            head = re.split(r"^## ", after_h1[1], maxsplit=1, flags=re.M)[0]
+            if head.strip():
+                add("페이지 구조", f"{rel} — H1 과 첫 '## ' 사이에 리드 문단이 남아 있음")
+
+        for legacy in LEGACY_CLOSERS:
+            if re.search(rf"^{re.escape(legacy)}\s*$", body, re.M):
+                warn("가독성", f"{rel} — 구 마무리 헤딩 '{legacy}' → '## 함께 읽기' 로 통일할 것")
+
+        prose = INLINE_CODE_RE.sub("", FENCE_RE.sub("", body))
+        # H2 아래 '직접' 붙은 산문만 잰다 — H3 로 쪼갠 구획은 이미 나뉜 것이므로 합산하지 않는다.
+        for match in re.finditer(r"^#{2,3} .+$", prose, re.M):
+            start = match.end()
+            nxt = re.search(r"^#{2,3} ", prose[start:], re.M)
+            chunk = prose[start: start + nxt.start()] if nxt else prose[start:]
+            # 표·목록은 훑어보는 요소라 '산문 벽'으로 세지 않는다.
+            chunk = "\n".join(
+                l for l in chunk.splitlines()
+                if not re.match(r"[-*|]|\d+\.", l.lstrip())
+            )
+            if len(chunk) > MAX_SECTION_CHARS:
+                warn(
+                    "가독성",
+                    f"{rel} — '{match.group(0).strip()}' 아래 {len(chunk)}자 "
+                    f"({MAX_SECTION_CHARS}자 초과) — H3 로 쪼갤 것",
+                )
+
+        long_sentences = 0
+        for line in prose.splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith(("|", "#", "```")):
+                continue
+            # 인용 괄호는 렌더 시 위첨자 칩으로 접히므로 읽는 길이에 세지 않는다.
+            plain = CITATION_PAREN_RE.sub("", stripped)
+            plain = WIKILINK_RE.sub(
+                lambda m: m.group(1).replace("\\|", "|").split("|")[-1], plain
+            )
+            long_sentences += sum(
+                1 for s in SENTENCE_SPLIT_RE.split(plain) if len(s) > MAX_SENTENCE_CHARS
+            )
+        if long_sentences:
+            warn("가독성", f"{rel} — {MAX_SENTENCE_CHARS}자 초과 문장 {long_sentences}건")
+
+
 def resolve_page_key(arg: str, pages) -> str | None:
     """경로('wiki/concepts/hooks.md', 'concepts/hooks.md') 또는 슬러그('concepts/hooks')를
     page_key 형식으로 정규화한다. 대상 페이지가 없으면 None."""
@@ -423,10 +505,11 @@ def main() -> int:
     check_link_format(pages)
     check_bare_citations(pages)
     check_retracted_markers(pages)
+    check_page_structure(pages)
 
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
-        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과 · 미해결 마커 0)")
+        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과 · 미해결 마커 0 · 페이지 구조 통과)")
         exit_code = 0
     else:
         by_cat = {}
@@ -438,6 +521,16 @@ def main() -> int:
                 print(f"- {msg}")
         print(f"\n총 {len(issues)}건 — 위 항목을 wiki-lint 절차에 따라 처리하세요.")
         exit_code = 1
+
+    if warnings:
+        by_cat = {}
+        for cat, msg in warnings:
+            by_cat.setdefault(cat, []).append(msg)
+        print(f"\n## 가독성 경고 (종료 코드에 영향 없음, 총 {len(warnings)}건)")
+        for cat, msgs in by_cat.items():
+            print(f"\n### {cat} ({len(msgs)}건)")
+            for msg in msgs:
+                print(f"- {msg}")
 
     print_tag_hygiene_report(pages)
     return exit_code

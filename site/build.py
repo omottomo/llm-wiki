@@ -49,8 +49,14 @@ SOURCE_INFO_SECTION = "## 출처 정보"
 RAW_BULLET_RE = re.compile(r"^\s*[-*]\s+raw:")
 
 SUMMARY_MAX = 100
+SUMMARY_MIN = 45   # 이보다 짧으면 다음 문장을 이어 붙인다 (불릿 발췌가 토막나는 것 방지)
 SUMMARY_SOURCE_RE = re.compile(r"^## 한 줄 요약\s*\n+(?!#)(.+?)(?=\n\s*\n|\n#|\Z)", re.M | re.S)
 SUMMARY_LEAD_RE = re.compile(r"^# .+?\n\s*\n(?!#)(.+?)(?=\n\s*\n|\n#|\Z)", re.M | re.S)
+# phase-14: 리드 문단을 걷어낸 뒤로는 페이지 첫 요약 구획이 발췌원이다.
+# concept·entity 는 '## 한눈에 요약'의 불릿, analysis 는 '## 결론 먼저'의 인용문.
+SUMMARY_GLANCE_RE = re.compile(
+    r"^## (?:한눈에 요약|결론 먼저)\s*\n+((?:[-*>] .+\n?)+)", re.M
+)
 MARKUP_RE = re.compile(r"[*`>]|\[|\]\([^)]*\)")   # 강조·인라인코드·인용부호·마크다운 링크
 
 
@@ -65,19 +71,28 @@ def parse_tags(value: str) -> list[str]:
 def extract_summary(body: str, page_type: str) -> str:
     """페이지 한 줄 설명 — frontmatter 스키마를 늘리지 않고 본문에서 뽑는다.
 
-    source 페이지는 '## 한 줄 요약'의 첫 문장, 나머지는 H1 다음 첫 문단의 첫 문장.
+    source 페이지는 '## 한 줄 요약'의 첫 문장. 나머지는 '## 한눈에 요약'의 첫 불릿들이며,
+    아직 리드 문단만 있는 미개정 페이지는 H1 다음 첫 문단으로 폴백한다.
     해당 구획이 없으면 빈 문자열."""
-    pattern = SUMMARY_SOURCE_RE if page_type == "source" else SUMMARY_LEAD_RE
-    found = pattern.search(body)
+    if page_type == "source":
+        found = SUMMARY_SOURCE_RE.search(body)
+    else:
+        found = SUMMARY_GLANCE_RE.search(body) or SUMMARY_LEAD_RE.search(body)
     if not found:
         return ""
-    text = CITATION_RE.sub("", found.group(1))
+    text = re.sub(r"^[-*>] ", "", found.group(1), flags=re.M)
+    text = CITATION_RE.sub("", text)
     text = lint_wiki.WIKILINK_RE.sub(
         lambda m: m.group(1).replace("\\|", "|").split("|")[-1].split("#")[0].strip(), text
     )
     text = MARKUP_RE.sub("", text)
     text = re.sub(r"\s+([.,;)])", r"\1", " ".join(text.split()))  # 인용을 걷어낸 자리의 공백
-    sentence = re.split(r"(?<=[.!?])\s", text, maxsplit=1)[0]
+    # 불릿 하나는 한 문장이라 짧다 — SUMMARY_MIN 을 넘길 때까지 다음 문장을 붙인다.
+    sentence = ""
+    for part in re.split(r"(?<=[.!?])\s", text):
+        if sentence and len(sentence) >= SUMMARY_MIN:
+            break
+        sentence = f"{sentence} {part}".strip()
     if len(sentence) > SUMMARY_MAX:
         sentence = sentence[:SUMMARY_MAX].rstrip() + "…"
     return sentence
@@ -240,6 +255,36 @@ document.querySelector("#theme-toggle").addEventListener("click", () => {{
 }});
 </script>
 <script>
+// 목차 스크롤 하이라이트: 화면 상단을 지난 마지막 헤딩을 활성으로 표시한다.
+window.addEventListener("DOMContentLoaded", () => {{
+  const toc = document.querySelector(".toc");
+  if (!toc) return;
+  const links = new Map();
+  for (const a of toc.querySelectorAll("a"))
+    links.set(decodeURIComponent(a.hash.slice(1)), a);
+  const heads = [...document.querySelectorAll("article h2[id], article h3[id]")]
+    .filter((h) => links.has(h.id));
+  if (!heads.length) return;
+  let active = null, ticking = false;
+  const spy = () => {{
+    ticking = false;
+    let cur = heads[0];
+    for (const h of heads) {{
+      if (h.getBoundingClientRect().top > 80) break;
+      cur = h;
+    }}
+    if (cur === active) return;
+    if (active) links.get(active.id).classList.remove("active");
+    links.get(cur.id).classList.add("active");
+    active = cur;
+  }};
+  addEventListener("scroll", () => {{
+    if (!ticking) {{ ticking = true; requestAnimationFrame(spy); }}
+  }}, {{ passive: true }});
+  spy();
+}});
+</script>
+<script>
 window.addEventListener("DOMContentLoaded", () => {{
   // #search는 홈·404의 큰 검색창, #header-search는 모든 페이지의 헤더 검색창 (서로 다른 인스턴스)
   for (const id of ["#search", "#header-search"]) {{
@@ -343,6 +388,53 @@ def render_404() -> str:
     return base_html("페이지 없음", content, path="/404.html")
 
 
+HEADING_RE = re.compile(r"<h([23])>(.*?)</h\1>", re.S)
+TAG_RE = re.compile(r"<[^>]+>")
+SLUG_DROP = re.compile(r"[^0-9A-Za-z가-힣\s-]")
+
+
+def slugify(text: str) -> str:
+    s = SLUG_DROP.sub("", text).strip()
+    return re.sub(r"\s+", "-", s).lower() or "section"
+
+
+H1_RE = re.compile(r"<h1>.*?</h1>", re.S)
+
+
+def split_h1(body_html: str) -> tuple[str, str]:
+    """렌더된 본문에서 첫 H1을 떼어낸다. 목차를 <article> 밖 사이드 칼럼에 놓기 위함."""
+    m = H1_RE.search(body_html)
+    if not m:
+        return "", body_html
+    return m.group(0), body_html[: m.start()] + body_html[m.end() :]
+
+
+def add_toc(body_html: str) -> tuple[str, str]:
+    """H2·H3에 id를 달고 (본문, 목차 HTML)을 돌려준다. 항목 3개 미만이면 목차는 빈 문자열."""
+    items: list[tuple[str, str, str]] = []
+    used: dict[str, int] = {}
+
+    def anchor(match: re.Match) -> str:
+        level, inner = match.group(1), match.group(2)
+        text = html.unescape(TAG_RE.sub("", inner)).strip()
+        slug = slugify(text)
+        used[slug] = used.get(slug, 0) + 1
+        if used[slug] > 1:
+            slug = f"{slug}-{used[slug]}"
+        items.append((level, slug, text))
+        return f'<h{level} id="{slug}">{inner}</h{level}>'
+
+    out = HEADING_RE.sub(anchor, body_html)
+    if len(items) < 3:
+        return out, ""
+    lis = "".join(
+        f'<li class="toc-h{level}"><a href="#{urllib.parse.quote(slug)}">'
+        f"{html.escape(text)}</a></li>"
+        for level, slug, text in items
+    )
+    return out, f'<nav class="toc"><p class="toc-title">목차</p><ul>{lis}</ul></nav>'
+
+
 def render_article(page: dict, pages: dict, inbound: dict) -> str:
     crumb = ""
     section = page["key"].split("/")[0] if "/" in page["key"] else ""
@@ -354,7 +446,8 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
             f'<span>{html.escape(page["title"])}</span></nav>'
         )
     body = render_citations(strip_internal_sections(page["body"]))
-    body_html = md.render(link_wikilinks(body, pages))
+    body_html, toc_html = add_toc(md.render(link_wikilinks(body, pages)))
+    h1_html, body_html = split_h1(body_html)
     updated = f'<p class="meta">갱신 {page["updated"]}</p>' if page["updated"] else ""
     back = sorted(inbound.get(page["key"], set()))
     back_html = ""
@@ -364,8 +457,9 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
             for k in back
         )
         back_html = (
-            '<section class="backlinks"><h2>이 문서를 참조하는 문서</h2>'
-            f"<ul>{items}</ul></section>"
+            '<section class="backlinks"><details>'
+            f"<summary>이 문서를 참조하는 문서 {len(back)}개</summary>"
+            f"<ul>{items}</ul></details></section>"
         )
     tags_html = ""
     if page["tags"]:
@@ -374,9 +468,13 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
         )
         tags_html = f'<footer class="tags">{chips}</footer>'
     pagefind_attr = "" if page["key"] == "index" else " data-pagefind-body"
+    # h1이 <article> 밖으로 나갔으므로 Pagefind가 제목을 계속 색인하도록 같은 표시를 단다.
+    if pagefind_attr and h1_html:
+        h1_html = h1_html.replace("<h1>", "<h1 data-pagefind-body>", 1)
     return base_html(
         page["title"],
-        f"<main>{crumb}<article{pagefind_attr}>{updated}\n{body_html}\n{tags_html}</article>\n{back_html}</main>",
+        f'<main class="{"has-toc" if toc_html else ""}">{crumb}{h1_html}{toc_html}'
+        f"<article{pagefind_attr}>{updated}\n{body_html}\n{tags_html}</article>\n{back_html}</main>",
         summary=page["summary"],
         path=url_for(page["key"]),
     )

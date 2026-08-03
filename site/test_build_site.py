@@ -4,8 +4,10 @@
 사용법: python3 site/test_build_site.py   (빌드를 실제로 실행한 뒤 dist/를 검사)
 종료 코드: 전부 통과 0, 아니면 traceback과 함께 비0.
 """
+import re
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -55,6 +57,25 @@ def test_wikilinks_resolve_and_backlinks_render() -> None:
     harness = (DIST / "concepts" / "harness-engineering" / "index.html").read_text(encoding="utf-8")
     assert "이 문서를 참조하는 문서" in harness
     assert 'href="/overview/"' in harness
+
+
+def test_toc_links_match_heading_ids() -> None:
+    """헤딩 3개 이상인 기사에는 목차가 붙고, 목차의 모든 앵커가 실제 헤딩 id와 일치한다."""
+    page = (DIST / "concepts" / "claude-md" / "index.html").read_text(encoding="utf-8")
+    assert '<nav class="toc">' in page
+    toc = re.search(r'<nav class="toc">.*?</nav>', page, re.S).group(0)
+    targets = [urllib.parse.unquote(h) for h in re.findall(r'href="#([^"]+)"', toc)]
+    ids = set(re.findall(r'<h[23] id="([^"]+)"', page))
+    assert targets, "목차가 비어 있다"
+    assert not [t for t in targets if t not in ids], f"깨진 앵커: {[t for t in targets if t not in ids]}"
+
+    assert 'class="has-toc"' in page and "</h1>" in page.split('<nav class="toc">')[0], (
+        "목차는 <article> 밖, h1 뒤에 놓여야 사이드 칼럼으로 배치된다"
+    )
+    assert "<h1 data-pagefind-body>" in page, "h1이 article 밖으로 나가도 Pagefind 색인에 남아야 한다"
+
+    _, short = build.add_toc("<h2>하나</h2><p>본문</p><h2>둘</h2>")
+    assert short == "", "헤딩 2개짜리 문서에는 목차를 붙이지 않는다"
 
 
 def test_dead_wikilink_renders_muted() -> None:

@@ -46,16 +46,21 @@ docs/
     ├── phase-11-ci-deploy-gate/
     │   ├── plan.md                 # merge the two push-triggered workflows so deploy declares needs: [verify, lint]
     │   └── prd.json                # 3 tasks (2 builder + 1 verify)
-    └── phase-12-wiki-identity-copy/
-        ├── plan.md                 # sweep the playlist framing and the "central topic = Claude Code" claim out of the wiki
-        └── prd.json                # 8 tasks (7 builder + 1 evaluator)
+    ├── phase-12-wiki-identity-copy/
+    │   ├── plan.md                 # sweep the playlist framing and the "central topic = Claude Code" claim out of the wiki
+    │   └── prd.json                # 8 tasks (7 builder + 1 evaluator)
+    ├── phase-13-pr-gate-and-infra-ci/
+    │   └── plan.md                 # move CI from push-to-main to pull requests; read-only IAM role for terraform plan
+    └── phase-14-readable-pages/
+        ├── plan.md                 # per-type body templates, plain-writing + voice rules, lead-paragraph removal
+        └── prd.json                # 16 tasks (14 builder + 1 evaluator + 1 git)
 ```
 
 ## rules/ — when to read which
 
 | Document | Read before |
 |---|---|
-| [rules/wiki-content.md](rules/wiki-content.md) | creating or editing `wiki/` prose — ingest, query file-back, lint fixes, deletion |
+| [rules/wiki-content.md](rules/wiki-content.md) | creating or editing `wiki/` prose — ingest, query file-back, lint fixes, deletion. §1.1 per-type required headings, §1.2 plain-writing rules, §1.3 voice |
 | [rules/site-code.md](rules/site-code.md) | touching `site/`, `scripts/`, `.github/`, or root config — any code-mode work |
 
 Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the common rules
@@ -85,3 +90,5 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 | [tasks/phase-10-visitor-facing-site/](tasks/phase-10-visitor-facing-site/plan.md) | `plan.md` + `prd.json` — 22 tasks (21 builder + 1 manual), 2026-08-02: make the site readable for a first-time visitor. Part A (`site/`): inline citations collapsed into numbered chips, librarian-only sections filtered at render time, search in the header of every page, one-line summaries in listings, rewritten home with a three-step start path, breadcrumbs, `/tags/` index, description/OG/canonical metadata, `sitemap.xml` + `robots.txt`, extended build tests. Part B (`wiki/`): a no-background Korean lead paragraph on all 39 concept/entity/analysis pages. Part C: the new authoring and site rules. **T01–T21 done (2026-08-02)**; T22 (human visual pass) open |
 | [tasks/phase-11-ci-deploy-gate/](tasks/phase-11-ci-deploy-gate/plan.md) | `plan.md` + `prd.json` — 3 tasks (2 builder + 1 verify), 2026-08-03: `verify-site.yml` and `deploy-site.yml` were two workflows both triggered by `push` to `main`, so they ran concurrently and nothing ordered them — lint lived only in the first, so a lint violation reddened CI while the site still deployed. Merged into one `site.yml` whose `deploy` job declares `needs: [verify, lint]`, dropped the triple site build inside deploy, kept `verify_site.py` there as a deliberate pre-upload audit of the exact `dist/`, and pinned all three jobs to the same actions and Python. **T01–T03 done (2026-08-03)**; first post-merge run green with `deploy` starting after both upstream jobs completed |
 | [tasks/phase-12-wiki-identity-copy/](tasks/phase-12-wiki-identity-copy/plan.md) | `plan.md` + `prd.json` — 8 tasks (7 builder + 1 evaluator), 2026-08-03: the wiki still described itself as a YouTube-playlist digest and asserted Claude Code / harness engineering as its central subject, on `overview.md`, `index.md`, several concept/entity/analysis pages, the `SITE_DESCRIPTION` copy in `site/build.py`, and the §3 charter here. Both framings swept out; per-source `재생목록:`/`자막:` metadata and the `#N` citation labels deliberately preserved |
+| [tasks/phase-13-pr-gate-and-infra-ci/](tasks/phase-13-pr-gate-and-infra-ci/plan.md) | `plan.md` — 2026-08-03: CI only ran on push to `main`, so a broken commit could not be caught before it landed. Split `site.yml` into `verify.yml` (pull requests) and `deploy.yml` (main), and added a read-only IAM role so `terraform plan` can run on PRs without deploy credentials |
+| [tasks/phase-14-readable-pages/](tasks/phase-14-readable-pages/plan.md) | `plan.md` + `prd.json` — 16 tasks, 2026-08-03/04: `concepts/`, `entities/` and `analysis/` had no body template, three different names for the closing link section, no H3 anywhere, and paragraph walls up to 1,700 chars. Fixed per-type required headings (§1.1 of wiki-content.md), eight checkable plain-writing rules (§1.2) and an "explaining to someone" register (§1.3); `check_page_structure` in `lint_wiki.py` enforces them. **The phase-10 lead paragraph is removed** and `extract_summary` now reads the `## 한눈에 요약` bullets instead. Site side: auto table of contents with a sticky sidebar and scroll spy, backlinks collapsed. All 40 pages rewritten |

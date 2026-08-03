@@ -1,0 +1,198 @@
+{
+  "phase": "phase-14-readable-pages",
+  "goal": "Give concepts/, entities/ and analysis/ a fixed body template like sources/ has, drop the lead paragraph in favour of a scannable summary block, and rewrite all 40 pages in a plain 'explaining to someone' Korean register. Site-side: the summary extractor moves off the lead, articles get an auto table of contents. Design: plan.md. Reference style: https://inpa.tistory.com/",
+  "created_at": "2026-08-03",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Sample pass — 3 pages, one per type, plus the extractor and TOC changes",
+      "scope": "wiki/concepts/claude-md.md, wiki/entities/terraform.md, wiki/analysis/ai-coding-evolution.md, site/build.py, site/style.css, site/test_build_site.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "Done before the PRD was written, kept here so the dependency graph is honest. The three pages carry the §3 templates, no lead paragraph, and the §4-1/§4-2 prose rules. site/build.py: SUMMARY_GLANCE_RE reads '## 한눈에 요약' bullets or '## 결론 먼저' blockquote with the old lead regex as fallback, SUMMARY_MIN=45 joins short bullets, add_toc()/split_h1() emit an H2·H3 table of contents outside <article> with the h1 kept inside the Pagefind index, backlinks collapsed into <details>. site/test_build_site.py has test_toc_links_match_heading_ids. Gate green.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T02",
+      "title": "Rewrite the authoring rules in docs/rules/wiki-content.md",
+      "scope": "docs/rules/wiki-content.md",
+      "kind": "builder",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "§1 'Body' no longer mandates a lead paragraph; the phase-10 bullet is replaced by the §3 per-type required headings (concepts: 한눈에 요약 / 함께 읽기; entities: 한눈에 요약 / 이 위키에서의 등장 / 함께 읽기; analysis: 결론 먼저 / 비교표 / 함께 읽기) with the note that the first summary bullet is what site/build.py extracts, so it carries no citation paren and no wikilink and must read standalone. Two new §1 subsections: '쉽게 쓰기 규칙' (plan §4-1, eight rules) and '어투' (plan §4-2, five rules plus the two carve-outs and the explicit non-adoptions). A dated line records that this reverses the phase-10 lead-paragraph decision of 2026-08-02 so no later session restores it. sources/ template untouched. File stays English per the CLAUDE.md language rule, Korean only in the heading literals and specimens.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T03",
+      "title": "Add the three page templates beside source-page.md",
+      "scope": ".claude/skills/wiki-ingest/templates/concept-page.md, entity-page.md, analysis-page.md",
+      "kind": "builder",
+      "depends_on": [
+        "T02"
+      ],
+      "acceptance": "Three files whose headings are byte-identical to the §3 blocks in plan.md and to the required-heading table in wiki-content.md after T02. Each carries a one-line Korean comment per section saying what goes there. No lead-paragraph placeholder. .claude/skills/wiki-ingest/SKILL.md points at whichever template matches the page type being created.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T04",
+      "title": "Add check_page_structure() to scripts/lint_wiki.py",
+      "scope": "scripts/lint_wiki.py, scripts/test_lint_wiki.py",
+      "kind": "builder",
+      "depends_on": [
+        "T02"
+      ],
+      "acceptance": "New check reporting, per page type: (a) ERROR when a required heading from the T02 table is missing, (b) ERROR when prose sits between the H1 and the first '## ' on a concept/entity/analysis page (leftover lead), (c) WARN on a legacy closing heading '## 관련 문서' / '## 같이 보기' / '## 연결', (d) WARN on an H2 section over 1200 chars, (e) WARN on a sentence over 100 chars outside code fences and tables. Runs over wiki/ only. Warnings do not change the exit code, errors do. Existing checks and their output format unchanged; a unit test covers one passing and one failing page per rule class.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T05",
+      "title": "Rewrite concepts batch 1 — the four longest",
+      "scope": "wiki/concepts/harness-engineering.md, verification-automation.md, subagents-agent-teams.md, dynamic-workflow.md",
+      "kind": "builder",
+      "depends_on": [
+        "T03",
+        "T04"
+      ],
+      "acceptance": "Each page: lead paragraph removed, '## 한눈에 요약' (3-5 bullets, first bullet standalone with no citation and no wikilink) and '## 함께 읽기' present, closing heading renamed, H3 introduced wherever an H2 ran over 1200 chars, sentences under 100 chars, paragraphs at most four sentences, jargon glossed on first use, comparisons of three or more items turned into tables, caveats moved into blockquote callouts, voice per plan §4-2 with sourced claims left declarative. No source slug disappears from a page and every claim keeps a citation; the raw citation count may drop slightly where two adjacent sentences citing the same source were merged into one. Every wikilink target still resolves. frontmatter updated bumped to 2026-08-03. check_page_structure reports no error for these files.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T06",
+      "title": "Rewrite concepts batch 2",
+      "scope": "wiki/concepts/skills.md, developer-role-change.md, hooks.md, hcl.md",
+      "kind": "builder",
+      "depends_on": [
+        "T05"
+      ],
+      "acceptance": "Same acceptance as T05, applied to these four files.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T07",
+      "title": "Rewrite concepts batch 3",
+      "scope": "wiki/concepts/multi-model-workflow.md, dns-records.md, agentic-coding.md, context-engineering.md",
+      "kind": "builder",
+      "depends_on": [
+        "T06"
+      ],
+      "acceptance": "Same acceptance as T05, applied to these four files.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T08",
+      "title": "Rewrite concepts batch 4",
+      "scope": "wiki/concepts/context-decay.md, infrastructure-as-code.md, loop-engineering.md, llm-basics.md",
+      "kind": "builder",
+      "depends_on": [
+        "T07"
+      ],
+      "acceptance": "Same acceptance as T05, applied to these four files.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T09",
+      "title": "Rewrite concepts batch 5 — the short ones",
+      "scope": "wiki/concepts/mcp.md, on-device-ai.md, prompt-engineering.md",
+      "kind": "builder",
+      "depends_on": [
+        "T08"
+      ],
+      "acceptance": "Same acceptance as T05, applied to these three files. These are under 3000 chars, so the summary block must stay to three bullets rather than padding.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T10",
+      "title": "Rewrite entities batch 1",
+      "scope": "wiki/entities/andrej-karpathy.md, boris-cherny.md, mitchell-hashimoto.md, claude-code.md, sentinel.md",
+      "kind": "builder",
+      "depends_on": [
+        "T09"
+      ],
+      "acceptance": "Entity template applied: lead removed, '## 한눈에 요약', at least one free H2, '## 이 위키에서의 등장' (renamed from '## 이 위키에서의 의미' where present), '## 함께 읽기'. Prose rules as in T05. Citations and wikilinks preserved, updated bumped, no check_page_structure error.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T11",
+      "title": "Rewrite entities batch 2",
+      "scope": "wiki/entities/peter-steinberger.md, hashicorp.md, opa.md, google-gemma.md, anthropic.md",
+      "kind": "builder",
+      "depends_on": [
+        "T10"
+      ],
+      "acceptance": "Same acceptance as T10, applied to these five files.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T12",
+      "title": "Rewrite entities batch 3 — the stubs",
+      "scope": "wiki/entities/openai.md, codex.md, skills-sh.md, vercel.md, armon-dadgar.md, cursor.md",
+      "kind": "builder",
+      "depends_on": [
+        "T11"
+      ],
+      "acceptance": "Same acceptance as T10. These are 555-820 chars, so keep the summary to two or three short bullets and let the free H2 be a single paragraph rather than inflating the page to fill the template.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T13",
+      "title": "Rewrite the two remaining analysis pages",
+      "scope": "wiki/analysis/claude-md-decision-guide.md, workflow-selection-guide.md",
+      "kind": "builder",
+      "depends_on": [
+        "T12"
+      ],
+      "acceptance": "Analysis template applied: lead removed, '## 결론 먼저' blockquote whose first sentence reads standalone (it is what the extractor lifts), '## 비교표', free H2s for the reasoning, '## 함께 읽기'. Any table wider than five columns is narrowed and the detail moved into H3 subsections, as done on ai-coding-evolution.md. Prose rules as in T05.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T14",
+      "title": "Resync wiki/overview.md and wiki/index.md",
+      "scope": "wiki/overview.md, wiki/index.md",
+      "kind": "builder",
+      "depends_on": [
+        "T13"
+      ],
+      "acceptance": "index.md one-line descriptions match the rewritten pages where the rewrite changed what a page says; overview.md carries no claim the rewrites moved or reworded away. Every page still listed exactly once (lint check_index_coverage passes). No new pages, no deletions. These two files keep their current structure — they are catalogues, not article pages, so the §3 templates do not apply to them. 결과: 개정이 주장을 바꾸지 않아 두 파일 모두 수정 불필요 — 구 헤딩·리드 참조 전수 검색 0건으로 확인.",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T15",
+      "title": "Close-out — docs/index.md, docs/log.md, full gate",
+      "scope": "docs/index.md, docs/log.md",
+      "kind": "evaluator",
+      "depends_on": [
+        "T14"
+      ],
+      "acceptance": "docs/index.md gains a row for tasks/phase-14-readable-pages/ (and the missing phase-13-pr-gate-and-infra-ci row is filled in), and the docs/rules/wiki-content.md row reflects the new sections. docs/log.md gets exactly one Korean line for this phase. Gate green in order: python3 scripts/lint_wiki.py (exit 0, zero structure errors across all 71 pages), python3 site/build.py, python3 site/test_build_site.py, python3 scripts/verify_site.py. Corpus-wide numbers recorded in the close-out message: pages carrying '## 한눈에 요약', pages with a leftover lead (must be 0), total citation count before vs after (must not drop).",
+      "status": "done",
+      "attempts": 1
+    },
+    {
+      "id": "T16",
+      "title": "Branch, commits, pull request",
+      "scope": "git",
+      "kind": "builder",
+      "depends_on": [
+        "T15"
+      ],
+      "acceptance": "Work sits on a feature branch off main following the my-skills:git-workflow conventions and its .claude/git-workflow.md adapter. One commit per task group rather than one giant commit. PR body states: what changed, that the lead paragraph removal reverses a phase-10 decision deliberately, the before/after citation counts, and the gate output. No force push to main. 결과: 브랜치 feat/phase-14-readable-pages, 커밋 14개(태스크 묶음별 분리), PR #27.",
+      "status": "done",
+      "attempts": 1
+    }
+  ]
+}

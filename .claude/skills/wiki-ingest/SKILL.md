@@ -68,11 +68,15 @@ Read `wiki/index.md` first to find pages related to this source. For each candid
 Do these in order:
 1. Write the source summary page at `wiki/sources/<slug>.md` (use `templates/source-page.md` in this skill — the canonical form of the template in `docs/rules/wiki-content.md` — **in Korean**).
 2. Update relevant `entities/`·`concepts/` pages — add new facts, connect with `[[...|한글 별칭]]` wikilinks (every body link carries a Korean alias; cite sources as `(→ [[sources/<slug>|label]])`, multiple joined with `·` — format rules in `docs/rules/wiki-content.md` §1), flag contradictions.
-3. For every newly mentioned proper noun/concept, create at least a stub so no orphan links remain.
+   Every page you create or restructure follows its own template in this skill's `templates/`: `concept-page.md`, `entity-page.md`, `analysis-page.md` (required headings and the plain-writing / voice rules: `docs/rules/wiki-content.md` §1.1–§1.3). **No lead paragraph** — a page opens on its first `## ` heading, and its first summary bullet is what the site extracts, so that bullet carries no citation and no wikilink.
+3. For every newly mentioned proper noun/concept, create at least a stub so no orphan links remain — a stub still uses its template.
 4. If the source shifts the big picture, update `wiki/overview.md`.
 5. Reflect new/changed pages in `wiki/index.md`.
-6. Append one line to `docs/log.md`: `## [date] ingest | 자료 제목 — sources/xxx + concepts/yyy + concepts/zzz 갱신`
-7. Commit: `git add -A && git commit -m "ingest: <slug> — <자료 제목>"` — the wiki is git-backed; one commit per ingest keeps the audit trail.
+6. **Run `python3 scripts/lint_wiki.py` before committing.** It exits non-zero on a missing required heading or a
+   leftover lead paragraph on any page you touched, and prints readability warnings (over-long sentence, H2 over
+   1,200 chars) that do not affect the exit code but are worth fixing while the page is still open.
+7. Append one line to `docs/log.md`: `## [date] ingest | 자료 제목 — sources/xxx + concepts/yyy + concepts/zzz 갱신`
+8. Commit: `git add -A && git commit -m "ingest: <slug> — <자료 제목>"` — the wiki is git-backed; one commit per ingest keeps the audit trail.
 
 > Example: `## [2026-06-05] ingest | 이영희 '이직 플랜 & 경력 기술서 전략' — sources/youtube-aOVxvjLOcQE + concepts/이직플랜 + concepts/면접경험데이터 생성, concepts/경력기술서 + overview + index 갱신`
 > The slug-rich format (vs generic "N개 갱신") makes future `session_search` much more productive.

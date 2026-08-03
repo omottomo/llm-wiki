@@ -2,7 +2,7 @@
 title: HCL (HashiCorp 구성 언어)
 type: concept
 created: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-03
 sources: [terraform-hcl-syntax, hashicorp-terraform-docs]
 aliases: [HCL, HashiCorp Configuration Language]
 tags: [코드형인프라, HashiCorp, 기초개념]
@@ -10,7 +10,18 @@ tags: [코드형인프라, HashiCorp, 기초개념]
 
 # HCL (HashiCorp 구성 언어)
 
-[[entities/terraform|Terraform]] 구성을 작성하는 선언형 언어다. 공식 문서는 문법이 **블록·인수·표현식** 세 요소가 전부이고, 언어의 주목적은 리소스 선언이며 나머지 기능은 전부 그것을 유연하게 만드는 보조라고 정리한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 아래는 그 세 요소를 실제 구성 파일 수준에서 풀어 쓴 것이다 (→ [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]]).
+## 한눈에 요약
+
+- Terraform 구성을 작성하는 **선언형 언어**다. 무엇을 만들지 적으면 순서는 알아서 정해진다.
+- 문법은 **블록·인수·표현식** 세 요소가 전부다. 나머지 기능은 이 셋을 유연하게 만드는 보조다.
+- 파일 이름과 블록 순서에는 의미가 없다. 디렉터리 안 `*.tf`를 전부 합쳐 읽는다.
+- 실행 순서는 사람이 쓰는 게 아니라 **참조 관계에서 자동으로 도출**된다.
+
+## 세 요소가 전부다
+
+[[entities/terraform|Terraform]] 구성을 작성하는 선언형 언어다. 공식 문서는 문법이 **블록·인수·표현식** 세 요소가 전부라고 정리한다. 언어의 주목적은 리소스 선언이고, 나머지 기능은 전부 그것을 유연하게 만드는 보조다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+
+아래는 그 세 요소를 실제 구성 파일 수준에서 풀어 쓴 것이다 (→ [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]]).
 
 ## 블록 구조
 
@@ -109,4 +120,16 @@ Terraform은 디렉터리 안의 `*.tf`를 전부 하나로 합쳐 읽는다. `a
 
 ## 관련 명령
 
-작성한 구성은 `terraform init`(프로바이더 다운로드·backend 연결, 파일 추가 시 재실행) → `terraform plan`(변경 미리보기, 실제 변경 없음) → `terraform apply`(적용) 순으로 다룬다 — 공식 문서의 Write-Plan-Apply 코어 워크플로가 명령 수준에서는 이 3개로 나타난다 (→ [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]]·[[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+작성한 구성은 세 명령으로 다룬다 (→ [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]]·[[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+
+- `terraform init` — 프로바이더를 내려받고 backend에 연결한다. 파일을 추가하면 다시 실행한다.
+- `terraform plan` — 변경을 미리 본다. 실제로는 아무것도 바꾸지 않는다.
+- `terraform apply` — 적용한다.
+
+공식 문서의 Write-Plan-Apply 코어 워크플로가 명령 수준에서는 이 셋으로 나타난다.
+
+## 함께 읽기
+
+- [[entities/terraform|Terraform]] — 이 언어로 구성을 쓰는 도구
+- [[concepts/infrastructure-as-code|코드형 인프라]] — 선언형이라는 성질이 나오는 상위 개념
+- [[entities/hashicorp|HashiCorp]] — 언어와 도구를 만든 회사

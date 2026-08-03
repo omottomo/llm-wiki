@@ -35,7 +35,11 @@ Answer in whatever form fits the question: markdown explanation, comparison tabl
 
 ### 4. File back into the wiki (key step — don't skip)
 If the answer goes beyond a simple fact lookup and produces a **comparison/analysis/new connection**:
-1. Save it to `wiki/analysis/<slug>.md` (in Korean; record the source slugs it relied on in frontmatter).
+1. Save it to `wiki/analysis/<slug>.md` (in Korean; record the source slugs it relied on in frontmatter),
+   using `templates/analysis-page.md` from the **wiki-ingest** skill: `## 결론 먼저` (blockquote, and its first
+   sentence is what `site/build.py` extracts, so it must read standalone with no citation paren and no wikilink)
+   → `## 비교표` → free H2s → `## 함께 읽기`. **No lead paragraph.** Plain-writing and voice rules:
+   `docs/rules/wiki-content.md` §1.1–§1.3. `python3 scripts/lint_wiki.py` errors if a required heading is missing.
 2. Add `[[...]]` links from the relevant entity/concept pages to this analysis page.
 3. Add it to the Analysis section of `wiki/index.md`.
 4. Append one line to `docs/log.md`: `## [date] query | 질문 요지 — analysis/<slug> 로 보존`

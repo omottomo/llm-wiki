@@ -30,7 +30,9 @@ Get the full page list from `wiki/index.md`, then scan pages for:
    ```bash
    python3 scripts/lint_wiki.py
    ```
-   It mechanically checks wikilink integrity, `raw/` ↔ `wiki/sources/` parity (the most commonly missed check), frontmatter required keys, index.md coverage, and orphan pages (zero inbound links besides index.md). These are objective — fix everything it reports and re-run until it exits clean, then move on. The LLM checks below are only for what the script cannot judge.
+   It mechanically checks wikilink integrity, `raw/` ↔ `wiki/sources/` parity (the most commonly missed check), frontmatter required keys, index.md coverage, orphan pages (zero inbound links besides index.md), and **page structure** (`check_page_structure`): a required heading missing for the page type, or a leftover lead paragraph between the H1 and the first `## `. These are objective — fix everything it reports and re-run until it exits clean, then move on.
+
+   The script also prints a **가독성 경고** block that does *not* affect the exit code: a legacy closing heading (`## 관련 문서` / `## 같이 보기` / `## 연결`), an H2 section over 1,200 chars, an over-long sentence. Treat these as a work queue, not a gate — fix them on pages you are already touching rather than sweeping the corpus. Rules: `docs/rules/wiki-content.md` §1.1–§1.3. The LLM checks below are only for what the script cannot judge.
 
 2. Run the judgment checks above (contradictions, stale claims, missing pages, missing cross-refs, data gaps) and **report findings grouped by category** (in Korean). For stale claims, prioritize time-sensitive claims whose as-of date (docs/rules/wiki-content.md §1) is older than ~6 months.
 3. Apply obvious fixes immediately (link orphans, add missing cross-refs, update index).
@@ -48,6 +50,7 @@ ALWAYS use this structure (write the content in Korean):
 ### 고아 / 빠진 링크
 ### 누락된 페이지
 ### 데이터 공백 & 다음 탐구 제안
+### 가독성 경고 (구 헤딩 · 과대 H2 · 과대 문장)
 ### 이번에 자동 처리한 것
 ```
 

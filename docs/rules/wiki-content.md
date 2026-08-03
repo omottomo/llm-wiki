@@ -62,16 +62,20 @@ whenever a page's subject is widely known under a second name; leave it off othe
 citation surface — `[[...]]` links still target the slug.
 
 ### Body
-- **`concepts/`, `entities/` and `analysis/` pages open with a lead paragraph** (2026-08-02,
-  phase-10). Immediately after the H1 and before the first `## ` heading, write **three or four
-  Korean sentences aimed at a reader with no background**: the first states plainly what the
-  subject is and expands any jargon on the spot; the rest say why it matters or when it comes up
-  (for an `analysis/` page: what question it answers and what it concludes). The lead carries
-  **no citation paren and no wikilink** — `site/build.py` lifts its first sentence into listings,
-  search results and the page's `<meta description>`/`og:description`, so it has to read
-  standalone. `sources/` pages are exempt: their `## 한 줄 요약` already plays this role and is
-  what the extractor reads instead. A page whose body opens straight into a `## ` heading yields
-  an empty summary and renders with no description anywhere.
+- **`concepts/`, `entities/` and `analysis/` pages open straight into their first `## ` heading —
+  there is no lead paragraph** (2026-08-03, phase-14). Each type has a required opening section
+  instead; the templates live beside `source-page.md` in
+  `.claude/skills/wiki-ingest/templates/` and §1.1 below lists the required headings.
+  > **This reverses the phase-10 rule of 2026-08-02**, which mandated a three-or-four-sentence lead
+  > paragraph and applied it to 39 pages. The lead and `## 한눈에 요약` said the same thing twice,
+  > and the bullets do the job better. Do not restore the leads; `lint_wiki.py`'s
+  > `check_page_structure` reports prose between the H1 and the first `## ` as an error.
+- **The first bullet of the opening section is extracted, so it must read standalone.**
+  `site/build.py` lifts it into section listings, Pagefind results and the page's
+  `<meta description>`/`og:description`. It therefore carries **no citation paren and no wikilink**,
+  states plainly what the subject is, and expands any jargon on the spot. `sources/` pages are
+  unchanged: their `## 한 줄 요약` is what the extractor reads there. A page with neither an
+  opening section nor a lead yields an empty summary and renders with no description anywhere.
 - **Cross-links use wikilink syntax** `[[page-name]]` (compatible with Obsidian graph view).
 - **Every body wikilink MUST carry a Korean alias** — without one, Quartz renders the raw English slug (`harness-engineering`) in the middle of Korean prose. The alias is:
   - for `sources/` pages → the target's frontmatter `label` (short, `#N` playlist prefix, no brackets/`$`/`|`);
@@ -84,6 +88,68 @@ citation surface — `[[...]]` links still target the slug.
 - **Never write absolute local filesystem paths** (e.g. `/Users/...`) anywhere in a wiki page — the wiki is published to the web, and an absolute path leaks the operator's username and directory layout. Cite raw sources with the repo-relative form only: `raw: raw/<slug>.md`. (Found the hard way: 5 source pages shipped absolute paths and would have published them; fixed 2026-07-12.)
 - **New page vs. edit heuristic:** create a **new page** only when the subject is a distinct entity or concept that other pages would link to with `[[...]]`. If the information is merely an attribute or update of an existing subject, **edit that existing page** instead. When in doubt, edit — page proliferation causes drift.
 - **As-of dating for volatile claims:** this domain moves fast. Any time-sensitive claim (pricing, model names, tool capabilities, versions, market share) must carry an as-of marker in the text. Write it in Korean, exactly like this: `(2026-06 기준)`. A claim without a date cannot be judged stale later.
+
+### 1.1 Required headings per page type
+
+Reproduce these **verbatim**. Everything between them is free — pick H2 names that fit the
+subject, and split with H3 whenever a section runs long (§1.2 rule 3).
+
+| Type | Required, in this order | Notes |
+|---|---|---|
+| `concepts/` | `## 한눈에 요약` → 자유 H2 → `## 함께 읽기` | 요약은 불릿 3~5개 |
+| `entities/` | `## 한눈에 요약` → 자유 H2 → `## 이 위키에서의 등장` → `## 함께 읽기` | 등장 절은 어떤 맥락에서 이 대상이 나오는지 |
+| `analysis/` | `## 결론 먼저` → `## 비교표` → 자유 H2 → `## 함께 읽기` | 결론은 인용구(`> `) 한두 문장 |
+| `sources/` | 아래 5개 헤딩 (변경 없음) | |
+
+`## 함께 읽기` is the single name for the closing link section. The older `## 관련 문서`,
+`## 같이 보기` and `## 연결` are retired — lint warns on them.
+
+For `analysis/`, the extractor reads the `## 결론 먼저` blockquote instead of a bullet, so the
+same standalone-readability rule applies to its first sentence.
+
+### 1.2 쉽게 쓰기 규칙 (plain-writing rules)
+
+The wiki exists to be browsed by other people. These are checkable, not matters of feel; lint
+warns on 1, 3 (`check_page_structure`).
+
+1. **문장 100자 이하.** Longer → split. Korean technical prose past ~100 chars stops parsing on
+   first read.
+2. **문단 4문장 이하.** A fifth sentence means a new paragraph or a new heading.
+3. **H2 한 덩이 1,200자 이하.** Over that → introduce H3.
+4. **전문용어 첫 등장 = 즉시 풀이.** Pattern: `가비지 컬렉션(garbage collection, 오래된 나쁜 코드를
+   주기적으로 청소하는 것)`. First use only — repeat glosses are noise.
+5. **3개 이상 비교·열거는 표로.** Prose enumerations of parallel items become a table. Keep tables
+   to about five columns; move the overflow into H3 subsections rather than widening.
+6. **주의·예외·논쟁은 blockquote 콜아웃(`> `)** — not an inline parenthesis buried mid-paragraph.
+7. **핵심 용어는 굵게.** One or two per paragraph, not every noun.
+8. **비유는 넣되 한 번만.** Repeating the same analogy three times reads as padding.
+
+### 1.3 어투 — 남에게 설명하는 어투로
+
+Write as if explaining the material to a person sitting next to you, not as if filing a record.
+This is a register, **not an imitation of any particular blog**.
+
+1. **종결어미를 섞는다.** `~이다` 일변도를 깨고 `~한다`·`~된다`·`~인 셈이다`·`~라고 보면 된다`를
+   함께 쓴다. Monotone endings are most of what makes a page feel like a spec sheet.
+2. **어려운 대목 바로 뒤에 쉬운 말로 다시 말한다.** "쉽게 말하면 …", "한마디로 …", "비유하자면 …",
+   as a separate short sentence rather than a parenthesis.
+3. **주의·예외는 연결어로 잇는다.** "다만 …", "물론 …", "반대로 …".
+4. **독자가 걸릴 지점을 짚어 준다.** "여기서 헷갈리기 쉬운데 …", "여기까지만 알아도 충분하다".
+5. **정의를 던지기 전에 왜 필요한지 한 문장.** One sentence of motivation turns a lookup into an
+   explanation.
+
+**Not adopted**, deliberately: 청유형 `~해보자` (works only where the reader follows a procedure —
+concept pages have none), 수사 의문문, `여러분`, 이모지 헤딩 앵커.
+
+**Two carve-outs — constraints, not taste:**
+
+1. **인용이 붙은 사실 서술문은 단정형을 유지한다.** A sentence ending in
+   `(→ [[sources/slug|#N 라벨]])` is a sourced claim. Softening it ("…인 것 같다", "…라고 보면
+   된다") turns an attributed fact into the wiki's own hedge. Vary the *connective* prose around
+   those sentences; leave the claim stating what the source stated.
+2. **첫 요약 불릿(analysis 는 결론 문장)은 단정형을 유지한다.** It is what `extract_summary` lifts
+   into search snippets and link previews, so it must read as a standalone definition out of
+   context. Same class of constraint as the citation format (§4.2).
 
 ### Source summary page (`sources/`) — required template
 
