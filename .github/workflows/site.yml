@@ -1,0 +1,136 @@
+name: Verify & deploy site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "wiki/**"
+      - "site/**"
+      - "scripts/**"
+      - "tests/**"
+      # The audit asserts these paths are ignored, so a change here can flip it.
+      - ".gitignore"
+      # Editing the gate must re-run the gate.
+      - ".github/workflows/site.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  # Minimal site (build.py → site/dist/): build + invariant tests + boundary audit.
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install build dependency
+        run: pip install -r site/requirements.txt
+
+      - name: Build site + search index + run test suite
+        run: python3 site/test_build_site.py
+
+      - name: Run raw/ boundary audit
+        run: python3 scripts/verify_site.py
+
+  # Content-quality gate. Independent of the site, so it neither waits on the
+  # build nor reruns per anything.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Lint wiki content
+        run: python3 scripts/lint_wiki.py
+
+      - name: Run lint fixture tests
+        run: python3 scripts/test_lint_wiki.py
+
+  # Publishing. `needs` is the whole ordering mechanism: as two separately
+  # push-triggered workflows, verify and deploy ran concurrently, so a lint
+  # failure reddened CI while the site shipped anyway.
+  deploy:
+    needs: [verify, lint]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    # Job-level, not workflow-level — at workflow level this would serialize
+    # verify and lint along with the deploy.
+    concurrency:
+      group: deploy-site
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Build site
+        run: |
+          pip install -r site/requirements.txt
+          python3 site/build.py
+          npx -y pagefind@1 --site site/dist
+
+      # Deliberately redundant with the verify job: that one audited a different
+      # dist/ on a different runner, this one audits the exact tree about to be
+      # uploaded to a public bucket. The raw/ boundary is non-negotiable.
+      - name: Verify gate (raw/ leak audit — fail = no deploy)
+        run: python3 scripts/verify_site.py
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ap-northeast-2
+
+      # The split is by "does the filename carry a content hash", not by file type.
+      # Pagefind mixes both: fragment/, index/ and *.pf_meta are hashed, but
+      # pagefind.js, pagefind-entry.json, pagefind-ui.* and wasm.unknown.pagefind
+      # keep fixed names while their content changes every rebuild. A whitelist
+      # means a new fixed-name file lands in the safe group by default.
+      - name: Sync long-cache assets (content-hashed filenames)
+        run: |
+          aws s3 sync site/dist "s3://${{ vars.SITE_BUCKET }}" \
+            --delete \
+            --exclude "*" \
+            --include "pagefind/fragment/*" \
+            --include "pagefind/index/*" \
+            --include "pagefind/*.pf_meta" \
+            --cache-control "public,max-age=31536000,immutable"
+
+      # Exact complement of the filters above, so every object is covered by
+      # exactly one --delete pass.
+      - name: Sync short-cache assets (fixed filenames, mutable content)
+        run: |
+          aws s3 sync site/dist "s3://${{ vars.SITE_BUCKET }}" \
+            --delete \
+            --exclude "pagefind/fragment/*" \
+            --exclude "pagefind/index/*" \
+            --exclude "pagefind/*.pf_meta" \
+            --cache-control "public,max-age=0,must-revalidate"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ vars.CF_DISTRIBUTION_ID }} \
+            --paths "/*"

@@ -1,0 +1,41 @@
+{
+  "phase": "phase-11-ci-deploy-gate",
+  "goal": "Make verify actually gate deploy. Merge verify-site.yml and deploy-site.yml into one workflow (site.yml) where the deploy job declares needs: [verify, lint], so a lint violation can no longer ship to production. Remove the duplicated build/test work inside deploy while keeping the pre-upload raw/ leak audit. Design: plan.md.",
+  "created_at": "2026-08-03",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Merge the two workflows into site.yml with deploy needs: [verify, lint]",
+      "scope": ".github/workflows/verify-site.yml (git mv -> site.yml), .github/workflows/deploy-site.yml (delete)",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "One workflow file .github/workflows/site.yml, name 'Verify & deploy site', with exactly three jobs named verify, lint, deploy (names unchanged so branch-protection checks keep resolving). deploy declares needs: [verify, lint], job-level permissions {id-token: write, contents: read}, job-level concurrency {group: deploy-site, cancel-in-progress: false}; workflow-level permissions is {contents: read}. deploy's steps are deploy-site.yml's, minus 'python3 site/test_build_site.py' and keeping 'python3 scripts/verify_site.py' before the first s3 sync; both aws s3 sync steps and the CloudFront invalidation are byte-identical to the originals including their comments. All three jobs use actions/checkout@v7, actions/setup-node@v6 (node 22), actions/setup-python@v6 with python-version '3.12'. on.push.paths keeps the existing entries with the self-reference updated to .github/workflows/site.yml. deploy-site.yml no longer exists, and its deletion lands in the same commit as the merge so main never carries two live deploy paths. Local gate green: lint_wiki.py, test_lint_wiki.py, build.py, test_build_site.py, verify_site.py all exit 0, and the YAML parses (actionlint, or python3 -c \"import yaml; yaml.safe_load(open('.github/workflows/site.yml'))\").",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T02",
+      "title": "Watch the first post-merge run go green",
+      "scope": "no files — CI observation (docs/rules/site-code.md §2.4: a gate nobody watches is not a gate)",
+      "kind": "verify",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "After the merge to main, `gh run watch` / `gh run list --workflow=site.yml --limit 3` shows the run green. Confirmed from `gh run view <id> --json jobs`: deploy's startedAt is later than both verify's and lint's completedAt (ordering is real, not coincidental), the OIDC AssumeRole step succeeded despite the workflow file move, and all three jobs concluded success. If the run is red, fix it in this phase — never leave the gate red as a follow-up (§2.4).",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Record the accumulated rule and close the phase in the log",
+      "scope": "docs/rules/site-code.md (§2.4), docs/log.md, docs/index.md",
+      "kind": "builder",
+      "depends_on": [
+        "T02"
+      ],
+      "acceptance": "site-code.md §2.4 gains one dated (2026-08-03) entry stating: verify and deploy are now one workflow and `deploy: needs: [verify, lint]` is the only thing enforcing order (two independent push-triggered workflows never wait on each other); the `verify_site.py` call inside deploy is deliberate redundancy because it audits the exact dist/ being uploaded, not the verify job's separate runner copy; and the OIDC trust in infra/iam-deploy.tf pins only repo+ref, so the workflow file may be renamed freely. §2.3's table and the existing 'CI fires on push to main, not on PRs' entry are left intact (still true). docs/log.md gains exactly one Korean `site` line for phase-11 at close-out. docs/index.md lists the new phase directory. Historical phase-9 docs are not edited.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
