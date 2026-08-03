@@ -80,6 +80,60 @@ def test_section_listing_and_tag_page() -> None:
     assert 'href="/concepts/mcp/"' in tag_mcp   # concepts/mcp의 tags에 MCP 존재
 
 
+def test_citations_collapsed_into_chips() -> None:
+    """인라인 인용은 각주 칩이 되고, 원본의 '(→ ' 래퍼는 출력에 남지 않는다."""
+    harness = (DIST / "concepts" / "harness-engineering" / "index.html").read_text(encoding="utf-8")
+    assert 'class="cite"' in harness
+    offenders = [
+        p.relative_to(DIST) for p in DIST.rglob("*.html") if "(→ " in p.read_text(encoding="utf-8")
+    ]
+    assert not offenders, f"접히지 않은 인용 래퍼: {offenders[:5]}"
+
+
+def test_internal_sections_not_published() -> None:
+    """사서 전용 구획은 렌더되지 않지만 wiki/ 원본에는 그대로 남아 있다."""
+    offenders = [
+        p.relative_to(DIST)
+        for p in DIST.rglob("*.html")
+        if "기존 위키와의 연결" in p.read_text(encoding="utf-8") or "raw: raw/" in p.read_text(encoding="utf-8")
+    ]
+    assert not offenders, f"사서 전용 구획 노출: {offenders[:5]}"
+    source = (ROOT / "wiki" / "sources" / "hashicorp-terraform-docs.md").read_text(encoding="utf-8")
+    assert "## 기존 위키와의 연결" in source and "raw: raw/" in source  # 원본은 보존
+    rendered = (DIST / "sources" / "hashicorp-terraform-docs" / "index.html").read_text(encoding="utf-8")
+    for kept in ["저자/발행처", "수집일", "URL:"]:
+        assert kept in rendered, f"출처 정보 누락: {kept}"
+
+
+def test_header_search_on_every_article() -> None:
+    for key in ["concepts/mcp", "sources/hashicorp-terraform-docs", "entities/anthropic"]:
+        text = (DIST / key / "index.html").read_text(encoding="utf-8")
+        assert 'id="header-search"' in text, f"헤더 검색창 누락: {key}"
+
+
+def test_listing_shows_summary() -> None:
+    concepts = (DIST / "concepts" / "index.html").read_text(encoding="utf-8")
+    assert 'class="summary"' in concepts
+
+
+def test_article_has_breadcrumb() -> None:
+    mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
+    assert 'class="breadcrumb"' in mcp and 'href="/concepts/"' in mcp
+    overview = (DIST / "overview" / "index.html").read_text(encoding="utf-8")
+    assert 'class="breadcrumb"' not in overview  # 섹션 없는 최상위 페이지
+
+
+def test_tag_index_sitemap_robots() -> None:
+    for rel in ["tags/index.html", "sitemap.xml", "robots.txt"]:
+        assert (DIST / rel).is_file(), f"누락: {rel}"
+
+
+def test_share_metadata() -> None:
+    mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
+    assert '<meta property="og:description"' in mcp
+    assert '<link rel="canonical" href="https://' in mcp
+
+
 def test_404_page() -> None:
     text = (DIST / "404.html").read_text(encoding="utf-8")
     assert '<div id="search">' in text

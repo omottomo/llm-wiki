@@ -2,11 +2,13 @@
 title: 훅 (Hooks)
 type: concept
 created: 2026-06-23
-updated: 2026-07-19
+updated: 2026-08-02
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww, hashicorp-terraform-docs]
 tags: [클로드코드, 훅, 하네스엔지니어링, 검증자동화, 프리커밋]
 ---
 # 훅 (Hooks)
+
+훅은 AI가 코드를 저장하거나 작업을 끝내려는 특정 순간에 자동으로 실행되는 짧은 스크립트다. 규칙 파일에 적어 둔 부탁은 지켜지지 않을 수 있지만, 훅은 사람이 지켜보지 않아도 그 시점에 반드시 실행되므로 우회할 수 없다. 검사에 걸린 결과는 AI에게 그대로 되돌아가 스스로 고치게 되며, 이 자동 교정 고리가 규칙을 환경에 심어 강제하는 가장 실무적인 방법이다.
 
 훅은 Claude가 특정 시점(예: 작업을 마치려는 순간, 코드를 저장하기 직전)에 **자동으로 실행되는 스크립트**다. [[concepts/claude-md|CLAUDE.md]]가 "맥락·부탁"이라면, 훅은 "강제"다 — 부탁은 안 지킬 수 있지만 훅은 자동 실행되므로 우회할 수 없다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]). [[concepts/harness-engineering|하네스 엔지니어링]]에서 규칙을 시스템에 내장해 자동 강제하는 핵심 장치다.
 

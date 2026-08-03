@@ -2,12 +2,14 @@
 title: "분석 — AI 코딩 패러다임의 진화: 프롬프트→컨텍스트→하네스→루프"
 type: analysis
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-08-02
 sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-DrekqeDlO1w, youtube-6cr4PeilKJk, youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-9fx2_1aTzq8, youtube-fInMcawbKng]
 tags: [분석, 진화서사, 패러다임, 비교]
 ---
 
 # 분석 — AI 코딩 패러다임의 진화: 프롬프트 → 컨텍스트 → 하네스 → 루프
+
+이 글은 사람이 AI에게 코딩을 시키는 방식이 지난 몇 년 동안 어떻게 바뀌어 왔는지를 네 단계로 정리해 비교한다. 질문을 잘 다듬는 단계에서 시작해, 필요한 자료를 함께 건네는 단계, AI가 일할 환경 자체를 설계하는 단계, 사람이 반복해서 시키던 일까지 자동으로 돌리는 단계로 이어진다. 결론은 뒤 단계가 앞 단계를 버리는 것이 아니라 겹겹이 쌓인다는 것이며, 지금 무게 중심은 환경을 설계하는 세 번째 단계에 있다. 이 위키의 다른 문서들이 어느 칸에 들어가는지 알려 주는 지도 역할을 하는 페이지다.
 
 이 페이지는 이 위키 전체를 관통하는 척추인 4단계 진화 서사를 한자리에 모아 비교한다. **프롬프트 엔지니어링 → 컨텍스트 엔지니어링 → 하네스 엔지니어링 → 루프 엔지니어링**으로 이어지는 흐름은, "AI에게 말을 거는 법"에서 출발해 점점 더 바깥 레이어(정보 → 환경 → 반복 자체)를 다루는 쪽으로 추상화가 높아지는 과정이다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]). "25년이 컨텍스트(혹은 에이전트)의 해였다면 26년은 하네스의 해"라는 표현이 반복되며, 루프는 그 위에서 가장 최근에 등장한 축이다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]]·[[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
 

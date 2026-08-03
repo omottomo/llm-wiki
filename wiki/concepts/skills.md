@@ -2,11 +2,13 @@
 title: 스킬 (Skills)
 type: concept
 created: 2026-06-23
-updated: 2026-07-19
+updated: 2026-08-02
 sources: [youtube-jae2bVCCokc, youtube-UClLUoGaCxU, youtube-hXlB1QstQ-Y, youtube-DCsv0rKKrN4]
 tags: [클로드코드, 스킬, 하네스엔지니어링, 컨텍스트엔지니어링]
 ---
 # 스킬 (Skills)
+
+스킬은 "이런 상황에서는 이렇게 하라"는 작업 요령을 파일 하나(SKILL.md)에 적어 AI에게 건네는 장치다. 세션마다 항상 읽히는 규칙 파일과 달리 실제로 그 작업을 할 때만 불려 오기 때문에, 평소 AI가 읽어야 할 분량을 늘리지 않고도 전문 지식을 붙일 수 있다. 남이 만든 스킬을 받아 쓰는 마켓플레이스도 생겼지만 품질 편차가 크고 숨은 악성 명령이 발견된 사례도 있어, 출처와 내용을 확인하고 쓰는 습관이 필요하다.
 
 스킬은 AI 에이전트에게 특정 작업의 전문 지식·레시피를 파일로 정리해 주는 것으로, 정체는 `SKILL.md`라는 마크다운 파일이다. "이런 상황에서는 이렇게 해라"라고 써 두면 AI가 그걸 읽고 따른다 (→ [[sources/youtube-jae2bVCCokc|#4 skills.sh]]·[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]). [[concepts/harness-engineering|하네스 엔지니어링]]의 핵심 구성 요소다.
 

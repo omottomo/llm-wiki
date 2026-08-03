@@ -1,0 +1,274 @@
+{
+  "phase": "phase-10-visitor-facing-site",
+  "goal": "A first-time visitor can tell what the wiki is about from the home page, search from any page, pick pages from one-line summaries, and read article bodies without inline-citation clutter or librarian-only bookkeeping.",
+  "created_at": "2026-08-02",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Add render_citations() to collapse inline source citations into numbered chips",
+      "scope": "site/build.py:render_citations",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new function in site/build.py rewrites inline citations before wikilink resolution. Input `(→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]])` produces a single anchor `<a class=\"cite\" href=\"/sources/youtube-6cr4PeilKJk/\" title=\"#13 하네스의 비밀\">13</a>` with the surrounding `(→ ` and `)` removed. Input `(→ [[sources/a|#11 X]]·[[sources/b|#14 Y]])` produces two chips separated by a space, wrapper removed. Input where prose follows the links inside the parentheses, e.g. `(→ [[sources/c|#6 Z]] 참조 — claude-md 페이지에 정리)`, keeps the parentheses and the trailing prose and converts only the link to a chip. A citation whose label has no `#<digits>` uses the first 6 characters of the label as chip text. Wikilinks whose target does not start with `sources/` are left completely untouched (6 such cases exist). Text inside fenced code blocks is not rewritten — mask fences with lint_wiki.FENCE_RE before substituting. After a full build, no rendered HTML page under site/dist contains the literal string `(→ ` and no page contains a literal `[[`.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T02",
+      "title": "Style the citation chip",
+      "scope": "site/style.css",
+      "kind": "builder",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "site/style.css defines a `.cite` rule set: font-size around 0.7em, superscript vertical alignment, color var(--muted), small horizontal padding, and a hover state using var(--accent). The rule uses only existing palette custom properties so both light and dark themes work with no new color literals. No existing selector in the file is modified.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T03",
+      "title": "Add strip_internal_sections() to keep librarian-only content out of the rendered site",
+      "scope": "site/build.py:strip_internal_sections",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new function in site/build.py removes, from the page body before rendering, (a) the entire `## 기존 위키와의 연결` section including its heading and every line up to the next `## ` heading or end of file, and (b) any list bullet whose text begins with `raw:` inside the `## 출처 정보` section. Content inside fenced code blocks is not affected. Files under wiki/ are not modified. After a build, the string `기존 위키와의 연결` appears zero times across site/dist/**/*.html, and the rendered page for sources/hashicorp-terraform-docs still contains its 저자/발행처, 수집일 and URL bullets. scripts/verify_site.py still exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T04",
+      "title": "Put a search box in the site header on every page",
+      "scope": "site/build.py:base_html",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "base_html() emits a search container inside `.site-header` on every generated page, and the existing DOMContentLoaded script initializes PagefindUI for it. The home and 404 hero search boxes keep working and use a distinct element id so no page initializes two PagefindUI instances into the same element. Every article page under site/dist (e.g. concepts/mcp/index.html, sources/hashicorp-terraform-docs/index.html) contains the header search container id and the pagefind-ui script tag. The build exits 0 and site/test_build_site.py's existing pagefind wiring test still passes.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T05",
+      "title": "Style the header search as an overlay drawer",
+      "scope": "site/style.css",
+      "kind": "builder",
+      "depends_on": [
+        "T04"
+      ],
+      "acceptance": "site/style.css scopes the header search container to a smaller --pagefind-ui-scale than the hero box, gives it position: relative, and positions the Pagefind results drawer absolutely with a z-index above the article, a var(--bg) background and a var(--line) border, so results overlay the page instead of displacing it. A max-width: 640px media query moves the header search onto its own row below the site name and theme toggle. Only palette custom properties are used for color.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T06",
+      "title": "Add extract_summary() deriving a one-line description per page",
+      "scope": "site/build.py:extract_summary",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new function in site/build.py returns a plain-text one-line summary for a page with no frontmatter schema change. For a page whose type is `source`, it takes the first sentence of the `## 한 줄 요약` section; for every other page it takes the first sentence of the first paragraph following the H1. Wikilink syntax, bold/italic markers and inline code backticks are stripped from the result; a result longer than 100 characters is truncated on a character boundary with an ellipsis. A page with no matching section returns an empty string rather than raising. load_pages() stores the value on each page dict. Running the build produces a non-empty summary for every page under wiki/concepts, wiki/entities, wiki/analysis and wiki/sources.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T07",
+      "title": "Show the one-line summary in section and tag listings",
+      "scope": "site/build.py:render_listing",
+      "kind": "builder",
+      "depends_on": [
+        "T06"
+      ],
+      "acceptance": "render_listing() emits each entry as the title link, the summary in an element with class `summary`, and the existing updated date in the `meta` element. Entries with an empty summary render without an empty summary element. site/dist/concepts/index.html contains at least one `class=\"summary\"` occurrence and the same number of title links as before the change. The build exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T08",
+      "title": "Rewrite the home page with an intro line and a guided start path",
+      "scope": "site/build.py:render_home",
+      "kind": "builder",
+      "depends_on": [
+        "T06"
+      ],
+      "acceptance": "render_home() renders, in order: the site name, a one-sentence Korean description of what the wiki covers held as a module-level constant in build.py (not read from wiki/overview.md), the hero search box, a numbered three-step start path linking /overview/, /analysis/ai-coding-evolution/ and /index/ with one line of Korean description each, the existing category chips with automatic counts, and the five most recently updated pages now showing their summaries. Every href emitted resolves to a real built page, so build.py's own check_internal_links() keeps the build at exit 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T09",
+      "title": "Style the home intro, start path and listing summaries",
+      "scope": "site/style.css",
+      "kind": "builder",
+      "depends_on": [
+        "T07",
+        "T08"
+      ],
+      "acceptance": "site/style.css styles the home intro line, the numbered start-path block and the `.summary` element used in listings and the recent list. Summary text uses var(--muted) at a smaller size than body text and does not disrupt the existing flex row that places the updated date at the right edge. The `.home` top padding is reduced from 14vh so the added content still fits the first screen. A max-width: 640px media query keeps the start path readable in one column.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T10",
+      "title": "Add a breadcrumb to article pages",
+      "scope": "site/build.py:render_article",
+      "kind": "builder",
+      "depends_on": [
+        "T03"
+      ],
+      "acceptance": "render_article() emits a breadcrumb above the article for any page whose key contains a section prefix, built from the SECTIONS label table, of the form home link then section listing link then the current page title as plain text. Pages with keys `index` and `overview` emit no breadcrumb. site/dist/concepts/mcp/index.html contains a link to `/concepts/` above the article body; site/dist/overview/index.html contains no breadcrumb element. The build exits 0 with no broken internal links.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T11",
+      "title": "Generate a /tags/ index page",
+      "scope": "site/build.py:render_tag_index",
+      "kind": "builder",
+      "depends_on": [
+        "T06"
+      ],
+      "acceptance": "A new function renders site/dist/tags/index.html listing every tag returned by collect_tags(), each linking to its existing tag page and showing its page count, ordered by count descending. Tags used by exactly one page are grouped inside a collapsed details element so the top of the page shows only the multi-page tags. The home page category chips include an entry linking to /tags/. Every tag link resolves to a built page, so check_internal_links() keeps the build at exit 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T12",
+      "title": "Emit description, Open Graph, Twitter and canonical metadata",
+      "scope": "site/build.py:base_html",
+      "kind": "builder",
+      "depends_on": [
+        "T06"
+      ],
+      "acceptance": "build.py defines SITE_URL as \"https://omotomo-llm-wiki.com\" and base_html() emits, for every page, a meta description, og:title, og:description, og:url, og:type, twitter:card=summary and a canonical link. The description and og:description use the page summary and fall back to the site description constant when the summary is empty; og:url and canonical are SITE_URL joined with the page path. All attribute values are HTML-escaped. No og:image tag is emitted. site/dist/concepts/mcp/index.html contains an og:description whose content matches that page's summary.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T13",
+      "title": "Write sitemap.xml and robots.txt into the build output",
+      "scope": "site/build.py:main",
+      "kind": "builder",
+      "depends_on": [
+        "T12"
+      ],
+      "acceptance": "main() writes site/dist/sitemap.xml containing one url entry per generated page — every article, every section listing, every tag page, the tag index and the home page — each with a loc built from SITE_URL and a lastmod taken from the page's updated field where one exists, and site/dist/robots.txt allowing all user agents and naming the sitemap URL. The XML is well-formed and parses with xml.etree.ElementTree. 404.html is not listed in the sitemap. scripts/verify_site.py still exits 0 and no /Users/ path appears in either file.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T14",
+      "title": "Style the breadcrumb and tag index",
+      "scope": "site/style.css",
+      "kind": "builder",
+      "depends_on": [
+        "T10",
+        "T11"
+      ],
+      "acceptance": "site/style.css styles the breadcrumb as a small muted row above the article title, and the tag index as a dense wrapped list of tag chips consistent with the existing `.tag` treatment. The collapsed details element for single-page tags has a muted summary label. Only existing palette custom properties are used, and no existing selector is modified.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T15",
+      "title": "Extend the build test suite for the new output invariants",
+      "scope": "site/test_build_site.py",
+      "kind": "builder",
+      "depends_on": [
+        "T01",
+        "T03",
+        "T04",
+        "T07",
+        "T10",
+        "T11",
+        "T13"
+      ],
+      "acceptance": "site/test_build_site.py gains assertions, in the existing stdlib-assert style with no new dependency, that after a build: rendered HTML contains at least one element with class `cite` and zero occurrences of the literal `(→ `; the string `기존 위키와의 연결` occurs zero times and no `raw: raw/` bullet is rendered; every article page contains the header search container; a section listing contains a `summary` element; an article page contains a breadcrumb link to its section; site/dist/tags/index.html, site/dist/sitemap.xml and site/dist/robots.txt all exist; an article page contains an og:description meta tag. Running `python3 site/test_build_site.py` exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T16",
+      "title": "Add lead paragraphs to the concept pages",
+      "scope": "wiki/concepts/",
+      "kind": "builder",
+      "depends_on": [
+        "T06"
+      ],
+      "acceptance": "Every markdown file under wiki/concepts/ has, immediately after its H1 and before its first `## ` heading, a Korean lead paragraph of three or four sentences written for a reader with no background: the first sentence states plainly what the subject is and expands any jargon it uses, the following sentences state why it matters or when it comes up. The lead paragraph contains no `(→ ` citation and no wikilink, so it reads standalone when lifted into a listing or meta description. No text below the first `## ` heading is changed. The `updated` field of each edited file is set to the edit date. `python3 scripts/lint_wiki.py` exits 0 and `python3 site/build.py` exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T17",
+      "title": "Add lead paragraphs to the entity pages",
+      "scope": "wiki/entities/",
+      "kind": "builder",
+      "depends_on": [
+        "T16"
+      ],
+      "acceptance": "Same lead-paragraph rule as T16 applied to every markdown file under wiki/entities/: a three-to-four sentence Korean paragraph after the H1 and before the first `## ` heading, no citations and no wikilinks inside it, stating plainly who or what the entity is and why it appears in this wiki. No text below the first `## ` heading is changed. Each edited file's `updated` field is set to the edit date. `python3 scripts/lint_wiki.py` exits 0 and `python3 site/build.py` exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T18",
+      "title": "Add lead paragraphs to the analysis pages",
+      "scope": "wiki/analysis/",
+      "kind": "builder",
+      "depends_on": [
+        "T17"
+      ],
+      "acceptance": "Same lead-paragraph rule as T16 applied to every markdown file under wiki/analysis/: a three-to-four sentence Korean paragraph after the H1 and before the first `## ` heading, no citations and no wikilinks inside it, stating what question the analysis answers and what it concludes. No text below the first `## ` heading is changed. Each edited file's `updated` field is set to the edit date. `python3 scripts/lint_wiki.py` exits 0 and `python3 site/build.py` exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T19",
+      "title": "Record the authoring rules this phase introduces",
+      "scope": "docs/rules/wiki-content.md",
+      "kind": "builder",
+      "depends_on": [
+        "T16"
+      ],
+      "acceptance": "docs/rules/wiki-content.md documents three new rules in English, consistent with the file's existing structure: (a) the §1 page template requires a lead paragraph on concept, entity and analysis pages, with the same specification used in T16; (b) an explicit list of librarian-only sections that the site does not render — `기존 위키와의 연결` and the `raw:` bullet of `출처 정보` — stating that they must still be written and must not be deleted from wiki/; (c) the inline citation format `(→ [[sources/slug|#N 라벨]])` is load-bearing because site/build.py parses it into footnote chips, so a deviation renders as raw text. Korean output specimens inside the file stay Korean per the CLAUDE.md language rule.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T20",
+      "title": "Record the site-side constraints this phase introduces",
+      "scope": "docs/rules/site-code.md",
+      "kind": "builder",
+      "depends_on": [
+        "T01",
+        "T03"
+      ],
+      "acceptance": "docs/rules/site-code.md §2.4 gains entries dated 2026-08-02 covering: the render-time internal-section filter, naming the blocklist location in build.py and stating that the wiki/ source must keep those sections because wiki-query and wiki-lint read them; and the citation-chip parser's deliberate coupling to the citation convention in wiki-content.md, framed the same way as the existing KNOWN_TAG_VARIANT_GROUPS entry — editing one means editing the other. Entries state only what would surprise a fresh clone, per the section's own instruction.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T21",
+      "title": "Register the phase in the docs catalog and work log",
+      "scope": "docs/index.md",
+      "kind": "builder",
+      "depends_on": [
+        "T19",
+        "T20"
+      ],
+      "acceptance": "docs/index.md lists docs/tasks/phase-10-visitor-facing-site/ with its plan.md and prd.json, matching how the existing phase directories are catalogued. docs/log.md gains one `site` prefixed Korean line for the Part A close-out and one Korean line for the Part B content pass, both following the `## [YYYY-MM-DD] <prefix> | …` format shown in CLAUDE.md §2.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T22",
+      "title": "Human visual pass over the rebuilt site",
+      "scope": "site/dist",
+      "kind": "manual",
+      "depends_on": [
+        "T15",
+        "T18"
+      ],
+      "acceptance": "With the site built and Pagefind indexed, served locally, a human confirms: the home page shows what the wiki is about and the three-step start path within the first screen; concepts/harness-engineering reads without the citation clutter and the chips are unobtrusive but still clickable; sources/hashicorp-terraform-docs shows no 기존 위키와의 연결 section and no raw/ path while keeping author, URL and collection date; header search from an article page opens results as an overlay that does not push the body; section listing summaries are genuinely useful for choosing a page; the lead paragraphs read as plain Korean to someone new to the topic; Korean line-breaking, dark mode and the mobile single-column collapse all look right. Agents must not claim this task passed.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}

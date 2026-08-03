@@ -2,12 +2,14 @@
 title: 검증 자동화
 type: concept
 created: 2026-06-23
-updated: 2026-07-19
+updated: 2026-08-02
 sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스엔지니어링]
 ---
 
 # 검증 자동화
+
+검증 자동화는 AI가 내놓은 결과를 사람이 매번 눈으로 확인하는 대신, 환경이 자동으로 검사하고 리뷰하도록 설계하는 것이다. 필요한 이유는 분명하다 — AI는 자기가 한 일을 자기가 평가하면 품질이 떨어지는 경우에도 거의 언제나 잘했다고 답한다. 그래서 만드는 쪽과 검사하는 쪽을 구조적으로 떼어 놓고, 테스트·린터·별도의 리뷰 담당을 환경에 심어 둔다. 이때 검사하는 쪽이 직접 코드를 고치기 시작하면 검증자 자체가 사라진다는 점이 핵심 원칙이다.
 
 **검증 자동화**는 에이전트가 만든 결과물을 사람이 매번 일일이 확인하는 대신, 환경 자체가 자동으로 검사·리뷰하도록 설계하는 것이다. [[concepts/harness-engineering|하네스 엔지니어링]]의 핵심 기둥 중 하나로, 에이전트의 가장 고질적인 실패 패턴—**"자기가 한 일을 자기가 평가하면 무조건 잘했다고 한다"**—를 구조적으로 막는 것을 목표로 한다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]).
 

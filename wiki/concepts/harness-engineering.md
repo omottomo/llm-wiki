@@ -2,12 +2,14 @@
 title: 하네스 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-07-19
+updated: 2026-08-02
 sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
 
 # 하네스 엔지니어링
+
+하네스(harness)는 말에 씌우는 마구를 뜻하는 말로, 여기서는 AI 모델을 둘러싼 환경 전체 — 규칙 파일, 연결된 도구, 자동 검사, 권한 설정 — 를 가리킨다. 하네스 엔지니어링은 그 환경을 설계해 AI가 애초에 실수하기 어렵게 만드는 기술이다. 발상은 단순하다: 에이전트가 규칙을 어겼을 때 "다음엔 잘하라"고 부탁하는 대신, 같은 실수가 구조적으로 반복될 수 없도록 환경 쪽을 고친다. 이 위키의 중심 개념이며 다른 대부분의 페이지가 결국 여기로 이어진다.
 
 이 위키의 중심 개념이자 전체 진화 서사의 종착점이다. **하네스 엔지니어링은 AI 에이전트가 자율적으로 일하되 동시에 안전하게 통제될 수 있도록, 모델을 감싸는 "환경 전체"를 설계하는 기술**을 말한다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]). 모델 자체가 아니라 모델이 아닌 모든 것 — 컨텍스트 파일, MCP, 스킬, 훅, 권한 등 — 이 곧 하네스다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 

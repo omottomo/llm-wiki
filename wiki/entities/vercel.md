@@ -2,11 +2,13 @@
 title: Vercel
 type: entity
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-02
 sources: [youtube-jae2bVCCokc, youtube-z-3BRkxQ5GM]
 tags: [조직, 플랫폼, skills-sh]
 ---
 # Vercel
+
+Vercel은 웹사이트를 만들고 배포하는 플랫폼을 운영하는 기업이다. 이 위키에는 AI 에이전트용 스킬을 모아 두는 skills.sh를 내놓은 주체로 등장한다. 플랫폼 사업 자체보다 그 출시 주체라는 점 때문에 기록된 페이지다.
 
 웹 배포·개발 플랫폼 기업으로, 이 위키에서는 AI 에이전트용 스킬 패키지 매니저 [[entities/skills-sh|skills.sh]]의 출시 주체로 등장한다.
 

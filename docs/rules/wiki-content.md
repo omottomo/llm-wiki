@@ -62,6 +62,16 @@ whenever a page's subject is widely known under a second name; leave it off othe
 citation surface — `[[...]]` links still target the slug.
 
 ### Body
+- **`concepts/`, `entities/` and `analysis/` pages open with a lead paragraph** (2026-08-02,
+  phase-10). Immediately after the H1 and before the first `## ` heading, write **three or four
+  Korean sentences aimed at a reader with no background**: the first states plainly what the
+  subject is and expands any jargon on the spot; the rest say why it matters or when it comes up
+  (for an `analysis/` page: what question it answers and what it concludes). The lead carries
+  **no citation paren and no wikilink** — `site/build.py` lifts its first sentence into listings,
+  search results and the page's `<meta description>`/`og:description`, so it has to read
+  standalone. `sources/` pages are exempt: their `## 한 줄 요약` already plays this role and is
+  what the extractor reads instead. A page whose body opens straight into a `## ` heading yields
+  an empty summary and renders with no description anywhere.
 - **Cross-links use wikilink syntax** `[[page-name]]` (compatible with Obsidian graph view).
 - **Every body wikilink MUST carry a Korean alias** — without one, Quartz renders the raw English slug (`harness-engineering`) in the middle of Korean prose. The alias is:
   - for `sources/` pages → the target's frontmatter `label` (short, `#N` playlist prefix, no brackets/`$`/`|`);
@@ -91,6 +101,20 @@ keep the two in sync.
 - 신규: new [[...]] introduced here
 ## 출처 정보 (raw path, author, date, URL)
 ```
+
+### Librarian-only sections — written, never deleted, never published
+
+Two parts of the template above exist for the librarian and are **filtered out at render time**
+by `site/build.py` (`strip_internal_sections`, blocklist in `site-code.md` §2.4):
+
+| Not rendered | Why it still must be written |
+|---|---|
+| the whole `## 기존 위키와의 연결` section | `wiki-query` and `wiki-lint` read it to trace what a source reinforced, contradicted or created |
+| the `- raw: raw/<slug>.md` bullet inside `## 출처 정보` | the raw↔wiki parity check in `lint_wiki.py` and every later re-read depend on it |
+
+So: keep writing both exactly as the template says. **Never delete them from `wiki/` to "clean up
+the site"** — the site already ignores them, and removing them breaks the skills that read them.
+The rest of `## 출처 정보` (author, collection date, URL) *is* published.
 
 ---
 
@@ -195,6 +219,17 @@ body text gets parsed as a tag, not read as a citation. If you need to reference
 playlist number in prose, embed it inside the wikilink alias (the `label` frontmatter field
 already carries this, e.g. `label: "#7 메타 엔지니어 실전편"`) rather than writing the hash mark
 loose in a sentence.
+
+**The citation format is load-bearing, not decorative** (2026-08-02, phase-10).
+`site/build.py`'s `render_citations` parses `(→ [[sources/slug|#N 라벨]])` and collapses it into
+a numbered superscript chip, taking the chip's number from the `#N` prefix of the label and its
+tooltip from the whole label; a group holding only `sources/` links loses its `(→ … )` wrapper
+entirely. Consequences for authoring: a citation written in any other shape (a different arrow, a
+comma instead of `·`, a label with no `#N`) is not recognised as a citation and renders as raw
+text in the middle of the sentence — the parser degrades quietly, it does not error. Deviating
+from §1's citation form is therefore a rendering bug, not a style preference. This coupling runs
+the same way as `KNOWN_TAG_VARIANT_GROUPS` (§4.1): the convention lives here, the parser mirrors
+it — edit one, edit the other.
 
 ### 4.3 Bump `updated` only when content changes
 

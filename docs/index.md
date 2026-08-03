@@ -37,9 +37,12 @@ docs/
     │   ├── plan.md                 # design spec: replace both Quartz sites with hand-rolled minimal search-first site (built in web/, since consolidated to site/)
     │   ├── implementation.md       # step-by-step TDD implementation plan (full code per task)
     │   └── prd.json                # 7 tasks (6 builder + 1 manual)
-    └── phase-9-aws-deploy/
-        ├── plan.md                 # AWS S3+CloudFront+Terraform deployment plan (human-executed; no prd.json; Korean by request)
-        └── implementation.md       # step-by-step runbook: exact commands + full HCL/YAML per task (Korean by request)
+    ├── phase-9-aws-deploy/
+    │   ├── plan.md                 # AWS S3+CloudFront+Terraform deployment plan (human-executed; no prd.json; Korean by request)
+    │   └── implementation.md       # step-by-step runbook: exact commands + full HCL/YAML per task (Korean by request)
+    └── phase-10-visitor-facing-site/
+        ├── plan.md                 # visitor-facing readability: citation chips, global search, summaries, lead paragraphs
+        └── prd.json                # 22 tasks (21 builder + 1 manual)
 ```
 
 ## rules/ — when to read which
@@ -73,3 +76,4 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 | [tasks/phase-7-nvk-skills-tests/](tasks/phase-7-nvk-skills-tests/prd.json) | `plan.md` + `prd.json` — 6 tasks (5 builder + 1 manual), nvk benchmark part B: required `volatility` enum + migration, human-gated `wiki-refresh` skill for living web sources, source-retraction mode in wiki-delete with `<!--RETRACTED-SOURCE-->` marker lint, golden/defect fixture test suite (`scripts/test_lint_wiki.py`) wired into CI. **T01–T06 done (2026-07-19)**; lint + test runner (golden + 21 defects = 22/22) exit 0, `wiki-refresh`(Terraform)·retract(golden copy) dry-runs passed, whole-branch review clean. Depends on phase-6 |
 | [tasks/phase-8-minimal-site/](tasks/phase-8-minimal-site/plan.md) | `plan.md` (design spec) + `implementation.md` (TDD steps with full code) + `prd.json` — 7 tasks (6 builder + 1 manual), 2026-07-20: replace both Quartz sites with a hand-rolled minimal search-first site in `web/` (build.py reusing lint_wiki.py parsing + style.css + Pagefind Korean full-text search). Keywords: minimal/refined/cold; features limited to wikilinks+backlinks, tags, dark mode. **2026-07-20 consolidation: adopted as the sole dashboard — the two Quartz directories (`site/`, `site-test/`) were deleted and `web/` renamed to `site/`** |
 | [tasks/phase-9-aws-deploy/](tasks/phase-9-aws-deploy/plan.md) | `plan.md` — 2026-07-20 deployment plan: private S3 + OAC + CloudFront (Function rewrite for pretty URLs, 403→404 mapping), ACM us-east-1, Route53 domain, Terraform (`infra/`, S3 remote state), GitHub Actions OIDC deploy gated on `verify_site.py`; `implementation.md` — 12-task runbook (Task 0–11) with exact terminal commands, full HCL and workflow YAML, per-task verification, troubleshooting table. **Human-executed** — the agent planned and answers questions only; no `prd.json`. Both files deliberately Korean (user executes them personally). Supersedes the Cloudflare Pages target in `rules/site-code.md` §2 (doc update pending at close-out) |
+| [tasks/phase-10-visitor-facing-site/](tasks/phase-10-visitor-facing-site/plan.md) | `plan.md` + `prd.json` — 22 tasks (21 builder + 1 manual), 2026-08-02: make the site readable for a first-time visitor. Part A (`site/`): inline citations collapsed into numbered chips, librarian-only sections filtered at render time, search in the header of every page, one-line summaries in listings, rewritten home with a three-step start path, breadcrumbs, `/tags/` index, description/OG/canonical metadata, `sitemap.xml` + `robots.txt`, extended build tests. Part B (`wiki/`): a no-background Korean lead paragraph on all 39 concept/entity/analysis pages. Part C: the new authoring and site rules. **T01–T21 done (2026-08-02)**; T22 (human visual pass) open |

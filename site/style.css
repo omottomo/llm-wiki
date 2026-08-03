@@ -47,6 +47,22 @@ a:hover { opacity: 0.75; }
 }
 #theme-toggle:hover { color: var(--text); }
 
+/* 헤더 검색: 히어로 검색창보다 작게, 결과는 본문 위에 겹치는 드로어로 */
+.header-search {
+  position: relative; flex: 1; max-width: 18rem; margin: 0 0.75rem;
+  --pagefind-ui-scale: 0.7;
+}
+.header-search .pagefind-ui__drawer {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+  max-height: 70vh; overflow-y: auto;
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: 8px; padding: 0 0.9rem;
+}
+@media (max-width: 640px) {
+  .site-header { flex-wrap: wrap; }
+  .header-search { order: 3; flex-basis: 100%; max-width: none; margin: 0.6rem 0 0; }
+}
+
 /* ── 본문: 68ch 중앙, 카드 없음, hairline 구분 ───────────── */
 main { max-width: 54rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
 article h1 { font-size: 1.7rem; line-height: 1.35; margin: 0 0 1.5rem; }
@@ -69,6 +85,24 @@ article pre code { background: none; padding: 0; }
 .meta { color: var(--muted); font-size: 0.85rem; }
 .dead-link { color: var(--muted); border-bottom: 1px dotted var(--muted); }
 
+/* 인용 칩: 각주처럼 위첨자로 작게, 본문 흐름을 끊지 않게 */
+.cite {
+  font-size: 0.7em; vertical-align: super; line-height: 0;
+  color: var(--muted); padding: 0 0.15em;
+}
+.cite:hover { color: var(--accent); opacity: 1; }
+
+/* 빵부스러기: 제목 위 한 줄, 눈에 띄지 않게 */
+.breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.25rem; }
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--accent); }
+
+/* 태그 색인: 태그 칩을 촘촘히 흘려 배치 */
+.tag-index { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; margin-bottom: 2rem; }
+.tag-index .count { color: var(--muted); font-size: 0.75rem; }
+.tag-single > summary { color: var(--muted); font-size: 0.85rem; cursor: pointer; }
+.tag-single .tag-index { margin-top: 1rem; }
+
 /* ── 태그 · 백링크 ───────────────────────────────────────── */
 .tags { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
 .tag { font-size: 0.85rem; color: var(--muted); margin-right: 0.75rem; }
@@ -79,9 +113,18 @@ article pre code { background: none; padding: 0; }
 .backlinks li { padding: 0.3rem 0; }
 
 /* ── 홈: 검색 중심 ───────────────────────────────────────── */
-.home { text-align: center; padding-top: 14vh; }
-.home h1 { font-size: 2rem; margin-bottom: 2rem; }
+.home { text-align: center; padding-top: 6vh; }
+.home h1 { font-size: 2rem; margin-bottom: 0.75rem; }
+.home .intro {
+  max-width: 34rem; margin: 0 auto 2rem;
+  color: var(--muted); font-size: 0.95rem;
+}
 .home #search { max-width: 34rem; margin: 0 auto 2.5rem; text-align: left; }
+.start { max-width: 34rem; margin: 0 auto 2.5rem; text-align: left; }
+.start h2 { font-size: 0.95rem; color: var(--muted); font-weight: 600; margin: 0 0 0.5rem; }
+.start ol { margin: 0; padding-left: 1.3rem; }
+.start li { padding: 0.35rem 0; }
+.summary { display: block; flex: 0 0 100%; order: 3; color: var(--muted); font-size: 0.85rem; }
 .entries { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
 .entry {
   border: 1px solid var(--line); border-radius: 999px;
@@ -93,8 +136,14 @@ article pre code { background: none; padding: 0; }
 .recent h2 { font-size: 0.95rem; color: var(--muted); font-weight: 600; }
 .recent ul, .listing { list-style: none; padding: 0; }
 .recent li, .listing li {
-  display: flex; justify-content: space-between; gap: 1rem;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.2rem 1rem;
   padding: 0.55rem 0; border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 640px) {
+  .home { padding-top: 3vh; }
+  .start { max-width: none; }
+  .start li a { display: block; }
 }
 
 /* ── Pagefind UI를 팔레트에 맞춤 ─────────────────────────── */

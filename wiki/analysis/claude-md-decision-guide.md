@@ -2,12 +2,14 @@
 title: "분석 — CLAUDE.md 결정 가이드: 쓸까 말까, 어떻게 쓸까"
 type: analysis
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-02
 sources: [youtube-c7_ANA1NiS0, youtube-cZ8_Dkk_Ce0, youtube-gol5jv4wcfs, youtube-FBv8hK_DtJ8, youtube-DCsv0rKKrN4, youtube-hXlB1QstQ-Y]
 tags: [분석, 클로드md, 의사결정, 모순]
 ---
 
 # 분석 — CLAUDE.md 결정 가이드: 쓸까 말까, 어떻게 쓸까
+
+이 글은 "AI에게 줄 규칙 파일을 아예 쓰지 말라"는 주장과 "잘 쓰면 결과 품질이 몇 배 좋아진다"는 주장이 정면으로 부딪히는 문제를 다룬다. 양쪽 근거를 나란히 놓고 보면 다툼의 진짜 쟁점은 쓸지 말지가 아니라 무엇을 어떻게 쓰느냐로 좁혀진다. 결론은 어느 쪽도 버리지 않는 것이다 — AI가 자동으로 만들어 낸 장황한 규칙 파일은 해롭고, 사람이 직접 고른 짧고 검증 가능한 규칙은 도움이 된다.
 
 이 페이지는 이 위키의 **모순①**([[concepts/claude-md|CLAUDE.md]]에 기록된 "CLAUDE.md를 지워라" vs "CLAUDE.md로 품질 2~3배")을 실무 의사결정 가이드로 바꾼 것이다. **두 입장 중 어느 쪽도 버리지 않는다.** 둘은 충돌이 아니라 "어떤 CLAUDE.md를, 어떻게 쓰느냐"의 문제로 수렴하기 때문이다.
 

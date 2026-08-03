@@ -2,11 +2,13 @@
 title: 미첼 하시모토 (Mitchell Hashimoto)
 type: entity
 created: 2026-06-23
-updated: 2026-07-19
+updated: 2026-08-02
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [인물, HashiCorp, 하네스엔지니어링]
 ---
 # 미첼 하시모토 (Mitchell Hashimoto)
+
+미첼 하시모토는 HashiCorp의 공동창립자이자 Terraform을 만든 개발자이며, 터미널 프로그램 Ghostty의 제작자이기도 하다. 인프라를 코드로 선언하고 그 선언을 시스템이 강제하게 만든 그의 이력은, 이 위키의 중심 주제인 하네스 엔지니어링과 같은 발상 위에 있다. 실제로 이 분야에서 "하네스"라는 말을 널리 퍼뜨린 인물로 언급된다.
 
 [[entities/hashicorp|HashiCorp]] 공동창립자([[entities/terraform|Terraform]] 제작자, 또 다른 공동창립자로 [[entities/armon-dadgar|아몬 다드가]]가 있다)이자 터미널 에뮬레이터 **Ghostty**의 제작자다. 이 위키에서는 '하네스(harness)' 개념을 대중화한 인물로 언급된다.
 

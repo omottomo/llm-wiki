@@ -2,11 +2,13 @@
 title: 보리스 체르니 (Boris Cherny)
 type: entity
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-02
 sources: [youtube-hXlB1QstQ-Y, youtube-cZ8_Dkk_Ce0, youtube-z-3BRkxQ5GM]
 tags: [인물, Anthropic, 클로드코드]
 ---
 # 보리스 체르니 (Boris Cherny)
+
+보리스 체르니는 Anthropic에서 Claude Code를 만든 인물이다. 도구를 만든 사람 본인이 그 도구를 어떻게 쓰는지, 규칙 파일을 얼마나 짧게 유지하라고 권하는지가 이 위키에서 자주 인용된다. 제작자의 권고와 사용자들의 실전 경험이 엇갈리는 지점을 비교할 때 기준이 되는 이름이다.
 
 [[entities/anthropic|Anthropic]] 소속으로 [[entities/claude-code|Claude Code]]를 만든 인물이다. 이 위키에서는 도구 제작자 본인의 사용 철학과 [[concepts/claude-md|CLAUDE.md]] 운영 권고로 자주 인용된다.
 

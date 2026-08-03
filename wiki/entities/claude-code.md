@@ -2,11 +2,13 @@
 title: Claude Code
 type: entity
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-08-02
 sources: [youtube-dYXHJKnIT_I, youtube-Gb2VMWrUmZ0, youtube-BssPGKsP60s, youtube-hXlB1QstQ-Y, youtube-gol5jv4wcfs, youtube-f0hcByvsyjU, youtube-UClLUoGaCxU, youtube-6cr4PeilKJk]
 tags: [도구, CLI, 에이전틱코딩, Anthropic]
 ---
 # Claude Code
+
+Claude Code는 Anthropic이 만든 터미널용 코딩 에이전트다. 편집기 옆에서 자동완성을 거드는 도구가 아니라, 코드베이스를 직접 읽고 고치고 명령까지 실행하며 작업을 스스로 계획해 진행한다. 이 위키에 모인 자료가 거의 전부 이 도구를 다루거나 전제로 삼기 때문에, 다른 개념 문서를 읽기 전에 알아 두면 좋은 배경 페이지다.
 
 [[entities/anthropic|Anthropic]]가 만든 에이전틱 코딩 CLI 도구로, 이 위키 전반의 중심 도구다. 터미널에서 동작하며 코드베이스를 읽고 수정하고 명령을 실행하는 에이전트로서, 단순 자동완성을 넘어 작업을 스스로 계획·수행한다. 이 위키의 거의 모든 자료가 Claude Code를 다루거나 전제로 삼는다.
 

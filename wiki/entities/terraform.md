@@ -9,6 +9,8 @@ tags: [코드형인프라, HashiCorp, 도구]
 
 # Terraform
 
+Terraform은 서버·네트워크·데이터베이스 같은 인프라를 설정 파일로 선언해 두면 그대로 만들어 주는 도구다. 클라우드 업체가 달라도 같은 방식으로 다룰 수 있어 한 곳에 묶이지 않고, 무엇이 바뀔지 먼저 보여 준 뒤 사람이 승인해야 실제로 적용한다는 점이 특징이다. 이 위키에서는 코드형 인프라라는 개념을 실제로 구현해 보여 주는 대표 사례로 다룬다.
+
 [[entities/hashicorp|HashiCorp]]가 만든 대표적인 [[concepts/infrastructure-as-code|코드형 인프라]](IaC) 도구다. HCL(HashiCorp 구성 언어)로 작성한 선언형 구성을 AWS·Azure·Google Cloud·온프레미스 어디에나 배포할 수 있어 공급업체 종속을 피하게 해 주며, 리소스 간 종속성을 분석해 독립적인 리소스는 병렬로 프로비저닝한다 (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]·[[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 공식 문서는 인프라에 **불변(immutable) 접근**을 취해 업그레이드·변경의 복잡성을 줄인다고 명시한다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]). 오픈소스 포크로 OpenTofu가 있으며, 공식 문서 스스로는 "무료 source-available 도구"라 표현한다 (2026-07 기준) (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]·[[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
 ## 작동 원리: 프로바이더

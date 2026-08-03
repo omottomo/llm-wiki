@@ -2,11 +2,13 @@
 title: 안드레이 카파시 (Andrej Karpathy)
 type: entity
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-02
 sources: [youtube-gol5jv4wcfs, youtube-UClLUoGaCxU, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM]
 tags: [인물, OpenAI, 클로드md]
 ---
 # 안드레이 카파시 (Andrej Karpathy)
+
+안드레이 카파시는 OpenAI 공동창업자이자 테슬라의 AI 부문을 이끌었던 연구자로, 딥러닝을 알기 쉽게 풀어 설명해 온 것으로도 널리 알려져 있다. AI에게 코드를 맡기고 사람은 흐름만 본다는 뜻의 "바이브 코딩"이라는 말을 만든 사람이기도 하다. 이 위키에는 짧고 검증 가능한 규칙 파일을 쓰라는 주장의 대표 인물로, 그리고 프롬프트 그다음 단계를 이야기한 사람으로 반복해서 등장한다.
 
 [[entities/openai|OpenAI]] 공동창업자이자 전 Tesla AI 디렉터인 인물이다. 이 위키에서는 짧고 검증 가능한 컨텍스트 파일 작성법을 대표하는 인물로 등장한다.
 

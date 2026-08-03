@@ -2,12 +2,14 @@
 title: 개발자 역할의 변화
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-08-02
 sources: [youtube-uk4a5oER0SQ, youtube-oIAUbqpQ0lY, youtube-6gvnDSAcZww, youtube-DrekqeDlO1w, youtube-BssPGKsP60s, youtube-6cr4PeilKJk, youtube-JzB_GI7SS6g]
 tags: [개발자, 개발자역할변화, 일자리, 상향이동, 이해]
 ---
 
 # 개발자 역할의 변화
+
+이 페이지는 AI가 코드를 대신 쓰기 시작하면서 개발자가 하는 일이 어떻게 달라지는지를 다룬다. 요약하면 역할이 줄어드는 것이 아니라 위로 옮겨 간다 — 직접 구현하는 자리에서, 시스템을 설계하고 AI가 일할 환경을 만들고 결과에 책임지는 자리로 이동한다. 동시에 실제로 일자리가 줄고 있다는 통계와 증언도 함께 기록해, 낙관과 비관 어느 한쪽으로 정리해 버리지 않는다.
 
 AI 시대에 개발자의 역할은 **축소되는 게 아니라 상향 이동(up-leveling)한다.** 코드를 직접 쓰는 일에서 시스템 전체를 설계하고 AI가 일할 환경을 만들며 최종 책임을 지는 역할로 올라간다 — "직접 공을 차는 선수에서 전술을 짜고 팀을 운영하는 감독으로" (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 

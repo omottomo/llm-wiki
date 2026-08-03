@@ -2,11 +2,13 @@
 title: OpenAI
 type: entity
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-02
 sources: [youtube-f0hcByvsyjU, youtube-gol5jv4wcfs]
 tags: [조직, AI기업, 코덱스]
 ---
 # OpenAI
+
+OpenAI는 ChatGPT와 코딩 에이전트 Codex를 만든 AI 기업이다. 이 위키에서는 Anthropic과 대비되는, 계보가 다른 모델을 제공하는 쪽으로 주로 등장한다. 서로 다른 회사의 모델을 함께 띄워 실수를 교차 검증하는 것이 이 위키가 다루는 실전 기법 중 하나이기 때문이다.
 
 [[entities/codex|Codex]]를 만든 AI 기업이다. 이 위키에서는 주로 [[entities/anthropic|Anthropic]]·[[entities/claude-code|Claude Code]]와의 대비, 그리고 멀티 모델 협업 맥락에서 등장한다.
 

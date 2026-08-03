@@ -2,11 +2,13 @@
 title: CLAUDE.md (컨텍스트 파일)
 type: concept
 created: 2026-06-23
-updated: 2026-07-12
+updated: 2026-08-02
 sources: [youtube-c7_ANA1NiS0, youtube-cZ8_Dkk_Ce0, youtube-gol5jv4wcfs, youtube-FBv8hK_DtJ8, youtube-DCsv0rKKrN4, youtube-hXlB1QstQ-Y, youtube-BssPGKsP60s]
 tags: [클로드코드, 컨텍스트엔지니어링, 메모리파일, 하네스엔지니어링]
 ---
 # CLAUDE.md (컨텍스트 파일)
+
+CLAUDE.md는 코딩 도구인 Claude Code가 프로젝트를 열 때마다 자동으로 읽는 규칙 메모 파일이다. 쓰는 기술 스택, 지켜야 할 코딩 규칙, 하지 말아야 할 일 같은 프로젝트 사정을 미리 적어 두면 매번 같은 설명을 반복하지 않아도 AI가 그 맥락 위에서 일한다. 다만 강제 장치가 아니라 참고 자료에 가까워서, 길고 어수선해질수록 잘 지켜지지 않는다는 반대 주장도 함께 있다. 이 페이지는 "자세히 써라"와 "차라리 지워라"라는 두 입장을 어느 쪽도 버리지 않고 나란히 기록한다.
 
 `CLAUDE.md`(Codex 등에서는 `AGENTS.md`)는 Claude Code가 프로젝트에서 지켜야 할 규칙과 맥락을 적어 두는 메모리 파일이다 (→ [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]). [[concepts/harness-engineering|하네스 엔지니어링]]의 가장 기본이 되는 구성 요소이며 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]), [[concepts/context-engineering|컨텍스트 엔지니어링]]의 첫걸음으로 평가된다 (→ [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]).
 
