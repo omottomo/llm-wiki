@@ -26,12 +26,9 @@ DIST = SITE / "dist"
 SITE_NAME = "LLM 위키"
 SITE_URL = "https://omotomo-llm-wiki.com"
 # 사이트가 소유한 카피 — wiki/overview.md를 옮겨 적지 않는다(문서가 바뀌어도 첫인상 문구는 사이트가 관리).
-SITE_DESCRIPTION = (
-    "Claude Code를 비롯한 AI 에이전트 코딩과 그 환경 설계(하네스 엔지니어링)를 다룬 자료를 "
-    "읽고 정리해 쌓아 둔 지식 위키입니다."
-)
+SITE_DESCRIPTION = "직접 고른 자료를 읽고 정리해 쌓아 올리는 개인 지식 위키입니다"
 START_PATH = [
-    ("/overview/", "도메인 개요", "이 위키가 무엇을 다루는지 한 페이지로 훑습니다."),
+    ("/overview/", "위키 개요", "이 위키가 무엇을 다루는지 한 페이지로 훑습니다."),
     ("/analysis/ai-coding-evolution/", "AI 코딩의 4단계 진화",
      "프롬프트에서 에이전트까지, 전체 흐름을 한자리에서 비교합니다."),
     ("/index/", "전체 색인", "카테고리별 페이지 목록에서 관심 있는 주제를 고릅니다."),

@@ -29,7 +29,7 @@ Anthropic이 Opus 4.6과 함께 공식 지원하기 시작한 "Claude Code Teams
 
 ## 기존 위키와의 연결
 - 강화: [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]]의 핵심 1차 자료 — 서브에이전트 vs 에이전트 팀 비교의 근거. [[concepts/harness-engineering|하네스 엔지니어링]](하네스로 역량 증폭)과 [[concepts/verification-automation|검증 자동화]](검증 스킬을 팀으로 병렬 실행)을 뒷받침. [[entities/anthropic|Anthropic]]·[[entities/claude-code|Claude Code]]의 공식 기능.
-- 모순: 없음(직접 충돌 없음). 단 "토큰 비용 폭증" 경고는 [[sources/youtube-dYXHJKnIT_I|#2 Claudebot 실전 워크플로우]]의 사용량 모니터링 권고, `$9` vs `$200` 논쟁(재생목록 [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]) 등 비용 긴장과 같은 축.
+- 모순: 없음(직접 충돌 없음). 단 "토큰 비용 폭증" 경고는 [[sources/youtube-dYXHJKnIT_I|#2 Claudebot 실전 워크플로우]]의 사용량 모니터링 권고, `$9` vs `$200` 논쟁([[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]) 등 비용 긴장과 같은 축.
 - 신규: [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]](에이전트 팀/오케스트레이션/공유 task list/teamwork·inprocess 모드/tmux 연동) 도입. [[concepts/skills|스킬]]의 "검증 스킬을 팀에 분배" 활용도 신규.
 
 ## 출처 정보

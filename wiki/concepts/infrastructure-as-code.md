@@ -2,7 +2,7 @@
 title: 코드형 인프라 (IaC)
 type: concept
 created: 2026-07-18
-updated: 2026-08-02
+updated: 2026-08-03
 sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 ---
@@ -49,7 +49,7 @@ tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 
 ## 하네스 엔지니어링과의 관계 (위키 차원의 관찰)
 
-이 위키의 중심 개념인 [[concepts/harness-engineering|하네스 엔지니어링]]과 IaC는 같은 사상 계보에 있다 — **환경을 코드로 선언·버전 관리하고, 사람의 수동 개입 대신 자동화된 강제로 일관성을 지킨다**는 점에서다. 선언형 IaC의 "원하는 상태만 선언하면 구현은 도구가 처리"하는 구조는 에이전트에게 목표를 선언하고 실행을 맡기는 방식과 닮았고, 배포 전 자동 테스트로 구성을 검증하는 관행은 [[concepts/verification-automation|검증 자동화]]의 인프라 영역 선례다. '하네스' 개념을 대중화한 [[entities/mitchell-hashimoto|미첼 하시모토]]가 바로 대표 IaC 도구 Terraform을 만든 [[entities/hashicorp|HashiCorp]]의 공동창립자라는 사실이 이 계보를 상징적으로 잇는다 (하시모토 관련 → [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]], IaC 관련 → [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). 단, 이 유비 자체는 소스가 아니라 위키의 해석이다.
+[[concepts/harness-engineering|하네스 엔지니어링]]과 IaC는 같은 사상 계보에 있다 — **환경을 코드로 선언·버전 관리하고, 사람의 수동 개입 대신 자동화된 강제로 일관성을 지킨다**는 점에서다. 선언형 IaC의 "원하는 상태만 선언하면 구현은 도구가 처리"하는 구조는 에이전트에게 목표를 선언하고 실행을 맡기는 방식과 닮았고, 배포 전 자동 테스트로 구성을 검증하는 관행은 [[concepts/verification-automation|검증 자동화]]의 인프라 영역 선례다. '하네스' 개념을 대중화한 [[entities/mitchell-hashimoto|미첼 하시모토]]가 바로 대표 IaC 도구 Terraform을 만든 [[entities/hashicorp|HashiCorp]]의 공동창립자라는 사실이 이 계보를 상징적으로 잇는다 (하시모토 관련 → [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]], IaC 관련 → [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). 단, 이 유비 자체는 소스가 아니라 위키의 해석이다.
 
 ## 관련 문서
 

@@ -150,8 +150,14 @@ Example of the required output (Korean, as mandated by the language rule):
 > medium**. Never describe the wiki itself as "a digest of the YouTube playlist" on wiki pages;
 > the 25-video playlist was only the initial seed (2026-06-23), and non-playlist web documents
 > have been ingested since 2026-07-18.
-> **Current center of gravity:** Claude Code and harness engineering — technical topics.
-> **Focus:** comparing tool and workflow methodologies (the CLAUDE.md debate; building a harness up vs. slimming it down; single-tool vs. multi-model) and how practices shift over time.
+> **What the wiki *is* (2026-08-03):** accumulating and developing knowledge the user chose, and
+> making it easy for anyone else to browse. That is the identity — **neither a topic nor a medium
+> defines it.** Never write a wiki page, index line or site string that declares the wiki's
+> central subject to be any particular topic.
+> **Topics accumulated so far:** AI-agent coding (Claude Code, harness engineering) and
+> infrastructure-as-code. These are topics the user picked, and the list grows — state them as
+> what has been collected, never as what the wiki is about.
+> **Focus within those topics:** comparing tool and workflow methodologies (the CLAUDE.md debate; building a harness up vs. slimming it down; single-tool vs. multi-model) and how practices shift over time.
 > **Scope boundary (2026-07-12):** developer career strategy (resumes, job hunting, 이직/물경력) lives in the sibling `../career-llm-wiki` repo — the career pages this wiki once held were migrated there. When a new source is career-focused, tell the user it belongs in career-llm-wiki instead of ingesting it here.
 > **Source types:** full YouTube transcripts (mostly Korean, some English) — `raw/youtube-<video_id>.md`; since 2026-07-18 also web articles / official docs saved as `raw/<slug>.md`.
 

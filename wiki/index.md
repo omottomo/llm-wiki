@@ -2,18 +2,18 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-08-02
+updated: 2026-08-03
 sources: []
 tags: [색인, 카탈로그]
 ---
 
 # 위키 색인 (Index)
 
-> 도메인 전체 조망은 [[overview|도메인 개요]]. 아래는 카테고리별 전체 페이지 목록(각 항목 한 줄 설명).
-> 출처: 유튜브 재생목록 `PLUGinkN1Rwv4KGXiVEmSBzglfAoTxyXd3` 영상 25편 (2026-06-23 흡수) + 재생목록 외 웹 문서 (2026-07-18~). 취업/커리어 관련 페이지(개념 3·출처 3·분석 1)는 2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관 — 이 위키는 기술 주제에 집중한다.
+> 전체 조망은 [[overview|위키 개요]]. 아래는 카테고리별 전체 페이지 목록(각 항목 한 줄 설명).
+> 취업/커리어 관련 페이지(개념 3·출처 3·분석 1)는 2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관했다 — 그 주제는 그쪽에서 다룬다.
 
 ## Concepts
-- [[concepts/harness-engineering|하네스 엔지니어링]] — 이 위키의 중심 개념(환경 설계 = 강제)
+- [[concepts/harness-engineering|하네스 엔지니어링]] — 환경 설계 = 강제
 - [[concepts/prompt-engineering|프롬프트 엔지니어링]] — 진화 1단계("뭘 물어볼까")
 - [[concepts/context-engineering|컨텍스트 엔지니어링]] — 진화 2단계("뭘 보여줄까")
 - [[concepts/loop-engineering|루프 엔지니어링]] — 진화 4단계(반복 자동화), 최신 트렌드
@@ -35,7 +35,7 @@ tags: [색인, 카탈로그]
 - [[concepts/hcl|HCL]] — Terraform 구성 언어 문법. 블록·인수·표현식, provider alias, 메타 인수
 
 ## Entities
-- [[entities/claude-code|Claude Code]] — Anthropic의 에이전틱 코딩 CLI, 위키 전반의 중심 도구
+- [[entities/claude-code|Claude Code]] — Anthropic의 에이전틱 코딩 CLI
 - [[entities/anthropic|Anthropic]] — Claude/Claude Code 개발사
 - [[entities/openai|OpenAI]] — Codex/GPT 개발사
 - [[entities/codex|Codex]] — OpenAI 코딩 에이전트, Claude와 교차검증 짝
@@ -53,7 +53,7 @@ tags: [색인, 카탈로그]
 - [[entities/mitchell-hashimoto|미첼 하시모토]] — HashiCorp 공동창립자, 하네스 용어 제시자(추정)
 - [[entities/peter-steinberger|피터 슈타인버거]] — "프롬프팅 그만하라" 발언자(자막 기준)
 
-## Sources (흡수 순서 — 1~25번 재생목록, 26번부터 재생목록 외)
+## Sources (흡수 순서)
 - [[sources/youtube-HnvitMTkXro|#1 LLM 설명]] — 트랜스포머·어텐션·RLHF 기초(요약 버전)
 - [[sources/youtube-dYXHJKnIT_I|#2 Claudebot 실전 워크플로우]] — E2E 테스트·폴링·보안
 - [[sources/youtube-Gb2VMWrUmZ0|#3 Claude Code Teams]] — 독립 인스턴스 병렬 협업
@@ -79,7 +79,7 @@ tags: [색인, 카탈로그]
 - [[sources/youtube-9fx2_1aTzq8|#23 다이나믹 기능 비교]] — 다이나믹 워크플로우 완벽 가이드
 - [[sources/youtube-fInMcawbKng|#24 하네스 다이어트]] — 낡은 하네스의 군살 빼기
 - [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]] — 최신 트렌드
-- [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]] — 2026-07-18 흡수, 재생목록 외 웹 문서. 코드형 인프라 개념 해설
+- [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]] — 2026-07-18 흡수, 웹 문서. 코드형 인프라 개념 해설
 - [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]] — 2026-07-19 흡수, 코어·언어·CLI 발췌 19페이지. Write-Plan-Apply·state·HCL·모듈·도입 4단계
 - [[sources/tistory-inpa-dns-records|#28 DNS 레코드 종류]] — 2026-07-21 흡수, Inpa 블로그. DNS 레코드 종류·A vs CNAME·조회 도구
 - [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]] — 2026-08-02 흡수, 실제 구성 파일 기준 자체 정리 노트. HCL 문법 12항목 + 명령 3개

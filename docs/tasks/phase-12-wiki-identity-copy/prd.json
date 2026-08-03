@@ -1,0 +1,97 @@
+{
+  "phase": "phase-12-wiki-identity-copy",
+  "goal": "The wiki no longer describes itself as a YouTube-playlist digest or as a wiki whose central subject is Claude Code / harness engineering. Its published identity is a personal knowledge wiki of self-chosen sources, browsable by anyone; AI-agent coding and harness engineering read as one accumulated topic among several. Per-source factual metadata and the #N citation labels are untouched.",
+  "created_at": "2026-08-03",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Rewrite wiki/overview.md — drop the playlist framing and the central-topic claim",
+      "scope": "wiki/overview.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "Frontmatter title is `위키 개요` and the H1 is `# 위키 개요 (Overview)`. The intro paragraph describes a knowledge base grown from sources the operator chooses, with no mention of a playlist, a video count, a seed date, YouTube, or auto-generated captions; the sentences `현재의 중심 주제는 **Claude Code를 중심으로 한 AI 에이전트 코딩** …` and `유튜브 출처는 대부분 한국어 채널의 영상이며 …` are gone entirely. `초기 재생목록 25편을 관통하는` becomes `지금까지 흡수한 자료를 관통하는`. The 4-단계 list item 3 no longer ends with `이 위키의 **중심 개념**이다.`. The 도구·생태계 지도 bullet reads `[[entities/claude-code|Claude Code]] …` with no `중심 도구` qualifier and the bullet itself is kept. The `> **출처 범위 메모**` blockquote keeps only the career-llm-wiki migration record; its playlist-range sentence is removed. Frontmatter `updated` is `2026-08-03`. grep of this file for 재생목록|유튜브|자막|중심 주제|중심 개념|중심 도구 returns nothing. The count of `(→ ` citation parens is unchanged from HEAD.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T02",
+      "title": "Rewrite wiki/index.md — drop the source-medium note and the 중심 개념/중심 도구 labels",
+      "scope": "wiki/index.md",
+      "kind": "builder",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "The header blockquote links `[[overview|위키 개요]]` (alias follows the target's new title per wiki-content.md §1) and its `출처:` line no longer names a YouTube playlist, a video count or an ingest date; only the career-llm-wiki migration sentence survives. The harness-engineering entry reads `— 환경 설계 = 강제` with no `이 위키의 중심 개념`. The Claude Code entry reads `— Anthropic의 에이전틱 코딩 CLI` with no `위키 전반의 중심 도구`. The Sources heading is `## Sources (흡수 순서)`. Every `재생목록 외 웹 문서` phrase becomes `웹 문서`. grep of this file for 재생목록|유튜브|중심 개념|중심 도구 returns nothing. The number of `- [[` catalog entries is unchanged from HEAD, and `python3 scripts/lint_wiki.py` reports no index/orphan regressions.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T03",
+      "title": "Delete the wiki-identity claims from concepts/harness-engineering.md and concepts/infrastructure-as-code.md",
+      "scope": "wiki/concepts/harness-engineering.md, wiki/concepts/infrastructure-as-code.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "In harness-engineering.md: the lead paragraph no longer ends with `이 위키의 중심 개념이며 다른 대부분의 페이지가 결국 여기로 이어진다.` and still holds at least three sentences whose first carries no citation paren and no wikilink; the sentence `이 위키의 중심 개념이자 전체 진화 서사의 종착점이다.` is gone; `이 위키 전체를 관통하는 척추가 되는 흐름이다` becomes a phrasing that does not claim to span the wiki, with its trailing citation paren byte-identical. In infrastructure-as-code.md line ~52, `이 위키의 중심 개념인 [[concepts/harness-engineering|하네스 엔지니어링]]과` becomes `[[concepts/harness-engineering|하네스 엔지니어링]]과`. Both files have `updated: 2026-08-03`. grep of both files for `이 위키의 중심`|`이 위키 전체를 관통하는` returns nothing; the `이 위키의 핵심 긴장 중 하나다.` line in harness-engineering.md is deliberately left in place. Citation-paren count unchanged in both files.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T04",
+      "title": "Fix the entity pages — delete identity claims, replace the ones inside lead paragraphs",
+      "scope": "wiki/entities/claude-code.md, wiki/entities/anthropic.md, wiki/entities/mitchell-hashimoto.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "claude-code.md: the lead's third sentence (`이 위키에 모인 자료가 거의 전부 이 도구를 다루거나 전제로 삼기 때문에 …`) is replaced by a sentence that explains the tool itself and never mentions the wiki; the following paragraph no longer contains `이 위키 전반의 중심 도구다` or `이 위키의 거의 모든 자료가 Claude Code를 다루거나 전제로 삼는다`. anthropic.md: the lead's wiki-scope sentence is replaced the same way; `이 위키의 도메인인 에이전틱 코딩·하네스 엔지니어링 서사의 중심에 있는 제품들을 만든 주체다.` is deleted; `…의 제작사로 위키 전반에 전제된다` becomes `…의 제작사다` with its citation paren intact. mitchell-hashimoto.md: `이 위키의 중심 주제인 하네스 엔지니어링과` becomes `하네스 엔지니어링과`. Both claude-code.md and anthropic.md leads still hold at least three sentences and their first sentence stands alone with no citation paren and no wikilink. The `## 이 위키에서의 등장` headings stay. All three files have `updated: 2026-08-03`. grep of the three files for 중심 도구|중심 주제|이 위키의 도메인|위키 전반에 전제 returns nothing. Citation-paren count unchanged in all three.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T05",
+      "title": "Soften the wiki-wide claims in analysis/ai-coding-evolution.md",
+      "scope": "wiki/analysis/ai-coding-evolution.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "`이 페이지는 이 위키 전체를 관통하는 척추인 4단계 진화 서사를` becomes `이 페이지는 4단계 진화 서사를`, and `두 가지 경고가 위키 전체에 명시되어 있다.` becomes `두 가지 경고가 여러 자료에 명시되어 있다.`. The lead paragraph is otherwise untouched and still holds at least three sentences. `updated: 2026-08-03`. grep of this file for `위키 전체` returns nothing. The 4단계 비교표 has the same number of rows as at HEAD and the citation-paren count is unchanged.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T06",
+      "title": "Replace the site copy in site/build.py",
+      "scope": "site/build.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "`SITE_DESCRIPTION` is exactly `직접 고른 자료를 읽고 정리해 쌓아 올리는 개인 지식 위키입니다` (the operator's wording, verbatim; the two-part implicit concatenation collapses to a single string literal). `START_PATH`'s first entry is labelled `위키 개요` and keeps its existing description text. `SITE_NAME` and the `# 사이트가 소유한 카피 …` comment are unchanged. `python3 site/build.py` exits 0; `site/dist/index.html` carries the new string in both its `<meta name=\"description\">` and its `<p class=\"intro\">`; `site/dist/overview/index.html` has `<title>위키 개요 · LLM 위키</title>`; grep -r for `하네스 엔지니어링)를 다룬` across site/dist returns nothing. `python3 site/test_build_site.py` exits 0.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T07",
+      "title": "Fix the wiki charter in docs/rules/wiki-content.md §3",
+      "scope": "docs/rules/wiki-content.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "The `> **Current center of gravity:** Claude Code and harness engineering — technical topics.` line is replaced by a factual statement of which topics have accumulated so far, explicitly framed as topics the operator chose rather than as the wiki's identity; the `> **Focus:**` line is adjusted to match. The charter block gains one sentence stating that the wiki's identity is accumulating self-chosen knowledge and making it browsable by others, and is defined by neither a topic nor a medium; the existing `not limited to any playlist or medium` sentence stays. The scope-boundary line about career-llm-wiki, the `Source types` line and the auto-generated-caption rule are unchanged — they describe collection practice. The file stays entirely in English per CLAUDE.md's language rule, and no §1/§4 rule text is touched.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T08",
+      "title": "Exhaustive re-sweep, verification matrix, work-log entry",
+      "scope": "wiki/, site/build.py, docs/rules/, docs/log.md",
+      "kind": "evaluator",
+      "depends_on": [
+        "T01",
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T06",
+        "T07"
+      ],
+      "acceptance": "`grep -rn '재생목록\\|유튜브\\|중심 주제\\|중심 개념\\|중심 도구\\|위키 전체' wiki/ site/build.py docs/rules/` is run and every surviving hit is classified in the report as one of: (a) a `재생목록:`/`자막:`/`URL:` bullet in a sources page's 출처 정보 block, (b) an `#N` citation label, (c) topical prose that does not claim the wiki's identity. Any hit that fits none of the three is fixed before the phase closes. All five checks exit 0 in this order: `python3 scripts/lint_wiki.py`, `python3 scripts/test_lint_wiki.py`, `python3 site/build.py`, `python3 site/test_build_site.py`, `python3 scripts/verify_site.py`. `docs/log.md` gains exactly one new Korean line prefixed `## [2026-08-03] site   |` naming phase-12 and summarising the sweep. `site/dist` is not committed (`git check-ignore site/dist` succeeds). Commits are per-task with plain git (the my-skills git-workflow plugin is not installed, so its defaults apply).",
+      "status": "completed",
+      "attempts": 1
+    }
+  ]
+}

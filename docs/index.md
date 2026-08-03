@@ -43,9 +43,12 @@ docs/
     ├── phase-10-visitor-facing-site/
     │   ├── plan.md                 # visitor-facing readability: citation chips, global search, summaries, lead paragraphs
     │   └── prd.json                # 22 tasks (21 builder + 1 manual)
-    └── phase-11-ci-deploy-gate/
-        ├── plan.md                 # merge the two push-triggered workflows so deploy declares needs: [verify, lint]
-        └── prd.json                # 3 tasks (2 builder + 1 verify)
+    ├── phase-11-ci-deploy-gate/
+    │   ├── plan.md                 # merge the two push-triggered workflows so deploy declares needs: [verify, lint]
+    │   └── prd.json                # 3 tasks (2 builder + 1 verify)
+    └── phase-12-wiki-identity-copy/
+        ├── plan.md                 # sweep the playlist framing and the "central topic = Claude Code" claim out of the wiki
+        └── prd.json                # 8 tasks (7 builder + 1 evaluator)
 ```
 
 ## rules/ — when to read which
@@ -81,3 +84,4 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 | [tasks/phase-9-aws-deploy/](tasks/phase-9-aws-deploy/plan.md) | `plan.md` — 2026-07-20 deployment plan: private S3 + OAC + CloudFront (Function rewrite for pretty URLs, 403→404 mapping), ACM us-east-1, Route53 domain, Terraform (`infra/`, S3 remote state), GitHub Actions OIDC deploy gated on `verify_site.py`; `implementation.md` — 12-task runbook (Task 0–11) with exact terminal commands, full HCL and workflow YAML, per-task verification, troubleshooting table. **Human-executed** — the agent planned and answers questions only; no `prd.json`. Both files deliberately Korean (user executes them personally). Supersedes the Cloudflare Pages target in `rules/site-code.md` §2 (doc update pending at close-out) |
 | [tasks/phase-10-visitor-facing-site/](tasks/phase-10-visitor-facing-site/plan.md) | `plan.md` + `prd.json` — 22 tasks (21 builder + 1 manual), 2026-08-02: make the site readable for a first-time visitor. Part A (`site/`): inline citations collapsed into numbered chips, librarian-only sections filtered at render time, search in the header of every page, one-line summaries in listings, rewritten home with a three-step start path, breadcrumbs, `/tags/` index, description/OG/canonical metadata, `sitemap.xml` + `robots.txt`, extended build tests. Part B (`wiki/`): a no-background Korean lead paragraph on all 39 concept/entity/analysis pages. Part C: the new authoring and site rules. **T01–T21 done (2026-08-02)**; T22 (human visual pass) open |
 | [tasks/phase-11-ci-deploy-gate/](tasks/phase-11-ci-deploy-gate/plan.md) | `plan.md` + `prd.json` — 3 tasks (2 builder + 1 verify), 2026-08-03: `verify-site.yml` and `deploy-site.yml` were two workflows both triggered by `push` to `main`, so they ran concurrently and nothing ordered them — lint lived only in the first, so a lint violation reddened CI while the site still deployed. Merged into one `site.yml` whose `deploy` job declares `needs: [verify, lint]`, dropped the triple site build inside deploy, kept `verify_site.py` there as a deliberate pre-upload audit of the exact `dist/`, and pinned all three jobs to the same actions and Python. **T01–T03 done (2026-08-03)**; first post-merge run green with `deploy` starting after both upstream jobs completed |
+| [tasks/phase-12-wiki-identity-copy/](tasks/phase-12-wiki-identity-copy/plan.md) | `plan.md` + `prd.json` — 8 tasks (7 builder + 1 evaluator), 2026-08-03: the wiki still described itself as a YouTube-playlist digest and asserted Claude Code / harness engineering as its central subject, on `overview.md`, `index.md`, several concept/entity/analysis pages, the `SITE_DESCRIPTION` copy in `site/build.py`, and the §3 charter here. Both framings swept out; per-source `재생목록:`/`자막:` metadata and the `#N` citation labels deliberately preserved |

@@ -27,8 +27,8 @@ tags: [온디바이스AI, 구글Gemma, 멀티모달, 비용절감, 모바일앱]
 - 한두 세대 더 지나면 온디바이스 AI 활용 방식이 크게 인기를 끌 것이며, 그 핵심 동기는 "API 비용 제로". 앱 개발자에게 백업/웹앱 용도로라도 테스트를 권장.
 
 ## 기존 위키와의 연결
-- 강화: 재생목록 내 유일한 [[concepts/on-device-ai|온디바이스 AI]] / [[entities/google-gemma|구글 Gemma]] 출처로서 해당 개념·엔티티 페이지의 1차 근거. "API 비용 절감"이라는 실무 동기를 제공.
-- 모순: 재생목록의 다른 영상들이 다루는 [[entities/claude-code|Claude Code]] 기반 [[concepts/harness-engineering|하네스 엔지니어링]] 흐름과는 별개 주제로, 직접적 모순 없음.
+- 강화: 위키 내 유일한 [[concepts/on-device-ai|온디바이스 AI]] / [[entities/google-gemma|구글 Gemma]] 출처로서 해당 개념·엔티티 페이지의 1차 근거. "API 비용 절감"이라는 실무 동기를 제공.
+- 모순: 다른 자료들이 다루는 [[entities/claude-code|Claude Code]] 기반 [[concepts/harness-engineering|하네스 엔지니어링]] 흐름과는 별개 주제로, 직접적 모순 없음.
 - 신규: 모바일 온디바이스 LLM 탑재의 메모리 임계치(2B≈6~8GB, 4B≈16GB)와 멀티모달 한계라는 구체 데이터 도입. [[entities/google-gemma|구글 Gemma]] 엔티티 신규 등장.
 
 ## 출처 정보

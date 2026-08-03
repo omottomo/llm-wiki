@@ -2,16 +2,16 @@
 title: 하네스 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-08-02
+updated: 2026-08-03
 sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
 
 # 하네스 엔지니어링
 
-하네스(harness)는 말에 씌우는 마구를 뜻하는 말로, 여기서는 AI 모델을 둘러싼 환경 전체 — 규칙 파일, 연결된 도구, 자동 검사, 권한 설정 — 를 가리킨다. 하네스 엔지니어링은 그 환경을 설계해 AI가 애초에 실수하기 어렵게 만드는 기술이다. 발상은 단순하다: 에이전트가 규칙을 어겼을 때 "다음엔 잘하라"고 부탁하는 대신, 같은 실수가 구조적으로 반복될 수 없도록 환경 쪽을 고친다. 이 위키의 중심 개념이며 다른 대부분의 페이지가 결국 여기로 이어진다.
+하네스(harness)는 말에 씌우는 마구를 뜻하는 말로, 여기서는 AI 모델을 둘러싼 환경 전체 — 규칙 파일, 연결된 도구, 자동 검사, 권한 설정 — 를 가리킨다. 하네스 엔지니어링은 그 환경을 설계해 AI가 애초에 실수하기 어렵게 만드는 기술이다. 발상은 단순하다: 에이전트가 규칙을 어겼을 때 "다음엔 잘하라"고 부탁하는 대신, 같은 실수가 구조적으로 반복될 수 없도록 환경 쪽을 고친다.
 
-이 위키의 중심 개념이자 전체 진화 서사의 종착점이다. **하네스 엔지니어링은 AI 에이전트가 자율적으로 일하되 동시에 안전하게 통제될 수 있도록, 모델을 감싸는 "환경 전체"를 설계하는 기술**을 말한다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]). 모델 자체가 아니라 모델이 아닌 모든 것 — 컨텍스트 파일, MCP, 스킬, 훅, 권한 등 — 이 곧 하네스다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
+프롬프트에서 시작한 AI 활용 방식의 진화가 도달한 지점이기도 하다. **하네스 엔지니어링은 AI 에이전트가 자율적으로 일하되 동시에 안전하게 통제될 수 있도록, 모델을 감싸는 "환경 전체"를 설계하는 기술**을 말한다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]). 모델 자체가 아니라 모델이 아닌 모든 것 — 컨텍스트 파일, MCP, 스킬, 훅, 권한 등 — 이 곧 하네스다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
 ## 핵심 정의와 철학
 
@@ -25,7 +25,7 @@ tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵�
 
 ## 진화 서사: 프롬프트 → 컨텍스트 → 하네스 → 루프
 
-이 위키 전체를 관통하는 척추가 되는 흐름이다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]).
+프롬프트에서 루프까지 이어지는 흐름이다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]).
 
 1. **[[concepts/prompt-engineering|프롬프트 엔지니어링]] (프롬프트 엔지니어링)** — "뭘 물어볼까"의 기술. 역할 주기, 단계별 지시, 예시 넣기. 하지만 프로젝트 구조·기술 스택을 모르면 천장에 부딪힌다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
 2. **[[concepts/context-engineering|컨텍스트 엔지니어링]] (컨텍스트 엔지니어링)** — "뭘 보여줄까"의 기술. 프로젝트 구조·코드·API 문서·규칙을 적절히 제공. 단 많이 주는 게 아니라 지금 필요한 것만 정확히 주는 게 핵심 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
