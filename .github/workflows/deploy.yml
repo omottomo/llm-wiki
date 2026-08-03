@@ -1,5 +1,8 @@
-name: Verify & deploy site
+name: Deploy site (main)
 
+# Publishing only. Pre-merge checks live in verify.yml (pull_request). Same paths
+# list as that file — Actions does not support YAML anchors, so it is duplicated;
+# when you edit one, edit the other.
 on:
   push:
     branches: [main]
@@ -10,40 +13,19 @@ on:
       - "tests/**"
       # The audit asserts these paths are ignored, so a change here can flip it.
       - ".gitignore"
-      # Editing the gate must re-run the gate.
-      - ".github/workflows/site.yml"
+      # Editing either half of the gate must re-run the checks.
+      - ".github/workflows/verify.yml"
+      - ".github/workflows/deploy.yml"
 
 permissions:
   contents: read
 
 jobs:
-  # Minimal site (build.py → site/dist/): build + invariant tests + boundary audit.
-  verify:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Install build dependency
-        run: pip install -r site/requirements.txt
-
-      - name: Build site + search index + run test suite
-        run: python3 site/test_build_site.py
-
-      - name: Run raw/ boundary audit
-        run: python3 scripts/verify_site.py
-
-  # Content-quality gate. Independent of the site, so it neither waits on the
-  # build nor reruns per anything.
+  # The last machine gate before publishing. Branch protection is unavailable on
+  # this repo (private on the free plan — both branches/*/protection and rulesets
+  # return 403 "Upgrade to GitHub Pro or make this repository public"), so a red
+  # PR can still be merged and nothing but a human's judgement stops it. This job
+  # is that backstop. It needs no Node and no build, so it costs almost nothing.
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -60,17 +42,13 @@ jobs:
       - name: Run lint fixture tests
         run: python3 scripts/test_lint_wiki.py
 
-  # Publishing. `needs` is the whole ordering mechanism: as two separately
-  # push-triggered workflows, verify and deploy ran concurrently, so a lint
-  # failure reddened CI while the site shipped anyway.
   deploy:
-    needs: [verify, lint]
+    needs: [lint]
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    # Job-level, not workflow-level — at workflow level this would serialize
-    # verify and lint along with the deploy.
+    # Serializes deploys against each other; distinct from the lint gate above.
     concurrency:
       group: deploy-site
       cancel-in-progress: false
@@ -85,15 +63,17 @@ jobs:
         with:
           python-version: "3.12"
 
+      # build.py exits 1 on a broken internal link, so link integrity gates the
+      # deploy here even though test_build_site.py runs only on pull requests.
       - name: Build site
         run: |
           pip install -r site/requirements.txt
           python3 site/build.py
           npx -y pagefind@1 --site site/dist
 
-      # Deliberately redundant with the verify job: that one audited a different
-      # dist/ on a different runner, this one audits the exact tree about to be
-      # uploaded to a public bucket. The raw/ boundary is non-negotiable.
+      # Audits the exact tree about to be uploaded to a public bucket, on this
+      # runner — not the different dist/ the pull-request run built. The raw/
+      # boundary is non-negotiable.
       - name: Verify gate (raw/ leak audit — fail = no deploy)
         run: python3 scripts/verify_site.py
 

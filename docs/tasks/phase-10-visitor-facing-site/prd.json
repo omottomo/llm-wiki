@@ -267,8 +267,8 @@
         "T18"
       ],
       "acceptance": "With the site built and Pagefind indexed, served locally, a human confirms: the home page shows what the wiki is about and the three-step start path within the first screen; concepts/harness-engineering reads without the citation clutter and the chips are unobtrusive but still clickable; sources/hashicorp-terraform-docs shows no 기존 위키와의 연결 section and no raw/ path while keeping author, URL and collection date; header search from an article page opens results as an overlay that does not push the body; section listing summaries are genuinely useful for choosing a page; the lead paragraphs read as plain Korean to someone new to the topic; Korean line-breaking, dark mode and the mobile single-column collapse all look right. Agents must not claim this task passed.",
-      "status": "pending",
-      "attempts": 0
+      "status": "completed",
+      "attempts": 1
     }
   ]
 }

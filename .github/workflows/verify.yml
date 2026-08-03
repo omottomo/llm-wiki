@@ -1,0 +1,72 @@
+name: Verify (pull requests)
+
+# Pre-merge checks only. Publishing lives in deploy.yml, which triggers on push
+# to main. The split is by trigger, not by an `if:` inside one workflow: a job
+# whose `needs` target was skipped is itself skipped, so an `if:`-gated verify
+# would have skipped deploy along with it.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "wiki/**"
+      - "site/**"
+      - "scripts/**"
+      - "tests/**"
+      # The audit asserts these paths are ignored, so a change here can flip it.
+      - ".gitignore"
+      # Editing either half of the gate must re-run the checks.
+      - ".github/workflows/verify.yml"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  contents: read
+
+# Unconditional is safe here: this file only ever runs on pull_request, so there
+# is no main run to abort mid-deploy.
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Minimal site (build.py → site/dist/): build + invariant tests + boundary audit.
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install build dependency
+        run: pip install -r site/requirements.txt
+
+      - name: Build site + search index + run test suite
+        run: python3 site/test_build_site.py
+
+      - name: Run raw/ boundary audit
+        run: python3 scripts/verify_site.py
+
+  # Content-quality gate. Independent of the site, so it neither waits on the
+  # build nor reruns per anything.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Lint wiki content
+        run: python3 scripts/lint_wiki.py
+
+      - name: Run lint fixture tests
+        run: python3 scripts/test_lint_wiki.py

@@ -1,0 +1,88 @@
+{
+  "phase": "phase-13-pr-gate-and-infra-ci",
+  "goal": "Move the site gate from post-merge to pre-merge and put infra under CI. site.yml is split into verify.yml (pull_request only: verify + lint) and deploy.yml (push to main only: lint + deploy), so the trigger — not an if: guard — decides what runs when. The split must be by FILE: inside one workflow, an if:-gated verify would be skipped on push and a needs: on a skipped job skips the dependent job, killing every deploy. Splitting removes cross-workflow needs entirely; deploy.yml keeps its own lint job as the last machine gate, because branch protection is unavailable on this repo and a red PR is still mergeable. A separate infra.yml runs terraform fmt/validate/plan on PRs that touch infra/**, using a new read-only IAM role, because the PR OIDC subject is repo:<owner>/<repo>:pull_request and the existing deploy role pins refs/heads/main. Design: plan.md. Renumbered from phase-12 on 2026-08-03: a concurrent session claimed that number first with phase-12-wiki-identity-copy, which was already registered in docs/index.md.",
+  "created_at": "2026-08-03",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Run verify and lint on pull requests, hold deploy to push",
+      "scope": ".github/workflows/site.yml",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "site.yml declares both a push and a pull_request trigger on branches: [main], each carrying the same paths list (duplicated verbatim — GitHub Actions does not support YAML anchors). A new workflow-level concurrency block uses group: site-${{ github.ref }} with cancel-in-progress set to ${{ github.event_name == 'pull_request' }}, so a superseded PR run is cancelled but a main push run never is. The deploy job keeps needs: [verify, lint] and keeps its own job-level concurrency {group: deploy-site, cancel-in-progress: false}, and gains if: github.event_name == 'push'. The verify and lint jobs are otherwise unchanged and are NOT split into a separate PR-only workflow. Asserted by parsing the YAML: three jobs, deploy.needs == ['verify','lint'], deploy.if present, and both push and pull_request keys under `on`. Local §2.3 matrix (lint_wiki.py, test_lint_wiki.py, build.py, test_build_site.py, verify_site.py) exits 0. DONE 2026-08-03: both triggers present with identical 6-entry paths lists, deploy.needs == ['verify','lint'], deploy.if == \"github.event_name == 'push'\", workflow concurrency group site-${{ github.ref }} with cancel-in-progress scoped to pull_request, deploy's own {group: deploy-site, cancel-in-progress: false} retained, and neither verify nor lint carrying an if: of its own — all asserted by parsing the YAML. §2.3 matrix exits 0. SUPERSEDED 2026-08-03 by T07: the shared-trigger + if: shape was replaced by a file split (verify.yml on pull_request, deploy.yml on push) at the user's request, for a CI story that reads off the triggers alone. The reasoning recorded here — that a job whose needs target is skipped is itself skipped — is exactly why the split had to be by file and not by an if: on verify; it still holds, and T07 removes cross-workflow needs entirely rather than working around it.",
+      "status": "superseded",
+      "attempts": 1
+    },
+    {
+      "id": "T02",
+      "title": "Add a read-only IAM role for terraform plan on pull requests",
+      "scope": "infra/iam-deploy.tf, infra/outputs.tf",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new data.aws_iam_policy_document.plan_trust mirrors deploy_trust's aud condition and sets sub to repo:${var.github_repo_immutable}:pull_request plus the legacy repo:${var.github_repo}:pull_request fallback — the PR subject claim is :pull_request, not a refs/pull/N ref. A new aws_iam_role.plan named llm-wiki-plan carries a new aws_iam_role_policy.plan whose document contains READ ACTIONS ONLY (no Put*, Delete*, Create*, Update*, Attach* anywhere): s3:GetObject on the tfstate object and s3:ListBucket on the tfstate bucket, s3:Get*/s3:List* on the site bucket, cloudfront:Get*/List*, acm:Describe*/List*, route53:Get*/List*, iam:Get*/List*. The AWS managed ReadOnlyAccess policy is deliberately not used (it grants account-wide read). outputs.tf exposes plan_role_arn. The existing aws_iam_role.deploy, its trust document and its policy are untouched. terraform -chdir=infra fmt -check -recursive exits 0, and terraform -chdir=infra init -backend=false && terraform -chdir=infra validate exits 0. DONE 2026-08-03: policy parsed — all 12 actions start with Get/List/Describe and cover only s3, cloudfront, acm, route53, iam. Scoping is split by what the service holds: S3 pinned to the state object, the state bucket and the site bucket (data lives there), the other four granted at service level (per-resource pinning breaks plan the moment a refresh reads one unenumerated action). The tfstate bucket name is duplicated into a locals block because Terraform forbids interpolation in a backend block — versions.tf and that local can drift. GOTCHA: locally `terraform init -backend=false` FAILS with 'No valid credential sources found' when infra/.terraform already caches a configured backend. That is not a config error — against a clean copy of infra/ with no .terraform (what CI checks out) init -backend=false and validate both exit 0. Verify this way, or delete .terraform first.",
+      "status": "completed",
+      "attempts": 1
+    },
+    {
+      "id": "T03",
+      "title": "Apply the plan role and publish its ARN as a repo variable",
+      "scope": "no files — human-executed AWS + GitHub configuration (terraform apply is the operator's, per the phase-9 precedent)",
+      "kind": "manual",
+      "depends_on": [
+        "T02"
+      ],
+      "acceptance": "The operator runs `terraform -chdir=infra apply` and the llm-wiki-plan role exists in the account. Then `gh variable set AWS_PLAN_ROLE_ARN --body \"$(terraform -chdir=infra output -raw plan_role_arn)\"`, and `gh variable list` shows AWS_PLAN_ROLE_ARN matching that output. T04's workflow is inert until this lands — configure-aws-credentials would fail on an empty role-to-assume. Before applying, read the plan output and confirm it creates only the two new resources (aws_iam_role.plan, aws_iam_role_policy.plan) and reports no change to aws_iam_role.deploy, its trust document or its policy.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Add the infra.yml workflow: fmt, validate, plan on infra PRs",
+      "scope": ".github/workflows/infra.yml (new)",
+      "kind": "builder",
+      "depends_on": [
+        "T03"
+      ],
+      "acceptance": "New workflow named 'Verify infra', triggered only by pull_request on branches: [main] with paths: ['infra/**', '.github/workflows/infra.yml']. Workflow-level permissions is {contents: read}; the terraform job adds {id-token: write, contents: read}. Steps in order: actions/checkout@v7; hashicorp/setup-terraform@v3 pinned to terraform_version 1.15.8 with terraform_wrapper: false; `terraform -chdir=infra fmt -check -recursive` placed BEFORE any AWS step (a formatting error must not need credentials); aws-actions/configure-aws-credentials@v5 (not v4 — v4 targets the deprecated Node 20) with role-to-assume: ${{ vars.AWS_PLAN_ROLE_ARN }} and aws-region ap-northeast-2; `terraform -chdir=infra init`; `terraform -chdir=infra validate`; `terraform -chdir=infra plan -lock=false -no-color` with output captured; and a step writing that output into $GITHUB_STEP_SUMMARY inside a code fence. -lock=false is required — the S3 native lock (use_lockfile = true in versions.tf) would demand write permissions the plan role does not have. No third-party PR-comment action is added: plan output carries resource attributes read from state and stays in the run summary. YAML parses.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Watch both workflows on a real PR, then on the merge",
+      "scope": "no files — CI observation (docs/rules/site-code.md §2.4: a gate nobody watches is not a gate)",
+      "kind": "verify",
+      "depends_on": [
+        "T07",
+        "T04"
+      ],
+      "acceptance": "A PR touching both wiki/ and infra/ triggers verify.yml and infra.yml, and NOT deploy.yml. From `gh run view <id> --json jobs`: on the verify.yml PR run, verify and lint both conclude success; on the infra.yml PR run, the terraform job concludes success and the run summary contains a plan. `gh run list --workflow deploy.yml` shows no run for that PR's head SHA — proving no deploy is attempted from a PR, by trigger rather than by an if: guard. After the merge, deploy.yml runs on the push with lint concluding success and deploy's startedAt after lint's completedAt, while verify.yml and infra.yml do NOT run (both are pull_request-only). Any red run is fixed inside this phase — never left as a follow-up (§2.4).",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Record the accumulated rules and close the phase in the log",
+      "scope": "docs/rules/site-code.md (§2.4), docs/log.md, docs/index.md",
+      "kind": "builder",
+      "depends_on": [
+        "T05"
+      ],
+      "acceptance": "site-code.md §2.4 gains one dated (2026-08-03) entry that REPLACES the 2026-07-13 rule 'The CI gate fires on push to `main`, not on pull requests' (currently at line 112) and records what the next session would otherwise rediscover: (a) the trigger, not an if:, decides what runs — verify.yml is pull_request-only, deploy.yml is push-only, and the two paths lists are duplicated because Actions has no YAML anchors, so editing one means editing the other; (b) why the split had to be by FILE: a needs: on a job that was skipped skips the dependent job too, so an if:-gated verify inside one workflow would have silently stopped every deploy; (c) branch protection is unavailable on this repo — BOTH the legacy /branches/main/protection endpoint and the newer /rulesets endpoint return 403 'Upgrade to GitHub Pro or make this repository public' (verified 2026-08-03; repo is private on a User free plan), and going public is barred by the raw/ boundary (§2.1). Consequence stated plainly: PR checks are advisory, a red PR is still mergeable, and the only machine gates on publishing are deploy.yml's lint job plus build.py (exits 1 on a broken link) and verify_site.py inside the deploy job; (d) test_build_site.py now runs only pre-merge, so two PRs that are individually green but break when combined surface at deploy.yml's lint or build step, not before; (e) the PR OIDC subject claim is repo:<owner>/<repo>:pull_request, not a refs/pull/N ref, which is why the main-pinned deploy role cannot be reused and a second role exists; (f) infra validation deliberately does NOT gate the site deploy, because the deploy is an aws s3 sync that never executes terraform — with the cost stated, that nothing blocks a broken .tf from reaching main; (g) terraform plan in CI runs with -lock=false against a scoped read-only role, since the S3 native lock would otherwise require write permissions; (h) `terraform init -backend=false` fails locally when infra/.terraform holds a cached backend, so a credential-free validate must be run against a clean copy — CI is unaffected because it always checks out fresh. Any other line in site-code.md that still asserts push-only CI is corrected too (grep for 'push to `main`'). docs/log.md gains exactly one Korean `site` line at close-out. docs/index.md registers the phase directory and its 7 tasks. Historical phase docs are not edited.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "Split site.yml into verify.yml (pull_request) and deploy.yml (push)",
+      "scope": ".github/workflows/verify.yml (new), .github/workflows/deploy.yml (new), .github/workflows/site.yml (deleted)",
+      "kind": "builder",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "Supersedes T01's shared-trigger shape; site.yml is deleted. verify.yml declares only `pull_request: branches: [main]` and holds the verify and lint jobs moved verbatim from site.yml, with workflow-level concurrency {group: verify-${{ github.ref }}, cancel-in-progress: true} — unconditional is safe because this file never runs on main. deploy.yml declares only `push: branches: [main]` and holds a lint job (checkout, setup-python 3.12, lint_wiki.py, test_lint_wiki.py) plus the deploy job with needs: [lint] and its own {group: deploy-site, cancel-in-progress: false}; the deploy steps move verbatim, comments included. NEITHER file contains an if: on any job — the triggers do that work, and cross-workflow needs is gone. Both files carry the same paths list, in which the old `.github/workflows/site.yml` entry is replaced by both new filenames. Asserted by parsing both YAML files: verify.yml `on` has exactly the key pull_request and jobs == ['verify','lint']; deploy.yml `on` has exactly the key push and jobs == ['lint','deploy'] with deploy.needs == ['lint']; the two paths lists are equal; no job in either file has an `if` key; .github/workflows/site.yml does not exist. Local §2.3 matrix (lint_wiki.py, test_lint_wiki.py, build.py, test_build_site.py, verify_site.py) exits 0. DONE 2026-08-03: site.yml deleted; verify.yml `on` == ['pull_request'] with jobs ['verify','lint']; deploy.yml `on` == ['push'] with jobs ['lint','deploy'] and deploy.needs == ['lint']; both paths lists equal (7 entries, both workflow filenames present); no job in either file carries an if: — all asserted by parsing the YAML with ruby (pyyaml is not installed locally). §2.3 matrix exits 0 and git check-ignore site/dist passes. NOT yet observed in CI — that is T05.",
+      "status": "completed",
+      "attempts": 1
+    }
+  ]
+}
