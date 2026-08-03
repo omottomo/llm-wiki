@@ -22,8 +22,8 @@
         "T01"
       ],
       "acceptance": "After the merge to main, `gh run watch` / `gh run list --workflow=site.yml --limit 3` shows the run green. Confirmed from `gh run view <id> --json jobs`: deploy's startedAt is later than both verify's and lint's completedAt (ordering is real, not coincidental), the OIDC AssumeRole step succeeded despite the workflow file move, and all three jobs concluded success. If the run is red, fix it in this phase — never leave the gate red as a follow-up (§2.4).",
-      "status": "pending",
-      "attempts": 0
+      "status": "completed",
+      "attempts": 1
     },
     {
       "id": "T03",
@@ -34,8 +34,8 @@
         "T02"
       ],
       "acceptance": "site-code.md §2.4 gains one dated (2026-08-03) entry stating: verify and deploy are now one workflow and `deploy: needs: [verify, lint]` is the only thing enforcing order (two independent push-triggered workflows never wait on each other); the `verify_site.py` call inside deploy is deliberate redundancy because it audits the exact dist/ being uploaded, not the verify job's separate runner copy; and the OIDC trust in infra/iam-deploy.tf pins only repo+ref, so the workflow file may be renamed freely. §2.3's table and the existing 'CI fires on push to main, not on PRs' entry are left intact (still true). docs/log.md gains exactly one Korean `site` line for phase-11 at close-out. docs/index.md lists the new phase directory. Historical phase-9 docs are not edited.",
-      "status": "pending",
-      "attempts": 0
+      "status": "completed",
+      "attempts": 1
     }
   ]
 }
