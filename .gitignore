@@ -1,4 +1,6 @@
 .DS_Store
+# WSL이 Windows에서 복사한 파일에 붙이는 알터네이트 데이터 스트림 잔여물
+*:Zone.Identifier
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .claude/settings.local.json

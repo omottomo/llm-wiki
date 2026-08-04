@@ -28,12 +28,17 @@ SITE_URL = "https://omotomo-llm-wiki.com"
 # 사이트가 소유한 카피 — wiki/overview.md를 옮겨 적지 않는다(문서가 바뀌어도 첫인상 문구는 사이트가 관리).
 SITE_DESCRIPTION = "직접 고른 자료를 읽고 정리해 쌓아 올리는 개인 지식 위키입니다"
 START_PATH = [
-    ("/overview/", "위키 개요", "이 위키가 무엇을 다루는지 한 페이지로 훑습니다."),
-    ("/analysis/ai-coding-evolution/", "AI 코딩의 4단계 진화",
-     "프롬프트에서 에이전트까지, 전체 흐름을 한자리에서 비교합니다."),
-    ("/index/", "전체 색인", "카테고리별 페이지 목록에서 관심 있는 주제를 고릅니다."),
+    ("/overview/", "위키 개요", "이 위키가 무엇을 다루는지 한 페이지로."),
+    ("/index/", "전체 색인", "카테고리별 페이지 목록에서 고르기."),
 ]
 SECTIONS = [("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
+# 홈 카테고리 띠에 붙는 한 줄 설명 — 사이트가 소유한 카피
+SECTION_NOTES = {
+    "concepts": "하네스 · 컨텍스트 · 루프 엔지니어링",
+    "entities": "인물 · 조직 · 도구",
+    "sources": "자료 한 건당 요약 한 편",
+    "analysis": "비교 · 판단 기록",
+}
 
 # html=True: 위키 본문은 운영자 자신이 쓴 신뢰 콘텐츠라 인라인 HTML 허용
 md = MarkdownIt("commonmark", {"html": True}).enable("table").enable("strikethrough")
@@ -214,6 +219,19 @@ def link_wikilinks(body: str, existing) -> str:
     return outside_fences(body, lambda text: lint_wiki.WIKILINK_RE.sub(repl, text))
 
 
+def nav_html(path: str) -> str:
+    """헤더 섹션 내비 — 현재 보고 있는 섹션을 표시한다."""
+    items = [(f"/{s}/", label) for s, label in SECTIONS] + [
+        ("/tags/", "태그"),
+        ("/index/", "색인"),
+    ]
+    return "".join(
+        f'<a href="{url}"' + (' aria-current="page"' if path.startswith(url) else "")
+        + f">{label}</a>"
+        for url, label in items
+    )
+
+
 def base_html(title: str, content: str, summary: str = "", path: str = "/") -> str:
     head_title = SITE_NAME if title == SITE_NAME else f"{title} · {SITE_NAME}"
     description = html.escape(summary or SITE_DESCRIPTION, quote=True)
@@ -235,13 +253,14 @@ def base_html(title: str, content: str, summary: str = "", path: str = "/") -> s
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 <link rel="stylesheet" href="/style.css">
 <script src="/pagefind/pagefind-ui.js"></script>
-<script>const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t;</script>
+<script>document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";</script>
 </head>
 <body>
 <header class="site-header">
 <a class="site-name" href="/">{SITE_NAME}</a>
+<nav class="site-nav">{nav_html(path)}</nav>
 <div id="header-search" class="header-search"></div>
-<button id="theme-toggle" aria-label="테마 전환">명암</button>
+<button id="theme-toggle" aria-label="밝은 화면과 어두운 화면 전환" title="밝은 화면과 어두운 화면 전환"></button>
 </header>
 {content}
 <script>
@@ -306,14 +325,16 @@ def summary_html(page: dict) -> str:
 
 def render_listing(title: str, keys, pages: dict, path: str) -> str:
     items = "\n".join(
-        f'<li><a href="{url_for(k)}">{html.escape(pages[k]["title"])}</a>'
+        f'<li><a href="{url_for(k)}">{html.escape(pages[k]["title"])}'
         f'{summary_html(pages[k])}'
-        f'<span class="meta">{pages[k]["updated"]}</span></li>'
+        f'<span class="meta">{pages[k]["updated"][5:]}</span></a></li>'
         for k in sorted(keys, key=lambda k: pages[k]["title"])
     )
     return base_html(
         title,
-        f'<main><h1>{html.escape(title)}</h1><ul class="listing">{items}</ul></main>',
+        f'<main><div class="listing-head"><h1>{html.escape(title)}</h1>'
+        f'<p class="meta">{len(list(keys))}편 · 제목순</p></div>'
+        f'<ul class="listing">{items}</ul></main>',
         path=path,
     )
 
@@ -341,16 +362,12 @@ def render_home(pages: dict) -> str:
     def count(prefix: str) -> int:
         return sum(1 for k in pages if k.startswith(prefix + "/"))
 
-    entries = (
-        [("/overview/", "개요", None)]
-        + [(f"/{s}/", label, count(s)) for s, label in SECTIONS]
-        + [("/tags/", "태그", len(collect_tags(pages))), ("/index/", "전체 색인", None)]
-    )
     entry_html = "\n".join(
-        f'<a class="entry" href="{u}">{label}'
-        + (f' <span class="count">{n}</span>' if n is not None else "")
-        + "</a>"
-        for u, label, n in entries
+        f'<a class="entry" href="/{s}/">'
+        f'<span class="label"><span class="name">{label}</span>'
+        f'<span class="count">{count(s)}</span></span>'
+        f'<span class="note">{SECTION_NOTES[s]}</span></a>'
+        for s, label in SECTIONS
     )
     recent = sorted(
         (p for p in pages.values() if "/" in p["key"]),  # index/overview 제외
@@ -358,32 +375,44 @@ def render_home(pages: dict) -> str:
         reverse=True,
     )[:5]
     recent_html = "\n".join(
-        f'<li><a href="{url_for(p["key"])}">{html.escape(p["title"])}</a>'
+        f'<li><a href="{url_for(p["key"])}">{html.escape(p["title"])}'
         f'{summary_html(p)}'
-        f'<span class="meta">{p["updated"]}</span></li>'
+        f'<span class="meta">{p["updated"][5:]}</span></a></li>'
         for p in recent
     )
     start_html = "\n".join(
         f'<li><a href="{u}">{label}</a><span class="summary">{note}</span></li>'
         for u, label, note in START_PATH
     )
+    latest = max((p["updated"] for p in pages.values() if p["updated"]), default="")
     content = f"""<main class="home">
-<h1>{SITE_NAME}</h1>
-<p class="intro">{SITE_DESCRIPTION}</p>
+<section class="hero">
+<div>
+<h1>LLM Wiki</h1>
 <div id="search"></div>
-<section class="start"><h2>처음이면 순서대로</h2><ol>{start_html}</ol></section>
+<p class="stats"><span>문서 <strong>{len(pages)}</strong>편</span>
+<span>출처 <strong>{count("sources")}</strong>건</span>
+<span>마지막 갱신 <strong>{latest}</strong></span></p>
+</div>
+<section class="start"><h2>처음이십니까?</h2><ol>{start_html}</ol></section>
+</section>
 <nav class="entries">{entry_html}</nav>
-<section class="recent"><h2>최근 갱신</h2><ul>{recent_html}</ul></section>
+<section class="recent"><h2>최근 갱신<a class="more" href="/index/">전체 색인 →</a></h2>
+<ul>{recent_html}</ul></section>
 </main>"""
     return base_html(SITE_NAME, content, summary=SITE_DESCRIPTION, path="/")
 
 
 def render_404() -> str:
     content = f"""<main class="home">
+<section class="hero">
+<div>
 <h1>페이지가 없습니다</h1>
-<p class="meta">주소를 확인하거나 검색해 보세요.</p>
 <div id="search"></div>
-<p><a href="/">{SITE_NAME} 홈으로</a></p>
+<p class="stats"><span>주소를 확인하거나 검색해 보세요.</span>
+<span><a href="/">{SITE_NAME} 홈으로</a></span></p>
+</div>
+</section>
 </main>"""
     return base_html("페이지 없음", content, path="/404.html")
 
