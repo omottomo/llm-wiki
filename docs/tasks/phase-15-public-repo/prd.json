@@ -80,7 +80,7 @@
       "kind": "builder",
       "depends_on": ["T07"],
       "acceptance": "omottomo/llm-wiki is renamed to omottomo/llm-wiki-archive and stays PRIVATE — it holds the only copy of the pre-rewrite history and its refs/pull/* and must never be made public. A new PUBLIC omottomo/llm-wiki is created and the rewritten history is pushed to it (`gh repo view omottomo/llm-wiki --json visibility` reports PUBLIC; commit count equals T07's captured baseline). origin is repointed to the SSH form (git@github.com:omottomo/llm-wiki.git) — there is no credential helper configured, so pushes ride the existing SSH key while gh uses its https token for the API — and `git remote -v` shows it. The three Actions repo variables (AWS_DEPLOY_ROLE_ARN, SITE_BUCKET, CF_DISTRIBUTION_ID) are recreated as SECRETS on the new repo — public run logs do not mask vars.* and the bucket name embeds the account ID — and both workflows are updated from vars.* to secrets.*. A ruleset on main requires the verify and lint checks and blocks direct pushes; `gh api repos/omottomo/llm-wiki/rulesets` returns it rather than the 403 phase-13 recorded. Fork PR workflow approval is left at GitHub's default (require approval for first-time contributors) and that is confirmed, not assumed. The OIDC trust in infra/iam-deploy.tf still matches: same owner and repo name, so github_repo and github_repo_immutable need no change — verified by a real deploy run reaching the S3 sync step.",
-      "status": "pending",
+      "status": "completed",
       "attempts": 0
     },
     {
@@ -90,7 +90,7 @@
       "kind": "evaluator",
       "depends_on": ["T08"],
       "acceptance": "Clone https://github.com/omottomo/llm-wiki into the scratchpad and assert, in that clone and not in the working tree: no raw/ directory exists; `git log --all --format='%ae %ce'` yields only the noreply address; `git rev-list --all | while read c; do git grep -l <ACCOUNT_ID> $c; done` is empty; `git ls-files | grep -E '^(raw/|\\.obsidian/)'` is empty; no broken symlink (`find . -xtype l` empty); and the newest commit's author AND committer are the noreply address, which proves the T07 `git config user.email` change took and no post-rewrite commit reintroduced the old one. Then, with no raw/ present, `python3 scripts/lint_wiki.py`, `python3 scripts/test_lint_wiki.py`, `python3 site/build.py`, `python3 site/test_build_site.py` and `python3 scripts/verify_site.py` all exit 0 — this is the exact path CI now takes. Finally open a throwaway PR against the public repo: verify and lint report on it, the ruleset blocks merging while a deliberately introduced lint violation is red, and deploy.yml shows no run for that head SHA. Close the PR without merging. Any failure blocks close-out; a leak found here means the archive/public split must be re-examined, not patched with a follow-up commit.",
-      "status": "pending",
+      "status": "completed",
       "attempts": 0
     },
     {
@@ -100,7 +100,7 @@
       "kind": "builder",
       "depends_on": ["T09"],
       "acceptance": "A Project object is appended to the projects array in site-v2/src/data/projects.ts, matching the existing interface {title, meta, problem, approach, result, tech, links?} and the Problem/Approach/Result three-part Korean prose style of its neighbours. links carries both the public repo and https://omotomo-llm-wiki.com — the first entry in the file to use that optional field. The file's header comment 'Experience의 주요 성과 6개와 1:1 대응한다' is amended to say the array holds the six work outcomes plus personal projects, since appending a side project breaks that invariant as written. The guardrail comment above it is left untouched and remains satisfied — nothing in llm-wiki is work material. The Astro site builds and the new card renders with its two links. Committed and pushed in the portfolio repo, not this one.",
-      "status": "pending",
+      "status": "completed",
       "attempts": 0
     }
   ]
