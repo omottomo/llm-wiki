@@ -21,11 +21,13 @@ permissions:
   contents: read
 
 jobs:
-  # The last machine gate before publishing. Branch protection is unavailable on
-  # this repo (private on the free plan — both branches/*/protection and rulesets
-  # return 403 "Upgrade to GitHub Pro or make this repository public"), so a red
-  # PR can still be merged and nothing but a human's judgement stops it. This job
-  # is that backstop. It needs no Node and no build, so it costs almost nothing.
+  # The last machine gate before publishing. Since phase-15 the repo is public, so a
+  # ruleset on main can and does require the PR-side verify/lint checks — but a repo
+  # admin can bypass a ruleset, and this job is what still runs on the commit that is
+  # actually about to be published. It needs no Node and no build, so it costs almost
+  # nothing. (Before phase-15 the reason was different: rulesets returned 403
+  # "Upgrade to GitHub Pro or make this repository public" on a private free-plan repo,
+  # so this job was the ONLY machine gate.)
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -80,7 +82,7 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: ap-northeast-2
 
       # The split is by "does the filename carry a content hash", not by file type.
@@ -90,7 +92,7 @@ jobs:
       # means a new fixed-name file lands in the safe group by default.
       - name: Sync long-cache assets (content-hashed filenames)
         run: |
-          aws s3 sync site/dist "s3://${{ vars.SITE_BUCKET }}" \
+          aws s3 sync site/dist "s3://${{ secrets.SITE_BUCKET }}" \
             --delete \
             --exclude "*" \
             --include "pagefind/fragment/*" \
@@ -102,7 +104,7 @@ jobs:
       # exactly one --delete pass.
       - name: Sync short-cache assets (fixed filenames, mutable content)
         run: |
-          aws s3 sync site/dist "s3://${{ vars.SITE_BUCKET }}" \
+          aws s3 sync site/dist "s3://${{ secrets.SITE_BUCKET }}" \
             --delete \
             --exclude "pagefind/fragment/*" \
             --exclude "pagefind/index/*" \
@@ -112,5 +114,5 @@ jobs:
       - name: Invalidate CloudFront
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ vars.CF_DISTRIBUTION_ID }} \
+            --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} \
             --paths "/*"
