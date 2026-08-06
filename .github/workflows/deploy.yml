@@ -1,8 +1,8 @@
 name: Deploy site (main)
 
-# Publishing only. Pre-merge checks live in verify.yml (pull_request). Same paths
-# list as that file — Actions does not support YAML anchors, so it is duplicated;
-# when you edit one, edit the other.
+# Publishing only. Pre-merge checks live in verify.yml (pull_request), which runs
+# unfiltered — see the comment there for why. This filter stays: it decides whether a
+# merge is worth a rebuild and an S3 sync, and a docs-only change is not.
 on:
   push:
     branches: [main]
