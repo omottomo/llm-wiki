@@ -63,12 +63,25 @@ phase-8 consolidation — see §2.4.)
 
 ### 2.1 The `raw/` boundary — non-negotiable
 
-`raw/` holds full auto-generated transcripts of **other people's** YouTube videos. It must **never** be published to the web, and must **never** land in a public repo. Two protections, both required:
+`raw/` holds full auto-generated transcripts of **other people's** YouTube videos and full text of
+other people's articles. It must **never** be published to the web. **This repo is public as of
+phase-15 (2026-08-06)**, so the boundary no longer rests on repo visibility. Two protections, both
+required:
 
-1. The GitHub repo stays **private**. (This is why Cloudflare Pages was chosen over GitHub Pages — the free GitHub Pages tier requires a public repo.)
+1. **`raw/` is never tracked by git here.** The source documents live in a separate private repo,
+   `omottomo/llm-wiki-raw`, attached as a nested git repo inside `raw/`; the parent `.gitignore`
+   ignores `raw/`. `verify_site.py`'s `check_raw_untracked` asserts `git ls-files raw/` is empty,
+   so a `git add -f raw/...` slip fails the build instead of riding a merge into the public remote.
+   Only the filename list crosses over, as `docs/raw-manifest.txt` (slugs, no content), which is
+   what keeps the `raw/ ↔ wiki/sources/` parity check alive in CI where `raw/` does not exist.
 2. The generator's **content root is `wiki/` only** — `site/build.py` renders exactly the pages in `lint_wiki.wiki_pages()`; `raw/`, `CLAUDE.md`, `docs/` (which holds `log.md` and `backlog.md`), `.claude/`, `.obsidian/` all sit outside it and are never read.
 
-**Every build must be audited:** `python3 scripts/verify_site.py` exits `0` — its leak audit checks that no raw-derived page is rendered, no transcript content appears verbatim in the output, no absolute local path (`/Users/...`) leaks, and every literal `raw/` match is a bare source citation. (A naive `grep -ril "raw/" site/dist/` always matches — see §2.4.) This is the standing close-out gate. Never flip the repo to public.
+**Every build must be audited:** `python3 scripts/verify_site.py` exits `0` — its leak audit checks that no raw-derived page is rendered, no transcript content appears verbatim in the output, no absolute local path (`/Users/...`) leaks, and every literal `raw/` match is a bare source citation. (A naive `grep -ril "raw/" site/dist/` always matches — see §2.4.) This is the standing close-out gate.
+
+**`omottomo/llm-wiki-archive` is private and must never be flipped.** It is the pre-rewrite repo,
+renamed and frozen by phase-15; it still holds every transcript and both real author emails in its
+history and its `refs/pull/*`. Same for `omottomo/llm-wiki-raw`. Making either public undoes this
+whole phase.
 
 ### 2.2 Architecture invariants
 
@@ -78,6 +91,7 @@ phase-8 consolidation — see §2.4.)
 - **Korean UI**: pages are `lang="ko"`; the display font (Pretendard) is loaded from `site/style.css`. `build.py` reads `wiki/` directly — there is no content symlink.
 - **`baseUrl` must match the Cloudflare Pages project name** (see §2.4 for why no project exists yet and why the name may not be yours to take). If they drift, the sitemap/RSS break.
 - **Deploy (Cloudflare Pages)**: build command `pip install -r site/requirements.txt && python3 site/build.py && npx -y pagefind@1 --site site/dist`, output directory `site/dist`.
+- **Terraform init needs the backend file**: `terraform -chdir=infra init -backend-config=backend.hcl`. The `backend "s3"` block in `infra/versions.tf` deliberately omits `bucket` — the name embeds the AWS account ID and this repo is public, and a backend block cannot take variables. `infra/backend.hcl` and `infra/terraform.tfvars` are gitignored; copy them from the tracked `*.example` files. A bare `terraform init` will prompt for the bucket instead of failing, which is easy to misread as a broken backend.
 
 ### 2.3 Verification (there is no unit-test suite — verify by running the real thing)
 
@@ -94,6 +108,8 @@ Never commit `site/dist/`, `.env`, or `.claude/settings.local.json`.
 ### 2.4 Accumulated rules
 
 *(When a phase uncovers a constraint the next session would otherwise rediscover the hard way, record it here. Only what would surprise someone who just cloned the repo; do not restate what the code already says.)*
+
+- **A force-push does not remove anything from a GitHub repo you are about to make public** (2026-08-06, phase-15). This is why the repo was not flipped in place. Rewriting history with `git filter-repo` and force-pushing leaves the pre-rewrite commits **reachable**: `refs/pull/N/head` pins the head of every PR that was ever opened, and dangling objects stay fetchable by SHA until GitHub's own GC runs — on GitHub's schedule, with no completion signal you can check. While the repo is private nobody can reach them; the moment it goes public, every purged transcript and every purged email is one `git fetch origin <sha>` away, and the SHAs are printed on the PR pages themselves. The documented remedy is a GitHub Support ticket to purge cached views, which is a round trip you cannot verify. The move that actually works: **rename the old repo, keep it private and frozen, create a *fresh* public repo, and push the rewritten history into it.** The old `refs/pull/*` stay behind the private repo's access control where they started. Corollary: this makes the flip irreversible for everyone else — every existing clone is orphaned by the SHA rewrite and must be re-cloned.
 
 - **The vendored Quartz sites were retired and replaced by `site/build.py`** (2026-07-20, phase-8 consolidation). Phases 1–7 published via Quartz 5 vendored into `site/`, with a `site-test/` variant for redesign experiments; phase-8 built a hand-rolled minimal generator in `web/`. This consolidation deleted both Quartz directories and renamed `web/` → `site/`. Consequences: (a) the Quartz-specific rules further down this list — content symlink vs dir-of-symlinks, `.quartz`/`public`/`node_modules` artifacts, the vendored `.gitignore` self-ignore, `quartz.config.yaml` plugin/`options` handling, `custom.scss` Korean typography, the `og-image` satori font fetch, lowercase-slug URLs, `note-properties` frontmatter parsing — describe infrastructure that **no longer exists** and are kept only as historical record; (b) `verify_site.py` no longer takes a site-dir argument or checks a content symlink — it audits `site/dist` alone; (c) the live constraints that survive the Quartz era are the `raw/` boundary (§2.1), the "CI fires on push to `main`, not on PRs" and "watch your gate go green / a red gate is worse than none" lessons, the "`completed` ≠ verified" and "a lying verification script is a false verdict generator" lessons, the lint-is-the-schema coupling, and the Cloudflare `baseUrl`/project-name rules below.
 

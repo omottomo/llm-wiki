@@ -42,6 +42,21 @@ def repo_rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
+def check_raw_untracked() -> None:
+    """The raw/ boundary's first leg (site-code.md §2.1): the source documents live in a
+    separate private repo, so they must never be tracked here. This makes a `git add -f
+    raw/...` slip fail the build instead of riding a merge into the public remote."""
+    inside = subprocess.run(
+        ["git", "rev-parse", "--is-inside-work-tree"], cwd=ROOT, capture_output=True, text=True
+    )
+    if inside.returncode != 0:
+        print("SKIP: no raw/-tracked check (not a git work tree)")
+        return
+    result = subprocess.run(["git", "ls-files", "raw/"], cwd=ROOT, capture_output=True, text=True)
+    tracked = result.stdout.split()
+    report(not tracked, f"raw/ not tracked by git ({len(tracked)} tracked path(s): {tracked[:5]})")
+
+
 def check_artifacts_ignored() -> None:
     result = subprocess.run(["git", "check-ignore", "-q", repo_rel(DIST)], cwd=ROOT)
     report(result.returncode == 0, f"{repo_rel(DIST)} git-ignored")
@@ -135,6 +150,7 @@ def check_no_local_user_path(out: Path) -> None:
 
 
 def main() -> int:
+    check_raw_untracked()
     check_artifacts_ignored()
     check_no_unresolved_wikilinks(DIST)
     check_raw_leak(DIST)

@@ -1,0 +1,5 @@
+# 이 파일을 terraform.tfvars 로 복사하고 <ACCOUNT_ID> 를 실제 AWS 계정 ID 로 바꾼다.
+# terraform.tfvars 는 gitignore 대상 — 계정 ID 가 공개 저장소에 들어가면 안 된다.
+domain              = "omotomo-llm-wiki.com"
+site_bucket_name    = "llm-wiki-site-<ACCOUNT_ID>"
+tfstate_bucket_name = "llm-wiki-tfstate-<ACCOUNT_ID>"

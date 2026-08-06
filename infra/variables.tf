@@ -6,6 +6,12 @@ variable "site_bucket_name" {
   type = string
 }
 
+# versions.tf 의 backend "s3" 부분 구성(backend.hcl)의 bucket 과 같은 값이어야 한다.
+# backend 블록은 변수 보간을 금지해서 이 중복은 피할 수 없다 — 한쪽을 고치면 다른 쪽도.
+variable "tfstate_bucket_name" {
+  type = string
+}
+
 variable "github_repo" {
   type    = string
   default = "omottomo/llm-wiki"

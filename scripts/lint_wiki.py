@@ -5,7 +5,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
 여전히 LLM(에이전트)의 몫이고, 이 스크립트는 다음만 검사한다:
 
   1. 위키링크 무결성 — 모든 [[...]] 대상 페이지가 실제로 존재하는가
-  2. raw/ ↔ wiki/sources/ 1:1 패리티
+  2. raw/ ↔ wiki/sources/ 1:1 패리티. raw/ 는 공개 저장소에 없으므로(별도 비공개
+     저장소) raw/ 가 없으면 docs/raw-manifest.txt 의 슬러그 목록을 대신 쓴다.
   3. frontmatter 필수 키 (title/type/created/updated/sources/tags) + type 값 +
      sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외) +
      sources/ 페이지의 credibility 값(high|medium|low) · volatility 값(hot|warm|cold) +
@@ -23,6 +24,9 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
 
 사용법: python3 scripts/lint_wiki.py   (repo 루트 기준 상대 경로도 동작)
 종료 코드: 문제 0건이면 0, 있으면 1 (태그 위생 리포트는 경고 전용이라 반영되지 않음)
+
+--update-manifest 는 lint 대신 docs/raw-manifest.txt 를 raw/*.md 로부터 다시 쓴다.
+raw/ 에 자료를 넣거나 뺀 뒤 실행한다(안 하면 패리티 검사가 어긋남을 보고한다).
 
 --inbound <경로|슬러그> 를 주면 전체 lint 대신 해당 페이지로 들어오는
 인바운드 링크(고아 페이지 검사와 동일한 기준으로 계산) 목록만 출력하고 종료한다.
@@ -143,8 +147,41 @@ def check_wikilinks(pages):
                 add("고아 링크", f"{page.relative_to(ROOT)} → [[{target}]] 대상 페이지 없음")
 
 
+def manifest_path():
+    return ROOT / "docs" / "raw-manifest.txt"
+
+
+def read_manifest():
+    """docs/raw-manifest.txt 의 슬러그 집합. 파일이 없으면 None."""
+    path = manifest_path()
+    if not path.is_file():
+        return None
+    return {ln.strip() for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()}
+
+
+def write_manifest() -> int:
+    """raw/*.md 로부터 매니페스트를 다시 쓴다. 슬러그만, 정렬, 한 줄에 하나."""
+    if not RAW.is_dir():
+        print(f"오류: {RAW} 가 없어 매니페스트를 갱신할 수 없습니다.", file=sys.stderr)
+        return 2
+    slugs = sorted(p.stem for p in RAW.glob("*.md"))
+    manifest_path().write_text("".join(f"{s}\n" for s in slugs), encoding="utf-8")
+    print(f"{manifest_path().relative_to(ROOT)} 갱신 — 슬러그 {len(slugs)}건")
+    return 0
+
+
 def check_parity():
-    raw_slugs = {p.stem for p in RAW.glob("*.md")}
+    """raw/ 가 있으면 실파일을, 없으면 매니페스트를 슬러그 원본으로 삼는다.
+    둘 다 있으면 일치해야 한다 — 어긋나면 매니페스트가 낡은 것이다."""
+    manifest = read_manifest()
+    if RAW.is_dir():
+        raw_slugs = {p.stem for p in RAW.glob("*.md")}
+        if manifest is not None and manifest != raw_slugs:
+            drift = sorted(raw_slugs ^ manifest)
+            add("패리티", f"docs/raw-manifest.txt 가 raw/ 와 어긋남: {', '.join(drift)} "
+                          f"— `lint_wiki.py --update-manifest` 실행 필요")
+    else:
+        raw_slugs = manifest
     source_slugs = {p.stem for p in (WIKI / "sources").glob("*.md")}
     for slug in sorted(raw_slugs - source_slugs):
         add("패리티", f"raw/{slug}.md 에 대응하는 wiki/sources/{slug}.md 없음 (누락된 소스 페이지)")
@@ -481,6 +518,11 @@ def main() -> int:
         metavar="PATH",
         help="repo 루트 대신 지정한 트리(<PATH>/wiki, <PATH>/raw)를 lint (테스트 픽스처용)",
     )
+    parser.add_argument(
+        "--update-manifest",
+        action="store_true",
+        help="lint 대신 docs/raw-manifest.txt 를 raw/*.md 로부터 다시 쓰고 종료",
+    )
     args = parser.parse_args()
 
     if args.root:
@@ -489,8 +531,15 @@ def main() -> int:
         WIKI = ROOT / "wiki"
         RAW = ROOT / "raw"
 
-    if not WIKI.is_dir() or not RAW.is_dir():
-        print(f"오류: {ROOT} 아래에 wiki/ 또는 raw/ 가 없습니다.", file=sys.stderr)
+    if args.update_manifest:
+        return write_manifest()
+
+    if not WIKI.is_dir():
+        print(f"오류: {ROOT} 아래에 wiki/ 가 없습니다.", file=sys.stderr)
+        return 2
+    # raw/ 는 비공개 저장소로 분리돼 공개 클론에는 없다. 그때는 매니페스트가 대신한다.
+    if not RAW.is_dir() and read_manifest() is None:
+        print(f"오류: {ROOT} 아래에 raw/ 도 docs/raw-manifest.txt 도 없습니다.", file=sys.stderr)
         return 2
 
     if args.inbound is not None:

@@ -12,6 +12,7 @@ docs/
 ├── log.md                          # chronological work log (append-only; Korean entries — content, not operating prose)
 ├── backlog.md                      # ingest backlog — candidates & open questions (unpublished; not factual evidence)
 ├── benchmarking-nvk-llm-wiki.md    # 2026-07-19 comparison vs nvk/llm-wiki; drives phase-6/7 adoption
+├── raw-manifest.txt                # raw/ slug list, filenames only — what lint's parity check reads where raw/ is absent (public clones, CI); regenerate with `lint_wiki.py --update-manifest`
 ├── rules/                          # mode-specific rule modules, split out of CLAUDE.md
 │   ├── wiki-content.md             # content mode: page authoring, wiki index catalog, domain rules
 │   └── site-code.md                # code mode: coding discipline, static-site build & Cloudflare publishing, verification
@@ -51,9 +52,12 @@ docs/
     │   └── prd.json                # 8 tasks (7 builder + 1 evaluator)
     ├── phase-13-pr-gate-and-infra-ci/
     │   └── plan.md                 # move CI from push-to-main to pull requests; read-only IAM role for terraform plan
-    └── phase-14-readable-pages/
-        ├── plan.md                 # per-type body templates, plain-writing + voice rules, lead-paragraph removal
-        └── prd.json                # 16 tasks (14 builder + 1 evaluator + 1 git)
+    ├── phase-14-readable-pages/
+    │   ├── plan.md                 # per-type body templates, plain-writing + voice rules, lead-paragraph removal
+    │   └── prd.json                # 16 tasks (14 builder + 1 evaluator + 1 git)
+    └── phase-15-public-repo/
+        ├── plan.md                 # take the repo public: raw/ out of git, history rewritten, moved to a fresh public repo
+        └── prd.json                # 10 tasks (9 builder + 1 evaluator)
 ```
 
 ## rules/ — when to read which
@@ -72,6 +76,7 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 |---|---|
 | [log.md](log.md) | Chronological work log, append-only, one Korean line per action (`## [date] prefix \| ...`). Moved from the repo root 2026-07-20. |
 | [backlog.md](backlog.md) | Ingest backlog — candidate sources & open questions queue. Unpublished, never citable as factual evidence. Moved from the repo root 2026-07-20. |
+| [raw-manifest.txt](raw-manifest.txt) | The `raw/` slug list — filenames only, sorted, no content. `raw/` left this repo in phase-15 (nested private repo `omottomo/llm-wiki-raw`), so `lint_wiki.py`'s `raw/ ↔ wiki/sources/` parity check reads this file wherever `raw/` is absent: public clones and CI. When both exist and disagree, that is a parity error. Regenerate with `python3 scripts/lint_wiki.py --update-manifest`. |
 | [benchmarking-nvk-llm-wiki.md](benchmarking-nvk-llm-wiki.md) | 2026-07-19 comparison against `nvk/llm-wiki`: what it is, adopted items (with rationale) and rejected items (with reasons). Drives `phase-6-nvk-schema-docs` and `phase-7-nvk-skills-tests`. |
 
 ## tasks/ — phase plans and PRDs
@@ -92,3 +97,4 @@ Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the
 | [tasks/phase-12-wiki-identity-copy/](tasks/phase-12-wiki-identity-copy/plan.md) | `plan.md` + `prd.json` — 8 tasks (7 builder + 1 evaluator), 2026-08-03: the wiki still described itself as a YouTube-playlist digest and asserted Claude Code / harness engineering as its central subject, on `overview.md`, `index.md`, several concept/entity/analysis pages, the `SITE_DESCRIPTION` copy in `site/build.py`, and the §3 charter here. Both framings swept out; per-source `재생목록:`/`자막:` metadata and the `#N` citation labels deliberately preserved |
 | [tasks/phase-13-pr-gate-and-infra-ci/](tasks/phase-13-pr-gate-and-infra-ci/plan.md) | `plan.md` — 2026-08-03: CI only ran on push to `main`, so a broken commit could not be caught before it landed. Split `site.yml` into `verify.yml` (pull requests) and `deploy.yml` (main), and added a read-only IAM role so `terraform plan` can run on PRs without deploy credentials |
 | [tasks/phase-14-readable-pages/](tasks/phase-14-readable-pages/plan.md) | `plan.md` + `prd.json` — 16 tasks, 2026-08-03/04: `concepts/`, `entities/` and `analysis/` had no body template, three different names for the closing link section, no H3 anywhere, and paragraph walls up to 1,700 chars. Fixed per-type required headings (§1.1 of wiki-content.md), eight checkable plain-writing rules (§1.2) and an "explaining to someone" register (§1.3); `check_page_structure` in `lint_wiki.py` enforces them. **The phase-10 lead paragraph is removed** and `extract_summary` now reads the `## 한눈에 요약` bullets instead. Site side: auto table of contents with a sticky sidebar and scroll spy, backlinks collapsed. All 40 pages rewritten |
+| [tasks/phase-15-public-repo/](tasks/phase-15-public-repo/plan.md) | `plan.md` + `prd.json` — 10 tasks (9 builder + 1 evaluator), 2026-08-06: the repo must be readable by strangers to appear in the `omottomo.github.io` portfolio, but `raw/` holds other people's transcripts and articles in every one of the 231 commits, and two real personal emails and the AWS account ID sit in the history. `raw/` moves to a private nested repo and leaves git; `git filter-repo` rewrites the transcripts, emails and account ID out of all commits. **The flip is not a force-push** — `refs/pull/N/head` pins the pre-rewrite commits, so the old repo is renamed to `llm-wiki-archive` (private, frozen) and the rewritten history is pushed to a new public `omottomo/llm-wiki`. The §2.1 boundary is re-founded on two machine checks, and the `raw ↔ sources` parity rule survives CI via a content-free `raw-manifest.txt`. **Not started** |

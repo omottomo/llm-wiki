@@ -1,0 +1,8 @@
+# backend "s3" 의 부분 구성(partial config). versions.tf 는 bucket 을 선언하지 않으므로
+# init 할 때 반드시 이 파일을 넘겨야 한다:
+#
+#   terraform init -backend-config=backend.hcl
+#
+# 이 파일을 backend.hcl 로 복사하고 <ACCOUNT_ID> 를 실제 AWS 계정 ID 로 바꾼다.
+# backend.hcl 자체는 gitignore 대상 — 계정 ID 가 공개 저장소에 들어가면 안 된다.
+bucket = "llm-wiki-tfstate-<ACCOUNT_ID>"

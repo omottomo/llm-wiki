@@ -1,0 +1,107 @@
+{
+  "phase": "phase-15-public-repo",
+  "goal": "Make llm-wiki publishable as a portfolio artifact by removing the reason it must stay private, not the rule. raw/ (26 YouTube auto-transcripts, a HashiCorp docs excerpt, an IBM article, a Tistory post — all other people's work) leaves git entirely and moves to a private nested repo; the two real author emails and the AWS account ID are rewritten out of every commit on main with git-filter-repo (231 at audit time, 232 as of 2026-08-06 — the count is captured at rewrite time, not hardcoded). The flip is NOT a force-push on this repo: refs/pull/N/head pins the pre-rewrite commits for every merged PR and dangling objects stay fetchable by SHA, so going public would leave every purged transcript one SHA away. Instead the existing repo is renamed to llm-wiki-archive and frozen private, and the rewritten history is pushed to a new public omottomo/llm-wiki. The raw/ boundary invariant is re-founded on two machine checks (raw/ is never tracked; the generator's content root is still wiki/ only) replacing the old leg 'the GitHub repo stays private', and the raw ↔ sources parity rule survives CI via a content-free docs/raw-manifest.txt. Design: plan.md.",
+  "created_at": "2026-08-06",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Backups before anything destructive: mirror bundle + private llm-wiki-raw",
+      "scope": "scratchpad (mirror bundle), raw/ (new nested git repo), new private GitHub repo omottomo/llm-wiki-raw",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A `git clone --mirror` of the current repo exists outside the working tree and `git -C <mirror> rev-list --all | wc -l` matches `git rev-list --all | wc -l` in the working tree (232 as of 2026-08-06; the number is captured, never hardcoded, since T02-T06 add commits before T07 runs). A new PRIVATE GitHub repo omottomo/llm-wiki-raw exists and holds the 29 files currently in raw/, pushed from a git repo initialised inside raw/ itself (so the parent's ingest workflow is unchanged — files still land in raw/, they just commit to a different remote). Verified by `git -C raw ls-files | wc -l` == 29 and by `gh repo view omottomo/llm-wiki-raw --json isPrivate` reporting true. No file under raw/ is modified — raw/ is immutable per CLAUDE.md core principle 1; this task only adds .git/ inside it. Nothing else in the repo changes.",
+      "status": "completed",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "raw-less lint: docs/raw-manifest.txt + parity fallback + --update-manifest",
+      "scope": "scripts/lint_wiki.py, docs/raw-manifest.txt, scripts/test_lint_wiki.py, tests/fixtures/",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "scripts/lint_wiki.py no longer exits at line 493 when raw/ is absent. check_parity() takes its raw slug set from raw/*.md when the directory exists and from docs/raw-manifest.txt when it does not; when both exist and the sets differ, that is a parity error naming the drifted slugs (not a silent preference for either). A new --update-manifest flag rewrites docs/raw-manifest.txt from raw/*.md, sorted, one slug per line, no extensions and no content. The manifest is committed with the current 29 slugs. A fixture proves the raw-less path: running the linter against a tree with wiki/ but no raw/ exits 0 while still reporting the parity line, added to scripts/test_lint_wiki.py, and the whole suite passes. Default behaviour with raw/ present is byte-identical to today's output (diff the report against a pre-change capture).",
+      "status": "completed",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "verify_site.py: assert raw/ is not tracked",
+      "scope": "scripts/verify_site.py",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "A new check reports PASS when `git ls-files raw/` returns nothing and FAIL naming the offending paths otherwise, so a `git add -f raw/...` slip fails the build. It runs before the built-output checks and does not depend on site/dist existing (the existing `if not DIST.exists()` skip pattern is the model). The check is skipped, not failed, when the tree is not a git work tree. Run against the current tree — where raw/ IS still tracked — it must FAIL, and after T05 gitignores and untracks raw/ it must PASS; capture both.",
+      "status": "completed",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "AWS identifiers out of the working tree",
+      "scope": "infra/terraform.tfvars, infra/terraform.tfvars.example, infra/versions.tf, infra/backend.hcl.example, infra/variables.tf, infra/iam-deploy.tf, .gitignore, docs/tasks/phase-9-aws-deploy/implementation.md",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "No tracked file contains the literal <ACCOUNT_ID>: `git grep <ACCOUNT_ID>` is empty. infra/terraform.tfvars is gitignored and untracked (the local file is kept), with infra/terraform.tfvars.example tracked and carrying placeholders. infra/versions.tf's backend \"s3\" block no longer names bucket — it is supplied by partial config from a gitignored infra/backend.hcl, with infra/backend.hcl.example tracked; both the example's comment and site-code.md §2 (T06) record that init is now `terraform init -backend-config=backend.hcl`. infra/iam-deploy.tf's tfstate_bucket literal becomes var.tfstate_bucket_name, declared in infra/variables.tf and set in tfvars. The github_repo_immutable default in infra/variables.tf is left alone — owner/repo IDs are public GitHub metadata. docs/tasks/phase-9-aws-deploy/implementation.md's placeholder table shows <ACCOUNT_ID> in its 예시 column instead of the live value. Verified (the last check needs AWS credentials, which are absent as of 2026-08-06 — `aws sts get-caller-identity` returns NoCredentials — so it is gated on a human login): `terraform -chdir=infra fmt -check -recursive` clean, `terraform -chdir=infra init -backend=false && terraform -chdir=infra validate` exit 0, and a real `terraform init -backend-config=backend.hcl` reconnects to the existing state without proposing changes (`terraform plan` shows no diff).",
+      "status": "completed",
+      "attempts": 0
+    },
+    {
+      "id": "T05",
+      "title": "Public-facing hygiene: untrack raw/ and .obsidian/, kill dangling symlinks, LICENSE + README",
+      "scope": ".gitignore, raw/ (untrack), .obsidian/ (untrack), .claude/skills/ (13 symlinks), LICENSE, README.md",
+      "kind": "builder",
+      "depends_on": ["T02", "T03"],
+      "acceptance": "raw/ is gitignored and `git rm -r --cached raw` has run — the 29 local files are untouched on disk and T03's check now PASSes. .obsidian/ is gitignored and untracked, removing the vendored third-party plugin bundle (plugins/terminal/main.js) and the personal editor config from the tree. The 13 .claude/skills/* symlinks pointing into gitignored .agents/ are untracked and ignored by one .gitignore stanza that keeps the five real wiki-* skill directories tracked (`git ls-files .claude/skills | grep -c wiki-` unchanged, `git ls-files -s .claude/skills | awk '$1==120000'` empty). LICENSE is MIT covering the code. README.md is Korean and states: what the repo is, the raw → wiki → site pipeline in three lines, links to omotomo-llm-wiki.com, the two-licence split (code MIT, wiki/ prose CC BY 4.0), and that source documents are deliberately not included. The CC BY 4.0 declaration also lands in wiki/index.md's preamble. A fresh `git clone` of the local repo into the scratchpad contains no raw/, no .obsidian/ and no broken symlink.",
+      "status": "completed",
+      "attempts": 0
+    },
+    {
+      "id": "T06",
+      "title": "Rewrite the rules this phase invalidates",
+      "scope": "docs/rules/site-code.md, docs/rules/wiki-content.md, CLAUDE.md",
+      "kind": "builder",
+      "depends_on": ["T02", "T03", "T04", "T05"],
+      "acceptance": "docs/rules/site-code.md §2.1 no longer says the repo stays private and no longer carries the line 'Never flip the repo to public.' Its two required protections become (1) raw/ is never tracked, enforced by the T03 check, and (2) the generator's content root is still wiki/ only. The section states that the repo IS public as of this phase and that omottomo/llm-wiki-archive is private and must never be flipped. §2 gains the `terraform init -backend-config=backend.hcl` note, and the Accumulated rules section gains the refs/pull/N/head finding that forced the new-repo move. docs/rules/wiki-content.md's ingest workflow gains a step: commit and push raw/ to its own remote, because the parent repo no longer backs it up, and a note to run `lint_wiki.py --update-manifest` when the raw set changes. CLAUDE.md core principle 1 is reworded from 'must never be published to the web or land in a public repo' to the untracked-and-mirrored-privately shape, and its §1 tree marks raw/ as gitignored. No wiki/ prose changes. lint_wiki.py, test_lint_wiki.py, build.py, test_build_site.py and verify_site.py all exit 0.",
+      "status": "completed",
+      "attempts": 0
+    },
+    {
+      "id": "T07",
+      "title": "The filter-repo pass over main's whole history",
+      "scope": "a fresh single-branch clone of main in the scratchpad — its whole history (raw/, author emails, account ID). The working tree and its branches are not touched.",
+      "kind": "builder",
+      "depends_on": ["T01", "T06"],
+      "acceptance": "PRECONDITION: git-filter-repo is installed (`uv tool install git-filter-repo` — pip itself is absent on this machine, verified 2026-08-06) and T01's mirror bundle exists. ASSERT (do not set) that `git config user.email` is 248242903+omottomo@users.noreply.github.com: the local config already holds it as of 2026-08-06, correcting the first planning pass which recorded whddlsk123@naver.com. If it is anything else, set it before proceeding — a history rewrite corrects the past only, so the next commit would reintroduce the old address into the public history. The rewrite runs on a FRESH single-branch clone of main (`git clone --no-local --single-branch --branch main file://$PWD <scratch>`), not on the working tree: main already contains every merged branch's work, so the 8 stale local and 30 stale origin/* branches are simply never fetched and there is no branch list to keep current. Capture `git rev-list --count main` in that clone BEFORE the rewrite. One git filter-repo run applies all four options: --path raw/ --invert-paths, --prune-empty=never (8 commits touch only raw/ and would otherwise be dropped, making a count-based integrity check impossible), a --mailmap sending whddlsk123@naver.com and whddlsk97@gmail.com to omottomo <248242903+omottomo@users.noreply.github.com>, and a --replace-text of <ACCOUNT_ID>==><ACCOUNT_ID>. Verified afterwards: `git rev-list --count main` equals the captured baseline; `git rev-list --all --objects | grep -c ' raw/'` is 0; `git log --all --format='%ae %ce' | tr ' ' '\\n' | sort -u` lists only the noreply address; `git rev-list --all | while read c; do git grep -l <ACCOUNT_ID> $c; done` is empty; `git ls-files tests/fixtures | grep -c '/raw/'` is unchanged from before the rewrite (the synthetic fixtures must survive — test_lint_wiki.py depends on them) and the full local gate matrix still exits 0 on the rewritten tree.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T08",
+      "title": "The move: archive the old repo, publish the rewritten one",
+      "scope": "GitHub — omottomo/llm-wiki (rename + create), repo settings, Actions secrets, ruleset; local git remote",
+      "kind": "builder",
+      "depends_on": ["T07"],
+      "acceptance": "omottomo/llm-wiki is renamed to omottomo/llm-wiki-archive and stays PRIVATE — it holds the only copy of the pre-rewrite history and its refs/pull/* and must never be made public. A new PUBLIC omottomo/llm-wiki is created and the rewritten history is pushed to it (`gh repo view omottomo/llm-wiki --json visibility` reports PUBLIC; commit count equals T07's captured baseline). origin is repointed to the SSH form (git@github.com:omottomo/llm-wiki.git) — there is no credential helper configured, so pushes ride the existing SSH key while gh uses its https token for the API — and `git remote -v` shows it. The three Actions repo variables (AWS_DEPLOY_ROLE_ARN, SITE_BUCKET, CF_DISTRIBUTION_ID) are recreated as SECRETS on the new repo — public run logs do not mask vars.* and the bucket name embeds the account ID — and both workflows are updated from vars.* to secrets.*. A ruleset on main requires the verify and lint checks and blocks direct pushes; `gh api repos/omottomo/llm-wiki/rulesets` returns it rather than the 403 phase-13 recorded. Fork PR workflow approval is left at GitHub's default (require approval for first-time contributors) and that is confirmed, not assumed. The OIDC trust in infra/iam-deploy.tf still matches: same owner and repo name, so github_repo and github_repo_immutable need no change — verified by a real deploy run reaching the S3 sync step.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T09",
+      "title": "Post-publication audit from a fresh public clone",
+      "scope": "scratchpad clone of the public repo",
+      "kind": "evaluator",
+      "depends_on": ["T08"],
+      "acceptance": "Clone https://github.com/omottomo/llm-wiki into the scratchpad and assert, in that clone and not in the working tree: no raw/ directory exists; `git log --all --format='%ae %ce'` yields only the noreply address; `git rev-list --all | while read c; do git grep -l <ACCOUNT_ID> $c; done` is empty; `git ls-files | grep -E '^(raw/|\\.obsidian/)'` is empty; no broken symlink (`find . -xtype l` empty); and the newest commit's author AND committer are the noreply address, which proves the T07 `git config user.email` change took and no post-rewrite commit reintroduced the old one. Then, with no raw/ present, `python3 scripts/lint_wiki.py`, `python3 scripts/test_lint_wiki.py`, `python3 site/build.py`, `python3 site/test_build_site.py` and `python3 scripts/verify_site.py` all exit 0 — this is the exact path CI now takes. Finally open a throwaway PR against the public repo: verify and lint report on it, the ruleset blocks merging while a deliberately introduced lint violation is red, and deploy.yml shows no run for that head SHA. Close the PR without merging. Any failure blocks close-out; a leak found here means the archive/public split must be re-examined, not patched with a follow-up commit.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T10",
+      "title": "Portfolio entry in omottomo.github.io",
+      "scope": "~/omottomo.github.io — site-v2/src/data/projects.ts (SEPARATE REPO)",
+      "kind": "builder",
+      "depends_on": ["T09"],
+      "acceptance": "A Project object is appended to the projects array in site-v2/src/data/projects.ts, matching the existing interface {title, meta, problem, approach, result, tech, links?} and the Problem/Approach/Result three-part Korean prose style of its neighbours. links carries both the public repo and https://omotomo-llm-wiki.com — the first entry in the file to use that optional field. The file's header comment 'Experience의 주요 성과 6개와 1:1 대응한다' is amended to say the array holds the six work outcomes plus personal projects, since appending a side project breaks that invariant as written. The guardrail comment above it is left untouched and remains satisfied — nothing in llm-wiki is work material. The Astro site builds and the new card renders with its two links. Committed and pushed in the portfolio repo, not this one.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}

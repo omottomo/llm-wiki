@@ -35,7 +35,9 @@ llm-wiki/
 │   ├── tasks/         # phase-{N}-{slug}/ — plan.md + prd.json per phase
 │   ├── backlog.md     # ingest backlog — candidates & open questions (unpublished; not factual evidence)
 │   └── log.md         # chronological work log (append-only)
-├── raw/               # source documents (IMMUTABLE, NEVER PUBLISHED)
+├── raw/               # source documents (IMMUTABLE, NEVER PUBLISHED, gitignored here —
+│   │                  #   nested private repo omottomo/llm-wiki-raw; slug list only in
+│   │                  #   docs/raw-manifest.txt)
 │   └── assets/        # downloaded images, etc.
 ├── wiki/              # markdown you generate & maintain (YOU own this)
 │   ├── index.md       # full catalog (content-oriented)
@@ -55,7 +57,7 @@ before you touch anything.
 
 **Core principles (never violate):**
 
-1. **Never modify or delete anything in `raw/`.** Read only. It is the source of truth — and it must **never** be published to the web or land in a public repo (the boundary and its audit: `docs/rules/site-code.md`).
+1. **Never modify or delete anything in `raw/`.** Read only. It is the source of truth — and it must **never** be published to the web. **This repo is public**, so `raw/` is gitignored here and tracked only by its own nested private repo (`omottomo/llm-wiki-raw`); the ingest workflow therefore commits twice (the boundary, its audit and the two-commit flow: `docs/rules/site-code.md` §2.1, `docs/rules/wiki-content.md` §3).
 2. **You fully own `wiki/`.** The human only reads it; you write, edit, and cross-link it.
 3. **The wiki is a compounding asset.** Do not re-synthesize from scratch on every question. First find and read the pages you already built, then build on top of them.
 4. When a new source **contradicts** an existing claim, do not delete either — record both and flag the contradiction explicitly.

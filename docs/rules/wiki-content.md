@@ -235,6 +235,23 @@ Example of the required output (Korean, as mandated by the language rule):
 > **Scope boundary (2026-07-12):** developer career strategy (resumes, job hunting, 이직/물경력) lives in the sibling `../career-llm-wiki` repo — the career pages this wiki once held were migrated there. When a new source is career-focused, tell the user it belongs in career-llm-wiki instead of ingesting it here.
 > **Source types:** full YouTube transcripts (mostly Korean, some English) — `raw/youtube-<video_id>.md`; since 2026-07-18 also web articles / official docs saved as `raw/<slug>.md`.
 
+**Every ingest ends with two commits, not one** (2026-08-06, phase-15). `raw/` is no longer part of
+this repo — it is a nested private repo (`omottomo/llm-wiki-raw`) and the parent `.gitignore`
+ignores it, because this repo is public and `raw/` holds other people's work. So after writing the
+wiki pages:
+
+```bash
+git -C raw add . && git -C raw commit -m "..." && git -C raw push   # 원문 → 비공개 저장소
+python3 scripts/lint_wiki.py --update-manifest                       # docs/raw-manifest.txt 갱신
+git add wiki/ docs/ && git commit && git push                        # 요약본 → 공개 저장소
+```
+
+Both steps matter. Skip the push and the parent repo no longer backs the sources up, so a disk loss
+takes them and the `raw/ ↔ wiki/sources/` parity rule becomes unverifiable. Skip
+`--update-manifest` and lint reports the manifest as drifted (it is the only copy of the raw slug
+list that CI can see). `git status` at the repo root does **not** show `raw/` — check it with
+`git -C raw status`.
+
 Domain-specific rules accumulated so far:
 
 - Sources are auto-generated captions, so **speech-recognition errors are common** (e.g. "André Capaci" is really "Andrej Karpathy"). When a proper noun looks garbled, verify it via web search and record the correction on the source page under a section headed exactly `## 외부 검증 (date, 웹)`.

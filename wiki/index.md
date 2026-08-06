@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-08-03
+updated: 2026-08-06
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -11,6 +11,8 @@ tags: [색인, 카탈로그]
 
 > 전체 조망은 [[overview|위키 개요]]. 아래는 카테고리별 전체 페이지 목록(각 항목 한 줄 설명).
 > 취업/커리어 관련 페이지(개념 3·출처 3·분석 1)는 2026-07-12 별도 커리어 위키(career-llm-wiki)로 이관했다 — 그 주제는 그쪽에서 다룬다.
+>
+> **라이선스:** 이 위키의 모든 페이지는 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ko)으로 공개한다. 자유롭게 인용·재배포·변형할 수 있고, 출처만 밝히면 된다. 각 쪽은 어떤 자료를 근거로 썼는지 frontmatter의 `sources`에 기록해 두었다.
 
 ## Concepts
 - [[concepts/harness-engineering|하네스 엔지니어링]] — 환경 설계 = 강제

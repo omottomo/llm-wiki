@@ -1,10 +1,21 @@
 .DS_Store
 # WSL이 Windows에서 복사한 파일에 붙이는 알터네이트 데이터 스트림 잔여물
 *:Zone.Identifier
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
 .claude/settings.local.json
 __pycache__/
+
+# 원본 자료 — 제3자 저작물이라 이 공개 저장소에 들어가지 않는다.
+# 별도 비공개 저장소(omottomo/llm-wiki-raw)가 raw/ 안의 중첩 git 저장소로 붙어 있고,
+# 파일 목록만 docs/raw-manifest.txt 로 추적한다. scripts/verify_site.py 가 강제한다.
+raw/
+
+# 개인 에디터 설정 + 서드파티 플러그인 번들. 위키 내용이 아니다.
+.obsidian/
+
+# skills CLI(.agents/)로 들어가는 심볼릭 링크 — 클론에서는 끊긴 링크가 된다.
+# 이 저장소가 소유한 wiki-* 스킬만 추적한다.
+.claude/skills/*
+!.claude/skills/wiki-*
 
 # Generated static site (build.py output) and Pagefind search index.
 site/dist/
@@ -21,3 +32,7 @@ infra/.terraform/
 
 # vim swap files
 *.sw[op]
+
+# AWS 계정 ID 가 들어가는 로컬 전용 terraform 설정. *.example 만 추적한다.
+infra/terraform.tfvars
+infra/backend.hcl

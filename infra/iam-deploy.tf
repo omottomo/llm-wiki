@@ -71,10 +71,10 @@ resource "aws_iam_role_policy" "deploy" {
 # ---------------------------------------------------------------------------
 
 locals {
-  # versions.tf의 backend "s3" 블록과 반드시 같아야 한다. Terraform은 backend
-  # 설정에서 변수 보간을 금지하므로 이 중복은 피할 수 없다 — 한쪽을 고치면
-  # 다른 쪽도 고쳐야 한다.
-  tfstate_bucket = "llm-wiki-tfstate-<ACCOUNT_ID>"
+  # backend.hcl(versions.tf의 backend "s3" 부분 구성)의 bucket과 반드시 같아야 한다.
+  # Terraform은 backend 설정에서 변수 보간을 금지하므로 이 중복은 피할 수 없다 —
+  # 한쪽을 고치면 다른 쪽도 고쳐야 한다.
+  tfstate_bucket = var.tfstate_bucket_name
   tfstate_key    = "llm-wiki/terraform.tfstate"
 }
 

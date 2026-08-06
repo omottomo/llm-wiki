@@ -81,7 +81,16 @@ Do these in order:
 > Example: `## [2026-06-05] ingest | 이영희 '이직 플랜 & 경력 기술서 전략' — sources/youtube-aOVxvjLOcQE + concepts/이직플랜 + concepts/면접경험데이터 생성, concepts/경력기술서 + overview + index 갱신`
 > The slug-rich format (vs generic "N개 갱신") makes future `session_search` much more productive.
 
-### 5. Report
+### 5. Commit both repos
+`raw/` is a nested **private** repo — the parent (public) repo ignores it, so one commit is not
+enough. See `docs/rules/wiki-content.md` §3 for the why.
+```bash
+git -C raw add . && git -C raw commit -m "..." && git -C raw push
+python3 scripts/lint_wiki.py --update-manifest
+```
+Then commit `wiki/` and `docs/raw-manifest.txt` in the parent repo as usual.
+
+### 6. Report
 Briefly tell the user (in Korean) what you created/changed (page list) and especially **any contradictions found or new connections formed.**
 
 ## Notes
