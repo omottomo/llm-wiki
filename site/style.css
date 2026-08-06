@@ -88,7 +88,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ── 본문 ─────────────────────────────────────────────── */
-main { max-width: 62rem; margin: 0 auto; padding: 2.25rem 2rem 5rem; }
+main { max-width: 70rem; margin: 0 auto; padding: 2.25rem 2rem 5rem; }
 .breadcrumb { color: var(--faint); font-size: 12.5px; margin-bottom: 0.85rem; }
 .breadcrumb a { color: var(--accent); text-decoration: none; }
 .breadcrumb span { color: var(--faint); }
@@ -108,7 +108,8 @@ article h2 {
   display: inline-block;
 }
 article h3 { font-size: 18px; font-weight: 700; color: var(--strong); margin: 2rem 0 0.4rem; }
-article p, article li { max-width: 66ch; text-wrap: pretty; }
+/* 66ch는 "0" 글자 기준이라 한글로는 한 줄 33자밖에 안 됐다 — 80ch ≈ 한글 40자 */
+article p, article li { max-width: 80ch; text-wrap: pretty; }
 article p { margin: 0 0 1.15rem; }
 article ul, article ol { padding-left: 1.15rem; }
 article li { margin-bottom: 0.45rem; }
@@ -138,6 +139,27 @@ article pre { background: var(--code-bg); padding: 1rem; border-radius: 6px; ove
 article pre code { background: none; padding: 0; }
 .meta { color: var(--faint); font-size: 12.5px; }
 .dead-link { color: var(--faint); border-bottom: 1px dotted var(--faint); }
+
+/* 흐름 도식 — 본문에 인라인 HTML로 <div class="flow">를 쓰면 카드 + 화살표로 렌더된다 */
+.flow { display: flex; align-items: stretch; gap: 0.75rem; margin: 1.75rem 0; flex-wrap: wrap; }
+.flow-step {
+  flex: 1 1 12rem; padding: 1rem 1.1rem;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+}
+.flow-step .tag {
+  display: inline-block; font-family: var(--mono); font-size: 11.5px;
+  color: var(--accent); letter-spacing: 0.02em; margin-bottom: 0.35rem;
+}
+.flow-step .name { display: block; font-weight: 700; color: var(--strong); font-size: 15.5px; line-height: 1.5; }
+.flow-step .note { display: block; font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 0.15rem; }
+.flow-arrow {
+  align-self: center; font-family: var(--mono); font-size: 15px; color: var(--faint);
+  user-select: none;
+}
+@media (max-width: 560px) {
+  .flow { flex-direction: column; }
+  .flow-arrow { align-self: flex-start; padding-left: 1.1rem; transform: rotate(90deg); }
+}
 
 /* 인용 칩 */
 .cite {
@@ -172,7 +194,7 @@ article h2, article h3 { scroll-margin-top: 4.5rem; }
 
 @media (min-width: 1100px) {
   main.has-toc {
-    max-width: 74rem;
+    max-width: 84rem;
     display: grid;
     grid-template-columns: 13.5rem minmax(0, 1fr);
     column-gap: 3rem;

@@ -141,6 +141,14 @@ This is a register, **not an imitation of any particular blog**.
 **Not adopted**, deliberately: 청유형 `~해보자` (works only where the reader follows a procedure —
 concept pages have none), 수사 의문문, `여러분`, 이모지 헤딩 앵커.
 
+**Register exception — `wiki/overview.md` only (2026-08-06).** The rest of this section assumes
+해라체 (`~이다` / `~한다`), which is the register for every page under `wiki/`. `wiki/overview.md`
+is the single exception: it is written in 존댓말 (`~습니다`) by the operator's decision, because it
+is the first page a newcomer lands on and explains the repo to a stranger rather than filing a
+record. **Do not "normalize" it back to 해라체**, and do not spread 존댓말 to any other page — a
+mixed-register corpus is exactly what this carve-out is scoped to prevent. The rules that follow
+(the two carve-outs, §1.2's checkable rules) still apply to overview; only the sentence endings differ.
+
 **Two carve-outs — constraints, not taste:**
 
 1. **인용이 붙은 사실 서술문은 단정형을 유지한다.** A sentence ending in

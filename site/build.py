@@ -28,7 +28,7 @@ SITE_URL = "https://omotomo-llm-wiki.com"
 # 사이트가 소유한 카피 — wiki/overview.md를 옮겨 적지 않는다(문서가 바뀌어도 첫인상 문구는 사이트가 관리).
 SITE_DESCRIPTION = "직접 고른 자료를 읽고 정리해 쌓아 올리는 개인 지식 위키입니다"
 START_PATH = [
-    ("/overview/", "위키 개요", "이 위키가 무엇을 다루는지 한 페이지로."),
+    ("/overview/", "위키 개요", "이 위키가 어떻게 만들어지는지 한 페이지로."),
     ("/index/", "전체 색인", "카테고리별 페이지 목록에서 고르기."),
 ]
 SECTIONS = [("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
@@ -394,7 +394,7 @@ def render_home(pages: dict) -> str:
 <span>출처 <strong>{count("sources")}</strong>건</span>
 <span>마지막 갱신 <strong>{latest}</strong></span></p>
 </div>
-<section class="start"><h2>처음이십니까?</h2><ol>{start_html}</ol></section>
+<section class="start"><h2>처음이신가요?</h2><ol>{start_html}</ol></section>
 </section>
 <nav class="entries">{entry_html}</nav>
 <section class="recent"><h2>최근 갱신<a class="more" href="/index/">전체 색인 →</a></h2>

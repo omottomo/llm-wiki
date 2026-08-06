@@ -50,13 +50,13 @@ def test_no_literal_wikilinks() -> None:
 
 
 def test_wikilinks_resolve_and_backlinks_render() -> None:
-    """overview는 harness-engineering을 링크하므로: (a) overview HTML에 해당 href가 있고
-    (b) harness-engineering 페이지의 백링크 목록에 overview가 나타난다."""
-    overview = (DIST / "overview" / "index.html").read_text(encoding="utf-8")
-    assert 'href="/concepts/harness-engineering/"' in overview
+    """context-engineering은 harness-engineering을 링크하므로: (a) 해당 HTML에 그 href가 있고
+    (b) harness-engineering 페이지의 백링크 목록에 context-engineering이 나타난다."""
+    context = (DIST / "concepts" / "context-engineering" / "index.html").read_text(encoding="utf-8")
+    assert 'href="/concepts/harness-engineering/"' in context
     harness = (DIST / "concepts" / "harness-engineering" / "index.html").read_text(encoding="utf-8")
     assert "이 문서를 참조하는 문서" in harness
-    assert 'href="/overview/"' in harness
+    assert 'href="/concepts/context-engineering/"' in harness
 
 
 def test_toc_links_match_heading_ids() -> None:
