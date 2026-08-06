@@ -21,5 +21,5 @@ variable "github_repo" {
 # 값 확인: gh api repos/<owner>/<repo>/actions/oidc/customization/sub → sub_claim_prefix
 variable "github_repo_immutable" {
   type    = string
-  default = "omottomo@248242903/llm-wiki@1298234217"
+  default = "omottomo@248242903/llm-wiki@1324905842"
 }
