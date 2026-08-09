@@ -2,8 +2,8 @@
 title: 개발자 역할의 변화
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
-sources: [youtube-uk4a5oER0SQ, youtube-oIAUbqpQ0lY, youtube-6gvnDSAcZww, youtube-DrekqeDlO1w, youtube-BssPGKsP60s, youtube-6cr4PeilKJk, youtube-JzB_GI7SS6g]
+updated: 2026-08-09
+sources: [youtube-uk4a5oER0SQ, youtube-oIAUbqpQ0lY, youtube-6gvnDSAcZww, youtube-DrekqeDlO1w, youtube-BssPGKsP60s, youtube-6cr4PeilKJk, youtube-JzB_GI7SS6g, youtube-lokHQ8_b5Rk]
 tags: [개발자, 개발자역할변화, 일자리, 상향이동, 이해]
 ---
 
@@ -33,6 +33,16 @@ AI 시대에 개발자의 역할은 **축소되는 게 아니라 상향 이동(u
 "이제 코딩이 가장 쉬운 시대"이므로 단순 구현 능력의 가치는 떨어진다. 대신 설계·검증·디버깅·도구 활용 능력이 핵심이 된다.
 
 주니어 개발자조차 AI에게 바로 던지지 말고 "느림보 설계"로 초안을 먼저 잡아 설계자의 자리를 지켜야 한다는 조언이 이어진다 (→ [[sources/youtube-JzB_GI7SS6g|#9 에이전트 10가지 팁]]). [[entities/anthropic|Anthropic]]의 `$9` vs `$200` 일화에서도 같은 모델이라도 환경을 설계한 사람과 그냥 시키기만 한 사람의 격차가 벌어진다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]).
+
+## 코드를 안 보기 시작했다
+
+역할 이동이 실제로 어디까지 왔는지 보여 주는 증언들이다. 한 대담에서는 두 진행자 모두 자기 제품을 만들 때 코드를 열지 않는다고 말한다. 시청자 쪽 반응은 더 나갔다. VS Code를 지우고 코드를 한 줄도 안 본 지 1년 됐다거나, 풀 리퀘스트가 올라오면 쓱 훑고 만다는 식이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+대신 무엇을 보느냐가 핵심이다. 코드 레벨을 한 줄씩 보는 게 아니라 **풀 리퀘스트에서 로직을 보고** 정말 필요할 때만 코드를 잠깐 연다. 부하 직원에게 최적화를 시키고 보고를 받는 것과 같다는 비유가 나온다. 설명이 논리적이고 말한 대로 짠다는 확신이 있으면 굳이 코드를 열지 않는다는 것이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+비유는 하나 더 붙는다. 어셈블리를 안 보고 C 코드만 보고 이야기한다고 했을 때 "그게 어떻게 도는지 알아야지"라는 반발이 나왔던 것과 같은 이치라는 것이다. 이제 자연어가 그 자리를 대체하고 코드가 한 층 아래로 내려간다는 관점이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+> 여기에는 분명한 단서가 붙는다. **코드를 안 봐도 문제는 안 생기지만 리뷰까지 끊으면 문제가 생긴다.** 프로젝트가 커질수록 컨텍스트 관리에 불리해지고, 에이전트가 예전만 못하다 싶으면 십중팔구 코드가 꼬여 있다는 것이다. 급하거나 심각한 문제가 있을 때 코드를 봐 줘야 하는 순간은 여전히 온다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 ## 일자리 충격과 "변형" 서사
 

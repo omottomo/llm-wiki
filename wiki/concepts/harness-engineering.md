@@ -2,8 +2,8 @@
 title: 하네스 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
-sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, ibm-infrastructure-as-code, hashicorp-terraform-docs]
+updated: 2026-08-09
+sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
 
@@ -35,6 +35,17 @@ tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵�
 
 비유로는 말과 마구(馬具) 이야기가 자주 쓰인다. 강력한 야생말(AI 모델)에 마구(하네스)를 씌워야 비로소 인간의 의도대로 밭을 갈 수 있다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
+### 가장 넓은 정의 — 실수를 막는 장치 전부
+
+한 대담은 범위를 이렇게 잡는다. **내가 원하는 작업을 똑바로 하게 만들기 위한 모든 장치**를 하네스라 부르면 된다는 것이다. [[concepts/context-engineering|컨텍스트 엔지니어링]]이 "필요한 것만 넣자"라면, 하네스는 "실수하지 않게 하자"에 해당한다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+그래서 아주 사소한 것도 들어간다. 명령을 실행하는 도구를 붙일 때 사람의 동의를 구하게 하는 것, 이상한 폴더를 못 보게 막는 것이 그렇다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+- **로그 계층을 미리 깔아 두기** — "네가 했던 것 중에 에러 난 게 어디냐"고 물으면 에이전트가 한참을 헤맨다. 로그 계층을 미리 만들어 두면 열어 보고 바로 확인한다. 이것도 하네스의 영역이다.
+> 같은 문장이 다른 이름으로도 돌아다닌다. [[concepts/graph-engineering|그래프 엔지니어링]]을 "AI를 더 똑똑하게 만드는 기술이 아니라, 똑똑한 AI가 실수하지 않도록 일하는 구조를 설계하는 기술"이라 정의하는 자료가 있다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]). 하네스의 정의와 사실상 같다. 두 용어가 층위만 달리해 같은 것을 부르고 있다는 방증이다.
+
+- **`AGENTS.md`를 꽉 채우지 않기** — 한 파일에 다 밀어 넣으면 에이전트가 그냥 흘려버린다. 디자인은 디자인 문서, 캐시는 서버 구조 문서처럼 **계층 구조로 쪼개 두고 필요할 때 열어 보게** 하는 편이 낫다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]). 같은 처방이 [[concepts/claude-md|CLAUDE.md]]의 레이지 로딩 논의에도 나온다.
+
 ## 진화 서사: 프롬프트 → 컨텍스트 → 하네스 → 루프
 
 프롬프트에서 루프까지 이어지는 흐름이다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]).
@@ -45,11 +56,13 @@ tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵�
 | [[concepts/context-engineering\|컨텍스트 엔지니어링]] | "뭘 보여줄까" | 알아도 어긴다 |
 | **하네스 엔지니어링** | "어떤 환경에서 일하게 할까" | 사람이 반복 개입해야 한다 |
 | [[concepts/loop-engineering\|루프 엔지니어링]] | "반복 자체를 자동화할까" | 결국 다시 하네스 설계로 회귀 |
+| [[concepts/graph-engineering\|그래프 엔지니어링]] | "자율성을 어디까지 회수할까" | 나온 지 한 달, 검증이 없다 (2026-08 기준) |
 
 1. **[[concepts/prompt-engineering|프롬프트 엔지니어링]]** — 역할 주기, 단계별 지시, 예시 넣기가 여기 속한다. 프로젝트 구조·기술 스택을 모르면 천장에 부딪힌다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
 2. **[[concepts/context-engineering|컨텍스트 엔지니어링]]** — 프로젝트 구조·코드·API 문서·규칙을 적절히 제공한다. 많이 주는 게 아니라 지금 필요한 것만 정확히 주는 게 핵심이다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
 3. **하네스 엔지니어링** — 컨텍스트 엔지니어링을 포함해 MCP·스킬·에이전트·훅·권한까지 합친 "환경 전체"의 설계다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]).
 4. **[[concepts/loop-engineering|루프 엔지니어링]]** — 하네스 위에서 사람의 반복 프롬프트조차 자동화해 완성도를 끝까지 끌어올린다. 결국 "루프를 디자인하는 것" 자체가 다시 하네스 엔지니어링으로 회귀한다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
+5. **[[concepts/graph-engineering|그래프 엔지니어링]]** — 2026년에 붙은 다섯 번째 이름이다. 루프가 넓혀 놓은 자율성을 다시 결정론적인 경로로 회수하자는 쪽이라, 앞의 넷과 방향이 반대다. 미검증 신조어라는 경고가 함께 붙는다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 여기서 헷갈리기 쉬운데, 네 축은 순서대로 졸업하는 게 아니다. 전부 필요한 **상호보완적 축**이라는 점이 강조된다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]). "25년이 컨텍스트 엔지니어링의 해였다면 26년은 하네스의 해"라는 표현이 반복된다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]]).
 
@@ -107,6 +120,27 @@ Langchain(랭체인)도 [[entities/anthropic|Anthropic]]·OpenAI와 같은 문�
 
 "하네스(harness)" 용어는 **해시코프(HashiCorp) 공동 창립자 [[entities/mitchell-hashimoto|미첼 하시모토]]가 2026년 2월 처음 제시했다고 자막이 언급한다(추정)** (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
+### 모순② — 누가 먼저였고, 원래 뜻은 무엇이었나
+
+다른 자료는 앞선 출처를 지목한다. [[entities/noam-brown|노암 브라운]]이 레이턴트 스페이스 팟캐스트에서 먼저 썼고, **뜻이 지금과 정반대였다**는 것이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]). 이 위키는 어느 쪽도 지우지 않고 둘 다 보존한다.
+
+| | 하시모토 대중화설 | 노암 브라운 기원설 |
+|---|---|---|
+| 시점 | 2026년 2월 | 그 이전(회차 미상) |
+| 뉘앙스 | 에이전트를 제대로 일하게 만드는 설계 | 모델이 멍청해서 붙이는 임시 보조물 |
+| 함의 | 하네스는 경쟁 우위다 | 모델이 똑똑해지면 하네스는 사라진다 |
+| 근거 | (→ [[sources/youtube-6cr4PeilKJk\|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w\|#14 하네스 문서 100번]]) | (→ [[sources/youtube-lokHQ8_b5Rk\|#30 하네스·루프·그래프 순서대로]]) |
+
+두 기록이 반드시 배타적이지는 않다. 브라운이 부정적 뜻으로 던진 말을 하시모토가 긍정적 방법론으로 뒤집어 대중화했다고 읽으면 앞뒤가 맞는다. 대담도 이 반전 자체에 주목한다. 처음 쓴 사람의 의도와 전혀 다르게 받아들여진 것이 오히려 하네스의 중요성을 반증한다는 것이다. "지금은 모델이 아니면 하네스다", "모델을 개선할 수 없으면 하네스를 고쳐야 한다"는 정리가 여기서 나온다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+> 브라운 쪽 뉘앙스는 뒤의 **긴장②(빼라 진영)**와 같은 뿌리다. 하네스 무용론은 새로 나온 반발이 아니라 용어가 태어날 때부터 붙어 있던 관점인 셈이다.
+
+### 만드는 사람인가, 쓰는 사람인가
+
+이름 때문에 자주 오해받는 지점이다. 하네스 **엔지니어링**이라 하면 하네스를 만드는 쪽 이야기 같지만, 실제로는 **쓰는 사람의 엔지니어링**에 가깝다. 즉 [[entities/claude-code|Claude Code]]를 만드는 이야기가 아니라 잘 쓰는 이야기다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+물론 경계는 흐리다. 거기 들어가는 도구와 [[concepts/mcp|MCP]], [[concepts/skills|스킬]]을 만드는 일, 백그라운드 실행을 붙이거나 칸반을 연결하는 일은 진짜로 만드는 쪽에 속한다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
 그는 AI 코딩 에이전트가 같은 실수를 반복하는 것을 겪었다. 그리고 "하네스 엔지니어링은 에이전트가 실수할 때마다 그 실수를 다시는 반복하지 않도록 솔루션을 설계하는 데 시간을 투자하는 것"이라 정의했다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
 용어 자체가 아주 새로운 건 아니다. 소프트웨어 공학의 `test harness` 개념은 1970년대부터 있었다. 다만 결정론적이던 전통 SW와 달리 예측 불가능한 LLM 시대에 완전히 새로운 의미를 갖게 됐다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]). 마틴 파울러(자막상 "마틴 러가"·"차드 파울러" 등으로도 표기됨, 추정)는 이 변화를 "엄밀함의 재배치"라 표현했다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
@@ -158,6 +192,8 @@ Langchain(랭체인)도 [[entities/anthropic|Anthropic]]·OpenAI와 같은 문�
 
 ## 함께 읽기
 
+- [[concepts/graph-engineering|그래프 엔지니어링]] — 루프 다음에 붙은 다섯 번째 이름, 방향은 반대
+- [[concepts/agent-contract|에이전트 계약]] — 하네스 중에서 사전에 적어 두는 쪽
 - [[concepts/agentic-coding|에이전틱 코딩]] — 마구 제작(하네스)과 짝을 이루는 말 훈련 쪽
 - [[concepts/context-decay|컨텍스트 부패]] — 하네스가 해결하려는 두 문제 중 하나
 - [[concepts/verification-automation|검증 자동화]] — 생성 에이전트와 검증 에이전트의 분리
