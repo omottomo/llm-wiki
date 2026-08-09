@@ -2,8 +2,8 @@
 title: 스킬 (Skills)
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
-sources: [youtube-jae2bVCCokc, youtube-UClLUoGaCxU, youtube-hXlB1QstQ-Y, youtube-DCsv0rKKrN4]
+updated: 2026-08-09
+sources: [youtube-jae2bVCCokc, youtube-UClLUoGaCxU, youtube-hXlB1QstQ-Y, youtube-DCsv0rKKrN4, youtube-lokHQ8_b5Rk]
 tags: [클로드코드, 스킬, 하네스엔지니어링, 컨텍스트엔지니어링]
 ---
 # 스킬 (Skills)
@@ -62,6 +62,15 @@ tags: [클로드코드, 스킬, 하네스엔지니어링, 컨텍스트엔지니�
 6. **skill-creator** — Anthropic 공식 스킬이다. "이런 걸 만들고 싶다"고 설명하면 Claude가 스킬을 생성·테스트·패키징해 준다 (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).
 
 보너스로 Remotion 공식 스킬(React로 영상 제작)도 언급된다 (→ [[sources/youtube-UClLUoGaCxU|#22 필수 스킬 6가지]]).
+
+## 비판 — 좋기만 한 물건인가
+
+인기가 높은 만큼 반론도 붙는다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+- **평가가 어렵다** — 스킬을 써서 나온 결과가 괜찮은지 중간에 판단해서, 별로면 쳐내고 괜찮으면 가져와야 한다. 그런데 그 판정이 어렵다. 쓴 경우와 안 쓴 경우를 A/B로 비교하려면 평가 데이터와 환경이 따로 필요하다. 그래서 최근에는 **스킬은 평가가 중요하다**는 의견이 자주 보인다.
+- **결국 프롬프트 덩어리다** — 근본적으로 보면 스킬은 컨텍스트 덩어리를 잘 넣어 주는 방법일 뿐이라는 지적이다. LLM이 더 똑똑해지는 방향이라기보다 **쓰는 사람이 편해지는** 쪽에 가깝다는 것이다.
+
+> 이 비판이 스킬을 쓰지 말라는 뜻은 아니다. 같은 대담에서도 컨텍스트 관리 네 방식 중 가장 인기가 많았던 것이 스킬이고 지금도 다들 쓴다고 인정한다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 ## 운영 철학
 

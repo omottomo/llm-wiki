@@ -2,8 +2,8 @@
 title: 컨텍스트 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-08-04
-sources: [youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-BssPGKsP60s, youtube-6gvnDSAcZww]
+updated: 2026-08-09
+sources: [youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-lokHQ8_b5Rk]
 tags: [컨텍스트엔지니어링, 환경설계, 진화서사, 메모리관리]
 ---
 
@@ -25,6 +25,25 @@ tags: [컨텍스트엔지니어링, 환경설계, 진화서사, 메모리관리]
 [[concepts/prompt-engineering|프롬프트 엔지니어링]]에는 천장이 있다. "로그인 기능을 추가해 줘"라고 아무리 정교하게 써도 소용없는 경우가 있다. 프로젝트의 기술 스택·코드 구조·DB 스키마를 모르면 좋은 코드가 나올 수 없기 때문이다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
 
 테슬라 AI를 이끌던 [[entities/andrej-karpathy|안드레이 카파시]](자막상 "카파스"로 표기됨, 추정)는 "프롬프트보다 컨텍스트 엔지니어링이 핵심"이라 했다. 가트너는 프롬프트 엔지니어링 시대의 종료를 선언했다고 언급된다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]).
+
+### 시킬 일이 길어지면서 생긴 말
+
+시기로 보면 2025년이다. 그전까지는 컨텍스트를 고민할 필요가 별로 없었다. LLM이 한 번에 한 가지만 처리하고 빠졌으니 길어질 일이 없었다. 그런데 에이전트가 일을 제법 하기 시작하자 사람들이 점점 어려운 걸 시켰다. 급기야 롱 호라이즌 태스크(long-horizon task, 한 번 시작하면 오래 도는 긴 작업)까지 맡기기 시작했다. 그러면 컨텍스트가 무조건 쌓인다. 이걸 어떻게 관리하느냐에 새로 붙은 이름이 컨텍스트 엔지니어링이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+압축된 정의는 이렇다. **개별 세션에서 필요한 것을 필요한 시간에 담자**는 것이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+### 관리 방식 4가지
+
+같은 자료가 관리 스타일을 넷으로 정리한다. 이 위키의 실전 기법들이 각각 어디에 속하는지 보면 정리가 쉽다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+| 방식 | 발상 | 해당하는 것 |
+|---|---|---|
+| 밖에 두기 | 컨텍스트 밖에 써 놓고 나중에 꺼낸다 | 에이전트 메모리, 세컨드 브레인 |
+| 골라 넣기 | 필요한 것만 그때 불러온다 | [[concepts/skills\|스킬]], 툴 검색 |
+| 줄여 두기 | 긴 정보를 중간에 짧게 만든다 | 오토 컴팩트, 옛 툴 실행 결과 삭제 |
+| 쪼개기 | 아예 나눠서 각자 갖게 한다 | [[concepts/subagents-agent-teams\|서브에이전트]] |
+
+여기서 헷갈리기 쉬운데, 이건 프롬프트를 잘 쓰는 이야기가 아니다. **에이전트라는 시스템 안에서 중간중간 개입하는 모듈들**이고, 그래서 그대로 [[concepts/harness-engineering|하네스 엔지니어링]]의 구성 요소가 된다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 ## 핵심 원칙: 많이가 아니라 정확히
 

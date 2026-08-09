@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-08-06
+updated: 2026-08-09
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -19,6 +19,8 @@ tags: [색인, 카탈로그]
 - [[concepts/prompt-engineering|프롬프트 엔지니어링]] — 진화 1단계("뭘 물어볼까")
 - [[concepts/context-engineering|컨텍스트 엔지니어링]] — 진화 2단계("뭘 보여줄까")
 - [[concepts/loop-engineering|루프 엔지니어링]] — 진화 4단계(반복 자동화), 최신 트렌드
+- [[concepts/graph-engineering|그래프 엔지니어링]] — 진화 5단계, 자율성을 되감는 반대 방향(미검증 신조어)
+- [[concepts/agent-contract|에이전트 계약]] — 범위·권한·금지·사람 호출 조건의 사전 명세
 - [[concepts/agentic-coding|에이전틱 코딩]] — 바이브 코딩과의 대비, 천장 vs 바닥
 - [[concepts/developer-role-change|개발자 역할의 변화]] — 선수→감독, 일자리 논쟁
 - [[concepts/claude-md|CLAUDE.md]] — 컨텍스트 파일. **핵심 모순(삭제 vs 3배)** 보존
@@ -54,6 +56,10 @@ tags: [색인, 카탈로그]
 - [[entities/boris-cherny|보리스 체르니]] — Claude Code 창시자, "거의 바닐라 세팅" 발언
 - [[entities/mitchell-hashimoto|미첼 하시모토]] — HashiCorp 공동창립자, 하네스 용어 제시자(추정)
 - [[entities/peter-steinberger|피터 슈타인버거]] — "프롬프팅 그만하라" 발언자(자막 기준)
+- [[entities/noam-brown|노암 브라운]] — 하네스 용어의 최초 사용자(부정적 뉘앙스), **모순②**의 한 축
+- [[entities/langgraph|LangGraph]] — 2024년 스테이트 머신형 워크플로우 프레임워크, 그래프 논쟁의 선례
+- [[entities/hermes|헤르메스]] — 팻 하네스(살찐 하네스)의 대표 사례
+- [[entities/andrew-ng|앤드류 응]] — 에이전틱 워크플로우(계획·도구·자기점검) 제시
 
 ## Sources (흡수 순서)
 - [[sources/youtube-HnvitMTkXro|#1 LLM 설명]] — 트랜스포머·어텐션·RLHF 기초(요약 버전)
@@ -85,6 +91,7 @@ tags: [색인, 카탈로그]
 - [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]] — 2026-07-19 흡수, 코어·언어·CLI 발췌 19페이지. Write-Plan-Apply·state·HCL·모듈·도입 4단계
 - [[sources/tistory-inpa-dns-records|#28 DNS 레코드 종류]] — 2026-07-21 흡수, Inpa 블로그. DNS 레코드 종류·A vs CNAME·조회 도구
 - [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]] — 2026-08-02 흡수, 실제 구성 파일 기준 자체 정리 노트. HCL 문법 12항목 + 명령 3개
+- [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]] — 2026-08-09 흡수, sudoremove 대담. 2023 Auto-GPT부터 그래프 엔지니어링까지의 계보와 용어 기원 반전(모순②)
 
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표

@@ -2,8 +2,8 @@
 title: 검증 자동화
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
-sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, ibm-infrastructure-as-code, hashicorp-terraform-docs]
+updated: 2026-08-09
+sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, youtube-lokHQ8_b5Rk, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스엔지니어링]
 ---
 
@@ -76,6 +76,14 @@ CLAUDE.md에 "테스트해 달라"고 적는 것은 맥락, 즉 부탁일 뿐이
 [[entities/boris-cherny|보리스 체르니]]는 "단 하나의 팁을 고르라면"이라는 질문에 **검증**을 꼽았다. 클로드에게 자기 일을 스스로 검증할 방법을 주기만 해도 결과물 품질이 두세 배 올라간다는 것이다 (→ [[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]]).
 
 검증 장치가 있으면 클로드가 스스로 돌리고, 실패하면 스스로 고친다. 사람에게는 다 끝난 버전이 온다 (→ [[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]]). 이는 [[concepts/harness-engineering|하네스 엔지니어링]]의 최종 목표인 "인간 개입 최소화"와 직결된다 (→ [[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]]).
+
+## 왜 개발 이야기만 나오나
+
+하네스든 컨텍스트든, 이 분야의 논의는 대부분 개발에 쏠려 있다. 이유가 있다. **개발이 검증하기 가장 쉬운 도메인**이기 때문이다. 테스트가 돌고 CI가 0과 1로 답을 준다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+같은 자료는 검증의 필요성이 어디서 왔는지도 짚는다. 긴 일을 시키면 에이전트가 중간까지만 해 놓고 끝냈다고 주장하는 일이 생겼고, 이어서 시키면 "많이 해놨으니 끝난 것 아닌가" 하고 그냥 마무리해 버렸다. 그래서 **AI가 한 말을 믿으면 안 되겠다**는 인식이 생겼고, 다시 0과 1로 딱 떨어지는 결정적 요소를 도입하자는 이야기로 이어졌다. CI가 그 역할이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+> 못 믿는 이유는 꼼수가 아니라 무능 쪽으로 정리된다. 컨텍스트가 꽉 차서 멍청해지는 경우를 포함해, 일단 실수를 하기 때문에 막아야 한다는 것이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 ## 검증도 하나의 피드백 단계
 

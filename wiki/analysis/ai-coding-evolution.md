@@ -2,8 +2,8 @@
 title: "분석 — AI 코딩 패러다임의 진화: 프롬프트→컨텍스트→하네스→루프"
 type: analysis
 created: 2026-06-23
-updated: 2026-08-03
-sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-DrekqeDlO1w, youtube-6cr4PeilKJk, youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-9fx2_1aTzq8, youtube-fInMcawbKng]
+updated: 2026-08-09
+sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-DrekqeDlO1w, youtube-6cr4PeilKJk, youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk]
 tags: [분석, 진화서사, 패러다임, 비교]
 ---
 
@@ -23,6 +23,7 @@ tags: [분석, 진화서사, 패러다임, 비교]
 | 2. [[concepts/context-engineering\|컨텍스트 엔지니어링]] | "뭘 **보여줄까**" | 주입할 정보 | 필요한 **자료를 책상에 깔아주기** | 알아도 어긴다 |
 | 3. [[concepts/harness-engineering\|하네스 엔지니어링]] | "**어떤 환경**에서 일하게 할까" | 모델을 뺀 환경 전체 | 야생말에 **마구(馬具)** 씌우기 | 사람이 계속 개입해야 한다 |
 | 4. [[concepts/loop-engineering\|루프 엔지니어링]] | "**반복 자체**를 자동화할까" | 사람의 2·3번째 개선 프롬프트 | **프롬프팅하는 나 자신**을 줄이기 | 작은 일에는 과하다 |
+| 5. [[concepts/graph-engineering\|그래프 엔지니어링]] | "**자율성을 어디까지** 회수할까" | 에이전트 사이의 경로 | 자율 주행을 **선로 위에** 올리기 | 나온 지 한 달, 검증이 없다 |
 
 "25년이 컨텍스트(혹은 에이전트)의 해였다면 26년은 하네스의 해"라는 표현이 반복된다. 루프는 그 위에서 가장 최근에 등장한 축이다 (→ [[sources/youtube-BssPGKsP60s|#5 조용히 설계한다]]·[[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]]·[[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
 
@@ -49,6 +50,24 @@ ChatGPT 초창기에 가장 먼저 자리 잡은 방식이다. 역할 주기, �
 가장 최근 트렌드다. 사람이 두 번째, 세 번째로 던지던 개선 프롬프트까지 자동화한다. Act→Observe→Decide→Repeat 루프를 돌려 통과 기준(예: 유사도 90%)에 닿을 때까지 스스로 반복하게 만든다. [[concepts/dynamic-workflow|다이나믹 워크플로우]]의 `ultra code`가 그 예다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]·[[sources/youtube-9fx2_1aTzq8|#23 다이나믹 기능 비교]]).
 
 작은 프로젝트나 MVP에는 과하다. 한 번에 끝낼 일을 루프로 돌리면 토큰과 시간만 쓴다. 게다가 "루프를 어떻게 디자인할까"를 고민하는 순간 결국 다시 하네스 엔지니어링으로 돌아온다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
+
+### 5단계 — 그래프 엔지니어링, 진화가 아니라 반작용
+
+2026년에 이름 하나가 더 붙었다. 그런데 이건 앞의 넷과 성질이 다르다. **방향이 반대**다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+앞의 네 단계는 사람이 쥐고 있던 것을 하나씩 에이전트에게 넘기며 바깥으로 넓어졌다. [[concepts/graph-engineering|그래프 엔지니어링]]은 루프가 넘겨준 자율성을 도로 회수한다. 일을 서브 태스크로 쪼개고, 잘했으면 이쪽 못했으면 저쪽이라는 분기를 사람이 다시 정해 준다.
+
+그래서 "2024년 [[entities/langgraph|LangGraph]] 시절로 되돌아간 것 아니냐"는 비판이 붙는다. 실제로 구조는 닮았다. 다만 **통제하는 이유**가 달라졌다는 반론이 있다. 예전에는 LLM이 멍청해서 막았지만, 지금은 의도한 대로 가게 하려고 막는다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+> 이 위키가 그래프를 5단계로 적어 두긴 했지만, 확정된 방법론으로 읽으면 안 된다. 나온 지 한 달 된 말이고(2026-08 기준) 관련 포스트의 99%가 AI 슬롭처럼 보인다는 혹평이 함께 붙는다. 대담의 결론도 **"하네스까지만 배워도 하려는 문제는 대부분 풀린다"**였다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+### 그 앞에도 역사가 있었다
+
+이 네 단계는 갑자기 시작된 게 아니다. 2023년에 이미 Auto-GPT, BabyAGI 같은 에이전트가 있었고, 하는 일은 지금과 크게 다르지 않았다. 도구를 부르고 문제를 푸는 구조는 같았다. 다만 맥락이 길어지면 성능이 무너져 전부 실패했다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+그래서 LLM 여러 개를 체인이나 모듈로 이어 붙이는 워크플로우가 나왔고, [[entities/andrew-ng|앤드류 응]]의 에이전틱 워크플로우(계획·도구 사용·중간 점검)가 널리 퍼졌다. 2024년에는 [[entities/langgraph|LangGraph]]가 그 흐름을 그래프로 굳혔다. 2025년에는 도구를 계속 부르며 스스로 진행하는 에이전트 하나가 그 워크플로우를 통째로 흡수했다. [[entities/claude-code|Claude Code]]가 그 결과다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+쉽게 말하면 이렇다. **모델 성능이 오를 때마다 사람이 짜 두던 플로우가 모델 안으로 빨려 들어가고, 그러면 사람들은 더 어려운 일을 시키고, 그걸 통제하려고 더 높은 층에 새 이름이 붙는다.** 팽창하는 과정인 셈이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 ## 상호보완(누적)이지 대체가 아니다
 
@@ -90,6 +109,7 @@ SVG처럼 한 번에 그릴 수 있는 걸 루프로 돌리는 건 말이 안 �
 - [[concepts/context-engineering|컨텍스트 엔지니어링]] — 2단계, "뭘 보여줄까"
 - [[concepts/harness-engineering|하네스 엔지니어링]] — 3단계, 환경 전체 설계 (서사의 중심)
 - [[concepts/loop-engineering|루프 엔지니어링]] — 4단계, 반복 자체의 자동화
+- [[concepts/graph-engineering|그래프 엔지니어링]] — 5단계, 자율성을 되감는 반대 방향
 - [[concepts/agentic-coding|에이전틱 코딩]] — 말(에이전트) 훈련과 마구(하네스) 제작의 짝
 - [[concepts/developer-role-change|개발자 역할의 변화]] — "선수 → 감독" 상향 이동
 - [[concepts/dynamic-workflow|다이나믹 워크플로우]] — 동적 하네스 생성 / 하네스 다이어트

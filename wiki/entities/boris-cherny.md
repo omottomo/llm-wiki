@@ -2,8 +2,8 @@
 title: 보리스 체르니 (Boris Cherny)
 type: entity
 created: 2026-06-23
-updated: 2026-08-04
-sources: [youtube-hXlB1QstQ-Y, youtube-cZ8_Dkk_Ce0, youtube-z-3BRkxQ5GM]
+updated: 2026-08-09
+sources: [youtube-hXlB1QstQ-Y, youtube-cZ8_Dkk_Ce0, youtube-z-3BRkxQ5GM, youtube-lokHQ8_b5Rk]
 tags: [인물, Anthropic, 클로드코드]
 ---
 # 보리스 체르니 (Boris Cherny)
@@ -25,6 +25,7 @@ tags: [인물, Anthropic, 클로드코드]
 - **바닐라 세팅** — 자신은 Claude Code를 "거의 바닐라 세팅"으로 쓴다고 밝혔다. 과도한 하네스 축적에 대한 긴장점(긴장③)을 만드는 발언이다 (→ [[sources/youtube-hXlB1QstQ-Y|#17 800시간 9가지 팁]]).
 - **한 줄씩 쌓기** — "팀에서 Claude의 실수를 발견하면 그때마다 [[concepts/claude-md|CLAUDE.md]]에 한 줄을 추가하라"고 권고한다 (→ [[sources/youtube-cZ8_Dkk_Ce0|#8 CLAUDE.md 품질 3배]]).
 - **"My job is loops"** — [[concepts/loop-engineering|루프 엔지니어링]] 맥락에서도 그의 발언이 인용된다. 다만 위 자막 주의를 따른다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
+- **프롬프팅을 하지 않는다** — "이제 우리는 클로드 코드에 프롬프팅을 하지 않는다"고 그가 말했다. 거의 같은 날 "코딩 에이전트에 프롬프팅하지 말고 루프를 만들어라"는 글이 화제가 됐고, 이 둘이 겹치며 루프 엔지니어링이라는 말의 출발점이 됐다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]). 위 외부 검증에서 확인한 발언과 같은 내용이라, 이 자료는 서로 다른 두 경로에서 같은 사실을 교차 확인해 준다.
 
 ## 외부 검증 (2026-06-23, 웹)
 - **확인 — Claude Code 창시자.** 보리스 체르니는 Claude Code의 창시자이자 Head of Claude Code가 맞다. 2024년 9월 Anthropic에 합류했다.
