@@ -3,7 +3,7 @@ title: 다이나믹 워크플로우
 type: concept
 created: 2026-06-23
 updated: 2026-08-09
-sources: [youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-z-3BRkxQ5GM, youtube-lokHQ8_b5Rk]
+sources: [youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-z-3BRkxQ5GM, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E]
 tags: [다이나믹워크플로우, 울트라코드, 딥리서치, 병렬에이전트, 하네스엔지니어링]
 ---
 
@@ -86,6 +86,12 @@ Claude Code가 작업에 맞는 JS 스크립트를 짜서 백그라운드에서 
 
 고르는 기준은 이렇다. 일반적인 작업은 빠른 완료에 초점을 둔 울트라 코드를, 검증이 정말 까다롭고 완벽해야 하는 작업은 골을 쓰라고 권장한다 (→ [[sources/youtube-9fx2_1aTzq8|#23 다이나믹 기능 비교]]).
 
+## 이미 그래프였다
+
+[[concepts/graph-engineering|그래프 엔지니어링]]이라는 말이 낯설게 들려도, 다이나믹 워크플로우를 써 봤다면 이미 그 구조를 쓰고 있었던 셈이다. 계획을 짜고, 병렬로 리서치하고, 병렬로 작업하고, 한 번에 모아 검증하는 흐름은 그대로 **노드와 엣지로 이어져 스테이트를 주고받는 그래프**다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]).
+
+그래서 두 개념의 차이는 물건이 아니라 시점에 가깝다. 다이나믹 워크플로우는 그 그래프를 에이전트가 즉석에서 만들어 주는 쪽이고, 그래프 엔지니어링은 사람이 미리 노드와 이동 규칙을 정해 두는 쪽이다.
+
 ## 어떤 일에 쓸 것인가 — 실사용 평가
 
 호평만 있는 건 아니다. 한 대담에서는 결과물이 굉장히 별로였다는 혹평이 나온다. 이유는 구조에 있다. 쪼갤 것을 쪼개 서브에 시키고 합치는 방식이라, `AGENTS.md`나 `goal.md`, 문서 스키마처럼 **명시적인 컨텍스트를 주지 않으면 잘 못한다**는 것이다. 코덱스 쪽이든 [[entities/claude-code|Claude Code]] 쪽이든 사정은 비슷하다고 본다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
@@ -123,5 +129,6 @@ Claude Code가 작업에 맞는 JS 스크립트를 짜서 백그라운드에서 
 - [[analysis/workflow-selection-guide|워크플로우 선택 가이드]] — 일반 채팅부터 골까지, 어떤 작업에 어떤 모드를 고를지
 - [[concepts/harness-engineering|하네스 엔지니어링]] — 동적 하네스 생성과 하네스 다이어트의 상위 개념
 - [[concepts/loop-engineering|루프 엔지니어링]] — 완성도를 끌어올리는 루프 기법, 이 개념과 중첩된다
+- [[concepts/graph-engineering|그래프 엔지니어링]] — 같은 구조를 사람이 미리 설계하는 쪽
 - [[concepts/subagents-agent-teams|서브에이전트 & 에이전트 팀]] — 병렬 실행 단위
 - [[entities/claude-code|Claude Code]] — 이 기능을 제공하는 도구

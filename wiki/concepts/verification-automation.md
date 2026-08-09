@@ -3,7 +3,7 @@ title: 검증 자동화
 type: concept
 created: 2026-06-23
 updated: 2026-08-09
-sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, youtube-lokHQ8_b5Rk, ibm-infrastructure-as-code, hashicorp-terraform-docs]
+sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스엔지니어링]
 ---
 
@@ -84,6 +84,14 @@ CLAUDE.md에 "테스트해 달라"고 적는 것은 맥락, 즉 부탁일 뿐이
 같은 자료는 검증의 필요성이 어디서 왔는지도 짚는다. 긴 일을 시키면 에이전트가 중간까지만 해 놓고 끝냈다고 주장하는 일이 생겼고, 이어서 시키면 "많이 해놨으니 끝난 것 아닌가" 하고 그냥 마무리해 버렸다. 그래서 **AI가 한 말을 믿으면 안 되겠다**는 인식이 생겼고, 다시 0과 1로 딱 떨어지는 결정적 요소를 도입하자는 이야기로 이어졌다. CI가 그 역할이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 > 못 믿는 이유는 꼼수가 아니라 무능 쪽으로 정리된다. 컨텍스트가 꽉 차서 멍청해지는 경우를 포함해, 일단 실수를 하기 때문에 막아야 한다는 것이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+## 검증 노드 — 통과 못 하면 되돌린다
+
+[[concepts/graph-engineering|그래프 엔지니어링]]에서는 검증이 아예 하나의 노드로 자리를 잡는다. 생성자–평가자 패턴이라 부르는데, 작업 에이전트가 만들면 평가 에이전트가 확인하고 고치게 하는 구조다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]).
+
+여기서 한 발 더 나간 게 **되돌아가는 경로**다. 검증 노드가 조건을 못 채우면 보고서를 그냥 완성하지 않고 모자란 작업 노드로 돌려보낸다. 경쟁사가 5개뿐이면 경쟁사 조사 노드로, 출처가 부족하면 시장 조사 노드로 가는 식이다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]).
+
+> 검증 조건을 전부 모델에게 물을 필요는 없다. "경쟁사가 10개 이상인가", "출처가 3개 이상인가"는 코드로 세면 된다. **애매한 판단은 AI나 사람이, 명확한 규칙은 코드가** 맡는다는 원칙이 검증에도 그대로 적용된다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]).
 
 ## 검증도 하나의 피드백 단계
 

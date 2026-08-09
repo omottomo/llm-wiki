@@ -19,7 +19,7 @@ tags: [색인, 카탈로그]
 - [[concepts/prompt-engineering|프롬프트 엔지니어링]] — 진화 1단계("뭘 물어볼까")
 - [[concepts/context-engineering|컨텍스트 엔지니어링]] — 진화 2단계("뭘 보여줄까")
 - [[concepts/loop-engineering|루프 엔지니어링]] — 진화 4단계(반복 자동화), 최신 트렌드
-- [[concepts/graph-engineering|그래프 엔지니어링]] — 진화 5단계, 자율성을 되감는 반대 방향(미검증 신조어)
+- [[concepts/graph-engineering|그래프 엔지니어링]] — 진화 5단계. 노드·엣지·스테이트·컨디션 설계, **모순③**(상위 호환 vs 반작용)
 - [[concepts/agent-contract|에이전트 계약]] — 범위·권한·금지·사람 호출 조건의 사전 명세
 - [[concepts/agentic-coding|에이전틱 코딩]] — 바이브 코딩과의 대비, 천장 vs 바닥
 - [[concepts/developer-role-change|개발자 역할의 변화]] — 선수→감독, 일자리 논쟁
@@ -92,6 +92,7 @@ tags: [색인, 카탈로그]
 - [[sources/tistory-inpa-dns-records|#28 DNS 레코드 종류]] — 2026-07-21 흡수, Inpa 블로그. DNS 레코드 종류·A vs CNAME·조회 도구
 - [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]] — 2026-08-02 흡수, 실제 구성 파일 기준 자체 정리 노트. HCL 문법 12항목 + 명령 3개
 - [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]] — 2026-08-09 흡수, sudoremove 대담. 2023 Auto-GPT부터 그래프 엔지니어링까지의 계보와 용어 기원 반전(모순②)
+- [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]] — 2026-08-09 흡수, 코드팩토리. 노드·엣지·스테이트·컨디션과 패턴 4종, 상위 호환론(모순③)
 
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표
