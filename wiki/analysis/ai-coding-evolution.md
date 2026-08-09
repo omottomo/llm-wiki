@@ -3,7 +3,7 @@ title: "분석 — AI 코딩 패러다임의 진화: 프롬프트→컨텍스트
 type: analysis
 created: 2026-06-23
 updated: 2026-08-09
-sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-DrekqeDlO1w, youtube-6cr4PeilKJk, youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk]
+sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6MYZ7fMhKPY, youtube-z-3BRkxQ5GM, youtube-DrekqeDlO1w, youtube-6cr4PeilKJk, youtube-DCsv0rKKrN4, youtube-FBv8hK_DtJ8, youtube-9fx2_1aTzq8, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E]
 tags: [분석, 진화서사, 패러다임, 비교]
 ---
 
@@ -58,6 +58,17 @@ ChatGPT 초창기에 가장 먼저 자리 잡은 방식이다. 역할 주기, �
 앞의 네 단계는 사람이 쥐고 있던 것을 하나씩 에이전트에게 넘기며 바깥으로 넓어졌다. [[concepts/graph-engineering|그래프 엔지니어링]]은 루프가 넘겨준 자율성을 도로 회수한다. 일을 서브 태스크로 쪼개고, 잘했으면 이쪽 못했으면 저쪽이라는 분기를 사람이 다시 정해 준다.
 
 그래서 "2024년 [[entities/langgraph|LangGraph]] 시절로 되돌아간 것 아니냐"는 비판이 붙는다. 실제로 구조는 닮았다. 다만 **통제하는 이유**가 달라졌다는 반론이 있다. 예전에는 LLM이 멍청해서 막았지만, 지금은 의도한 대로 가게 하려고 막는다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
+
+**모순③.** 정반대 평가도 있다. 그래프가 앞 단계들의 상위 호환이자 자연스러운 연장이라는 관점이다. 근거는 각 단계가 무엇을 설계했는지를 나란히 놓아 보면 드러난다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]).
+
+| 단계 | 설계 대상 |
+|---|---|
+| 프롬프트 | AI가 무슨 **말을 듣는지** |
+| 컨텍스트 | AI가 무엇을 **알고 있는지** |
+| 루프 | AI가 어떻게 **반복해서 행동하는지** |
+| 그래프 | 여러 AI가 **어떤 구조 안에서 함께** 움직이는지 |
+
+이 관점에서 그래프는 루프를 밀어내지 않는다. 노드 하나하나 안에 루프를 넣을 수 있고, 몇 개의 노드를 묶어 독립적인 루프로 굴릴 수도 있다. 어느 쪽이 맞다기보다, 시스템 전체를 보면 되감기이고 노드 단위로 보면 품는 관계라고 읽는 편이 정확하다.
 
 > 이 위키가 그래프를 5단계로 적어 두긴 했지만, 확정된 방법론으로 읽으면 안 된다. 나온 지 한 달 된 말이고(2026-08 기준) 관련 포스트의 99%가 AI 슬롭처럼 보인다는 혹평이 함께 붙는다. 대담의 결론도 **"하네스까지만 배워도 하려는 문제는 대부분 풀린다"**였다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 

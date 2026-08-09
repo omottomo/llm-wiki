@@ -3,7 +3,7 @@ title: 하네스 엔지니어링
 type: concept
 created: 2026-06-23
 updated: 2026-08-09
-sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk, ibm-infrastructure-as-code, hashicorp-terraform-docs]
+sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
 
@@ -42,6 +42,8 @@ tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵�
 그래서 아주 사소한 것도 들어간다. 명령을 실행하는 도구를 붙일 때 사람의 동의를 구하게 하는 것, 이상한 폴더를 못 보게 막는 것이 그렇다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
 - **로그 계층을 미리 깔아 두기** — "네가 했던 것 중에 에러 난 게 어디냐"고 물으면 에이전트가 한참을 헤맨다. 로그 계층을 미리 만들어 두면 열어 보고 바로 확인한다. 이것도 하네스의 영역이다.
+> 같은 문장이 다른 이름으로도 돌아다닌다. [[concepts/graph-engineering|그래프 엔지니어링]]을 "AI를 더 똑똑하게 만드는 기술이 아니라, 똑똑한 AI가 실수하지 않도록 일하는 구조를 설계하는 기술"이라 정의하는 자료가 있다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]). 하네스의 정의와 사실상 같다. 두 용어가 층위만 달리해 같은 것을 부르고 있다는 방증이다.
+
 - **`AGENTS.md`를 꽉 채우지 않기** — 한 파일에 다 밀어 넣으면 에이전트가 그냥 흘려버린다. 디자인은 디자인 문서, 캐시는 서버 구조 문서처럼 **계층 구조로 쪼개 두고 필요할 때 열어 보게** 하는 편이 낫다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]). 같은 처방이 [[concepts/claude-md|CLAUDE.md]]의 레이지 로딩 논의에도 나온다.
 
 ## 진화 서사: 프롬프트 → 컨텍스트 → 하네스 → 루프

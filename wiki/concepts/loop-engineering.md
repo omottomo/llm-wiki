@@ -3,7 +3,7 @@ title: 루프 엔지니어링
 type: concept
 created: 2026-06-23
 updated: 2026-08-09
-sources: [youtube-z-3BRkxQ5GM, youtube-lokHQ8_b5Rk]
+sources: [youtube-z-3BRkxQ5GM, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E]
 tags: [루프, 진화서사, 자동화, 완성도]
 ---
 
@@ -31,6 +31,8 @@ tags: [루프, 진화서사, 자동화, 완성도]
 | 대표 이미지 | 기준에 닿을 때까지 스스로 반복 | 목표 하나만 주면 알아서 분배·판정 |
 | 사람의 자리 | 통과 기준을 정해 둠 | 아예 빠짐 |
 | 근거 | (→ [[sources/youtube-z-3BRkxQ5GM\|#25 루프 엔지니어링]]) | (→ [[sources/youtube-lokHQ8_b5Rk\|#30 하네스·루프·그래프 순서대로]]) |
+
+세 번째 관점도 있다. 루프는 **AI가 어떻게 반복해서 행동하는지**를 설계하는 단계이고, 그 위의 [[concepts/graph-engineering|그래프 엔지니어링]]은 여러 AI가 어떤 구조 안에서 함께 움직이는지를 설계한다는 정리다. 이 관점에서 그래프는 루프를 밀어내지 않는다. 노드 하나하나 안에 루프를 넣거나, 몇 개의 노드와 엣지를 묶어 독립적인 루프로 굴릴 수 있다 (→ [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]]).
 
 > 두 번째 정의에서는 **휴먼 인 더 루프를 빼고** 말한다. 한 바퀴 돌 때마다 사람이 개입하는 것은 여기서 말하는 루프에 넣지 않는다. 대표 사례로 꼽히는 Goal이 사람의 개입 없이 돌기 때문이다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]).
 
