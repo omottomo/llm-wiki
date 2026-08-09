@@ -45,6 +45,12 @@ If the answer goes beyond a simple fact lookup and produces a **comparison/analy
 4. Append one line to `docs/log.md`: `## [date] query | 질문 요지 — analysis/<slug> 로 보존`
 5. Commit: `git add -A && git commit -m "query: analysis/<slug>"` (only when something was filed back).
 
+> **Branch: `wiki-query`, always.** Never name a branch after the question or the page you filed. Start from
+> the latest default branch (`git checkout -B wiki-query origin/main`); if a `wiki-query` PR is already open,
+> add your commit to that same branch and let the PR grow instead of opening a second one. `main` is protected,
+> so the work lands through a PR. *Why:* every skill run touches `wiki/index.md` and `docs/log.md`, so
+> per-topic branches stack on each other and conflict the moment `main` moves.
+
 If it's a low-value one-line fact lookup, you may skip filing — use judgment, or ask the user "이거 위키에 남길까요?"
 
 ## Notes

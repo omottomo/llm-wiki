@@ -41,6 +41,12 @@ Get the full page list from `wiki/index.md`, then scan pages for:
 6. Append one line to `docs/log.md`: `## [date] lint | 모순 N건·고아 M건 등 발견 → 처리`
 7. Commit the pass: `git add -A && git commit -m "lint: <요지>"` — the wiki is git-backed so every maintenance pass leaves an audit-trail commit.
 
+> **Branch: `wiki-lint`, always.** Never name a branch after the findings or the date of the pass. Start from
+> the latest default branch (`git checkout -B wiki-lint origin/main`); if a `wiki-lint` PR is already open,
+> add your commit to that same branch and let the PR grow instead of opening a second one. `main` is protected,
+> so the pass lands through a PR. *Why:* every skill run touches `wiki/index.md` and `docs/log.md`, so
+> per-pass branches stack on each other and conflict the moment `main` moves.
+
 ## Report format
 ALWAYS use this structure (write the content in Korean):
 ```markdown
