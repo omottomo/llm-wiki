@@ -78,6 +78,13 @@ Do these in order:
 7. Append one line to `docs/log.md`: `## [date] ingest | 자료 제목 — sources/xxx + concepts/yyy + concepts/zzz 갱신`
 8. Commit: `git add -A && git commit -m "ingest: <slug> — <자료 제목>"` — the wiki is git-backed; one commit per ingest keeps the audit trail.
 
+> **Branch: `wiki-ingest`, always.** Never name a branch after the source (`ingest/youtube-<id>` is banned).
+> Start from the latest default branch (`git checkout -B wiki-ingest origin/main`); if a `wiki-ingest` PR is
+> already open, add this ingest's commit to that same branch and let the PR grow instead of opening a second
+> one. `main` is protected, so the ingest lands through a PR. *Why:* every ingest touches `wiki/index.md` and
+> `docs/log.md`, so per-source branches stack on each other and conflict the moment `main` moves — PRs #3 and
+> #4 had to be collapsed into #5 for exactly this reason (2026-08-09).
+
 > Example: `## [2026-06-05] ingest | 이영희 '이직 플랜 & 경력 기술서 전략' — sources/youtube-aOVxvjLOcQE + concepts/이직플랜 + concepts/면접경험데이터 생성, concepts/경력기술서 + overview + index 갱신`
 > The slug-rich format (vs generic "N개 갱신") makes future `session_search` much more productive.
 
