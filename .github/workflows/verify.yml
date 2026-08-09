@@ -4,19 +4,15 @@ name: Verify (pull requests)
 # to main. The split is by trigger, not by an `if:` inside one workflow: a job
 # whose `needs` target was skipped is itself skipped, so an `if:`-gated verify
 # would have skipped deploy along with it.
+# No `paths:` filter, deliberately. Since phase-15 a ruleset on main REQUIRES the
+# `verify` and `lint` checks, and a filtered-out workflow reports nothing at all —
+# it does not report success. So a PR touching only docs/ or infra/ would sit at
+# mergeStateStatus=BLOCKED forever, waiting on checks that will never run. Both jobs
+# together take ~20s, which is cheaper than a filter list that silently wedges merges.
+# (deploy.yml keeps its filter — a docs-only merge should not redeploy the site.)
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "wiki/**"
-      - "site/**"
-      - "scripts/**"
-      - "tests/**"
-      # The audit asserts these paths are ignored, so a change here can flip it.
-      - ".gitignore"
-      # Editing either half of the gate must re-run the checks.
-      - ".github/workflows/verify.yml"
-      - ".github/workflows/deploy.yml"
 
 permissions:
   contents: read
