@@ -2,8 +2,8 @@
 title: 미첼 하시모토 (Mitchell Hashimoto)
 type: entity
 created: 2026-06-23
-updated: 2026-08-04
-sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, ibm-infrastructure-as-code, hashicorp-terraform-docs]
+updated: 2026-08-09
+sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-lokHQ8_b5Rk, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [인물, HashiCorp, 하네스엔지니어링]
 ---
 # 미첼 하시모토 (Mitchell Hashimoto)
@@ -21,6 +21,7 @@ tags: [인물, HashiCorp, 하네스엔지니어링]
 ## 이 위키에서의 등장
 - **IaC 계보** — 그가 만든 Terraform은 [[concepts/infrastructure-as-code|코드형 인프라]](IaC)의 대표 도구다. HashiCorp는 현재 IBM 계열사다 (2026-07 기준) (→ [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]). "인프라를 코드로 선언하고 강제"하던 이력이 하네스 개념 대중화로 이어진다.
 - **하네스 용어** — 자막상 [[concepts/harness-engineering|하네스 엔지니어링]]의 '하네스(harness)' 용어를 제시한 인물로 언급된다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
+- **모순② — 더 앞선 출처** — 다른 자료는 [[entities/noam-brown|노암 브라운]]이 그보다 먼저, 그것도 **정반대 뉘앙스**로 이 말을 썼다고 전한다. 모델이 멍청하니 붙이는 임시 보조물이며 모델이 똑똑해지면 사라질 것이라는 뜻이었다 (→ [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]]). 어느 쪽도 지우지 않고 [[concepts/harness-engineering|하네스 엔지니어링]] 페이지에 표로 나란히 두었다. 위 외부 검증이 이미 "창시가 아니라 대중화"로 정정해 둔 것과 같은 방향이다.
 - **등장 맥락** — "`$9` vs `$200`"으로 표현되는 하네스 설계의 비용·성능 차이 논의, 그리고 공식 하네스 문서 학습 맥락에서 나온다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
 ## 외부 검증 (2026-06-23, 웹)
