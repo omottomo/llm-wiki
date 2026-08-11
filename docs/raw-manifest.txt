@@ -1,5 +1,6 @@
 hashicorp-terraform-docs
 ibm-infrastructure-as-code
+k3s-docs
 terraform-hcl-syntax
 tistory-inpa-dns-records
 youtube-6MYZ7fMhKPY
