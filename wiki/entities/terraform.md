@@ -2,8 +2,8 @@
 title: Terraform
 type: entity
 created: 2026-07-18
-updated: 2026-08-04
-sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs, terraform-hcl-syntax]
+updated: 2026-08-11
+sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs, terraform-hcl-syntax, k3s-docs]
 tags: [코드형인프라, HashiCorp, 도구]
 ---
 
@@ -94,8 +94,9 @@ state가 필수인 이유는 네 가지다 (→ [[sources/hashicorp-terraform-do
 
 - **하네스 엔지니어링의 선례로** — 제작사 HashiCorp의 공동창립자가 '하네스' 개념을 대중화한 [[entities/mitchell-hashimoto|미첼 하시모토]]다. 또 다른 공동창립자 [[entities/armon-dadgar|아몬 다드가]]가 공식 문서에서 도구를 소개한다. "환경을 코드로 선언하고 자동으로 강제한다"는 [[concepts/harness-engineering|하네스 엔지니어링]]의 발상을 떠올려 보자. 그 사상적 선례가 Terraform으로 대표되는 IaC라는 연결이 성립한다 (연결 근거 → [[sources/ibm-infrastructure-as-code|#26 IBM IaC 해설]]).
 - **검증 자동화의 인프라판으로** — plan/apply 분리와 PR speculative plan 리뷰 관행은 [[concepts/verification-automation|검증 자동화]]가 말하는 "실행 전 검증"의 인프라 영역 선례다. Govern 단계의 Sentinel 정책 강제는 [[concepts/hooks|훅]]식 "규칙의 코드화·자동 강제"의 선례다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
+- **클러스터 운영을 감싸는 도구로** — [[entities/k3s|K3s]] 공식 문서의 수동 업그레이드 절차 안내다. 이 절차가 Terraform 같은 외부 IaC 도구로 업그레이드를 자동화할 때의 바탕이 된다고 적었다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
 
-> 다만 위 유비 자체는 소스가 말한 게 아니라 이 위키의 해석이다.
+> 다만 앞의 두 유비 자체는 소스가 말한 게 아니라 이 위키의 해석이다.
 
 ## 함께 읽기
 
@@ -103,3 +104,4 @@ state가 필수인 이유는 네 가지다 (→ [[sources/hashicorp-terraform-do
 - [[concepts/hcl|HCL]] — 실제 구성 파일을 쓸 때 필요한 문법.
 - [[entities/hashicorp|HashiCorp]] — 만든 회사, 그리고 하네스 개념과의 연결 고리.
 - [[concepts/harness-engineering|하네스 엔지니어링]] — 같은 발상이 AI 에이전트 쪽으로 옮겨 간 결과.
+- [[entities/k3s|K3s]] — 클러스터 업그레이드를 외부 IaC 도구로 감쌀 수 있다고 문서가 언급하는 대상.

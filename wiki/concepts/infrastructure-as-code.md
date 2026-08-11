@@ -2,8 +2,8 @@
 title: 코드형 인프라 (IaC)
 type: concept
 created: 2026-07-18
-updated: 2026-08-04
-sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs]
+updated: 2026-08-11
+sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs, k3s-docs]
 tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 ---
 
@@ -56,6 +56,16 @@ tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 
 두 부류는 경쟁이 아니라 보완 관계다. Terraform 공식 문서는 역할을 이렇게 나눈다. "Terraform은 데이터센터 수준의 상위 추상화에 집중하고, 개별 머신 내부의 소프트웨어 설치·관리는 구성 관리 도구가 강점을 살리게 둔다" (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]]).
 
+## 같은 사상이 컨테이너 쪽에서는 어떻게 나타나나
+
+[[concepts/kubernetes|쿠버네티스]]는 IaC 도구로 분류되지는 않지만, "원하는 상태를 선언하면 시스템이 실제를 거기에 맞춘다"는 골격은 선언형 IaC와 같다. 그래서 IaC를 이해하면 클러스터 쪽도 같은 감각으로 읽힌다.
+
+가장 알기 쉬운 예가 [[entities/k3s|K3s]]의 자동 업그레이드다. `Plan`이라는 사용자 정의 리소스에 "어느 노드를 어느 버전으로 올릴지"만 적어 두면, 컨트롤러가 노드마다 작업을 띄워 실행한다. 사람이 절차를 밟는 대신 **원하는 결과를 선언**하는 것이다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
+
+설정을 다루는 방식도 닮았다. K3s는 설정 파일과 드롭인 디렉터리로 값을 합치고, 서버끼리 어긋나면 안 되는 플래그가 다르면 아예 클러스터 조인을 거부한다. 문서로 부탁하는 대신 시스템이 막는 방식이다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
+
+> 다만 K3s 문서가 스스로를 IaC라고 부르지는 않는다. 여기까지 이어 붙인 것은 이 위키의 해석이다. 문서가 직접 말하는 접점은 하나뿐인데, 수동 업그레이드 절차를 [[entities/terraform|Terraform]] 같은 외부 IaC 도구로 감쌀 수 있다는 언급이다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
+
 ## 하네스 엔지니어링과의 관계 (위키 차원의 관찰)
 
 [[concepts/harness-engineering|하네스 엔지니어링]]과 IaC는 같은 사상 계보에 있다. **환경을 코드로 선언·버전 관리하고, 사람의 수동 개입 대신 자동화된 강제로 일관성을 지킨다**는 점에서다.
@@ -71,3 +81,4 @@ tags: [코드형인프라, 데브옵스, 자동화, 환경설계]
 - [[concepts/harness-engineering|하네스 엔지니어링]] — 환경 설계로 행동을 강제한다는 사상의 AI 에이전트판
 - [[concepts/verification-automation|검증 자동화]] — 배포 전 자동 검증이라는 공통 원리
 - [[entities/terraform|Terraform]] · [[entities/hashicorp|HashiCorp]] — 대표 도구와 제작사
+- [[concepts/kubernetes|쿠버네티스]] · [[entities/k3s|K3s]] — 같은 선언형 골격이 컨테이너 오케스트레이션에서 나타난 모습

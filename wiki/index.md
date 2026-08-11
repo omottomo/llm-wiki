@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-08-09
+updated: 2026-08-11
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -37,6 +37,7 @@ tags: [색인, 카탈로그]
 - [[concepts/infrastructure-as-code|코드형 인프라]] — IaC. 환경을 코드로 선언·강제하는 사상의 인프라 영역 선례
 - [[concepts/dns-records|DNS 레코드]] — 웹/네트워크 인프라 기초. A·CNAME·MX·SPF 등 레코드 종류와 조회 도구
 - [[concepts/hcl|HCL]] — Terraform 구성 언어 문법. 블록·인수·표현식, provider alias, 메타 인수
+- [[concepts/kubernetes|쿠버네티스]] — 컨테이너 오케스트레이션. 컨트롤 플레인 구성, CRI·CNI·CSI 인터페이스, 주요 리소스
 
 ## Entities
 - [[entities/claude-code|Claude Code]] — Anthropic의 에이전틱 코딩 CLI
@@ -60,6 +61,12 @@ tags: [색인, 카탈로그]
 - [[entities/langgraph|LangGraph]] — 2024년 스테이트 머신형 워크플로우 프레임워크, 그래프 논쟁의 선례
 - [[entities/hermes|헤르메스]] — 팻 하네스(살찐 하네스)의 대표 사례
 - [[entities/andrew-ng|앤드류 응]] — 에이전틱 워크플로우(계획·도구·자기점검) 제시
+- [[entities/k3s|K3s]] — 100MB 단일 바이너리 경량 쿠버네티스 배포판. 서버/에이전트, 데이터스토어 4종, HA
+- [[entities/etcd|etcd]] — 클러스터 상태를 담는 분산 KV 저장소. 정족수 (n/2)+1, 홀수 대수
+- [[entities/rancher|Rancher]] — K3s가 끌어다 쓰는 부품(system-upgrade-controller 등)의 출처
+- [[entities/traefik|Traefik]] — K3s 기본 인그레스 컨트롤러. v3·Gateway API
+- [[entities/flannel|Flannel]] — K3s 기본 CNI. vxlan/wireguard-native 백엔드
+- [[entities/helm|Helm]] — 쿠버네티스 패키지 매니저. K3s의 HelmChart CRD 자동 배포
 
 ## Sources (흡수 순서)
 - [[sources/youtube-HnvitMTkXro|#1 LLM 설명]] — 트랜스포머·어텐션·RLHF 기초(요약 버전)
@@ -93,6 +100,7 @@ tags: [색인, 카탈로그]
 - [[sources/terraform-hcl-syntax|#29 HCL 문법 정리]] — 2026-08-02 흡수, 실제 구성 파일 기준 자체 정리 노트. HCL 문법 12항목 + 명령 3개
 - [[sources/youtube-lokHQ8_b5Rk|#30 하네스·루프·그래프 순서대로]] — 2026-08-09 흡수, sudoremove 대담. 2023 Auto-GPT부터 그래프 엔지니어링까지의 계보와 용어 기원 반전(모순②)
 - [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]] — 2026-08-09 흡수, 코드팩토리. 노드·엣지·스테이트·컨디션과 패턴 4종, 상위 호환론(모순③)
+- [[sources/k3s-docs|#32 K3s 공식 문서]] — 2026-08-11 흡수, 코어 26페이지 발췌. 경량 쿠버네티스 배포판의 구조·설치·데이터스토어·HA·업그레이드
 
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표
