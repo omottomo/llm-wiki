@@ -47,3 +47,4 @@ MCP는 AI 에이전트가 외부 도구를 쓸 수 있게 연결해 주는 것�
 - [[concepts/context-engineering|컨텍스트 엔지니어링]] — MCP 토큰 관리가 여기 속한다
 - [[concepts/claude-md|CLAUDE.md]] — 둘 다 사용자가 손댈 수 있는 컨텍스트다. 다만 MCP·스킬 메타데이터는 자동 주입 영역이다
 - [[entities/claude-code|Claude Code]] — MCP를 연결해 쓰는 도구
+- [[concepts/graphql|GraphQL]] — 서버가 스키마를 실시간으로 내주고 클라이언트가 그에 맞춰 호출한다는 결이 닮은 사례
