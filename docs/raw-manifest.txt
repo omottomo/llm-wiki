@@ -2,6 +2,7 @@ hashicorp-terraform-docs
 ibm-infrastructure-as-code
 k3s-docs
 kakaotech-graphql
+kubernetes-components
 terraform-hcl-syntax
 tistory-inpa-dns-records
 youtube-6MYZ7fMhKPY

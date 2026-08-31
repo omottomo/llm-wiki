@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-08-19
+updated: 2026-09-01
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -37,7 +37,7 @@ tags: [색인, 카탈로그]
 - [[concepts/infrastructure-as-code|코드형 인프라]] — IaC. 환경을 코드로 선언·강제하는 사상의 인프라 영역 선례
 - [[concepts/dns-records|DNS 레코드]] — 웹/네트워크 인프라 기초. A·CNAME·MX·SPF 등 레코드 종류와 조회 도구
 - [[concepts/hcl|HCL]] — Terraform 구성 언어 문법. 블록·인수·표현식, provider alias, 메타 인수
-- [[concepts/kubernetes|쿠버네티스]] — 컨테이너 오케스트레이션. 컨트롤 플레인 구성, CRI·CNI·CSI 인터페이스, 주요 리소스
+- [[concepts/kubernetes|쿠버네티스]] — 컨테이너 오케스트레이션. 컨트롤 플레인·노드·애드온 구성, CRI·CNI·CSI 인터페이스, 주요 리소스
 - [[concepts/graphql|GraphQL]] — 엔드포인트 하나로 필요한 필드만 받는 쿼리 언어. 스키마·리졸버·인트로스펙션, REST와의 대비
 
 ## Entities
@@ -104,6 +104,7 @@ tags: [색인, 카탈로그]
 - [[sources/youtube-SBLDc4R1d_E|#31 그래프 엔지니어링 실전]] — 2026-08-09 흡수, 코드팩토리. 노드·엣지·스테이트·컨디션과 패턴 4종, 상위 호환론(모순③)
 - [[sources/k3s-docs|#32 K3s 공식 문서]] — 2026-08-11 흡수, 코어 26페이지 발췌. 경량 쿠버네티스 배포판의 구조·설치·데이터스토어·HA·업그레이드
 - [[sources/kakaotech-graphql|#33 GraphQL 개념잡기]] — 2026-08-19 흡수, kakao tech 블로그(2019-08). GraphQL 구조 4부품과 REST 대비, 결제 프로젝트 도입 경험
+- [[sources/kubernetes-components|#34 쿠버네티스 컴포넌트]] — 2026-09-01 흡수, 쿠버네티스 공식 문서 개요 한 쪽. 컨트롤 플레인·노드·애드온 3분류, 입문 범위
 
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표
