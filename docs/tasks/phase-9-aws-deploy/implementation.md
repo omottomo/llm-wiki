@@ -41,14 +41,14 @@ terraform version    # v1.10 이상이어야 함 (S3 백엔드 네이티브 락)
 - [x] **0.3 프로파일 설정** (IAM 사용자의 access key 준비)
 
 ```bash
-aws configure --profile llm-wiki
+aws configure --profile devops
 # Access Key ID / Secret / region: ap-northeast-2 / output: json
 ```
 
 - [x] **0.4 자격 증명 + 계정 ID 확인**
 
 ```bash
-export AWS_PROFILE=llm-wiki      # 이후 모든 aws/terraform 명령이 이 프로파일 사용
+export AWS_PROFILE=devops        # 이후 모든 aws/terraform 명령이 이 프로파일 사용
 aws sts get-caller-identity --query Account --output text
 ```
 
