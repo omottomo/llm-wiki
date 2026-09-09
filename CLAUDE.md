@@ -98,7 +98,12 @@ Trigger phrases are quoted in the language the user actually types them in. Matc
 - Then **execute the tasks directly** in this session — gate on the verification order in `docs/rules/site-code.md` (lint → build → `verify_site.py`) and commit per task; append **one** `site` line to `docs/log.md` at phase close-out.
 - *(History: the `my-skills` plugin once supplied `create-prd-json` and an `orchestrate` planner/evaluator/builder team for this; that flow is retired and its `.claude/orchestrate.md` adapter was deleted 2026-07-20 — code-mode phases are executed directly in-session.)*
 
-**Git (both modes):** whenever you create a commit, name a branch, or open a pull request, invoke the **my-skills:git-workflow** skill (`/my-skills:git-workflow`) first and follow its conventions. Its project adapter is `.claude/git-workflow.md`; if the adapter (or the plugin) is absent, the skill's defaults / plain git apply.
+**Git:** before any commit, branch, push, or PR, invoke the **git-workflow** skill (`/git-workflow`)
+and follow it. Never commit, push, or merge on `main` directly — local hooks (`.git/hooks/`,
+`.claude/hooks/git-guard.sh`) block it. Branch as `<type>/<slug>` (feat|fix|refactor|docs|chore).
+Titles are English Conventional Commits; bodies are short Korean following
+`.claude/git-message-template.md`. Every commit and PR body ends with `Task: <slug>` — the history
+lookup key (`git log --grep="Task: <slug>"`).
 
 **Routing rule:** if a request would change `wiki/` prose, it is content mode. If it would change `site/`, `scripts/`, `.github/`, or root config, it is code mode — never do it by hand-editing during an ingest.
 
