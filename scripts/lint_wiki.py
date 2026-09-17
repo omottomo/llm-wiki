@@ -52,6 +52,15 @@ BARE_CITATION_RE = re.compile(r"#\d+")
 HANGUL_RE = re.compile(r"[가-힣]")
 RETRACTED_MARKER = "<!--RETRACTED-SOURCE-->"
 
+# docs/rules/wiki-content.md §1.4 — 그림. Mermaid 펜스와 /assets/ 이미지를 같은 '그림 N' 번호로 센다.
+DIAGRAM_TYPES = {"flowchart", "sequenceDiagram", "classDiagram", "stateDiagram-v2", "timeline"}
+DIAGRAM_MAX = 3
+DIAGRAM_PAGE_TYPES = {"concept", "entity"}
+MERMAID_FENCE_RE = re.compile(r"^[ \t]*```mermaid[ \t]*\n(.*?)^[ \t]*```[ \t]*$", re.M | re.S)
+ASSET_IMG_RE = re.compile(r"^!\[[^\]]*\]\((/assets/[^)\s]+)\)[ \t]*$", re.M)
+CAPTION_RE = re.compile(r"^\*그림 (\d+)\. .+\*$")
+LICENCE_MARKERS = ("CC BY", "CC0", "Apache", "MIT", "public domain", "퍼블릭 도메인")
+
 # docs/rules/wiki-content.md §4.1의 감사된 태그 변형 그룹. 대소문자·하이픈 정규화만으로는
 # 한글/영문처럼 스크립트가 다른 변형(예: 클로드코드 vs ClaudeCode)을 같은 개념으로 묶을 수
 # 없어, 사람이 감사한 그룹을 여기 함께 참조한다. wiki-content.md에 새 변형 쌍이 추가되면 맞춰 갱신한다.
@@ -139,7 +148,8 @@ def check_wikilinks(pages):
     existing = {page_key(p) for p in pages}
     for page in pages:
         text = page.read_text(encoding="utf-8")
-        for raw_target in WIKILINK_RE.findall(text):
+        # 펜스 안 [[..]] 은 예시·Mermaid 서브루틴 노드라 링크가 아니다
+        for raw_target in WIKILINK_RE.findall(FENCE_RE.sub("", text)):
             target = normalize_target(raw_target)
             if not target:
                 continue
@@ -277,15 +287,17 @@ def check_link_format(pages):
         text = page.read_text(encoding="utf-8")
         rel = page.relative_to(ROOT)
         body = split_body(text)
+        # 펜스 안 [[..]] 은 예시·Mermaid 서브루틴 노드라 링크가 아니다
+        unfenced = FENCE_RE.sub("", body)
         src_key = page_key(page)
 
         # (a) 본문 위키링크는 반드시 별칭([[대상|별칭]] 또는 표 안 [[대상\|별칭]])을 가진다
-        for raw_target in WIKILINK_RE.findall(body):
+        for raw_target in WIKILINK_RE.findall(unfenced):
             if "|" not in raw_target.replace("\\|", "|"):
                 add("링크 형식", f"{rel} — [[{raw_target}]] 별칭 없음 (슬러그가 그대로 렌더링됨)")
 
         # (b) 소스 페이지는 자기 자신을 인용하지 않는다
-        if src_key.startswith("sources/") and f"[[{src_key}" in body:
+        if src_key.startswith("sources/") and f"[[{src_key}" in unfenced:
             add("링크 형식", f"{rel} — 자기 자신을 인용함 ([[{src_key}...]])")
 
         # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 하고, 값의 형식도 올바라야 한다
@@ -401,6 +413,83 @@ def check_page_structure(pages):
             )
         if long_sentences:
             warn("가독성", f"{rel} — {MAX_SENTENCE_CHARS}자 초과 문장 {long_sentences}건")
+
+
+def _caption_after(body: str, end: int):
+    """펜스/이미지 끝 위치 다음의 캡션 줄을 돌려준다 (빈 줄 하나까지 허용). 없으면 None."""
+    rest = body[end:].split("\n")
+    lines = rest[1:3]  # rest[0]은 펜스 닫는 줄의 잔여(빈 문자열)
+    for line in lines:
+        if line.strip() == "":
+            continue
+        return line.strip()
+    return None
+
+
+def _section_heading_before(body: str, pos: int) -> str:
+    """pos 앞에서 가장 가까운 '## ' 헤딩 줄(없으면 빈 문자열)."""
+    heads = list(re.finditer(r"^## .+$", body[:pos], re.M))
+    return heads[-1].group(0).strip() if heads else ""
+
+
+def check_diagrams(pages):
+    """docs/rules/wiki-content.md §1.4 그림 규약 검사 (phase-18).
+
+    오류: 허용되지 않는 타입, 캡션 없음, 캡션에 출처 인용 없음, 페이지당 4개 이상,
+          concept·entity 외 페이지, '## 한눈에 요약' 안, /assets/ 파일 없음, 라이선스 표기 없음.
+    경고: 그림 번호가 1부터 연속이 아님.
+    그림이 없는 페이지는 검사하지 않는다 — 있어야 한다는 강제는 없다."""
+    # ponytail: Mermaid 문법은 파싱하지 않는다 (Python 파서 없음). GitHub PR 미리보기가 렌더하므로
+    # 깨진 그림은 리뷰에서 눈으로 잡는다. main에 깨진 그림이 올라오면 CI에 mermaid-cli 단계 추가.
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+        fm = parse_frontmatter(text) or {}
+        page_type = fm.get("type", "")
+        rel = page.relative_to(ROOT)
+        body = split_body(text)
+
+        figures = []  # (start, end, kind, payload)
+        for m in MERMAID_FENCE_RE.finditer(body):
+            figures.append((m.start(), m.end(), "mermaid", m.group(1)))
+        for m in ASSET_IMG_RE.finditer(body):
+            figures.append((m.start(), m.end(), "asset", m.group(1)))
+        if not figures:
+            continue
+        figures.sort()
+
+        if page_type not in DIAGRAM_PAGE_TYPES:
+            add("그림", f"{rel} — 그림은 concept·entity 페이지에만 둔다 (type: {page_type or '?'})")
+        if len(figures) > DIAGRAM_MAX:
+            add("그림", f"{rel} — 그림 {len(figures)}개 — 페이지당 최대 {DIAGRAM_MAX}개")
+
+        numbers = []
+        for start, end, kind, payload in figures:
+            if kind == "mermaid":
+                first = next((l.strip() for l in payload.splitlines() if l.strip()), "")
+                dtype = first.split()[0] if first else ""
+                if dtype not in DIAGRAM_TYPES:
+                    add("그림", f"{rel} — 허용되지 않는 다이어그램 타입 '{dtype}' (허용: {', '.join(sorted(DIAGRAM_TYPES))})")
+            else:
+                asset = WIKI / payload.lstrip("/")
+                if not asset.is_file():
+                    add("그림", f"{rel} — /assets/ 이미지 파일 없음: {payload}")
+
+            if _section_heading_before(body, start) == "## 한눈에 요약":
+                add("그림", f"{rel} — '## 한눈에 요약' 안에 그림을 두지 않는다")
+
+            caption = _caption_after(body, end)
+            cm = CAPTION_RE.match(caption) if caption else None
+            if not cm:
+                add("그림", f"{rel} — 그림 캡션 없음 (펜스 바로 뒤 '*그림 N. … (→ [[sources/…|…]])*' 한 줄)")
+                continue
+            numbers.append(int(cm.group(1)))
+            if not any(normalize_target(w.group(1)).startswith("sources/") for w in WIKILINK_RE.finditer(caption)):
+                add("그림", f"{rel} — 그림 {cm.group(1)} 캡션에 출처 인용 없음")
+            if kind == "asset" and not any(marker in caption for marker in LICENCE_MARKERS):
+                add("그림", f"{rel} — 그림 {cm.group(1)} 캡션에 라이선스 표기 없음 ({', '.join(LICENCE_MARKERS)})")
+
+        if numbers and numbers != list(range(1, len(numbers) + 1)):
+            warn("그림", f"{rel} — 그림 번호가 1부터 연속이 아님: {numbers}")
 
 
 def resolve_page_key(arg: str, pages) -> str | None:
@@ -555,10 +644,11 @@ def main() -> int:
     check_bare_citations(pages)
     check_retracted_markers(pages)
     check_page_structure(pages)
+    check_diagrams(pages)
 
     print(f"## 결정적 lint 결과 — 페이지 {len(pages)}개, raw {n_raw}건 ↔ sources {n_src}건")
     if not issues:
-        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과 · 미해결 마커 0 · 페이지 구조 통과)")
+        print("문제 없음 ✅ (고아 링크 0 · 패리티 일치 · frontmatter 통과 · 색인 완비 · 고아 페이지 0 · 링크 형식 통과 · 미해결 마커 0 · 페이지 구조 통과 · 그림 규약 통과)")
         exit_code = 0
     else:
         by_cat = {}

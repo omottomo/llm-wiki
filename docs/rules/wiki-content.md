@@ -2,7 +2,7 @@
 
 > Module of the repo's operating rules, split out of `CLAUDE.md`.
 > **Read this before creating or editing anything under `wiki/`.** It governs the librarian
-> skills (`wiki-ingest` / `wiki-query` / `wiki-lint` / `wiki-delete` / `wiki-refresh`) and any
+> skills (`wiki-ingest` / `wiki-query` / `wiki-lint` / `wiki-delete` / `wiki-refresh` / `wiki-illustrate`) and any
 > other change to wiki prose. The common rules in `CLAUDE.md` (language rule, core principles,
 > docs/log.md, skill routing) always apply on top of this file.
 
@@ -158,6 +158,58 @@ mixed-register corpus is exactly what this carve-out is scoped to prevent. The r
 2. **첫 요약 불릿(analysis 는 결론 문장)은 단정형을 유지한다.** It is what `extract_summary` lifts
    into search snippets and link previews, so it must read as a standalone definition out of
    context. Same class of constraint as the citation format (§4.2).
+
+### 1.4 그림 — Mermaid diagrams on concept and entity pages (phase-18)
+
+A page that explains an architecture, a flow or a hierarchy may carry a diagram. Diagrams are
+**Mermaid fenced blocks inside the page**, never separate files; GitHub renders them in the
+`wiki/*.md` preview and the site renders them in the browser (`site/build.py`, pinned CDN build).
+`scripts/lint_wiki.py` `check_diagrams` enforces the form below; it never requires a diagram —
+whether a page *needs* one is the librarian's call at ingest (`wiki-ingest` §4) or backfill
+(`wiki-illustrate`).
+
+**Form.** A fence followed by a caption:
+
+````markdown
+```mermaid
+flowchart LR
+  API[kube-apiserver] --> ETCD[(etcd)]
+```
+*그림 1. 컨트롤 플레인의 요청 흐름 (→ [[sources/kubernetes-components|#34 쿠버네티스 컴포넌트]])*
+````
+
+**Rules (lint-checked unless marked "judgement").**
+
+1. **Placement.** Directly after the prose of the section it illustrates — prose first, diagram
+   after. Never inside `## 한눈에 요약`.
+2. **Caption required.** The line after the fence (one blank line allowed) is
+   `*그림 N. <설명> (→ [[sources/<slug>|label]])*` — italic, numbered from 1 per page, with at
+   least one `[[sources/…]]` citation in the §4.2 alias form. A diagram is a claim; an uncited
+   diagram is an uncited claim.
+3. **Labels reuse body terms** *(judgement)*. Every node label is a term the body already uses,
+   in Korean where the body uses Korean. Do not draw a component or an arrow that the body — and
+   its cited source — does not state.
+4. **Cap.** At most **3** figures per page; 1 is the norm. Mermaid blocks and `/assets/` images
+   count together and share the `그림 N` numbering.
+5. **Allowed types** — the first line of the fence starts with one of `flowchart`,
+   `sequenceDiagram`, `classDiagram`, `stateDiagram-v2`, `timeline`. Anything else fails lint, so
+   a page never ships a block the pinned Mermaid build cannot render.
+6. **Draw only when** *(judgement)* one of these holds **and a table would not do the job**:
+   ≥3 components with relationships between them; a flow of ≥3 steps; a layered or containment
+   hierarchy.
+7. **Scope.** `concepts/` and `entities/` only (`type: concept | entity`). A diagram on a
+   `source`, `analysis` or `overview` page fails lint.
+
+**Official-documentation image exception.** A third-party image may be embedded only when the
+ingested source is official documentation carrying an explicit licence (e.g. kubernetes.io,
+CC BY 4.0). Store it at `wiki/assets/<page-slug>/<name>.png|svg` and reference it as
+`![대체텍스트](/assets/<page-slug>/<name>.png)` followed by the same caption form plus origin and
+licence: `*그림 N. … (출처: <URL>, CC BY 4.0) (→ [[sources/…|…]])*`. Lint fails an `/assets/`
+image whose file is missing or whose caption carries no licence marker (`CC BY`, `CC0`, `Apache`,
+`MIT`, `public domain`, `퍼블릭 도메인`). **Human gate:** the agent posts the candidate (URL, the
+licence text as found on the page, what it shows) in chat and writes nothing under `wiki/assets/`
+until the human approves. No general web image search — `wiki/` is public, and an unlicensed
+copy is a copyright exposure.
 
 ### Source summary page (`sources/`) — required template
 

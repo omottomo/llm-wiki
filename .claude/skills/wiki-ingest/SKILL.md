@@ -53,6 +53,7 @@ Join segment texts with newlines (in time order) to produce a plain-text body be
 - Read the target file in `raw/` in full (if markdown with inline images, read text first then open referenced images from `raw/assets/` separately).
 - Capture source metadata: author, date, URL, raw path.
 - Judge `credibility` (high|medium|low) per the rubric in `docs/rules/wiki-content.md` §1 — record it in the source page frontmatter (step 4.1).
+- If the source is **official documentation with an explicit licence** (e.g. kubernetes.io, CC BY 4.0), note any diagram URLs and the licence text as found on the page — candidates for the official-image exception in `docs/rules/wiki-content.md` §1.4. Do not download anything yet.
 
 ### 2. Surface the key points with the user (optional but recommended)
 - Briefly tell the user 3–5 key takeaways and lightly agree on what to emphasize. Communicate in Korean.
@@ -69,6 +70,8 @@ Do these in order:
 1. Write the source summary page at `wiki/sources/<slug>.md` (use `templates/source-page.md` in this skill — the canonical form of the template in `docs/rules/wiki-content.md` — **in Korean**).
 2. Update relevant `entities/`·`concepts/` pages — add new facts, connect with `[[...|한글 별칭]]` wikilinks (every body link carries a Korean alias; cite sources as `(→ [[sources/<slug>|label]])`, multiple joined with `·` — format rules in `docs/rules/wiki-content.md` §1), flag contradictions.
    Every page you create or restructure follows its own template in this skill's `templates/`: `concept-page.md`, `entity-page.md`, `analysis-page.md` (required headings and the plain-writing / voice rules: `docs/rules/wiki-content.md` §1.1–§1.3). **No lead paragraph** — a page opens on its first `## ` heading, and its first summary bullet is what the site extracts, so that bullet carries no citation and no wikilink.
+
+   **Diagrams (`docs/rules/wiki-content.md` §1.4).** When a `concepts/` or `entities/` page you create or update meets one of the draw criteria — ≥3 components with relationships, a flow of ≥3 steps, a layered/containment hierarchy — and a table would not do the job, add one Mermaid fence directly after the prose of that section with a caption `*그림 N. … (→ [[sources/<slug>|label]])*`. Labels are the body's own Korean terms; draw no component or arrow the body does not state. At most 3 per page; never inside `## 한눈에 요약`. If §1 noted an official-image candidate, post the URL, licence text and what it shows in chat and wait for approval before writing anything under `wiki/assets/`.
 3. For every newly mentioned proper noun/concept, create at least a stub so no orphan links remain — a stub still uses its template.
 4. If the source shifts the big picture, update `wiki/overview.md`.
 5. Reflect new/changed pages in `wiki/index.md`.

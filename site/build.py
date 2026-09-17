@@ -43,6 +43,33 @@ SECTION_NOTES = {
 # html=True: 위키 본문은 운영자 자신이 쓴 신뢰 콘텐츠라 인라인 HTML 허용
 md = MarkdownIt("commonmark", {"html": True}).enable("table").enable("strikethrough")
 
+_default_fence = md.renderer.rules["fence"]
+
+
+def _fence(self, tokens, idx, options, env):
+    """```mermaid 펜스만 <pre class="mermaid">로 — 소스는 이스케이프해 넣고 브라우저가 textContent로 되돌린다."""
+    token = tokens[idx]
+    if token.info.strip() == "mermaid":
+        return f'<pre class="mermaid" data-pagefind-ignore>{html.escape(token.content)}</pre>\n'
+    return _default_fence(tokens, idx, options, env)
+
+
+md.add_render_rule("fence", _fence)
+
+
+def mermaid_script_for(body_html: str) -> str:
+    """그림이 있는 페이지에만 Mermaid 모듈 스크립트를 붙인다 — 없는 페이지는 CDN 요청 0."""
+    return MERMAID_SCRIPT if 'class="mermaid"' in body_html else ""
+
+
+def copy_assets(src: Path = WIKI / "assets", dst: Path = DIST / "assets") -> int:
+    """wiki/assets/ (라이선스 있는 공식 문서 그림)를 dist/assets/로 그대로 복사. 복사한 파일 수."""
+    if not src.is_dir():
+        return 0
+    shutil.copytree(src, dst, dirs_exist_ok=True)
+    return sum(1 for p in dst.rglob("*") if p.is_file())
+
+
 HREF_RE = re.compile(r'href="(/[^"#?]*)')
 CITATION_RE = re.compile(r"\(→ ([^)]*)\)")     # 인라인 인용 괄호 한 덩어리
 LEADING_LINKS_RE = re.compile(r"^(?:\[\[[^\]]+\]\][·,;\s]*)+")  # 괄호 맨 앞 링크 나열
@@ -63,6 +90,35 @@ SUMMARY_GLANCE_RE = re.compile(
     r"^## (?:한눈에 요약|결론 먼저)\s*\n+((?:[-*>] .+\n?)+)", re.M
 )
 MARKUP_RE = re.compile(r"[*`>]|\[|\]\([^)]*\)")   # 강조·인라인코드·인용부호·마크다운 링크
+
+# Mermaid 그림 (docs/rules/wiki-content.md §1.4) — 그림이 있는 페이지에만 이 스크립트를 붙인다.
+MERMAID_VERSION = "11.17.2"
+MERMAID_CDN = f"https://cdn.jsdelivr.net/npm/mermaid@{MERMAID_VERSION}/dist/mermaid.esm.min.mjs"
+MERMAID_SCRIPT = (
+    '<script type="module">\n'
+    f'import mermaid from "{MERMAID_CDN}";\n'
+    """const blocks = [...document.querySelectorAll("pre.mermaid")];
+// Mermaid는 색을 SVG에 박아 넣으므로 CSS로 테마를 못 따른다 — 테마 전환 때 원본에서 다시 그린다.
+// 파싱 실패 시 Mermaid의 오류 그림 대신 원본 텍스트만 보이게 suppressErrorRendering.
+const draw = async () => {
+  const light = document.documentElement.dataset.theme === "light";
+  mermaid.initialize({ suppressErrorRendering: true, startOnLoad: false, theme: light ? "neutral" : "dark" });
+  for (const [i, el] of blocks.entries()) {
+    if (el.dataset.src === undefined) el.dataset.src = el.textContent;
+    try {
+      const { svg } = await mermaid.render(`mmd-${i}-${Date.now()}`, el.dataset.src);
+      el.innerHTML = svg;
+      el.classList.remove("mermaid-error");
+    } catch (err) {
+      el.textContent = el.dataset.src;   // 렌더 실패 시 원본 텍스트라도 보이게
+      el.classList.add("mermaid-error");
+    }
+  }
+};
+draw();
+document.querySelector("#theme-toggle").addEventListener("click", draw);
+</script>"""
+)
 
 
 def parse_tags(value: str) -> list[str]:
@@ -232,7 +288,7 @@ def nav_html(path: str) -> str:
     )
 
 
-def base_html(title: str, content: str, summary: str = "", path: str = "/") -> str:
+def base_html(title: str, content: str, summary: str = "", path: str = "/", extra_scripts: str = "") -> str:
     head_title = SITE_NAME if title == SITE_NAME else f"{title} · {SITE_NAME}"
     description = html.escape(summary or SITE_DESCRIPTION, quote=True)
     page_url = html.escape(SITE_URL + path, quote=True)
@@ -312,6 +368,7 @@ window.addEventListener("DOMContentLoaded", () => {{
   }}
 }});
 </script>
+{extra_scripts}
 </body>
 </html>"""
 
@@ -506,6 +563,7 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
         f"<article{pagefind_attr}>{updated}\n{body_html}\n{tags_html}</article>\n{back_html}</main>",
         summary=page["summary"],
         path=url_for(page["key"]),
+        extra_scripts=mermaid_script_for(body_html),
     )
 
 
@@ -569,6 +627,7 @@ def main() -> int:
     (DIST / "404.html").write_text(render_404(), encoding="utf-8")
     write_sitemap_and_robots(pages)
     shutil.copy(SITE / "style.css", DIST / "style.css")
+    copy_assets()
     broken = check_internal_links()
     if broken:
         print(f"깨진 내부 링크 {len(broken)}건:", *broken[:10], sep="\n  ", file=sys.stderr)

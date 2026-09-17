@@ -149,6 +149,30 @@ def check_no_local_user_path(out: Path) -> None:
     report(not offenders, f"no '/Users/' absolute path in built output ({len(offenders)} offending file(s): {offenders[:5]})")
 
 
+def check_assets_parity(out: Path) -> None:
+    """wiki/assets/ (licensed official-doc images, wiki-content.md §1.4) must land in dist/assets/
+    byte for byte, and dist/assets/ must carry nothing else — a stale copy would publish an image
+    the wiki no longer cites."""
+    src = ROOT / "wiki" / "assets"
+    if not src.is_dir():
+        print("SKIP: no wiki/assets/ (nothing to mirror)")
+        return
+    dst = out / "assets"
+    want = {p.relative_to(src).as_posix(): p.read_bytes() for p in src.rglob("*") if p.is_file()}
+    have = (
+        {p.relative_to(dst).as_posix(): p.read_bytes() for p in dst.rglob("*") if p.is_file()}
+        if dst.is_dir() else {}
+    )
+    missing = sorted(set(want) - set(have))
+    extra = sorted(set(have) - set(want))
+    changed = sorted(k for k in want.keys() & have.keys() if want[k] != have[k])
+    report(
+        not (missing or extra or changed),
+        f"wiki/assets/ mirrored into dist/assets/ ({len(want)} file(s); "
+        f"missing {missing[:3]}, extra {extra[:3]}, changed {changed[:3]})",
+    )
+
+
 def main() -> int:
     check_raw_untracked()
     check_artifacts_ignored()
@@ -157,6 +181,7 @@ def main() -> int:
     check_no_raw_public_path(DIST)
     check_raw_content_leak(DIST)
     check_no_local_user_path(DIST)
+    check_assets_parity(DIST)
     print("\nAll checks passed." if passed else "\nSome checks failed.")
     return 0 if passed else 1
 

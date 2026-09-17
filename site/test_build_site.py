@@ -168,6 +168,7 @@ def test_design_chrome() -> None:
     assert "localStorage.getItem" in article        # FOUC 방지 테마 스크립트
     css = (DIST / "style.css").read_text(encoding="utf-8")
     assert "--accent" in css and "Pretendard" in css
+    assert "pre.mermaid" in css and "mermaid-error" in css   # 그림·캡션 스타일 (phase-18)
 
 
 def test_pagefind_wiring() -> None:
@@ -200,6 +201,49 @@ def test_verify_site() -> None:
         capture_output=True, text=True,
     )
     assert r.returncode == 0, f"verify_site 실패:\n{r.stdout}"
+    assert "assets" in r.stdout, f"assets 패리티 검사 줄이 없음:\n{r.stdout}"
+
+
+def test_mermaid_fence_renders_as_pre() -> None:
+    """```mermaid 펜스는 <pre class="mermaid">로, 다른 펜스는 기본 렌더 그대로."""
+    out = build.md.render("```mermaid\nflowchart LR\n  A[가] --> B[나]\n```\n\n```python\nx = 1\n```\n")
+    assert '<pre class="mermaid" data-pagefind-ignore>flowchart LR\n  A[가] --&gt; B[나]\n</pre>' in out
+    assert '<pre><code class="language-python">x = 1\n</code></pre>' in out
+    assert "<code" not in out.split("</pre>")[0]  # mermaid 블록 안에는 <code> 없음
+
+
+def test_mermaid_script_only_on_diagram_pages() -> None:
+    assert build.mermaid_script_for('<p>글</p><pre class="mermaid" data-pagefind-ignore>x</pre>') == build.MERMAID_SCRIPT
+    assert build.mermaid_script_for("<p>글</p><pre><code>x</code></pre>") == ""
+    assert build.MERMAID_CDN == "https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.esm.min.mjs"
+    assert build.MERMAID_CDN in build.MERMAID_SCRIPT
+    assert 'type="module"' in build.MERMAID_SCRIPT
+    assert "#theme-toggle" in build.MERMAID_SCRIPT  # 테마 전환 시 재렌더
+    # 다이어그램 없는 페이지에는 CDN 요청이 없다 — sources/ 는 lint 가 그림을 금지하므로 영원히 그림이 없는 페이지다
+    src = (DIST / "sources" / "hashicorp-terraform-docs" / "index.html").read_text(encoding="utf-8")
+    assert build.MERMAID_CDN not in src
+
+
+def test_copy_assets_mirrors_tree_or_skips() -> None:
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        src = Path(tmp) / "wiki-assets"
+        dst = Path(tmp) / "dist-assets"
+        assert build.copy_assets(src, dst) == 0 and not dst.exists()  # 원본 없으면 아무것도 안 만든다
+        (src / "kubernetes").mkdir(parents=True)
+        (src / "kubernetes" / "arch.png").write_bytes(b"\x89PNG-test")
+        assert build.copy_assets(src, dst) == 1
+        assert (dst / "kubernetes" / "arch.png").read_bytes() == b"\x89PNG-test"
+
+
+def test_pilot_diagram_rendered() -> None:
+    """kubernetes 페이지의 Mermaid 그림이 <pre class="mermaid">와 모듈 스크립트로 나온다."""
+    text = (DIST / "concepts" / "kubernetes" / "index.html").read_text(encoding="utf-8")
+    assert '<pre class="mermaid" data-pagefind-ignore>flowchart' in text
+    assert build.MERMAID_CDN in text
+    assert "그림 1." in text                        # 캡션
+    assert "</pre>\n<p><em>그림 1." in text            # 캡션 <em>이 <pre> 바로 뒤 — CSS 셀렉터 계약
+    assert 'class="cite"' in text.split("그림 1.")[1][:400]   # 캡션의 인용이 칩으로 접힘
 
 
 if __name__ == "__main__":
