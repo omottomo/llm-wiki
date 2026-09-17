@@ -202,6 +202,38 @@ def test_verify_site() -> None:
     assert r.returncode == 0, f"verify_site 실패:\n{r.stdout}"
 
 
+def test_mermaid_fence_renders_as_pre() -> None:
+    """```mermaid 펜스는 <pre class="mermaid">로, 다른 펜스는 기본 렌더 그대로."""
+    out = build.md.render("```mermaid\nflowchart LR\n  A[가] --> B[나]\n```\n\n```python\nx = 1\n```\n")
+    assert '<pre class="mermaid" data-pagefind-ignore>flowchart LR\n  A[가] --&gt; B[나]\n</pre>' in out
+    assert '<pre><code class="language-python">x = 1\n</code></pre>' in out
+    assert "<code" not in out.split("</pre>")[0]  # mermaid 블록 안에는 <code> 없음
+
+
+def test_mermaid_script_only_on_diagram_pages() -> None:
+    assert build.mermaid_script_for('<p>글</p><pre class="mermaid" data-pagefind-ignore>x</pre>') == build.MERMAID_SCRIPT
+    assert build.mermaid_script_for("<p>글</p><pre><code>x</code></pre>") == ""
+    assert build.MERMAID_CDN == "https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.esm.min.mjs"
+    assert build.MERMAID_CDN in build.MERMAID_SCRIPT
+    assert 'type="module"' in build.MERMAID_SCRIPT
+    assert "#theme-toggle" in build.MERMAID_SCRIPT  # 테마 전환 시 재렌더
+    # 다이어그램 없는 실제 페이지에는 CDN 요청이 없다
+    mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
+    assert "mermaid" not in mcp
+
+
+def test_copy_assets_mirrors_tree_or_skips() -> None:
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        src = Path(tmp) / "wiki-assets"
+        dst = Path(tmp) / "dist-assets"
+        assert build.copy_assets(src, dst) == 0 and not dst.exists()  # 원본 없으면 아무것도 안 만든다
+        (src / "kubernetes").mkdir(parents=True)
+        (src / "kubernetes" / "arch.png").write_bytes(b"\x89PNG-test")
+        assert build.copy_assets(src, dst) == 1
+        assert (dst / "kubernetes" / "arch.png").read_bytes() == b"\x89PNG-test"
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):
