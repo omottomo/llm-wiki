@@ -56,7 +56,7 @@ RETRACTED_MARKER = "<!--RETRACTED-SOURCE-->"
 DIAGRAM_TYPES = {"flowchart", "sequenceDiagram", "classDiagram", "stateDiagram-v2", "timeline"}
 DIAGRAM_MAX = 3
 DIAGRAM_PAGE_TYPES = {"concept", "entity"}
-MERMAID_FENCE_RE = re.compile(r"^```mermaid[ \t]*\n(.*?)^```[ \t]*$", re.M | re.S)
+MERMAID_FENCE_RE = re.compile(r"^[ \t]*```mermaid[ \t]*\n(.*?)^[ \t]*```[ \t]*$", re.M | re.S)
 ASSET_IMG_RE = re.compile(r"^!\[[^\]]*\]\((/assets/[^)\s]+)\)[ \t]*$", re.M)
 CAPTION_RE = re.compile(r"^\*그림 (\d+)\. .+\*$")
 LICENCE_MARKERS = ("CC BY", "CC0", "Apache", "MIT", "public domain", "퍼블릭 도메인")
@@ -148,7 +148,8 @@ def check_wikilinks(pages):
     existing = {page_key(p) for p in pages}
     for page in pages:
         text = page.read_text(encoding="utf-8")
-        for raw_target in WIKILINK_RE.findall(text):
+        # 펜스 안 [[..]] 은 예시·Mermaid 서브루틴 노드라 링크가 아니다
+        for raw_target in WIKILINK_RE.findall(FENCE_RE.sub("", text)):
             target = normalize_target(raw_target)
             if not target:
                 continue
@@ -286,15 +287,17 @@ def check_link_format(pages):
         text = page.read_text(encoding="utf-8")
         rel = page.relative_to(ROOT)
         body = split_body(text)
+        # 펜스 안 [[..]] 은 예시·Mermaid 서브루틴 노드라 링크가 아니다
+        unfenced = FENCE_RE.sub("", body)
         src_key = page_key(page)
 
         # (a) 본문 위키링크는 반드시 별칭([[대상|별칭]] 또는 표 안 [[대상\|별칭]])을 가진다
-        for raw_target in WIKILINK_RE.findall(body):
+        for raw_target in WIKILINK_RE.findall(unfenced):
             if "|" not in raw_target.replace("\\|", "|"):
                 add("링크 형식", f"{rel} — [[{raw_target}]] 별칭 없음 (슬러그가 그대로 렌더링됨)")
 
         # (b) 소스 페이지는 자기 자신을 인용하지 않는다
-        if src_key.startswith("sources/") and f"[[{src_key}" in body:
+        if src_key.startswith("sources/") and f"[[{src_key}" in unfenced:
             add("링크 형식", f"{rel} — 자기 자신을 인용함 ([[{src_key}...]])")
 
         # (c) 소스 페이지 frontmatter에는 인용 라벨(label)이 있어야 하고, 값의 형식도 올바라야 한다
@@ -415,7 +418,7 @@ def check_page_structure(pages):
 def _caption_after(body: str, end: int):
     """펜스/이미지 끝 위치 다음의 캡션 줄을 돌려준다 (빈 줄 하나까지 허용). 없으면 None."""
     rest = body[end:].split("\n")
-    lines = [l for l in rest[1:3]]  # rest[0]은 펜스 닫는 줄의 잔여(빈 문자열)
+    lines = rest[1:3]  # rest[0]은 펜스 닫는 줄의 잔여(빈 문자열)
     for line in lines:
         if line.strip() == "":
             continue

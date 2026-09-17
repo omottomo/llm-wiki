@@ -24,6 +24,9 @@ flowchart LR
 ```
 *그림 1. 푸 개념과 푸 엔티티의 관계 (→ [[sources/src-alpha|알파 소스]])*
 
+![푸 구성도](/assets/foo-concept/arch.png)
+*그림 2. 공식 문서의 구성도 (→ [[sources/src-alpha|알파 소스]])*
+
 ## 함께 읽기
 
 - [[entities/foo-entity|푸 엔티티]] — 짝이 되는 엔티티 페이지
