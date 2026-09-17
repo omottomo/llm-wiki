@@ -2,7 +2,7 @@
 title: 에이전틱 코딩 / 바이브 코딩
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
+updated: 2026-09-18
 sources: [youtube-6MYZ7fMhKPY, youtube-uk4a5oER0SQ]
 tags: [에이전틱코딩, 바이브코딩, 진화서사, 개발방법론]
 ---
@@ -57,6 +57,15 @@ tags: [에이전틱코딩, 바이브코딩, 진화서사, 개발방법론]
 - **2025년**: 에이전트의 해. [[entities/claude-code|Claude Code]]·[[entities/cursor|Cursor]]·[[entities/codex|Codex]] 등장으로 에이전트가 코드를 쓸 수 있음이 증명됨.
 - **2026년**: 하네스의 해. 에이전트를 어떻게 통제하고 신뢰할 수 있게 만드느냐가 중요해졌다. OpenAI 엔지니어가 하루 10억 토큰을 쓰며 코드 한 줄 안 친다고 했다. IBM 엔지니어는 컨퍼런스에서 "2026년은 하네스의 해"라 선언했다고 언급된다.
 - **2027년(예측)**: 에이전트가 스스로 하네스를 만드는 해 (→ [[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]]).
+
+```mermaid
+timeline
+  title 연도별 큰 그림
+  2025 : 에이전트의 해 — Claude Code · Cursor · Codex 등장, 에이전트가 코드를 쓸 수 있음이 증명됨
+  2026 : 하네스의 해 — 에이전트를 어떻게 통제하고 신뢰할 수 있게 만드느냐
+  2027 (예측) : 에이전트가 스스로 하네스를 만드는 해
+```
+*그림 1. 에이전트의 해에서 하네스의 해로, 그다음은 에이전트가 스스로 하네스를 만드는 해라는 예측 (→ [[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]])*
 
 ## 함께 읽기
 

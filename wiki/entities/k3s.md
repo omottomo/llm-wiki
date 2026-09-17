@@ -2,7 +2,7 @@
 title: K3s
 type: entity
 created: 2026-08-11
-updated: 2026-08-11
+updated: 2026-09-18
 sources: [k3s-docs]
 aliases: [k3s, 경량 쿠버네티스, lightweight kubernetes]
 tags: [쿠버네티스, K3s, 엣지, 컨테이너]
@@ -40,6 +40,22 @@ K3s는 그 복잡도를 바이너리 하나 안으로 밀어 넣는 쪽을 택�
 인증은 조인 토큰과 **노드 비밀번호** 두 겹이다. 노드는 무작위 비밀번호를 만들어 `/etc/rancher/node/password`에 두고 클러스터는 그 해시를 `<노드이름>.node-password.k3s` 시크릿으로 보관한다. 같은 이름으로 다시 등록하려면 같은 비밀번호를 내야 한다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
 
 > 여기서 걸리기 쉽다. 호스트 이름을 재사용하려면 클러스터에서 그 노드를 먼저 삭제해야 한다. 그래야 노드 비밀번호 시크릿까지 정리된다. 호스트 이름이 자주 겹치면 `--with-node-id`로 뒤에 고유 ID를 붙이는 방법도 있다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
+
+```mermaid
+flowchart LR
+  subgraph SV[서버 노드 — k3s server]
+    CP[컨트롤 플레인]
+    DS[(데이터스토어)]
+    SK[kubelet · 컨테이너 런타임 · CNI]
+  end
+  subgraph AG[에이전트 노드 — k3s agent]
+    LB[클라이언트 측 로드밸런서]
+    AK[kubelet · 컨테이너 런타임 · CNI]
+  end
+  LB -- 웹소켓 등록<br>조인 토큰 + 노드 비밀번호 --> CP
+  CP -. apiserver 주소 목록 .-> LB
+```
+*그림 1. 서버와 에이전트 — 컨트롤 플레인과 데이터스토어는 서버만 지고, kubelet·런타임·CNI는 양쪽이 돌린다. 에이전트는 웹소켓으로 등록한 뒤 apiserver 주소 목록을 받아 서버 한 대가 죽어도 연결을 유지한다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]])*
 
 ## 데이터스토어를 고를 수 있다
 

@@ -2,7 +2,7 @@
 title: 하네스 엔지니어링
 type: concept
 created: 2026-06-23
-updated: 2026-08-09
+updated: 2026-09-18
 sources: [youtube-BssPGKsP60s, youtube-6gvnDSAcZww, youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6MYZ7fMhKPY, youtube-fInMcawbKng, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵심개념]
 ---
@@ -93,6 +93,16 @@ tags: [하네스엔지니어링, 에이전트, 환경설계, 진화서사, 핵�
 에이전트가 실수할 때마다 그 실수가 새로운 규칙(린터 규칙·테스트·제약)이 되어 하네스가 점점 정교해진다. 말이 한 번 넘으려던 울타리는 점점 높아져 두 번 다시 같은 실수를 할 수 없게 된다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]·[[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]).
 
 전체 실행 그림은 부품 4개로 정리된다. 라우터(분류기) → 컨텍스트 매니저 → 실행 루프(테스트 통과까지 자가 수정) → 워커 격리([[concepts/verification-automation|검증 자동화]]: 코드 쓰는 AI와 검토하는 AI 분리) 순이다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
+
+```mermaid
+flowchart LR
+  R[라우터 · 분류기] --> CM[컨텍스트 매니저] --> L[실행 루프]
+  L -- 테스트 실패 --> L
+  L -- 테스트 통과 --> W[워커 격리]
+  W --> GEN[코드 쓰는 AI]
+  W --> REV[검토하는 AI]
+```
+*그림 1. 하네스의 실행 부품 넷 — 라우터 → 컨텍스트 매니저 → 테스트 통과까지 자가 수정하는 실행 루프 → 코드 쓰는 AI와 검토하는 AI를 분리하는 워커 격리 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]])*
 
 ## 모델이 아니라 하네스가 병목 — 대표 일화들
 

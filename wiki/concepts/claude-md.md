@@ -2,7 +2,7 @@
 title: CLAUDE.md (컨텍스트 파일)
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
+updated: 2026-09-18
 sources: [youtube-c7_ANA1NiS0, youtube-cZ8_Dkk_Ce0, youtube-gol5jv4wcfs, youtube-FBv8hK_DtJ8, youtube-DCsv0rKKrN4, youtube-hXlB1QstQ-Y, youtube-BssPGKsP60s]
 tags: [클로드코드, 컨텍스트엔지니어링, 메모리파일, 하네스엔지니어링]
 ---
@@ -109,6 +109,14 @@ CLAUDE.md에는 규칙과 참조만 두고, 상세 내용은 별도 마크다운
 하위·상위 디렉터리에 별도 CLAUDE.md를 두는 방법이다. `apps/api/CLAUDE.md`, `web/CLAUDE.md` 식으로 두면 해당 폴더를 작업할 때 그 폴더의 파일만 읽힌다. 루트 파일이 비대해지는 걸 막아 준다 (→ [[sources/youtube-DCsv0rKKrN4|#7 메타 엔지니어 실전편]]·[[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]]).
 
 쉽게 말하면 핵심은 파일을 쪼개는 것 자체가 아니다. 불필요한 규칙이 Claude의 주의를 뺏지 않도록 "필요한 시점에만 불러오게" 설계하는 것이다 (→ [[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]]).
+
+```mermaid
+flowchart TB
+  ROOT[루트 CLAUDE.md<br>규칙과 참조만] -- "@ 참조 · 필요할 때만" --> DOC[별도 마크다운<br>API 스펙 · DB 스키마]
+  ROOT -- "프론트매터 경로 패턴이 맞을 때" --> RULES[.claude/rules/*.md<br>주제별 규칙]
+  ROOT -- "그 폴더를 작업할 때" --> SUB[폴더별 CLAUDE.md<br>apps/api · web]
+```
+*그림 1. 필요한 규칙만 필요한 시점에 — 루트 파일은 규칙과 참조만 두고, 상세 문서·경로별 규칙·폴더별 파일은 각각의 조건이 맞을 때만 읽힌다 (→ [[sources/youtube-FBv8hK_DtJ8|#10 대규모 컨텍스트 분리]])*
 
 ## 함께 읽기
 

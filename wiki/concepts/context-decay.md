@@ -2,7 +2,7 @@
 title: 컨텍스트 부패 (Context Decay)
 type: concept
 created: 2026-06-23
-updated: 2026-08-04
+updated: 2026-09-18
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-z-3BRkxQ5GM, youtube-hXlB1QstQ-Y]
 tags: [컨텍스트부패, 컨텍스트윈도우, 신선한컨텍스트, 세션관리, 하네스엔지니어링]
 ---
@@ -34,6 +34,14 @@ tags: [컨텍스트부패, 컨텍스트윈도우, 신선한컨텍스트, 세션�
 [[concepts/loop-engineering|루프 엔지니어링]] 영상은 이 현상을 **"니들 인 헤이스택(needle in a haystack)"** 시절의 **컨텍스트 디그라데이션** 문제로 회고한다. 문맥이 꽉 차면 퍼포먼스가 낮아진다는 것이다. 200K 컨텍스트 시절에 특히 심했고, 지금은 많이 나아졌지만 여전히 유효하다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
 
 그래서 랄프 루프(Ralph Loop)에서는 작업을 잘게 쪼갰다. 매번 하나의 태스크 결과만 디스크에 저장해 컨텍스트를 최소화하고, 새 에이전트를 띄워 **새로운 컨텍스트** 안에서 다음 작업을 하게 했다. 같은 컨텍스트 안에서 계속 작업하는 것보다 빠르고 효율적이기 때문이다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
+
+```mermaid
+flowchart LR
+  T[태스크 하나] --> A[에이전트 실행<br>새로운 컨텍스트]
+  A --> D[(결과를 디스크에 저장)]
+  D -- 다음 태스크 · 새 에이전트 --> A
+```
+*그림 1. 랄프 루프의 발상 — 작업을 잘게 쪼개 태스크 하나의 결과만 디스크에 남기고, 다음 작업은 새 에이전트가 새 컨텍스트 안에서 이어받는다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]])*
 
 이 "잘게 쪼개 새 컨텍스트로 넘기는" 발상이 ReAct 루프(Reason-Act-Observe-Decide-Repeat)와 루프 엔지니어링의 토대가 된다 (→ [[sources/youtube-z-3BRkxQ5GM|#25 루프 엔지니어링]]).
 
