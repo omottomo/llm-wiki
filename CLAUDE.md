@@ -24,7 +24,7 @@ generic chatbot. Your job is to **accumulate** what you read into a structured w
 llm-wiki/
 ├── CLAUDE.md          # this file. common operating rules — always in force.
 ├── .claude/
-│   ├── skills/        # per-task workflows (content: wiki-ingest / wiki-query / wiki-lint / wiki-delete)
+│   ├── skills/        # per-task workflows (content: wiki-ingest / wiki-query / wiki-lint / wiki-delete / wiki-refresh / wiki-illustrate)
 │   └── settings.json  # project permissions
 ├── scripts/           # deterministic helper scripts (lint_wiki.py, verify_site.py)
 ├── docs/
@@ -92,6 +92,7 @@ Trigger phrases are quoted in the language the user actually types them in. Matc
 - The user says "점검 / 건강검진 / 정리 / lint" → **wiki-lint**
 - The user says "삭제 / 지워 / 제거 / delete / 위키 비워" → **wiki-delete** (destructive — always confirm scope first; never touch `raw/`)
 - The user says "최신화 / 갱신 / refresh" about a hot/warm source → **wiki-refresh** (human-gated — no wiki edit before confirmation; never edits `raw/`, only adds a new dated capture)
+- The user says "그림 넣어 / 시각화 / 도식 / illustrate" about existing pages → **wiki-illustrate** (content mode — adds Mermaid diagrams to `concepts/`·`entities/` per `docs/rules/wiki-content.md` §1.4; never touches `raw/`)
 
 **Code mode** (you are building the published site; rules: this file + `docs/rules/site-code.md`). Work is organized as **phases** under `docs/tasks/phase-{N}-{slug}/`:
 - When a plan is agreed, write it as `plan.md` and, once decomposed, a `prd.json` of atomic tasks (schema: `id/title/scope/kind/depends_on/acceptance/status/attempts`).
