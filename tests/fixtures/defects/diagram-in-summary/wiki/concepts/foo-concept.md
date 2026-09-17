@@ -13,15 +13,15 @@ tags: [테스트개념]
 
 - 테스트용 개념 페이지다. 구조 검사가 통과하는 최소 형태를 담는다.
 
-## 설명
-
-관련 엔티티는 [[entities/foo-entity|푸 엔티티]]이며, 근거는 [[sources/src-alpha|알파 소스]]에서 온다.
-
 ```mermaid
 flowchart LR
   A[푸 개념] --> B[푸 엔티티]
 ```
 *그림 1. 푸 개념과 푸 엔티티의 관계 (→ [[sources/src-alpha|알파 소스]])*
+
+## 설명
+
+관련 엔티티는 [[entities/foo-entity|푸 엔티티]]이며, 근거는 [[sources/src-alpha|알파 소스]]에서 온다.
 
 ## 함께 읽기
 
