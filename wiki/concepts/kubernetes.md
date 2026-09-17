@@ -64,7 +64,6 @@ flowchart TB
   REQ([모든 요청]) --> API
   API --> ETCD
   SCH -. 어느 노드에 얹을지 배정 .-> KL
-  KL --> RT
 ```
 *그림 1. 클러스터의 두 층 — 컨트롤 플레인 다섯 부품과 노드 세 부품. 요청은 kube-apiserver로 모이고, 스케줄러는 배정만 하며 실제로 띄우는 일은 kubelet이 맡는다 (→ [[sources/kubernetes-components|#34 쿠버네티스 컴포넌트]]·[[sources/k3s-docs|#32 K3s 공식 문서]])*
 
