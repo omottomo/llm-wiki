@@ -2,7 +2,7 @@
 title: DNS 레코드
 type: concept
 created: 2026-07-21
-updated: 2026-08-04
+updated: 2026-09-18
 sources: [tistory-inpa-dns-records]
 aliases: [DNS record, DNS records, DNS 레코드 종류]
 tags: [DNS, 네트워크, 도메인, 웹인프라]
@@ -48,6 +48,15 @@ A 레코드의 **IPv6 버전**. 도메인에 IPv6 주소를 매핑한다.
 | **CNAME** | 서버 IP가 바뀌어도 대상 도메인의 A 레코드 하나만 고치면 하위 도메인은 그대로 유지 | 실제 IP를 얻을 때까지 여러 번 DNS 요청 → 성능 저하 가능 |
 
 서브 도메인들을 메인 도메인에 CNAME으로 묶고, 메인 도메인만 A 레코드로 IP에 매핑해 두는 방법이 있다. 그러면 IP가 바뀌어도 **메인 도메인의 A 레코드 한 곳만** 고치면 된다. 수십 개 도메인을 관리하는 인프라에서 유리하다. 두 레코드의 장단점은 서로 상반된다 (→ [[sources/tistory-inpa-dns-records|DNS 레코드 종류]]).
+
+```mermaid
+flowchart LR
+  S1[서브 도메인 1] -- CNAME --> MAIN[메인 도메인]
+  S2[서브 도메인 2] -- CNAME --> MAIN
+  S3[서브 도메인 3] -- CNAME --> MAIN
+  MAIN -- A --> IP[서버 IP]
+```
+*그림 1. 서브 도메인은 CNAME으로 메인 도메인에 묶고 메인 도메인만 A 레코드로 IP에 매핑한다. 서버 IP가 바뀌면 A 레코드 한 줄만 고치면 된다 (→ [[sources/tistory-inpa-dns-records|DNS 레코드 종류]])*
 
 ### PTR (Pointer)
 A 레코드의 **역방향**이다. IP 질의에 도메인네임으로 응답한다. `121.53.105.234 → tistory.com` 같은 식이다.

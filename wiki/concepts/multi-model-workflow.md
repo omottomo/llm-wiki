@@ -2,7 +2,7 @@
 title: 멀티 모델 워크플로우 (Codex 협업)
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
+updated: 2026-09-18
 sources: [youtube-f0hcByvsyjU, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY]
 tags: [멀티모델, 코덱스, 모델조합, 비용절감, 적대적리뷰]
 ---
@@ -52,6 +52,15 @@ Claude Code에는 `오퍼스 플랜(Opus Plan)` 모드가 있어 **플래닝은 
 3. 지적 사항을 플랜에 반영한 뒤 구현하고, 끝나면 코덱스 리뷰로 한 번 더 돌린다.
 
 한 사례에서 3라운드를 돌리자 인증 모델 누락, 셸 스크립트 처리 버그 등 14개 문제가 **플랜 단계에서** 잡혔다. 코드 짜기 전에 잡으면 수정 비용이 거의 없으므로 이 순서가 중요하다 (→ [[sources/youtube-f0hcByvsyjU|#20 코덱스 멀티 모델]]). [[concepts/harness-engineering|하네스 엔지니어링]] 영상에서도 "Claude Code와 Codex를 같이 쓰면 검증 작업의 성능이 크게 올라간다"고 보강된다 (→ [[sources/youtube-6MYZ7fMhKPY|#21 바이브에서 에이전틱으로]]).
+
+```mermaid
+flowchart LR
+  P[Opus가 플랜 작성<br>마크다운 파일 하나] --> R[Codex 적대적 검토<br>설계 자체를 의심]
+  R -- 지적 사항 반영 · 라운드 반복 --> P
+  R -- 더 잡을 게 없으면 --> I[구현]
+  I --> CR[코덱스 리뷰<br>한 번 더]
+```
+*그림 1. 플랜 단계의 Codex 적대적 리뷰 — Opus의 플랜을 Codex가 비판적으로 검토하고 지적을 반영하는 라운드를 돌린 뒤에야 구현으로 넘어가며, 끝나면 코덱스 리뷰를 한 번 더 돌린다 (→ [[sources/youtube-f0hcByvsyjU|#20 코덱스 멀티 모델]])*
 
 ## 긴장③: Codex 병행 vs 보리스의 "바닐라 세팅"
 

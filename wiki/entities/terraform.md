@@ -2,7 +2,7 @@
 title: Terraform
 type: entity
 created: 2026-07-18
-updated: 2026-08-11
+updated: 2026-09-18
 sources: [ibm-infrastructure-as-code, hashicorp-terraform-docs, terraform-hcl-syntax, k3s-docs]
 tags: [코드형인프라, HashiCorp, 도구]
 ---
@@ -37,6 +37,16 @@ Terraform이 직접 AWS나 Azure를 아는 건 아니다. **프로바이더**라
 1. **Write** — 편집기에서 구성을 작성하고 `terraform plan`을 반복 실행하며 짧은 피드백 루프를 돈다(애플리케이션 코드의 편집↔테스트 루프와 같은 구조).
 2. **Plan** — 실행 계획(어떤 리소스가 생성·수정·파괴되는지)을 만들어 **사람이 검토·승인**한다. 실제 인프라는 건드리지 않는다.
 3. **Apply** — 승인 후에만 종속성 순서를 지켜 실제 변경을 수행한다.
+
+```mermaid
+flowchart LR
+  W[Write<br>편집기에서 구성 작성] -- terraform plan 반복 --> W
+  W --> P[Plan<br>실행 계획: 생성 · 수정 · 파괴]
+  P --> H{사람이 검토 · 승인}
+  H -- 승인 --> A[Apply<br>종속성 순서대로 실제 변경]
+  H -- 반려 --> W
+```
+*그림 1. 코어 워크플로 — 쓰는 동안 `plan`으로 짧은 피드백 루프를 돌고, 실행 계획을 사람이 승인해야만 `apply`가 실제 인프라를 건드린다 (→ [[sources/hashicorp-terraform-docs|#27 Terraform 공식 문서]])*
 
 ### 팀 규모에 따라 늘어나는 루프
 

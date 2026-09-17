@@ -2,7 +2,7 @@
 title: 훅 (Hooks)
 type: concept
 created: 2026-06-23
-updated: 2026-08-03
+updated: 2026-09-18
 sources: [youtube-6cr4PeilKJk, youtube-DrekqeDlO1w, youtube-6gvnDSAcZww, hashicorp-terraform-docs]
 tags: [클로드코드, 훅, 하네스엔지니어링, 검증자동화, 프리커밋]
 ---
@@ -34,6 +34,15 @@ CLAUDE.md에 "테스트를 꼭 해 달라"고 적을 수는 있다. 다만 이�
 이 자동 교정 루프가 하네스의 핵심 메커니즘이다. 자동으로 막고, 자동으로 고친다 (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
 
 구성은 세 가지다. 린터, 구조적 테스트("이 폴더 코드는 저 폴더 코드를 import할 수 없다" 같은 의존성 규칙 강제), 프리커밋 훅(저장 직전 자동 검사) (→ [[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]]).
+
+```mermaid
+flowchart LR
+  C[Claude가 코드를 저장하려는 순간] --> H[훅 자동 실행<br>타입 검사 · 문법 체크]
+  H -- 에러 --> B[Claude에게 되돌림<br>스스로 고친다]
+  B --> C
+  H -- 통과 --> S[저장]
+```
+*그림 1. 자동 교정 루프 — 저장 직전 훅이 검사를 돌리고, 에러는 Claude에게 되돌아가 스스로 고친 뒤 다시 저장을 시도한다. 사람 개입 없이 자동으로 막고 자동으로 고친다 (→ [[sources/youtube-DrekqeDlO1w|#14 하네스 문서 100번]]·[[sources/youtube-6gvnDSAcZww|#11 프롬프트는 끝났다]])*
 
 ## 출력 원칙 — 성공은 조용히, 실패만 시끄럽게
 

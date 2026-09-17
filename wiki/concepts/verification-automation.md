@@ -2,7 +2,7 @@
 title: 검증 자동화
 type: concept
 created: 2026-06-23
-updated: 2026-08-09
+updated: 2026-09-18
 sources: [youtube-6cr4PeilKJk, youtube-hXlB1QstQ-Y, youtube-6MYZ7fMhKPY, youtube-f0hcByvsyjU, youtube-JzB_GI7SS6g, youtube-lokHQ8_b5Rk, youtube-SBLDc4R1d_E, ibm-infrastructure-as-code, hashicorp-terraform-docs]
 tags: [검증자동화, 생성검증분리, 적대적리뷰, 훅, 테스트, 하네스엔지니어링]
 ---
@@ -34,6 +34,14 @@ AI에게 검증을 맡기기 전에, 왜 사람 눈만으로는 안 되는지부
 같은 AI가 만들고 같은 AI가 판단하는 구조 자체가 문제다. "생성하는 AI에게 비판적으로 보라고 시키는 것보다 아예 검증 전문 AI를 따로 두는 게 훨씬 쉽다"는 것이다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]). Claude Code에서는 [[concepts/subagents-agent-teams|서브에이전트]]를 쓰거나 별도 컨텍스트에서 코드 리뷰를 돌리는 방식으로 적용한다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]]).
 
 > **리뷰어가 코드를 직접 고치면 안 된다.** 고치는 순간 그건 리뷰가 아니라 또 하나의 구현이 되고, 결과적으로 **검증자 자체가 사라진다**. 리서처는 조사만, 플래너는 계획만, 리뷰어는 문제점만 찾아야 결과물의 품질과 검증 가능성이 함께 올라간다 (→ 생각등대 영상 `wa6ZoLlnB60` — 출처 페이지는 2026-07-12 커리어 위키로 이관됨).
+
+```mermaid
+flowchart LR
+  GEN[제너레이터 · 생성기] -- 결과물 --> EVAL[이밸루에이터 · 평가기]
+  EVAL -- 판정 · 지적 --> GEN
+  EVAL --x CODE[코드 직접 수정]
+```
+*그림 1. 생성 AI와 검증 AI의 분리 — 만드는 쪽과 판단하는 쪽을 구조적으로 떼어 놓고, 리뷰어는 지적만 할 뿐 코드를 직접 고치지 않는다. 고치는 순간 검증자가 사라진다 (→ [[sources/youtube-6cr4PeilKJk|#13 하네스의 비밀]])*
 
 ## 검증 자동화의 수단
 

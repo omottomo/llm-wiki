@@ -2,7 +2,7 @@
 title: GraphQL (그래프 쿼리 언어)
 type: concept
 created: 2026-08-19
-updated: 2026-08-19
+updated: 2026-09-18
 sources: [kakaotech-graphql]
 aliases: [GraphQL, gql]
 tags: [GraphQL, API, 쿼리언어, 웹개발, 협업방식]
@@ -83,6 +83,18 @@ gql은 쿼리문 파싱까지만 라이브러리가 해 주고, **데이터를 �
 필드마다 리졸버 함수가 하나씩 있다고 보면 된다. 필드가 스칼라 값이면 거기서 멈추고, 직접 정의한 타입이면 그 타입의 리졸버가 이어서 불린다 (→ [[sources/kakaotech-graphql|#33 GraphQL 개념잡기]]).
 
 이 **연쇄 리졸버** 호출 덕에 1:1·1:n 관계 데이터를 요청한 만큼만 타고 들어가며 가져올 수 있다. 원문 저자는 이 연쇄 구조가 DFS(깊이 우선 탐색)로 구현돼 있으리라 추측하며, 여기서 Graph라는 이름이 나왔으리라고 본다 — 추측으로 명시된 대목이다 (→ [[sources/kakaotech-graphql|#33 GraphQL 개념잡기]]).
+
+```mermaid
+flowchart LR
+  Q[클라이언트 쿼리] --> P[gql 라이브러리<br>쿼리문 파싱]
+  P --> R1[필드 리졸버]
+  R1 --> D{필드 종류}
+  D -- 스칼라 값 --> STOP[여기서 멈춤]
+  D -- 직접 정의한 타입 --> R2[그 타입의 리졸버]
+  R2 --> D
+  R1 -.-> SRC[(데이터베이스 · 파일 · HTTP · SOAP)]
+```
+*그림 1. 연쇄 리졸버 — 파싱까지는 라이브러리가 하고, 필드마다 리졸버가 불린다. 스칼라면 멈추고 직접 정의한 타입이면 그 타입의 리졸버가 이어져 관계 데이터를 요청한 만큼만 타고 들어간다 (→ [[sources/kakaotech-graphql|#33 GraphQL 개념잡기]])*
 
 리졸버 함수는 인자를 네 개 받는다 (→ [[sources/kakaotech-graphql|#33 GraphQL 개념잡기]]).
 
