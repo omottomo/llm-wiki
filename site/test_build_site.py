@@ -168,6 +168,7 @@ def test_design_chrome() -> None:
     assert "localStorage.getItem" in article        # FOUC 방지 테마 스크립트
     css = (DIST / "style.css").read_text(encoding="utf-8")
     assert "--accent" in css and "Pretendard" in css
+    assert "pre.mermaid" in css and "mermaid-error" in css   # 그림·캡션 스타일 (phase-18)
 
 
 def test_pagefind_wiring() -> None:
