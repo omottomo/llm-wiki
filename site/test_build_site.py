@@ -201,6 +201,7 @@ def test_verify_site() -> None:
         capture_output=True, text=True,
     )
     assert r.returncode == 0, f"verify_site 실패:\n{r.stdout}"
+    assert "assets" in r.stdout, f"assets 패리티 검사 줄이 없음:\n{r.stdout}"
 
 
 def test_mermaid_fence_renders_as_pre() -> None:
