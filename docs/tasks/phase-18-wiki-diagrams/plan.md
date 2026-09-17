@@ -1,6 +1,6 @@
 # phase-18-wiki-diagrams — diagrams for hard-to-read concept and entity pages
 
-**Status:** design spec, agreed 2026-09-17. Implementation plan follows in `implementation.md` (writing-plans output); no `prd.json` unless the plan is later decomposed.
+**Status:** design spec, agreed 2026-09-17. Implementation plan follows in `implementation.md` (writing-plans output); no `prd.json` unless the plan is later decomposed. Implementation note (2026-09-17): §3 says `mermaid.run()`; the landed code calls `mermaid.render()` per block (implementation.md Task 3) so the theme re-render and the per-block error fallback work, with `suppressErrorRendering: true`.
 
 **Goal:** Pages under `wiki/concepts/` and `wiki/entities/` explain architectures, flows and hierarchies in prose and tables only, and a reader has to rebuild the picture in their head. This phase lets the librarian draw that picture — as Mermaid text inside the page — and makes the site render it, lint check it, and the ingest flow produce it going forward.
 

@@ -15,9 +15,10 @@ Backfill diagrams onto pages that already exist. `wiki-ingest` draws for new pag
 ## Procedure
 
 ### 1. Scope
-- Default target: every page under `wiki/concepts/` and `wiki/entities/` with zero figures. List them:
+- Default target: every page under `wiki/concepts/` and `wiki/entities/` with zero figures (no Mermaid fence and no `/assets/` image). List candidates:
   ```bash
   grep -L '^```mermaid' wiki/concepts/*.md wiki/entities/*.md
+  grep -L '^!\[.*\](/assets/' wiki/concepts/*.md wiki/entities/*.md   # 공식 문서 이미지도 그림으로 센다
   ```
 - If the user named pages, restrict to those. Never touch `sources/`, `analysis/`, `overview.md`, `index.md` — lint rejects diagrams there.
 
@@ -35,12 +36,13 @@ No section qualifies → skip the page and record one line of reason for the rep
 - Every node label is a term the section already uses, in the section's Korean. Every arrow is a relation the section states with a citation. Nothing else — a diagram is a claim.
 - Caption on the next line: `*그림 N. <한 문장> (→ [[sources/<slug>|label]])*` citing the same sources the section cites. Number from 1 per page.
 - One diagram per page is the norm; a second only if a *different* section independently qualifies. Never more than 3.
+- Mermaid's subroutine shape `X[[label]]` is fine — lint ignores `[[ ]]` inside fences.
 
 ### 4. Verify
 ```bash
 python3 scripts/lint_wiki.py
 ```
-Must exit 0. Fix any `그림` finding before moving on. If the repo has Node, optionally render the page locally to eyeball it: `python3 site/build.py && python3 -m http.server -d site/dist 8000`.
+Must exit 0. Fix any `그림` finding before moving on. Optionally render the page locally to eyeball it (no Node needed for this): `python3 site/build.py && python3 -m http.server -d site/dist 8000`.
 
 ### 5. Record
 - Bump `updated` in the frontmatter of every page you changed (content changed — §4.3).
