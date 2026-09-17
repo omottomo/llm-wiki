@@ -219,9 +219,9 @@ def test_mermaid_script_only_on_diagram_pages() -> None:
     assert build.MERMAID_CDN in build.MERMAID_SCRIPT
     assert 'type="module"' in build.MERMAID_SCRIPT
     assert "#theme-toggle" in build.MERMAID_SCRIPT  # 테마 전환 시 재렌더
-    # 다이어그램 없는 실제 페이지에는 CDN 요청이 없다
-    mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
-    assert "mermaid" not in mcp
+    # 다이어그램 없는 페이지에는 CDN 요청이 없다 — sources/ 는 lint 가 그림을 금지하므로 영원히 그림이 없는 페이지다
+    src = (DIST / "sources" / "hashicorp-terraform-docs" / "index.html").read_text(encoding="utf-8")
+    assert build.MERMAID_CDN not in src
 
 
 def test_copy_assets_mirrors_tree_or_skips() -> None:
@@ -242,6 +242,7 @@ def test_pilot_diagram_rendered() -> None:
     assert '<pre class="mermaid" data-pagefind-ignore>flowchart' in text
     assert build.MERMAID_CDN in text
     assert "그림 1." in text                        # 캡션
+    assert "</pre>\n<p><em>그림 1." in text            # 캡션 <em>이 <pre> 바로 뒤 — CSS 셀렉터 계약
     assert 'class="cite"' in text.split("그림 1.")[1][:400]   # 캡션의 인용이 칩으로 접힘
 
 

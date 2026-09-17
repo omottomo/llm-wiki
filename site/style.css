@@ -138,9 +138,9 @@ article code {
 article pre { background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid var(--line); }
 article pre code { background: none; padding: 0; }
 /* 그림 (docs/rules/wiki-content.md §1.4): Mermaid 블록과 /assets/ 이미지, 그 아래 캡션 */
-article pre.mermaid { background: none; border: 0; padding: 0; margin: 1.25rem 0 0.5rem; text-align: center; overflow-x: auto; }
-article pre.mermaid svg { max-width: 100%; height: auto; }
-article pre.mermaid-error { color: var(--faint); text-align: left; white-space: pre-wrap; font-size: 13px; }
+article pre.mermaid { background: none; border: 0; padding: 0; margin: 1.25rem 0 0.5rem; overflow-x: auto; }
+article pre.mermaid svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+article pre.mermaid-error { color: var(--faint); white-space: pre-wrap; font-size: 13px; }
 article img[src^="/assets/"] { display: block; max-width: 100%; margin: 1.25rem auto 0.5rem; }
 article pre.mermaid + p > em,
 article p:has(> img[src^="/assets/"]) + p > em {

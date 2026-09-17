@@ -99,9 +99,10 @@ MERMAID_SCRIPT = (
     f'import mermaid from "{MERMAID_CDN}";\n'
     """const blocks = [...document.querySelectorAll("pre.mermaid")];
 // Mermaid는 색을 SVG에 박아 넣으므로 CSS로 테마를 못 따른다 — 테마 전환 때 원본에서 다시 그린다.
+// 파싱 실패 시 Mermaid의 오류 그림 대신 원본 텍스트만 보이게 suppressErrorRendering.
 const draw = async () => {
   const light = document.documentElement.dataset.theme === "light";
-  mermaid.initialize({ startOnLoad: false, theme: light ? "neutral" : "dark" });
+  mermaid.initialize({ suppressErrorRendering: true, startOnLoad: false, theme: light ? "neutral" : "dark" });
   for (const [i, el] of blocks.entries()) {
     if (el.dataset.src === undefined) el.dataset.src = el.textContent;
     try {
