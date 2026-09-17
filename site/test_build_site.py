@@ -236,6 +236,15 @@ def test_copy_assets_mirrors_tree_or_skips() -> None:
         assert (dst / "kubernetes" / "arch.png").read_bytes() == b"\x89PNG-test"
 
 
+def test_pilot_diagram_rendered() -> None:
+    """kubernetes 페이지의 Mermaid 그림이 <pre class="mermaid">와 모듈 스크립트로 나온다."""
+    text = (DIST / "concepts" / "kubernetes" / "index.html").read_text(encoding="utf-8")
+    assert '<pre class="mermaid" data-pagefind-ignore>flowchart' in text
+    assert build.MERMAID_CDN in text
+    assert "그림 1." in text                        # 캡션
+    assert 'class="cite"' in text.split("그림 1.")[1][:400]   # 캡션의 인용이 칩으로 접힘
+
+
 if __name__ == "__main__":
     run_build()
     for name in sorted(n for n in dir() if n.startswith("test_")):

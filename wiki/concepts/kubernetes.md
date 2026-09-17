@@ -2,7 +2,7 @@
 title: 쿠버네티스 (Kubernetes)
 type: concept
 created: 2026-08-11
-updated: 2026-09-01
+updated: 2026-09-17
 sources: [k3s-docs, kubernetes-components]
 aliases: [Kubernetes, K8s]
 tags: [쿠버네티스, 컨테이너오케스트레이션, 클러스터]
@@ -46,6 +46,27 @@ tags: [쿠버네티스, 컨테이너오케스트레이션, 클러스터]
 노드에는 쿠버네티스 밖의 소프트웨어도 필요할 수 있다. 공식 문서는 리눅스 노드가 로컬 컴포넌트를 관리하려고 systemd를 함께 돌리는 경우를 예로 든다 (→ [[sources/kubernetes-components|#34 쿠버네티스 컴포넌트]]).
 
 > 이 부품들을 어떻게 배치하느냐는 배포판마다 다르다. [[entities/k3s|K3s]]는 컨트롤 플레인 전부를 프로세스 하나에 담았고 그 덕에 로그 설정을 부품별로 나눌 수 없다는 대가도 같이 진다 (→ [[sources/k3s-docs|#32 K3s 공식 문서]]).
+
+```mermaid
+flowchart TB
+  subgraph CP[컨트롤 플레인 — 지휘하는 쪽]
+    API[kube-apiserver]
+    ETCD[(etcd)]
+    SCH[kube-scheduler]
+    CM[kube-controller-manager]
+    CCM[cloud-controller-manager · 선택]
+  end
+  subgraph NODE[노드 — 실행하는 쪽]
+    KL[kubelet]
+    KP[kube-proxy · 선택]
+    RT[컨테이너 런타임]
+  end
+  REQ([모든 요청]) --> API
+  API --> ETCD
+  SCH -. 어느 노드에 얹을지 배정 .-> KL
+  KL --> RT
+```
+*그림 1. 클러스터의 두 층 — 컨트롤 플레인 다섯 부품과 노드 세 부품. 요청은 kube-apiserver로 모이고, 스케줄러는 배정만 하며 실제로 띄우는 일은 kubelet이 맡는다 (→ [[sources/kubernetes-components|#34 쿠버네티스 컴포넌트]]·[[sources/k3s-docs|#32 K3s 공식 문서]])*
 
 ## 부품을 더 얹는 자리 — 애드온
 
