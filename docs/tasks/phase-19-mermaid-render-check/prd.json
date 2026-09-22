@@ -1,0 +1,53 @@
+{
+  "phase": "phase-19-mermaid-render-check",
+  "goal": "Close the hole lint_wiki.py:443 names: Mermaid blocks ship to main unparsed, so a syntax error surfaces as a red error box on the live site with only a human PR preview between it and the reader. A Node checker parses every block with the same mermaid version the browser loads (11.17.2, pinned in site/build.py and asserted by the checker), using mermaid.parse + jsdom instead of mermaid-cli's Chromium. Syntax only — overlapping labels and unreadable layout stay a human job. Design: plan.md.",
+  "created_at": "2026-09-22",
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "scripts/check_mermaid.mjs — parse every Mermaid block against the pinned version",
+      "scope": "scripts/check_mermaid.mjs (new)",
+      "kind": "builder",
+      "depends_on": [],
+      "acceptance": "`node scripts/check_mermaid.mjs <dir>` walks the wiki tree, extracts every ```mermaid fence, and calls mermaid.parse on each. Exit 0 with a per-block OK count when all parse; exit 1 naming `<page>:<line>` and the parser message when any fails. It reads MERMAID_VERSION out of site/build.py and exits 2 if the installed mermaid package version differs. Demonstrated three ways: (a) the 17 real blocks from feat/wiki-illustrate all parse, (b) a copy of one of them with a deliberately broken arrow exits 1 and names that file, (c) a corpus with no diagrams exits 0 with an explicit \"no diagrams\" line, and (d) a mismatched MERMAID_VERSION pin exits 2 naming both versions.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T02",
+      "title": "Wire the checker into the verify job and ignore root node_modules",
+      "scope": ".github/workflows/verify.yml, .gitignore",
+      "kind": "builder",
+      "depends_on": [
+        "T01"
+      ],
+      "acceptance": "verify.yml's `verify` job installs mermaid and jsdom with `npm i --no-save` at pinned versions and runs `node scripts/check_mermaid.mjs`, after the existing build/audit steps. `.gitignore` carries `node_modules/` and `git check-ignore node_modules` reports it ignored. The `lint` job is unchanged and still needs no Node; deploy.yml is untouched.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T03",
+      "title": "Record the gate: §2.3 row, §2.4 rule, docs/index.md, log line",
+      "scope": "docs/rules/site-code.md, docs/index.md, docs/log.md",
+      "kind": "builder",
+      "depends_on": [
+        "T02"
+      ],
+      "acceptance": "§2.3's verification table gains a row for the checker with its install command and pass condition. §2.4 gains one rule covering what the check does and does not prove, why mermaid-cli was rejected, and the version-pin assertion. docs/index.md lists tasks/phase-19-mermaid-render-check/. docs/log.md gains exactly one `site` line at close-out. lint_wiki.py exits 0 afterwards.",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "T04",
+      "title": "Open the PR and watch the new step's first run go green",
+      "scope": "GitHub PR",
+      "kind": "manual",
+      "depends_on": [
+        "T03"
+      ],
+      "acceptance": "PR opened against main. `gh run list` shows the verify workflow's run for this PR succeeding, and the new step's log shows the version assertion passing and the block count for main's corpus. Per §2.4 (2026-07-17) the phase stays open until that run is observed green — never assumed.",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
