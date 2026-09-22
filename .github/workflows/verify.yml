@@ -49,6 +49,15 @@ jobs:
       - name: Run raw/ boundary audit
         run: python3 scripts/verify_site.py
 
+      # 그림 문법 게이트. mermaid 버전은 site/build.py 의 MERMAID_VERSION 에서 그대로 읽어
+      # 브라우저가 로드하는 것과 같은 파서로 검사한다 — 둘이 갈라지면 스크립트가 스스로 멈춘다.
+      # mermaid-cli 는 puppeteer(=Chromium 150MB)를 필요로 해서 쓰지 않는다.
+      - name: Install Mermaid parser
+        run: npm i --no-save "mermaid@$(sed -n 's/^MERMAID_VERSION = "\(.*\)"/\1/p' site/build.py)" jsdom@30.1.1
+
+      - name: Parse every wiki Mermaid block
+        run: node scripts/check_mermaid.mjs
+
   # Content-quality gate. Independent of the site, so it neither waits on the
   # build nor reruns per anything.
   lint:
