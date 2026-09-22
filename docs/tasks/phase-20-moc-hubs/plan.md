@@ -91,3 +91,11 @@ The operator reviewed the first cut and asked for four changes. All landed in th
 
 Verification after the review pass: lint 0 · fixture suite 35/35 · build 137 pages · build tests
 all pass · leak audit pass.
+
+### Second review pass (same day)
+
+- **No category cards on the home page.** The landing keeps the four type cards; categories are reached
+  from the header nav, the "처음이신가요?" start path and `/categories/`.
+- **Grouped listings collapse by default.** Each category group is a native `<details>`; closed, it shows
+  only the category name, the page count and a "카테고리 페이지 →" link. No JS involved — the sort toggle
+  still works inside an opened group.

@@ -472,13 +472,14 @@ def render_listing(title: str, keys, pages: dict, path: str) -> str:
             remaining -= set(hit)
     if remaining:  # lint 가 막지만, 혹시 빠진 페이지가 있어도 목록에서 사라지지는 않게
         groups.append(("분류 없음", "", sorted(remaining)))
+    # 기본은 접힘 — 카테고리 이름과 편수만 보이고, 펼쳐야 페이지가 나온다. JS 없이 <details> 로.
     sections = "\n".join(
-        '<section class="group">'
-        + (f'<h2><a href="{href}">{html.escape(name)}</a>' if href else f"<h2>{html.escape(name)}")
-        + f'<span class="count">{len(members)}</span></h2>'
-        + '<ul class="listing">'
+        '<details class="group"><summary>'
+        + f'<span class="name">{html.escape(name)}</span><span class="count">{len(members)}</span>'
+        + (f'<a class="more" href="{href}">카테고리 페이지 →</a>' if href else "")
+        + '</summary><ul class="listing">'
         + "".join(listing_item(pages[k]) for k in sorted(members, key=lambda k: pages[k]["title"]))
-        + "</ul></section>"
+        + "</ul></details>"
         for name, href, members in groups
     )
     return base_html(
@@ -541,7 +542,7 @@ def render_home(pages: dict) -> str:
         f'<span class="count">{count(s)}</span></span>'
         f'<span class="note">{SECTION_NOTES[s]}</span></a>'
         for s, label in SECTIONS
-        if s != CATEGORY_SECTION  # 카테고리는 아래 카드 묶음이 따로 맡는다
+        if s != CATEGORY_SECTION  # 홈 띠는 페이지 종류만 — 카테고리는 헤더 내비와 시작 경로로 간다
     )
     recent = sorted(
         (p for p in pages.values() if "/" in p["key"]),  # index/overview 제외
@@ -570,7 +571,6 @@ def render_home(pages: dict) -> str:
 </div>
 <section class="start"><h2>처음이신가요?</h2><ol>{start_html}</ol></section>
 </section>
-<nav class="entries categories" aria-label="카테고리">{category_cards(pages)}</nav>
 <nav class="entries" aria-label="페이지 종류">{entry_html}</nav>
 <section class="recent"><h2>최근 갱신<a class="more" href="/categories/">카테고리 →</a></h2>
 <ul>{recent_html}</ul></section>

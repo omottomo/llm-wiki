@@ -94,8 +94,8 @@ def test_home_page() -> None:
     assert "최근 갱신" in text
     for href in ["/overview/", "/categories/", "/concepts/", "/sources/", "/analysis/"]:
         assert f'href="{href}"' in text, f"홈 진입점 누락: {href}"
-    assert 'href="/categories/virtualization/"' in text   # 카테고리 카드가 홈에 뜬다
-    assert 'href="/index/"' not in text                   # 색인은 발행하지 않는다 (phase-20)
+    assert 'class="entry" href="/categories/' not in text  # 홈 띠는 페이지 종류만 (카테고리 카드 없음)
+    assert 'href="/index/"' not in text                     # 색인은 발행하지 않는다 (phase-20)
 
 
 def test_index_not_published_but_categories_are() -> None:
@@ -110,13 +110,14 @@ def test_index_not_published_but_categories_are() -> None:
 def test_section_listing_and_tag_page() -> None:
     concepts = (DIST / "concepts" / "index.html").read_text(encoding="utf-8")
     assert 'href="/concepts/mcp/"' in concepts
-    # 카테고리로 묶이고, 그룹 헤딩이 카테고리 페이지로 간다
-    assert 'class="group"' in concepts and 'href="/categories/ai-coding-agents/"' in concepts
+    # 카테고리로 묶이고(기본 접힘), 그룹 안 링크가 카테고리 페이지로 간다
+    assert '<details class="group"><summary>' in concepts and 'href="/categories/ai-coding-agents/"' in concepts
+    assert '<details class="group" open' not in concepts   # 기본은 접힘
     # 정렬 토글 + 정렬에 쓰는 데이터 속성
     assert 'data-sort="updated"' in concepts and 'data-updated="' in concepts and "listing-sort" in concepts
     tag_mcp = (DIST / "tags" / "MCP" / "index.html").read_text(encoding="utf-8")
     assert 'href="/concepts/mcp/"' in tag_mcp   # concepts/mcp의 tags에 MCP 존재
-    assert 'class="group"' in tag_mcp           # 태그 결과도 카테고리 그룹
+    assert '<details class="group">' in tag_mcp   # 태그 결과도 접힌 카테고리 그룹
 
 
 def test_citations_collapsed_into_chips() -> None:
