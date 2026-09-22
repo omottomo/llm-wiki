@@ -62,3 +62,32 @@ topics before it can locate anything.
   this; the real check is the same code path as before, only its input set grew.
 - **Stale hubs.** A hub that nobody updates on ingest is worse than a flat list. This is why the
   skill change (6) is part of the phase, not a follow-up.
+
+## Review changes (2026-09-22, same day, after the operator saw it on a local server)
+
+The operator reviewed the first cut and asked for four changes. All landed in the same PR.
+
+1. **"주제 관문" → "카테고리", everywhere.** Readers did not parse "관문". The folder is now
+   `wiki/categories/` (plural, like the other sections), the URL `/categories/`, the nav label
+   "카테고리", the page title `<주제> — 카테고리`, and the lint constant `CATEGORY_PREFIX`. The
+   term "MOC" survives only as a parenthetical in `wiki-content.md` §2 explaining where the idea
+   comes from. Fixture dirs renamed to match.
+2. **`wiki/index.md` is no longer published.** It stays on disk because `wiki-ingest`/`wiki-query`/
+   lint read it as the gateway list, but `site/build.py` skips it, the header nav drops "색인", the
+   home start path and "최근 갱신 →" point at `/categories/`, and `overview.md`'s example wikilink
+   now targets a category page. `test_all_articles_built` and `test_pagefind_wiring` learned the
+   exception.
+3. **`## 여기서부터` → `## 처음이라면 이 순서로`** on every category page and in the §2 template.
+4. **Listings grouped by category, with a sort toggle.** `/concepts/`, `/entities/`, `/sources/`,
+   `/analysis/` and every `/tags/<tag>/` page now render one `<section class="group">` per category
+   (heading links to the category page; order = `index.md` order), from `category_map()`, which
+   parses the category pages' wikilinks — no `category:` frontmatter, the category page *is* the
+   membership record. A `제목순 | 최근 갱신순` toggle sorts inside each group with ~20 lines of inline
+   JS off `data-title`/`data-updated`, remembered in `localStorage` like the theme. Default is 제목순,
+   so the no-JS render is unchanged. Home shows five category cards above the four type cards;
+   `/categories/` is the same five cards. `/tags/` itself is untouched — tags cut across categories,
+   grouping the tag index would destroy that. Category pages are excluded from the Pagefind body
+   (link lists are search noise), the same treatment the index page had.
+
+Verification after the review pass: lint 0 · fixture suite 35/35 · build 137 pages · build tests
+all pass · leak audit pass.

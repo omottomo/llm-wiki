@@ -1,17 +1,17 @@
 ---
-title: 주제 관문 — 가상화
+title: 가상화 — 카테고리
 type: overview
 created: 2026-09-22
 updated: 2026-09-22
 sources: []
-tags: [관문, 가상화, 하이퍼바이저]
+tags: [카테고리, 가상화, 하이퍼바이저]
 ---
 
-# 주제 관문 — 가상화
+# 가상화
 
-> 한 대의 기계를 여러 대처럼 쓰는 기술을 모아 둔 관문이다. 1960년대 메인프레임에서 시작해 x86에서 다시 풀어야 했던 문제, 그 해법이 소프트웨어에서 하드웨어로 내려간 과정까지 이어진다.
+> 한 대의 기계를 여러 대처럼 쓰는 기술을 모아 둔 카테고리다. 1960년대 메인프레임에서 시작해 x86에서 다시 풀어야 했던 문제, 그 해법이 소프트웨어에서 하드웨어로 내려간 과정까지 이어진다.
 
-## 여기서부터
+## 처음이라면 이 순서로
 1. [[concepts/virtualization|가상화]] — 무엇이고 왜 생겼는지
 2. [[concepts/hypervisor|하이퍼바이저]] — 자원을 나눠 주는 중재자와 타입 1·2
 3. [[concepts/virtualization-internals|가상화 작동 원리]] — 작동 원리를 끝까지 파고들 때
@@ -41,5 +41,5 @@ tags: [관문, 가상화, 하이퍼바이저]
 - [[sources/virtio-and-firecracker-docs|#43 virtio·파이어크래커]] — 2026-09-22 흡수, 커널 virtio 문서 + Firecracker 설계 문서. 반가상 I/O와 마이크로VM 1차 자료
 
 ## 함께 보기
-- [[moc/infrastructure|인프라와 웹 기술]] — 가상화 위에 올라가는 컨테이너·클러스터
+- [[categories/infrastructure|인프라와 웹 기술]] — 가상화 위에 올라가는 컨테이너·클러스터
 - [[concepts/kubernetes|쿠버네티스]] — 컨테이너 쪽 대비 축

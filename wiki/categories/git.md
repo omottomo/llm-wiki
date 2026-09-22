@@ -1,17 +1,17 @@
 ---
-title: 주제 관문 — Git과 버전 관리
+title: Git과 버전 관리 — 카테고리
 type: overview
 created: 2026-09-22
 updated: 2026-09-22
 sources: []
-tags: [관문, Git, 버전관리]
+tags: [카테고리, Git, 버전관리]
 ---
 
-# 주제 관문 — Git과 버전 관리
+# Git과 버전 관리
 
-> 파일의 역사를 기록하고 여러 갈래의 작업을 합치는 도구를 모아 둔 관문이다. 원리(객체 모델)를 먼저 잡고, 명령은 비슷한 것끼리 묶어 차이만 본다.
+> 파일의 역사를 기록하고 여러 갈래의 작업을 합치는 도구를 모아 둔 카테고리다. 원리(객체 모델)를 먼저 잡고, 명령은 비슷한 것끼리 묶어 차이만 본다.
 
-## 여기서부터
+## 처음이라면 이 순서로
 1. [[concepts/version-control|버전 관리 시스템]] — 왜 버전 관리가 필요한지
 2. [[concepts/git-object-model|Git 동작 원리]] — Git이 무엇을 저장하는지 — 나머지가 여기서 갈린다
 3. [[concepts/git-branch-integration|브랜치 합치기]] — 합치기 세 명령의 차이
@@ -41,4 +41,4 @@ tags: [관문, Git, 버전관리]
 - [[sources/tistory-inpa-git-concept|#51 Inpa Git 개념]] — 2026-09-22 흡수, Inpa 블로그. 해시 인덱싱 비유가 좋은 입문. `.git/HEAD` 설명 오류로 credibility low
 
 ## 함께 보기
-- [[moc/ai-coding-agents|AI 코딩 에이전트]] — 에이전트가 커밋·브랜치를 다루는 방식
+- [[categories/ai-coding-agents|AI 코딩 에이전트]] — 에이전트가 커밋·브랜치를 다루는 방식

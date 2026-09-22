@@ -302,6 +302,10 @@ article h2, article h3 { scroll-margin-top: 4.5rem; }
 .entry .name { font-size: 16px; font-weight: 700; color: var(--strong); }
 .entry .count { font-family: var(--mono); font-size: 12px; color: var(--accent); }
 .entry .note { display: block; font-size: 13.5px; line-height: 1.65; color: var(--muted); }
+/* 카테고리 카드: 5칸. 홈에서는 종류 띠 위에 얹히고, /categories/ 에서는 혼자 선다 */
+.entries.categories { grid-template-columns: repeat(5, 1fr); border-bottom: 0; }
+.entries.categories + .entries { border-top: 1px solid var(--line); }
+main > .entries.categories { width: 100%; border-bottom: 1px solid var(--line); }
 @media (max-width: 900px) {
   .home .hero { grid-template-columns: 1fr; gap: 2rem; padding: 2.25rem 1.25rem 1.75rem; }
   .home h1 { font-size: 34px; }
@@ -309,6 +313,8 @@ article h2, article h3 { scroll-margin-top: 4.5rem; }
   .entry:nth-child(2n) { border-right: 0; padding-right: 0; }
   .entry:nth-child(2n+1) { padding-left: 0; }
   .entry:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .entries.categories { grid-template-columns: repeat(2, 1fr); }
+  .entries.categories .entry:nth-child(-n+4) { border-bottom: 1px solid var(--line); }
 }
 
 /* ── 목록: 최근 갱신 · 섹션 목록 · 태그 목록 ─────────────── */
@@ -334,6 +340,20 @@ article h2, article h3 { scroll-margin-top: 4.5rem; }
 }
 .listing-head { margin-bottom: 1.25rem; }
 .listing-head .meta { margin: 0.2rem 0 0; }
+
+/* 목록: 카테고리 그룹 + 정렬 토글 */
+.group { margin-top: 2rem; }
+.group h2 { margin: 0 0 0.6rem; font-size: 15px; font-weight: 700; color: var(--strong); }
+.group h2 a { color: inherit; }
+.group h2 .count { margin-left: 0.5rem; font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--accent); }
+.sort { display: inline-flex; margin-top: 0.9rem; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.sort button {
+  padding: 0.3rem 0.7rem; border: 0; background: transparent; color: var(--muted);
+  font: inherit; font-size: 12.5px; cursor: pointer;
+}
+.sort button + button { border-left: 1px solid var(--line); }
+.sort button[aria-pressed="true"] { background: var(--panel); color: var(--strong); }
+.sort button:hover { color: var(--accent); }
 
 /* 태그 색인 */
 .tag-index { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }

@@ -40,8 +40,8 @@ llm-wiki/
 │   │                  #   docs/raw-manifest.txt)
 │   └── assets/        # downloaded images, etc.
 ├── wiki/              # markdown you generate & maintain (YOU own this)
-│   ├── index.md       # gateway — lists the subject MOCs, nothing else
-│   ├── moc/           # subject hubs (Map of Content); the per-page listings live here
+│   ├── index.md       # gateway — lists the category pages, nothing else (not published)
+│   ├── categories/    # one page per subject; the per-page listings live here
 │   ├── overview.md    # one page surveying the whole domain
 │   ├── entities/      # proper nouns: people, orgs, products, places
 │   ├── concepts/      # concepts, topics, themes

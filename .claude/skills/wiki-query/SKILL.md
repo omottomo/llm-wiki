@@ -16,10 +16,10 @@ Key insight: a good comparison/analysis/connection produced in response to a que
 ## Procedure
 
 ### 1. Search (index first)
-Always start from `wiki/index.md` (a gateway listing the subject MOCs) and open the MOC of the relevant subject — `wiki/moc/<subject>.md` — for the page list. How far you drill depends on the **depth** the question
+Always start from `wiki/index.md` (a gateway listing the categories) and open the category page of the relevant subject — `wiki/categories/<subject>.md` — for the page list. How far you drill depends on the **depth** the question
 needs — pick one; the user's phrasing usually signals it:
 
-- **quick** ("가볍게", "빠르게", "대충", a yes/no or one-fact lookup) — read `index.md`, then the one-line descriptions in the relevant MOC only. Answer from the index; open a page only if the index is ambiguous.
+- **quick** ("가볍게", "빠르게", "대충", a yes/no or one-fact lookup) — read `index.md`, then the one-line descriptions in the relevant category page only. Answer from the index; open a page only if the index is ambiguous.
 - **standard** (default — most questions) — read the shortlisted pages, grep to the relevant slices, and follow `[[...]]` / `sources/` links as needed.
 - **deep** ("깊게", "제대로", "전부 훑어서", or a synthesis/comparison spanning the whole domain) — read all candidate pages, follow See-Also chains, and cross-check the underlying `raw/` transcripts where a claim is load-bearing or a caption error is plausible.
 
@@ -41,14 +41,14 @@ If the answer goes beyond a simple fact lookup and produces a **comparison/analy
    → `## 비교표` → free H2s → `## 함께 읽기`. **No lead paragraph.** Plain-writing and voice rules:
    `docs/rules/wiki-content.md` §1.1–§1.3. `python3 scripts/lint_wiki.py` errors if a required heading is missing.
 2. Add `[[...]]` links from the relevant entity/concept pages to this analysis page.
-3. Add it to the `## 분석` section of the subject's MOC (`wiki/moc/<subject>.md`) — `index.md` itself only lists MOCs (`docs/rules/wiki-content.md` §2).
+3. Add it to the `## 분석` section of the subject's category page (`wiki/categories/<subject>.md`) — `index.md` itself only lists categories (`docs/rules/wiki-content.md` §2).
 4. Append one line to `docs/log.md`: `## [date] query | 질문 요지 — analysis/<slug> 로 보존`
 5. Commit: `git add -A && git commit -m "query: analysis/<slug>"` (only when something was filed back).
 
 > **Branch: `wiki-query`, always.** Never name a branch after the question or the page you filed. Start from
 > the latest default branch (`git checkout -B wiki-query origin/main`); if a `wiki-query` PR is already open,
 > add your commit to that same branch and let the PR grow instead of opening a second one. `main` is protected,
-> so the work lands through a PR. *Why:* every skill run touches a MOC under `wiki/moc/` and `docs/log.md`, so
+> so the work lands through a PR. *Why:* every skill run touches a category page under `wiki/categories/` and `docs/log.md`, so
 > per-topic branches stack on each other and conflict the moment `main` moves.
 
 If it's a low-value one-line fact lookup, you may skip filing — use judgment, or ask the user "이거 위키에 남길까요?"

@@ -20,7 +20,7 @@ Backfill diagrams onto pages that already exist. `wiki-ingest` draws for new pag
   grep -L '^```mermaid' wiki/concepts/*.md wiki/entities/*.md
   grep -L '^!\[.*\](/assets/' wiki/concepts/*.md wiki/entities/*.md   # 공식 문서 이미지도 그림으로 센다
   ```
-- If the user named pages, restrict to those. Never touch `sources/`, `analysis/`, `moc/`, `overview.md`, `index.md` — lint rejects diagrams there.
+- If the user named pages, restrict to those. Never touch `sources/`, `analysis/`, `categories/`, `overview.md`, `index.md` — lint rejects diagrams there.
 
 ### 2. Judge each page (§1.4 rule 6)
 Read the page. Find the one section whose prose meets a draw criterion **and** that a table does not already cover:

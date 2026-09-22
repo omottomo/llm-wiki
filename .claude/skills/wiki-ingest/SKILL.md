@@ -60,7 +60,7 @@ Join segment texts with newlines (in time order) to produce a plain-text body be
 - If the user says "그냥 알아서 넣어," proceed directly.
 
 ### 3. Reconcile with the existing wiki (most important)
-Read `wiki/index.md` (the subject gateway) and then the MOC of this source's subject — `wiki/moc/<subject>.md` — to find pages related to this source. For each candidate page, locate the section you need with a `grep` for the claim, heading, or existing `[[...]]` link, and read only that slice plus enough surrounding context to edit it correctly — don't open the whole page. Reserve whole-page reads for pages that genuinely need restructuring (e.g. splitting a section, reorganizing headings). For each key claim, decide:
+Read `wiki/index.md` (the subject gateway) and then the category page of this source's subject — `wiki/categories/<subject>.md` — to find pages related to this source. For each candidate page, locate the section you need with a `grep` for the claim, heading, or existing `[[...]]` link, and read only that slice plus enough surrounding context to edit it correctly — don't open the whole page. Reserve whole-page reads for pages that genuinely need restructuring (e.g. splitting a section, reorganizing headings). For each key claim, decide:
 - **강화 (supports)**: Does it back an existing claim? → add it as supporting evidence on that page.
 - **모순 (contradicts)**: Does it conflict with an existing claim? → keep both and flag the contradiction explicitly (never delete).
 - **신규 (new)**: Is it a person/concept/topic appearing for the first time? → create a new page (or stub).
@@ -74,13 +74,13 @@ Do these in order:
    **Diagrams (`docs/rules/wiki-content.md` §1.4).** When a `concepts/` or `entities/` page you create or update meets one of the draw criteria — ≥3 components with relationships, a flow of ≥3 steps, a layered/containment hierarchy — and a table would not do the job, add one Mermaid fence directly after the prose of that section with a caption `*그림 N. … (→ [[sources/<slug>|label]])*`. Labels are the body's own Korean terms; draw no component or arrow the body does not state. At most 3 per page; never inside `## 한눈에 요약`. If §1 noted an official-image candidate, post the URL, licence text and what it shows in chat and wait for approval before writing anything under `wiki/assets/`.
 3. For every newly mentioned proper noun/concept, create at least a stub so no orphan links remain — a stub still uses its template.
 4. If the source shifts the big picture, update `wiki/overview.md`.
-5. **Reflect new/changed pages in the subject MOC** — `wiki/moc/<subject>.md` (`docs/rules/wiki-content.md` §2).
-   Add one line per new page under that MOC's `## 개념` / `## 엔티티` / `## 분석` / `## 출처` section, in the
+5. **Reflect new/changed pages in the subject's category page** — `wiki/categories/<subject>.md` (`docs/rules/wiki-content.md` §2).
+   Add one line per new page under that category page's `## 개념` / `## 엔티티` / `## 분석` / `## 출처` section, in the
    same `- [[key|별칭]] — 한 줄 설명` form the section already uses, and put new sources at the end of `## 출처`
-   so the `#N` order stays the ingest order. Bump the MOC's `updated`.
-   - **Existing subject → touch only that MOC.** `wiki/index.md` does not change.
-   - **New subject** (the source starts a topic no MOC covers) → create `wiki/moc/<subject>.md` from the shape in
-     `docs/rules/wiki-content.md` §2, then add one gateway line for it to `wiki/index.md`. A MOC the index does
+   so the `#N` order stays the ingest order. Bump the category page's `updated`.
+   - **Existing subject → touch only that category page.** `wiki/index.md` does not change.
+   - **New subject** (the source starts a topic no category covers) → create `wiki/categories/<subject>.md` from the shape in
+     `docs/rules/wiki-content.md` §2, then add one gateway line for it to `wiki/index.md`. A category page the index does
      not link covers nothing — lint fails the pages listed in it.
    - A page that straddles two subjects may be listed in both; do that only when it genuinely belongs to both.
 6. **Run `python3 scripts/lint_wiki.py` before committing.** It exits non-zero on a missing required heading or a
@@ -92,7 +92,7 @@ Do these in order:
 > **Branch: `wiki-ingest`, always.** Never name a branch after the source (`ingest/youtube-<id>` is banned).
 > Start from the latest default branch (`git checkout -B wiki-ingest origin/main`); if a `wiki-ingest` PR is
 > already open, add this ingest's commit to that same branch and let the PR grow instead of opening a second
-> one. `main` is protected, so the ingest lands through a PR. *Why:* every ingest touches a MOC under `wiki/moc/` and
+> one. `main` is protected, so the ingest lands through a PR. *Why:* every ingest touches a category page under `wiki/categories/` and
 > `docs/log.md`, so per-source branches stack on each other and conflict the moment `main` moves — PRs #3 and
 > #4 had to be collapsed into #5 for exactly this reason (2026-08-09).
 

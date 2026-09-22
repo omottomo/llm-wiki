@@ -1,17 +1,17 @@
 ---
-title: 주제 관문 — Jev와 판단 전용 AI 모델
+title: Jev와 판단 전용 AI 모델 — 카테고리
 type: overview
 created: 2026-09-22
 updated: 2026-09-22
 sources: []
-tags: [관문, Jev, TypeSafe, 시스템원]
+tags: [카테고리, Jev, TypeSafe, 시스템원]
 ---
 
-# 주제 관문 — Jev와 판단 전용 AI 모델
+# Jev와 판단 전용 AI 모델
 
-> 글을 만들지 않고 판단만 돌려주는 모델 계열을 모아 둔 관문이다. TypeSafe AI가 System One이라 부르는 부류이고, 지금 공개된 모델은 Jev 하나다.
+> 글을 만들지 않고 판단만 돌려주는 모델 계열을 모아 둔 카테고리다. TypeSafe AI가 System One이라 부르는 부류이고, 지금 공개된 모델은 Jev 하나다.
 
-## 여기서부터
+## 처음이라면 이 순서로
 1. [[concepts/system-one-model|시스템 원 모델]] — LLM이 아니면 대체 무엇인지
 2. [[concepts/jev-primitives|Jev 프리미티브]] — Choice·Score·Noul 세 질문 타입
 3. [[analysis/jev-vs-llm|Jev vs LLM vs 코드]] — 언제 쓰고 언제 쓰지 말아야 하는지
@@ -36,4 +36,4 @@ tags: [관문, Jev, TypeSafe, 시스템원]
 
 ## 함께 보기
 - [[concepts/llm-basics|LLM 기초]] — 비교 대상이 되는 생성형 모델의 기본
-- [[moc/ai-coding-agents|AI 코딩 에이전트]] — 파이프라인 앞단에 판단을 끼우는 자리
+- [[categories/ai-coding-agents|AI 코딩 에이전트]] — 파이프라인 앞단에 판단을 끼우는 자리

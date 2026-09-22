@@ -20,4 +20,4 @@ tags: [색인, 카탈로그]
 ## Sources
 - [[sources/src-alpha|알파 소스]] — 테스트용 소스 A
 
-## 주제 관문
+## 카테고리
