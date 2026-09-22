@@ -43,7 +43,7 @@ Show the user, per source, the URL, the classification, and the specific diffed 
 On `wiki/sources/<slug>.md`, regardless of classification, append one line to a `## 최신화 이력` section (create it after `## 출처 정보` if it doesn't exist yet): date, classification, and the new raw slug if one was created. If a new capture was created, also append its slug to the frontmatter `sources:` list and bump `updated` — a material capture is real content, not metadata (`docs/rules/wiki-content.md` §4.3's metadata-only exemption does not apply here).
 
 ### 8. Update index and log
-- Update `wiki/index.md` if new pages were created.
+- Update the subject's category page under `wiki/categories/` if new pages were created (`wiki/index.md` lists only the categories).
 - Append one line to `docs/log.md`: `## [date] refresh | 소스 요지 — 변경 유형, 페이지 N개 갱신` (or "변경 없음" if every checked source was cosmetic-only/unchanged).
 
 ### 9. Commit and report

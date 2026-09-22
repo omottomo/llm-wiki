@@ -19,4 +19,6 @@ tags: [색인, 카탈로그]
 
 ## Sources
 - [[sources/src-alpha|알파 소스]] — 테스트용 소스 A
-- [[sources/src-beta|베타 소스]] — 테스트용 소스 B
+
+## 카테고리
+- [[categories/foo-topic|테스트 주제]] — 카테고리를 거쳐 등재되는 페이지가 여기 들어간다

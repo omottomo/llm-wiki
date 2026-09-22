@@ -29,11 +29,13 @@ SITE_URL = "https://omotomo-llm-wiki.com"
 SITE_DESCRIPTION = "직접 고른 자료를 읽고 정리해 쌓아 올리는 개인 지식 위키입니다"
 START_PATH = [
     ("/overview/", "위키 개요", "이 위키가 어떻게 만들어지는지 한 페이지로."),
-    ("/index/", "전체 색인", "카테고리별 페이지 목록에서 고르기."),
+    ("/categories/", "카테고리", "다섯 갈래 주제에서 고르기."),
 ]
-SECTIONS = [("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
+SECTIONS = [("categories", "카테고리"), ("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
+CATEGORY_SECTION = "categories"   # 페이지별 줄을 들고 있는 카테고리 페이지들. 나머지 목록은 이걸로 묶는다.
 # 홈 카테고리 띠에 붙는 한 줄 설명 — 사이트가 소유한 카피
 SECTION_NOTES = {
+    "categories": "주제별로 묶은 길잡이",
     "concepts": "하네스 · 컨텍스트 · 루프 엔지니어링",
     "entities": "인물 · 조직 · 도구",
     "sources": "자료 한 건당 요약 한 편",
@@ -162,9 +164,12 @@ def extract_summary(body: str, page_type: str) -> str:
 def load_pages() -> dict[str, dict]:
     pages = {}
     for path in lint_wiki.wiki_pages():
+        key = lint_wiki.page_key(path)
+        if key == "index":
+            # 스킬·lint 가 읽는 관문 목록일 뿐이다 — 독자에게는 카테고리 페이지가 그 역할을 한다.
+            continue
         text = path.read_text(encoding="utf-8")
         fm = lint_wiki.parse_frontmatter(text) or {}
-        key = lint_wiki.page_key(path)
         body = lint_wiki.split_body(text)
         pages[key] = {
             "key": key,
@@ -277,10 +282,7 @@ def link_wikilinks(body: str, existing) -> str:
 
 def nav_html(path: str) -> str:
     """헤더 섹션 내비 — 현재 보고 있는 섹션을 표시한다."""
-    items = [(f"/{s}/", label) for s, label in SECTIONS] + [
-        ("/tags/", "태그"),
-        ("/index/", "색인"),
-    ]
+    items = [(f"/{s}/", label) for s, label in SECTIONS] + [("/tags/", "태그")]
     return "".join(
         f'<a href="{url}"' + (' aria-current="page"' if path.startswith(url) else "")
         + f">{label}</a>"
@@ -380,19 +382,134 @@ def summary_html(page: dict) -> str:
     return f'<span class="summary">{html.escape(page["summary"])}</span>'
 
 
+CATEGORY_SUFFIX = " — 카테고리"
+
+
+def category_name(page: dict) -> str:
+    """카테고리 페이지 제목 '가상화 — 카테고리' 에서 이름만."""
+    return page["title"].removesuffix(CATEGORY_SUFFIX)
+
+
+def category_intro(page: dict) -> str:
+    """카테고리 페이지 첫 인용 블록의 첫 문장 — 홈·카테고리 목록의 카드 설명."""
+    m = re.search(r"^> (.+)$", page["body"], re.M)
+    if not m:
+        return ""
+    first = re.split(r"(?<=다\.)\s", m.group(1).strip(), maxsplit=1)[0]
+    return MARKUP_RE.sub("", first)
+
+
+def category_map(pages: dict) -> list[tuple[str, list[str]]]:
+    """카테고리 페이지 순서(wiki/index.md 의 링크 순서)대로 (카테고리 키, 소속 페이지 키 목록).
+
+    소속은 카테고리 페이지 본문의 위키링크에서 읽는다 — 별도 frontmatter 없이 카테고리 페이지가 곧
+    소속 기록이다(docs/rules/wiki-content.md §2). 두 카테고리에 걸친 페이지는 양쪽에 들어간다."""
+    index_text = (WIKI / "index.md").read_text(encoding="utf-8")
+    order = []
+    for raw in lint_wiki.WIKILINK_RE.findall(index_text):
+        key = lint_wiki.normalize_target(raw)
+        if key.startswith(CATEGORY_SECTION + "/") and key in pages and key not in order:
+            order.append(key)
+    result = []
+    for cat in order:
+        members = []
+        for raw in lint_wiki.WIKILINK_RE.findall(pages[cat]["body"]):
+            key = lint_wiki.normalize_target(raw)
+            if key in pages and not key.startswith(CATEGORY_SECTION + "/") and key not in members:
+                members.append(key)
+        result.append((cat, members))
+    return result
+
+
+def listing_item(page: dict) -> str:
+    return (
+        f'<li data-title="{html.escape(page["title"], quote=True)}" data-updated="{page["updated"]}">'
+        f'<a href="{url_for(page["key"])}">{html.escape(page["title"])}'
+        f'{summary_html(page)}'
+        f'<span class="meta">{page["updated"][5:]}</span></a></li>'
+    )
+
+
+SORT_CONTROL = (
+    '<div class="sort" role="group" aria-label="정렬">'
+    '<button type="button" data-sort="title" aria-pressed="true">제목순</button>'
+    '<button type="button" data-sort="updated" aria-pressed="false">최근 갱신순</button></div>'
+)
+# 정렬은 그룹 안에서만 바꾼다 — 그룹(카테고리) 순서는 index.md 가 정한 그대로. 선택은 테마처럼 localStorage 에 남긴다.
+SORT_SCRIPT = """<script>
+(() => {
+  const KEY = "listing-sort";
+  const apply = (mode) => {
+    document.querySelectorAll("ul.listing").forEach((ul) => {
+      const items = Array.from(ul.children);
+      items.sort((a, b) => mode === "updated"
+        ? b.dataset.updated.localeCompare(a.dataset.updated) || a.dataset.title.localeCompare(b.dataset.title, "ko")
+        : a.dataset.title.localeCompare(b.dataset.title, "ko"));
+      items.forEach((li) => ul.appendChild(li));
+    });
+    document.querySelectorAll(".sort button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.sort === mode)));
+  };
+  let mode = "title";
+  try { mode = localStorage.getItem(KEY) || "title"; } catch (e) {}
+  if (mode !== "title") apply(mode);
+  document.querySelectorAll(".sort button").forEach((b) => b.addEventListener("click", () => {
+    apply(b.dataset.sort);
+    try { localStorage.setItem(KEY, b.dataset.sort); } catch (e) {}
+  }));
+})();
+</script>"""
+
+
 def render_listing(title: str, keys, pages: dict, path: str) -> str:
-    items = "\n".join(
-        f'<li><a href="{url_for(k)}">{html.escape(pages[k]["title"])}'
-        f'{summary_html(pages[k])}'
-        f'<span class="meta">{pages[k]["updated"][5:]}</span></a></li>'
-        for k in sorted(keys, key=lambda k: pages[k]["title"])
+    """종류별·태그별 목록 — 카테고리로 묶고, 그룹 안은 제목순(정렬 토글로 최근 갱신순 전환)."""
+    keys = list(keys)
+    remaining = set(keys)
+    groups = []
+    for cat, members in category_map(pages):
+        hit = [k for k in members if k in remaining]
+        if hit:
+            groups.append((category_name(pages[cat]), url_for(cat), hit))
+            remaining -= set(hit)
+    if remaining:  # lint 가 막지만, 혹시 빠진 페이지가 있어도 목록에서 사라지지는 않게
+        groups.append(("분류 없음", "", sorted(remaining)))
+    # 기본은 접힘 — 카테고리 이름과 편수만 보이고, 펼쳐야 페이지가 나온다. JS 없이 <details> 로.
+    sections = "\n".join(
+        '<details class="group"><summary>'
+        + f'<span class="name">{html.escape(name)}</span><span class="count">{len(members)}</span>'
+        + (f'<a class="more" href="{href}">카테고리 페이지 →</a>' if href else "")
+        + '</summary><ul class="listing">'
+        + "".join(listing_item(pages[k]) for k in sorted(members, key=lambda k: pages[k]["title"]))
+        + "</ul></details>"
+        for name, href, members in groups
     )
     return base_html(
         title,
         f'<main><div class="listing-head"><h1>{html.escape(title)}</h1>'
-        f'<p class="meta">{len(list(keys))}편 · 제목순</p></div>'
-        f'<ul class="listing">{items}</ul></main>',
+        f'<p class="meta">{len(keys)}편 · 카테고리 {len(groups)}개</p>{SORT_CONTROL}</div>'
+        f"{sections}</main>",
         path=path,
+        extra_scripts=SORT_SCRIPT,
+    )
+
+
+def category_cards(pages: dict) -> str:
+    return "\n".join(
+        f'<a class="entry" href="{url_for(cat)}">'
+        f'<span class="label"><span class="name">{html.escape(category_name(pages[cat]))}</span>'
+        f'<span class="count">{len(members)}</span></span>'
+        f'<span class="note">{html.escape(category_intro(pages[cat]))}</span></a>'
+        for cat, members in category_map(pages)
+    )
+
+
+def render_category_index(pages: dict) -> str:
+    """/categories/ — 카드 5장. 페이지별 줄은 각 카테고리 페이지에 있다."""
+    return base_html(
+        "카테고리",
+        '<main><div class="listing-head"><h1>카테고리</h1>'
+        f'<p class="meta">{SECTION_NOTES[CATEGORY_SECTION]}</p></div>'
+        f'<nav class="entries categories">{category_cards(pages)}</nav></main>',
+        path=f"/{CATEGORY_SECTION}/",
     )
 
 
@@ -425,9 +542,11 @@ def render_home(pages: dict) -> str:
         f'<span class="count">{count(s)}</span></span>'
         f'<span class="note">{SECTION_NOTES[s]}</span></a>'
         for s, label in SECTIONS
+        if s != CATEGORY_SECTION  # 홈 띠는 페이지 종류만 — 카테고리는 헤더 내비와 시작 경로로 간다
     )
     recent = sorted(
-        (p for p in pages.values() if "/" in p["key"]),  # index/overview 제외
+        # overview 와 카테고리 페이지 제외 — 목록·안내는 '최근 갱신' 이 아니다
+        (p for p in pages.values() if "/" in p["key"] and not p["key"].startswith(CATEGORY_SECTION + "/")),
         key=lambda p: p["updated"],
         reverse=True,
     )[:5]
@@ -453,8 +572,8 @@ def render_home(pages: dict) -> str:
 </div>
 <section class="start"><h2>처음이신가요?</h2><ol>{start_html}</ol></section>
 </section>
-<nav class="entries">{entry_html}</nav>
-<section class="recent"><h2>최근 갱신<a class="more" href="/index/">전체 색인 →</a></h2>
+<nav class="entries" aria-label="페이지 종류">{entry_html}</nav>
+<section class="recent"><h2>최근 갱신<a class="more" href="/categories/">카테고리 →</a></h2>
 <ul>{recent_html}</ul></section>
 </main>"""
     return base_html(SITE_NAME, content, summary=SITE_DESCRIPTION, path="/")
@@ -553,7 +672,9 @@ def render_article(page: dict, pages: dict, inbound: dict) -> str:
             f'<a class="tag" href="{tag_url(t)}">{html.escape(t)}</a>' for t in page["tags"]
         )
         tags_html = f'<footer class="tags">{chips}</footer>'
-    pagefind_attr = "" if page["key"] == "index" else " data-pagefind-body"
+    # 카테고리 페이지는 링크 목록이라 검색 노이즈다 — 본문은 색인하지 않는다(제목은 남는다)
+    is_listing = page["key"].startswith(CATEGORY_SECTION + "/")
+    pagefind_attr = "" if is_listing else " data-pagefind-body"
     # h1이 <article> 밖으로 나갔으므로 Pagefind가 제목을 계속 색인하도록 같은 표시를 단다.
     if pagefind_attr and h1_html:
         h1_html = h1_html.replace("<h1>", "<h1 data-pagefind-body>", 1)
@@ -618,6 +739,9 @@ def main() -> int:
     for page in pages.values():
         write_page(page["key"], render_article(page, pages, inbound))
     for s, label in SECTIONS:
+        if s == CATEGORY_SECTION:
+            write_page(s, render_category_index(pages))
+            continue
         keys = [k for k in pages if k.startswith(s + "/")]
         write_page(s, render_listing(label, keys, pages, f"/{s}/"))
     for tag, keys in collect_tags(pages).items():

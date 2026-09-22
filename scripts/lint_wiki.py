@@ -11,8 +11,8 @@ wiki-lint 스킬의 1단계로 실행된다. 모순·낡은 주장 탐지 같은
      sources/·concepts/ 페이지 title의 한글 포함 여부(entities/ 는 예외) +
      sources/ 페이지의 credibility 값(high|medium|low) · volatility 값(hot|warm|cold) +
      aliases 값의 리스트 형식
-  4. index.md 등재 여부 — 모든 페이지가 색인에 올라 있는가
-  5. 고아 페이지 — index.md 외에 아무 페이지도 링크하지 않는 페이지
+  4. 색인 등재 여부 — 모든 페이지가 index.md 또는 index.md 가 링크한 카테고리 페이지에 올라 있는가
+  5. 고아 페이지 — index.md·카테고리 페이지 외에 아무 페이지도 링크하지 않는 페이지
   6. 링크 형식 (docs/rules/wiki-content.md §1) — 본문 위키링크의 한글 별칭 누락,
      소스 페이지의 자기 인용, 소스 페이지 frontmatter의 label 키 누락/형식 오류,
      본문 내 서식 없는 '#숫자' 인용(Quartz가 태그로 오인식)
@@ -51,6 +51,8 @@ INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 BARE_CITATION_RE = re.compile(r"#\d+")
 HANGUL_RE = re.compile(r"[가-힣]")
 RETRACTED_MARKER = "<!--RETRACTED-SOURCE-->"
+# phase-20 — 카테고리 페이지. index.md 는 카테고리만 링크하고 페이지별 줄은 여기 있다.
+CATEGORY_PREFIX = "categories/"
 
 # docs/rules/wiki-content.md §1.4 — 그림. Mermaid 펜스와 /assets/ 이미지를 같은 '그림 N' 번호로 센다.
 DIAGRAM_TYPES = {"flowchart", "sequenceDiagram", "classDiagram", "stateDiagram-v2", "timeline"}
@@ -236,26 +238,37 @@ def check_frontmatter(pages):
 
 
 def check_index_coverage(pages):
+    """index.md 또는 index.md 가 링크한 카테고리 페이지에 모든 페이지가 등재돼 있는가 (phase-20).
+
+    index.md 는 카테고리 목록이고 페이지별 줄은 wiki/categories/*.md 가 들고 있다. 그래서 등재 판정은
+    'index.md 가 링크한 카테고리' 까지 한 단계만 따라간다 — index 가 링크하지 않는 카테고리에만 적힌
+    페이지는 어느 경로로도 닿을 수 없으므로 미등재로 본다."""
     index_path = WIKI / "index.md"
     if not index_path.exists():
         add("색인", "wiki/index.md 자체가 없음")
         return
     index_targets = {normalize_target(t) for t in WIKILINK_RE.findall(index_path.read_text(encoding="utf-8"))}
+    listed = set(index_targets)
+    for cat_key in sorted(k for k in index_targets if k.startswith(CATEGORY_PREFIX)):
+        cat_path = WIKI / f"{cat_key}.md"
+        if cat_path.exists():
+            listed |= {normalize_target(t) for t in WIKILINK_RE.findall(cat_path.read_text(encoding="utf-8"))}
     for page in pages:
         key = page_key(page)
         if key in ("index", "overview"):
             continue
-        if key not in index_targets:
-            add("색인", f"wiki/{key}.md 가 index.md 에 등재되어 있지 않음")
+        if key not in listed:
+            add("색인", f"wiki/{key}.md 가 index.md·카테고리 어디에도 등재되어 있지 않음")
 
 
 def build_inbound_map(pages) -> dict:
-    """페이지별 인바운드 링크 소스 페이지 집합. index.md 는 소스로 집계하지 않는다(고아 페이지 검사 기준과 동일).
+    """페이지별 인바운드 링크 소스 페이지 집합. index.md 와 카테고리 페이지는 소스로 집계하지 않는다
+    (고아 페이지 검사 기준과 동일 — 둘 다 목록이라, 목록에 올랐다는 이유로 고아를 면하면 검사가 무의미해진다).
     한 페이지가 같은 대상을 [[대상]]과 [[대상#섹션]]처럼 서로 다른 형태로 여러 번 링크해도 소스는 1건으로 센다."""
     inbound = {page_key(p): set() for p in pages}
     for page in pages:
         src = page_key(page)
-        if src == "index":
+        if src == "index" or src.startswith(CATEGORY_PREFIX):
             continue
         text = page.read_text(encoding="utf-8")
         for raw_target in set(WIKILINK_RE.findall(text)):
@@ -269,7 +282,7 @@ def check_orphans(pages):
     """index.md 를 제외한 다른 페이지로부터 인바운드 링크가 0인 페이지."""
     inbound = build_inbound_map(pages)
     for key, sources in sorted(inbound.items()):
-        if key in ("index", "overview"):
+        if key in ("index", "overview") or key.startswith(CATEGORY_PREFIX):
             continue
         if not sources:
             add("고아 페이지", f"wiki/{key}.md — index.md 외 인바운드 링크 0건")

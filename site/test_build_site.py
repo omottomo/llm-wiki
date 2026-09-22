@@ -29,6 +29,8 @@ def test_all_articles_built() -> None:
     """wiki/의 모든 .md가 dist/<key>/index.html로 렌더된다."""
     for md_path in (ROOT / "wiki").rglob("*.md"):
         key = str(md_path.relative_to(ROOT / "wiki").with_suffix(""))
+        if key == "index":   # 스킬·lint 용 관문 — 발행하지 않는다 (phase-20)
+            continue
         out = DIST / key / "index.html"
         assert out.is_file(), f"누락: {out}"
 
@@ -90,15 +92,34 @@ def test_home_page() -> None:
     text = (DIST / "index.html").read_text(encoding="utf-8")
     assert '<div id="search">' in text          # 검색 중심 첫 화면
     assert "최근 갱신" in text
-    for href in ["/overview/", "/concepts/", "/sources/", "/analysis/", "/index/"]:
+    for href in ["/overview/", "/categories/", "/concepts/", "/sources/", "/analysis/"]:
         assert f'href="{href}"' in text, f"홈 진입점 누락: {href}"
+    assert 'class="entry" href="/categories/' not in text  # 홈 띠는 페이지 종류만 (카테고리 카드 없음)
+    recent = text.split('class="recent"', 1)[1]
+    assert 'href="/categories/' not in recent.split("<ul>", 1)[1]  # 최근 갱신에도 카테고리 페이지는 안 뜬다
+    assert 'href="/index/"' not in text                     # 색인은 발행하지 않는다 (phase-20)
+
+
+def test_index_not_published_but_categories_are() -> None:
+    """wiki/index.md 는 스킬·lint 용 관문이라 사이트에 내지 않는다. 카테고리 페이지가 그 자리를 맡는다."""
+    assert not (DIST / "index" / "index.html").exists()
+    cats = (DIST / "categories" / "index.html").read_text(encoding="utf-8")
+    for href in ["/categories/ai-coding-agents/", "/categories/git/"]:
+        assert f'href="{href}"' in cats
+    assert 'href="/index/"' not in (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
 
 
 def test_section_listing_and_tag_page() -> None:
     concepts = (DIST / "concepts" / "index.html").read_text(encoding="utf-8")
     assert 'href="/concepts/mcp/"' in concepts
+    # 카테고리로 묶이고(기본 접힘), 그룹 안 링크가 카테고리 페이지로 간다
+    assert '<details class="group"><summary>' in concepts and 'href="/categories/ai-coding-agents/"' in concepts
+    assert '<details class="group" open' not in concepts   # 기본은 접힘
+    # 정렬 토글 + 정렬에 쓰는 데이터 속성
+    assert 'data-sort="updated"' in concepts and 'data-updated="' in concepts and "listing-sort" in concepts
     tag_mcp = (DIST / "tags" / "MCP" / "index.html").read_text(encoding="utf-8")
     assert 'href="/concepts/mcp/"' in tag_mcp   # concepts/mcp의 tags에 MCP 존재
+    assert '<details class="group">' in tag_mcp   # 태그 결과도 접힌 카테고리 그룹
 
 
 def test_citations_collapsed_into_chips() -> None:
@@ -177,8 +198,8 @@ def test_pagefind_wiring() -> None:
     assert "new PagefindUI" in home
     mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
     assert "data-pagefind-body" in mcp
-    catalog = (DIST / "index" / "index.html").read_text(encoding="utf-8")
-    assert "data-pagefind-body" not in catalog  # 색인 페이지는 검색 노이즈라 제외
+    catalog = (DIST / "categories" / "git" / "index.html").read_text(encoding="utf-8")
+    assert "data-pagefind-body" not in catalog  # 카테고리 페이지는 링크 목록이라 검색 노이즈 — 제외
 
 
 def test_pagefind_index_built() -> None:
