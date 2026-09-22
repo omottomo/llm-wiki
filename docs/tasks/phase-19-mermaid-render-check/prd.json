@@ -10,8 +10,8 @@
       "kind": "builder",
       "depends_on": [],
       "acceptance": "`node scripts/check_mermaid.mjs <dir>` walks the wiki tree, extracts every ```mermaid fence, and calls mermaid.parse on each. Exit 0 with a per-block OK count when all parse; exit 1 naming `<page>:<line>` and the parser message when any fails. It reads MERMAID_VERSION out of site/build.py and exits 2 if the installed mermaid package version differs. Demonstrated three ways: (a) the 17 real blocks from feat/wiki-illustrate all parse, (b) a copy of one of them with a deliberately broken arrow exits 1 and names that file, (c) a corpus with no diagrams exits 0 with an explicit \"no diagrams\" line, and (d) a mismatched MERMAID_VERSION pin exits 2 naming both versions.",
-      "status": "pending",
-      "attempts": 0
+      "status": "completed",
+      "attempts": 1
     },
     {
       "id": "T02",
@@ -22,8 +22,8 @@
         "T01"
       ],
       "acceptance": "verify.yml's `verify` job installs mermaid and jsdom with `npm i --no-save` at pinned versions and runs `node scripts/check_mermaid.mjs`, after the existing build/audit steps. `.gitignore` carries `node_modules/` and `git check-ignore node_modules` reports it ignored. The `lint` job is unchanged and still needs no Node; deploy.yml is untouched.",
-      "status": "pending",
-      "attempts": 0
+      "status": "completed",
+      "attempts": 1
     },
     {
       "id": "T03",
@@ -34,8 +34,8 @@
         "T02"
       ],
       "acceptance": "§2.3's verification table gains a row for the checker with its install command and pass condition. §2.4 gains one rule covering what the check does and does not prove, why mermaid-cli was rejected, and the version-pin assertion. docs/index.md lists tasks/phase-19-mermaid-render-check/. docs/log.md gains exactly one `site` line at close-out. lint_wiki.py exits 0 afterwards.",
-      "status": "pending",
-      "attempts": 0
+      "status": "completed",
+      "attempts": 1
     },
     {
       "id": "T04",
