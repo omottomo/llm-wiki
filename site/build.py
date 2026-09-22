@@ -545,7 +545,8 @@ def render_home(pages: dict) -> str:
         if s != CATEGORY_SECTION  # 홈 띠는 페이지 종류만 — 카테고리는 헤더 내비와 시작 경로로 간다
     )
     recent = sorted(
-        (p for p in pages.values() if "/" in p["key"]),  # index/overview 제외
+        # overview 와 카테고리 페이지 제외 — 목록·안내는 '최근 갱신' 이 아니다
+        (p for p in pages.values() if "/" in p["key"] and not p["key"].startswith(CATEGORY_SECTION + "/")),
         key=lambda p: p["updated"],
         reverse=True,
     )[:5]

@@ -95,6 +95,8 @@ def test_home_page() -> None:
     for href in ["/overview/", "/categories/", "/concepts/", "/sources/", "/analysis/"]:
         assert f'href="{href}"' in text, f"홈 진입점 누락: {href}"
     assert 'class="entry" href="/categories/' not in text  # 홈 띠는 페이지 종류만 (카테고리 카드 없음)
+    recent = text.split('class="recent"', 1)[1]
+    assert 'href="/categories/' not in recent.split("<ul>", 1)[1]  # 최근 갱신에도 카테고리 페이지는 안 뜬다
     assert 'href="/index/"' not in text                     # 색인은 발행하지 않는다 (phase-20)
 
 
