@@ -2,7 +2,7 @@
 title: 위키 색인
 type: overview
 created: 2026-06-23
-updated: 2026-09-01
+updated: 2026-09-22
 sources: []
 tags: [색인, 카탈로그]
 ---
@@ -40,6 +40,17 @@ tags: [색인, 카탈로그]
 - [[concepts/kubernetes|쿠버네티스]] — 컨테이너 오케스트레이션. 컨트롤 플레인·노드·애드온 구성, CRI·CNI·CSI 인터페이스, 주요 리소스
 - [[concepts/graphql|GraphQL]] — 엔드포인트 하나로 필요한 필드만 받는 쿼리 언어. 스키마·리졸버·인트로스펙션, REST와의 대비
 
+- [[concepts/virtualization|가상화]] — 하드웨어를 소프트웨어로 갈라 쓰는 기술. 탄생 배경·유형 6가지·운영 과제·앞날(DPU·마이크로VM)
+- [[concepts/hypervisor|하이퍼바이저]] — VM에 자원을 나눠 주는 중재자. 타입 1 vs 타입 2, 관리 도구, **구분이 흐려지는 자리**
+- [[concepts/virtualization-internals|가상화 작동 원리]] — Popek·Goldberg 3요건부터 trap-and-emulate·바이너리 변환·반가상화·VT-x·EPT·virtio·SR-IOV까지
+- [[concepts/version-control|버전 관리 시스템]] — 로컬 → 중앙집중(CVCS) → 분산(DVCS) 계보와 분산이 주는 것
+- [[concepts/git-object-model|Git 동작 원리]] — 델타가 아닌 스냅샷, 해시 키-값 저장소, blob·tree·commit, refs·HEAD, 세 트리
+- [[concepts/git-branch-integration|브랜치 합치기]] — merge·rebase·cherry-pick의 차이와 "푼 커밋은 리베이스하지 않는다"
+- [[concepts/git-remote-sync|원격 저장소 동기화]] — clone·fetch·pull·push. pull 기본값을 둘러싼 **공식 문서끼리의 모순** 보존
+- [[concepts/git-undo|되돌리기]] — reset 세 단계·revert·restore·switch·stash. 데이터를 실제로 지우는 건 `--hard` 하나
+- [[concepts/system-one-model|시스템 원 모델]] — LLM이 아닌 판단 전용 모델 계열. RLHF·RLVR·**RLCD** 갈래와 보정 확률의 뜻
+- [[concepts/jev-primitives|Jev 프리미티브]] — Choice·Score·Noul 질문 타입, 신뢰도 임계값 3구간, 공표된 실패 모드 9가지
+
 ## Entities
 - [[entities/claude-code|Claude Code]] — Anthropic의 에이전틱 코딩 CLI
 - [[entities/anthropic|Anthropic]] — Claude/Claude Code 개발사
@@ -69,6 +80,14 @@ tags: [색인, 카탈로그]
 - [[entities/flannel|Flannel]] — K3s 기본 CNI. vxlan/wireguard-native 백엔드
 - [[entities/helm|Helm]] — 쿠버네티스 패키지 매니저. K3s의 HelmChart CRD 자동 배포
 - [[entities/apollo-graphql|Apollo GraphQL]] — GraphQL 서버·클라이언트 라이브러리 세트. 스키마 확인용 웹 IDE 제공
+
+- [[entities/kvm|KVM]] — 리눅스 커널을 하이퍼바이저로 만드는 모듈. VM이 리눅스 프로세스, **타입 논쟁 모순** 보존
+- [[entities/xen|Xen]] — 반가상화를 대중화한 x86 VMM(2003, 케임브리지). Domain0·하이퍼콜
+- [[entities/qemu|QEMU]] — KVM의 유저스페이스 짝. 장치 에뮬레이션과 VM 프로세스를 맡는다(스텁)
+- [[entities/git|Git]] — 2005년 BitKeeper 사용권 철회에서 태어난 분산 버전 관리 도구
+- [[entities/linus-torvalds|Linus Torvalds]] — 리눅스 커널 창시자이자 Git 최초 개발자(스텁)
+- [[entities/jev|Jev]] — TypeSafe AI의 첫 시스템 원 모델. `jev-1.13.0`, 입력 100만 토큰당 $0.042·출력 무료
+- [[entities/typesafe-ai|TypeSafe AI]] — Jev 개발사. 기계가 바로 쓰는 판단(Machine Native Intelligence)을 내세운다
 
 ## Sources (흡수 순서)
 - [[sources/youtube-HnvitMTkXro|#1 LLM 설명]] — 트랜스포머·어텐션·RLHF 기초(요약 버전)
@@ -106,7 +125,33 @@ tags: [색인, 카탈로그]
 - [[sources/kakaotech-graphql|#33 GraphQL 개념잡기]] — 2026-08-19 흡수, kakao tech 블로그(2019-08). GraphQL 구조 4부품과 REST 대비, 결제 프로젝트 도입 경험
 - [[sources/kubernetes-components|#34 쿠버네티스 컴포넌트]] — 2026-09-01 흡수, 쿠버네티스 공식 문서 개요 한 쪽. 컨트롤 플레인·노드·애드온 3분류, 입문 범위
 
+- [[sources/aws-what-is-virtualization|#35 AWS 가상화 개요]] — 2026-09-22 흡수, AWS 개념 문서. 가상화 정의·하이퍼바이저 타입·유형 7가지·컨테이너 대비
+- [[sources/oracle-virtualization-explained|#36 오라클 가상화 해설]] — 2026-09-22 흡수, 오라클 종합 해설. 운영 과제 7가지·마이그레이션·DPU와 마이크로VM 전망
+- [[sources/redhat-what-is-kvm|#37 레드햇 KVM]] — 2026-09-22 흡수, 레드햇 토픽 문서. KVM 연혁·VM은 리눅스 프로세스·sVirt·라이브 마이그레이션·관리 도구
+- [[sources/geeksforgeeks-virtualization-types|#38 GfG 가상화 유형]] — 2026-09-22 흡수, 커뮤니티 튜토리얼. 유형 6종 정리. 역사 서술 오류와 범주 오류로 credibility low
+- [[sources/ibm-what-is-virtualization|#39 IBM 가상화 개요]] — 2026-09-22 흡수, IBM Think. 1960년대 메인프레임 기원과 x86 재부상 서사
+- [[sources/wikipedia-virtualization-foundations|#40 위키백과 가상화 기초]] — 2026-09-22 흡수, 위키백과 7편 묶음. Popek·Goldberg 정리, x86 하드웨어 보조 계보, CP/CMS
+- [[sources/xen-sosp-2003-paper|#41 Xen 논문 2003]] — 2026-09-22 흡수, SOSP'03 논문 앞 6쪽. 반가상화 설계 1차 자료(ring 1·하이퍼콜·Domain0)
+- [[sources/kernel-kvm-docs|#42 KVM 커널 문서]] — 2026-09-22 흡수, 리눅스 커널 공식 문서 발췌. `/dev/kvm` ioctl 3계층과 vCPU 실행 모델
+- [[sources/virtio-and-firecracker-docs|#43 virtio·파이어크래커]] — 2026-09-22 흡수, 커널 virtio 문서 + Firecracker 설계 문서. 반가상 I/O와 마이크로VM 1차 자료
+- [[sources/gitbook-about-version-control|#44 Pro Git 버전관리란]] — 2026-09-22 흡수, Pro Git 1.1. 로컬·중앙집중·분산 VCS 계보
+- [[sources/gitbook-short-history-of-git|#45 Pro Git Git 역사]] — 2026-09-22 흡수, Pro Git 1.2. BitKeeper 사건과 Git 설계 목표 4가지
+- [[sources/gitbook-what-is-git|#46 Pro Git Git이란]] — 2026-09-22 흡수, Pro Git 1.3. 스냅샷 모델·세 상태·거의 모든 연산이 로컬
+- [[sources/gitbook-branching-and-internals|#47 Pro Git 브랜치·내부]] — 2026-09-22 흡수, Pro Git 8개 장 묶음. 브랜치·머지·리베이스·리모트·스태시·리셋·객체·레퍼런스
+- [[sources/gitscm-docs-git|#48 git 명령 레퍼런스]] — 2026-09-22 흡수, git-scm 공식 매뉴얼. 명령 분류(주요·보조·저수준)와 전역 옵션
+- [[sources/gitscm-command-manpages|#49 git 매뉴얼 11편]] — 2026-09-22 흡수, 공식 man page 11편 묶음. merge·rebase·fetch·pull·cherry-pick·reset·revert·stash·switch·restore·checkout
+- [[sources/kodekloud-how-git-works|#50 KodeKloud Git 내부]] — 2026-09-22 흡수, KodeKloud 블로그. 내부 구조 해설. 상태 서술 2건이 공식 문서와 충돌
+- [[sources/tistory-inpa-git-concept|#51 Inpa Git 개념]] — 2026-09-22 흡수, Inpa 블로그. 해시 인덱싱 비유가 좋은 입문. `.git/HEAD` 설명 오류로 credibility low
+- [[sources/typesafe-ai-docs|#52 TypeSafe 공식 문서]] — 2026-09-22 흡수, docs.typesafe.ai 17페이지. Jev·System One의 1차 출처(RLCD·보정·API·실패 모드 9가지)
+- [[sources/jevmanual-core|#53 Jev 매뉴얼(비공식)]] — 2026-09-22 흡수, jevmanual.com 19페이지. 서드파티 가이드. "내부 구조는 공개 명세가 아니다"라는 경계선 제시
+- [[sources/youtube-lx3YkhzM_04|#54 재브 뭐가 다른가]] — 2026-09-22 흡수, 코드깎는노인. LLM과의 응답 형태 차이를 그림으로 설명, Doom 실시간 판단 사례
+- [[sources/youtube-GeM9URVnPV8|#55 Jev 200배 테스트]] — 2026-09-22 흡수, 코드팩토리. 한국어 100건 분류 실측(속도 6~8배·비용 76배·판정 89/100 일치)
+- [[sources/youtube-hRW-Gh5Y4MM|#56 Jev+Aside 활용]] — 2026-09-22 흡수, 배움의 달인. 발급 절차와 활용 사례. 수치는 대부분 전언이라 credibility low
+
 ## Analysis
 - [[analysis/ai-coding-evolution|AI 코딩 패러다임의 진화]] — 프롬프트→컨텍스트→하네스→루프 4단계 진화 비교표
 - [[analysis/claude-md-decision-guide|CLAUDE.md 결정 가이드]] — 모순①(삭제 vs 3배)의 실천 가이드화
 - [[analysis/workflow-selection-guide|워크플로우 선택 가이드]] — 채팅/스킬/서브에이전트/배치/다이나믹/Goal 비교
+- [[analysis/vm-vs-container|가상 머신 vs 컨테이너]] — 격리 수준·부팅·오버헤드 비교와 마이크로VM이 메우는 자리
+- [[analysis/merge-vs-rebase|merge vs rebase]] — 이력 모양·충돌·되돌리기·공유 안전성 비교, "기록 대 이야기" 양쪽 보존
+- [[analysis/jev-vs-llm|Jev vs LLM vs 코드]] — 세 도구의 경계, 실측 대 홍보 수치 검증, "환각 0%" 모순 플래그
