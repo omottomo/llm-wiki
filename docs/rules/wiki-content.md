@@ -244,27 +244,47 @@ The rest of `## 출처 정보` (author, collection date, URL) *is* published.
 
 ---
 
-## 2. index.md (content-oriented catalog)
+## 2. index.md and the MOC hubs (content-oriented catalog)
 
-The table of contents. List every page by category, each with **a link plus a one-line description, in Korean**.
-Before answering any query, **always read index.md first** to locate the relevant pages, then drill in.
-Update index.md on every ingest.
+**`index.md` is a gateway, not a catalog** (2026-09-22, phase-20). It lists the **subject MOCs**
+(Map of Content hubs) under `wiki/moc/`, one line each, and nothing else. The per-page lines —
+a link plus a one-line Korean description — live in the MOC of that subject. Reason: `index.md`
+is the first file every skill reads, and a flat 131-line list charged every question the cost of
+four unrelated subjects. This replaces the earlier "list every page in index.md" rule.
 
-Example of the required output (Korean, as mandated by the language rule):
+**Reading order for any query:** `index.md` → the MOC of the relevant subject → the pages. That
+is one extra read and it is the point — you skip the other subjects entirely.
+
+**A MOC page** (`wiki/moc/<subject>.md`, `type: overview`) carries, in this order:
+
 ```markdown
-## Entities
-- [[entities/홍길동]] — 핵심 인물, 자료 3건에서 언급
-## Concepts
-- [[concepts/RAG]] — 검색증강생성, overview의 핵심 축
-## Sources
-- [[sources/article-foo]] — 2026-05-30 흡수, RAG 한계 다룸
-## Analysis
-- [[analysis/RAG-vs-wiki]] — 두 접근 비교표
+# 주제 관문 — <주제>
+> 한 줄 소개 — 이 주제가 무엇을 모아 둔 것인지
+## 여기서부터        <- 입문 순서 3개, 각 줄에 "왜 이 순서인지" 한 마디
+## 개념 / ## 엔티티 / ## 분석 / ## 출처   <- 해당 절이 비면 그 절을 쓰지 않는다
+## 함께 보기          <- 이웃 MOC 나 경계에 걸친 페이지
 ```
 
+Rules:
+- **Every page belongs to at least one MOC.** A page listed nowhere is unreachable; lint fails on it.
+- A page that genuinely straddles two subjects may be listed in both (e.g. `entities/mitchell-hashimoto`
+  is in AI coding for the harness term and in infrastructure as a HashiCorp founder). Duplication is
+  the exception, not the default.
+- The one-line description is the same sentence the index used to carry: what it is, plus what makes
+  the page worth opening.
+- **`index.md` changes only when a subject is added or removed.** An ordinary ingest touches its MOC.
+
+**The lint coupling is load-bearing** (same class as the citation format, §4.2). `check_index_coverage`
+accepts a page listed in `index.md` **or** in a MOC that `index.md` links — it follows exactly one hop,
+so a MOC the index does not link covers nothing. `build_inbound_map` ignores `moc/` pages as link
+sources and `check_orphans` skips the MOCs themselves, because a hub that links everything would
+otherwise make the orphan check always pass. Change the layout, change `scripts/lint_wiki.py` with it.
+
 **Scaling criteria** (revisit when crossed):
-- When `sources/` exceeds ~100 files, the flat index stops scaling — evaluate a hybrid search tool (e.g. `qmd`: BM25 + vector + LLM re-rank) instead of index+grep.
-- When a single category in index.md exceeds ~30 entries, introduce MOC (Map of Content) hub pages that cluster related pages, and link the MOCs from index.md.
+- When `sources/` exceeds ~100 files, the flat listing inside a MOC stops scaling — evaluate a hybrid
+  search tool (e.g. `qmd`: BM25 + vector + LLM re-rank) instead of listing+grep.
+- When a single MOC exceeds ~80 entries, split it by sub-theme (the AI-coding hub is the one to watch;
+  it sat at 65 in 2026-09) rather than growing a second flat list.
 
 ---
 

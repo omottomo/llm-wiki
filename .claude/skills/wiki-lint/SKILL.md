@@ -15,7 +15,7 @@ Humans abandon wikis because of the maintenance burden — you carry that burden
 
 ## What to check
 
-Get the full page list from `wiki/index.md`, then scan pages for:
+Get the full page list from the MOCs under `wiki/moc/` (`wiki/index.md` lists only the MOCs), then scan pages for:
 
 1. **Contradictions** — pairs of pages with conflicting claims. Determine which rests on a more recent/reliable source and flag or resolve accordingly.
 2. **Stale claims** — old claims a later source has already overturned. Update them or mark them "구버전(outdated)".
@@ -44,7 +44,7 @@ Get the full page list from `wiki/index.md`, then scan pages for:
 > **Branch: `wiki-lint`, always.** Never name a branch after the findings or the date of the pass. Start from
 > the latest default branch (`git checkout -B wiki-lint origin/main`); if a `wiki-lint` PR is already open,
 > add your commit to that same branch and let the PR grow instead of opening a second one. `main` is protected,
-> so the pass lands through a PR. *Why:* every skill run touches `wiki/index.md` and `docs/log.md`, so
+> so the pass lands through a PR. *Why:* every skill run touches a MOC under `wiki/moc/` and `docs/log.md`, so
 > per-pass branches stack on each other and conflict the moment `main` moves.
 
 ## Report format

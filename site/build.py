@@ -29,11 +29,12 @@ SITE_URL = "https://omotomo-llm-wiki.com"
 SITE_DESCRIPTION = "직접 고른 자료를 읽고 정리해 쌓아 올리는 개인 지식 위키입니다"
 START_PATH = [
     ("/overview/", "위키 개요", "이 위키가 어떻게 만들어지는지 한 페이지로."),
-    ("/index/", "전체 색인", "카테고리별 페이지 목록에서 고르기."),
+    ("/index/", "주제 관문", "다섯 갈래 주제에서 고르기."),
 ]
-SECTIONS = [("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
+SECTIONS = [("moc", "주제 관문"), ("concepts", "개념"), ("entities", "엔티티"), ("sources", "출처"), ("analysis", "분석")]
 # 홈 카테고리 띠에 붙는 한 줄 설명 — 사이트가 소유한 카피
 SECTION_NOTES = {
+    "moc": "주제별로 묶은 길잡이",
     "concepts": "하네스 · 컨텍스트 · 루프 엔지니어링",
     "entities": "인물 · 조직 · 도구",
     "sources": "자료 한 건당 요약 한 편",

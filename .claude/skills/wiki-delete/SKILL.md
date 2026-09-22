@@ -19,7 +19,7 @@ Remove pages from the wiki **safely**. Deletion is irreversible, so the priority
 ### 1. Resolve scope and confirm (mandatory — never skip)
 Determine exactly which pages are targeted:
 - **Single / few pages**: list each target page by path.
-- **By topic/source**: read `wiki/index.md` to enumerate the matching pages, then list them.
+- **By topic/source**: read `wiki/index.md`, open the matching subject MOC under `wiki/moc/`, and enumerate the pages from there.
 - **Whole wiki**: every file under `wiki/`.
 - **Source retraction**: remove a source's *influence* from the wiki without necessarily deleting its page — a different operation from the three above. See "Retraction" below.
 
@@ -48,7 +48,7 @@ After deletion, no page should point to a now-missing page. Go through the inbou
 - Do not leave orphaned `[[...]]` links to nonexistent pages.
 
 ### 5. Update index and log
-- Remove the deleted pages' entries from `wiki/index.md`.
+- Remove the deleted pages' entries from their MOC(s) under `wiki/moc/`. If a subject loses every page, delete its MOC too and remove its gateway line from `wiki/index.md`.
 - Append one line to `docs/log.md`: `## [date] delete | 삭제 대상 요지 — 페이지 N개 삭제, 링크 M건 정리`
 - (For a full-wiki wipe, you may keep `docs/log.md` itself with a final entry recording the wipe, or remove it too if the user explicitly asks. Default: keep `docs/log.md` so the history survives — confirm with the user.)
 
