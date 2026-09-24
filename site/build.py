@@ -290,6 +290,14 @@ def nav_html(path: str) -> str:
     )
 
 
+def search_form(form_id: str) -> str:
+    """검색어를 /search/?q= 로 넘기는 입력창. 결과는 드롭다운이 아니라 결과 페이지에서 본다."""
+    return (
+        f'<form id="{form_id}" class="search-form" action="/search/" role="search">'
+        '<input type="search" name="q" placeholder="검색..." aria-label="검색"></form>'
+    )
+
+
 def base_html(title: str, content: str, summary: str = "", path: str = "/", extra_scripts: str = "") -> str:
     head_title = SITE_NAME if title == SITE_NAME else f"{title} · {SITE_NAME}"
     description = html.escape(summary or SITE_DESCRIPTION, quote=True)
@@ -310,14 +318,13 @@ def base_html(title: str, content: str, summary: str = "", path: str = "/", extr
 <link rel="canonical" href="{page_url}">
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 <link rel="stylesheet" href="/style.css">
-<script src="/pagefind/pagefind-ui.js"></script>
 <script>document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";</script>
 </head>
 <body>
 <header class="site-header">
 <a class="site-name" href="/">{SITE_NAME}</a>
 <nav class="site-nav">{nav_html(path)}</nav>
-<div id="header-search" class="header-search"></div>
+{search_form("header-search")}
 <button id="theme-toggle" aria-label="밝은 화면과 어두운 화면 전환" title="밝은 화면과 어두운 화면 전환"></button>
 </header>
 {content}
@@ -359,15 +366,6 @@ window.addEventListener("DOMContentLoaded", () => {{
     if (!ticking) {{ ticking = true; requestAnimationFrame(spy); }}
   }}, {{ passive: true }});
   spy();
-}});
-</script>
-<script>
-window.addEventListener("DOMContentLoaded", () => {{
-  // #search는 홈·404의 큰 검색창, #header-search는 모든 페이지의 헤더 검색창 (서로 다른 인스턴스)
-  for (const id of ["#search", "#header-search"]) {{
-    if (document.querySelector(id) && window.PagefindUI)
-      new PagefindUI({{ element: id, showSubResults: true, translations: {{ placeholder: "검색..." }} }});
-  }}
 }});
 </script>
 {extra_scripts}
@@ -565,7 +563,7 @@ def render_home(pages: dict) -> str:
 <section class="hero">
 <div>
 <h1>LLM Wiki</h1>
-<div id="search"></div>
+{search_form("search")}
 <p class="stats"><span>문서 <strong>{len(pages)}</strong>편</span>
 <span>출처 <strong>{count("sources")}</strong>건</span>
 <span>마지막 갱신 <strong>{latest}</strong></span></p>
@@ -584,13 +582,44 @@ def render_404() -> str:
 <section class="hero">
 <div>
 <h1>페이지가 없습니다</h1>
-<div id="search"></div>
+{search_form("search")}
 <p class="stats"><span>주소를 확인하거나 검색해 보세요.</span>
 <span><a href="/">{SITE_NAME} 홈으로</a></span></p>
 </div>
 </section>
 </main>"""
     return base_html("페이지 없음", content, path="/404.html")
+
+
+SEARCH_SCRIPT = """<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const q = new URLSearchParams(location.search).get("q") || "";
+  const ui = new PagefindUI({
+    element: "#search-results", showSubResults: true, showImages: false, autofocus: !q,
+    translations: { placeholder: "검색..." },
+    // 입력이 바뀌면 주소의 ?q=도 바꿔, 결과를 공유하거나 뒤로 가기로 돌아올 수 있게 한다
+    processTerm: (term) => {
+      const url = new URL(location.href);
+      if (term) url.searchParams.set("q", term); else url.searchParams.delete("q");
+      history.replaceState(null, "", url);
+      return term;
+    },
+  });
+  if (q) {
+    ui.triggerSearch(q);
+    document.querySelector("#header-search input").value = q;
+  }
+});
+</script>"""
+
+
+def render_search() -> str:
+    content = """<main class="search-page">
+<h1>검색</h1>
+<div id="search-results"></div>
+</main>"""
+    return base_html("검색", content, path="/search/", extra_scripts=SEARCH_SCRIPT)
 
 
 HEADING_RE = re.compile(r"<h([23])>(.*?)</h\1>", re.S)
@@ -747,6 +776,7 @@ def main() -> int:
     for tag, keys in collect_tags(pages).items():
         write_page(f"tags/{tag}", render_listing(f"태그: {tag}", keys, pages, tag_url(tag)))
     write_page("tags", render_tag_index(pages))
+    write_page("search", render_search())
     (DIST / "index.html").write_text(render_home(pages), encoding="utf-8")
     (DIST / "404.html").write_text(render_404(), encoding="utf-8")
     write_sitemap_and_robots(pages)

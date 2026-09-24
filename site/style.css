@@ -71,20 +71,18 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 #theme-toggle::before { content: "☀"; }
 :root[data-theme="light"] #theme-toggle::before { content: "☾"; }
 
-.header-search {
-  position: relative; margin-left: auto; width: 200px;
-  --pagefind-ui-scale: 0.62;
+#header-search { margin-left: auto; width: 200px; }
+.search-form input {
+  width: 100%; box-sizing: border-box; padding: 0.45rem 0.7rem;
+  background: var(--bg); color: var(--text); font: inherit; font-size: 13px;
+  border: 1px solid var(--line-2); border-radius: 6px;
 }
-.header-search .pagefind-ui__drawer {
-  position: absolute; top: 100%; right: 0; left: auto; width: 26rem; z-index: 40;
-  max-height: 70vh; overflow-y: auto;
-  background: var(--panel); border: 1px solid var(--line-2);
-  border-radius: 8px; padding: 0 0.9rem;
-}
+.search-form input:focus { outline: none; border-color: var(--accent); }
+#search input { padding: 0.85rem 1rem; font-size: 1rem; }
 @media (max-width: 720px) {
   .site-header { flex-wrap: wrap; height: auto; padding: 0.7rem 1.1rem; gap: 0.9rem; }
   .site-nav { order: 3; flex-basis: 100%; }
-  .header-search { width: 100%; order: 4; margin-left: 0; }
+  #header-search { width: 100%; order: 4; margin-left: 0; }
 }
 
 /* ── 본문 ─────────────────────────────────────────────── */
@@ -257,7 +255,6 @@ article h2, article h3 { scroll-margin-top: 4.5rem; }
   margin: 0 0 1.5rem; font-size: 44px; line-height: 1.2;
   font-weight: 800; color: var(--strong); letter-spacing: -0.035em;
 }
-.home #search { max-width: none; }
 .home .stats { display: flex; flex-wrap: wrap; gap: 1.85rem; margin: 1.5rem 0 0; }
 .home .stats span { font-size: 13px; color: var(--faint); white-space: nowrap; }
 .home .stats strong { font-family: var(--mono); font-weight: 600; color: var(--text); }
