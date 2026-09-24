@@ -90,7 +90,7 @@ def test_dead_wikilink_renders_muted() -> None:
 
 def test_home_page() -> None:
     text = (DIST / "index.html").read_text(encoding="utf-8")
-    assert '<div id="search">' in text          # 검색 중심 첫 화면
+    assert '<form id="search" class="search-form" action="/search/"' in text  # 검색 중심 첫 화면
     assert "최근 갱신" in text
     for href in ["/overview/", "/categories/", "/concepts/", "/sources/", "/analysis/"]:
         assert f'href="{href}"' in text, f"홈 진입점 누락: {href}"
@@ -150,7 +150,7 @@ def test_internal_sections_not_published() -> None:
 def test_header_search_on_every_article() -> None:
     for key in ["concepts/mcp", "sources/hashicorp-terraform-docs", "entities/anthropic"]:
         text = (DIST / key / "index.html").read_text(encoding="utf-8")
-        assert 'id="header-search"' in text, f"헤더 검색창 누락: {key}"
+        assert '<form id="header-search" class="search-form" action="/search/"' in text, f"헤더 검색창 누락: {key}"
 
 
 def test_listing_shows_summary() -> None:
@@ -178,7 +178,7 @@ def test_share_metadata() -> None:
 
 def test_404_page() -> None:
     text = (DIST / "404.html").read_text(encoding="utf-8")
-    assert '<div id="search">' in text
+    assert 'action="/search/"' in text
 
 
 def test_design_chrome() -> None:
@@ -193,9 +193,11 @@ def test_design_chrome() -> None:
 
 
 def test_pagefind_wiring() -> None:
+    search = (DIST / "search" / "index.html").read_text(encoding="utf-8")
+    assert "/pagefind/pagefind-ui.js" in search
+    assert 'element: "#search-results"' in search and "triggerSearch(q)" in search
     home = (DIST / "index.html").read_text(encoding="utf-8")
-    assert "/pagefind/pagefind-ui.js" in home
-    assert "new PagefindUI" in home
+    assert "new PagefindUI" not in home  # 결과는 드롭다운이 아니라 /search/ 에서만 본다
     mcp = (DIST / "concepts" / "mcp" / "index.html").read_text(encoding="utf-8")
     assert "data-pagefind-body" in mcp
     catalog = (DIST / "categories" / "git" / "index.html").read_text(encoding="utf-8")
