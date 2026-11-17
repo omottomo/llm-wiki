@@ -27,11 +27,14 @@ llm-wiki/
 │   ├── skills/        # per-task workflows (content: wiki-ingest / wiki-query / wiki-lint / wiki-delete / wiki-refresh / wiki-illustrate)
 │   └── settings.json  # project permissions
 ├── scripts/           # deterministic helper scripts (lint_wiki.py, verify_site.py)
+├── tests/             # lint fixtures (tests/fixtures/ — read by scripts/test_lint_wiki.py)
+├── infra/             # Terraform for the site's hosting (S3, CloudFront, ACM, Route53, deploy role)
 ├── docs/
 │   ├── index.md       # catalog of everything under docs/ — keep it current
 │   ├── rules/         # area-specific rule modules (see §4)
 │   │   ├── wiki-content.md   # content mode: page authoring, index.md, domain rules
-│   │   └── site-code.md      # code mode: coding discipline, site publishing, verification
+│   │   ├── site-code.md      # code mode: coding discipline, site publishing, verification
+│   │   └── git.md            # both modes: branches, commits, PRs
 │   ├── tasks/         # phase-{N}-{slug}/ — plan.md + prd.json per phase
 │   ├── backlog.md     # ingest backlog — candidates & open questions (unpublished; not factual evidence)
 │   └── log.md         # chronological work log (append-only)
@@ -52,7 +55,7 @@ llm-wiki/
 
 **Two modes, one repo.** **Content mode** — you are the librarian maintaining `wiki/` — is
 governed by this file plus `docs/rules/wiki-content.md`. **Code mode** — you build the
-published site: `site/`, `scripts/`, `.github/`, root config — is governed by this file plus
+published site: `site/`, `scripts/`, `tests/`, `infra/`, `.github/`, root config — is governed by this file plus
 `docs/rules/site-code.md`. They share the repo but not the rules — know which one you are in
 before you touch anything.
 
@@ -74,10 +77,10 @@ Entries are Korean — they are content, not operating instructions:
 ## [2026-05-31] ingest | 자료 제목 — 페이지 N개 갱신
 ## [2026-05-31] query  | 질문 요지 — analysis/foo 로 보존
 ## [2026-05-31] lint   | 모순 2건, 고아 1건 발견 → 처리
-## [2026-05-31] site   | phase-1-quartz-publishing — Quartz 스캐폴딩 + Cloudflare 배포
+## [2026-05-31] site   | phase-8-minimal-site — build.py 정적 생성기로 사이트 교체
 ```
 
-The `site` prefix covers code-mode work (`docs/rules/site-code.md`): a Quartz, scripts, or CI phase gets **one** line at close-out, not one per task.
+The `site` prefix covers code-mode work (`docs/rules/site-code.md`): a site, scripts, infra, or CI phase gets **one** line at close-out, not one per task.
 
 Check the last 5 entries: `grep "^## \[" docs/log.md | tail -5`
 
@@ -100,14 +103,9 @@ Trigger phrases are quoted in the language the user actually types them in. Matc
 - Then **execute the tasks directly** in this session — gate on the verification order in `docs/rules/site-code.md` (lint → build → `verify_site.py`) and commit per task; append **one** `site` line to `docs/log.md` at phase close-out.
 - *(History: the `my-skills` plugin once supplied `create-prd-json` and an `orchestrate` planner/evaluator/builder team for this; that flow is retired and its `.claude/orchestrate.md` adapter was deleted 2026-07-20 — code-mode phases are executed directly in-session.)*
 
-**Git:** before any commit, branch, push, or PR, invoke the **git-workflow** skill (`/git-workflow`)
-and follow it. Never commit, push, or merge on `main` directly — local hooks (`.git/hooks/`,
-`.claude/hooks/git-guard.sh`) block it. Branch as `<type>/<slug>` (feat|fix|refactor|docs|chore).
-Titles are English Conventional Commits; bodies are short Korean following
-`.claude/git-message-template.md`. Every commit and PR body ends with `Task: <slug>` — the history
-lookup key (`git log --grep="Task: <slug>"`).
+**Git:** before any commit, branch, push, or PR, read `docs/rules/git.md` and follow it.
 
-**Routing rule:** if a request would change `wiki/` prose, it is content mode. If it would change `site/`, `scripts/`, `.github/`, or root config, it is code mode — never do it by hand-editing during an ingest.
+**Routing rule:** if a request would change `wiki/` prose, it is content mode. If it would change `site/`, `scripts/`, `tests/`, `infra/`, `.github/`, or root config, it is code mode — never do it by hand-editing during an ingest.
 
 When running a skill, follow that skill's SKILL.md procedure exactly.
 
@@ -121,7 +119,8 @@ This file stays minimal on purpose. Area-specific rules live in `docs/rules/` an
 | Before you touch | Read first |
 |---|---|
 | `wiki/` prose — any ingest, query file-back, lint fix, or deletion | `docs/rules/wiki-content.md` |
-| `site/`, `scripts/`, `.github/`, root config — any code-mode work | `docs/rules/site-code.md` |
+| `site/`, `scripts/`, `tests/`, `infra/`, `.github/`, root config — any code-mode work | `docs/rules/site-code.md` |
+| any commit, branch, push, or PR — either mode | `docs/rules/git.md` |
 
 **Where to record new durable rules:**
 - Domain/content rules (taxonomy tweaks, caption-error patterns, template changes) → `docs/rules/wiki-content.md`.

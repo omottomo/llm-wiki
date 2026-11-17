@@ -1,6 +1,6 @@
 ---
 name: wiki-query
-description: Answer questions against the wiki. Use when the user asks about the content of their knowledge base/wiki, or asks a question that requires synthesizing, comparing, or connecting multiple sources. The key is not to leave the answer only in chat: answers worth keeping (comparisons, analyses, newly discovered connections) get filed back into the wiki as new pages. Use this for any question that should be grounded in the wiki.
+description: "Answer questions against the wiki. Use when the user asks about the content of their knowledge base/wiki, or asks a question that requires synthesizing, comparing, or connecting multiple sources. The key is not to leave the answer only in chat: answers worth keeping (comparisons, analyses, newly discovered connections) get filed back into the wiki as new pages. Use this for any question that should be grounded in the wiki."
 ---
 
 # Wiki Query
@@ -43,7 +43,7 @@ If the answer goes beyond a simple fact lookup and produces a **comparison/analy
 2. Add `[[...]]` links from the relevant entity/concept pages to this analysis page.
 3. Add it to the `## 분석` section of the subject's category page (`wiki/categories/<subject>.md`) — `index.md` itself only lists categories (`docs/rules/wiki-content.md` §2).
 4. Append one line to `docs/log.md`: `## [date] query | 질문 요지 — analysis/<slug> 로 보존`
-5. Commit: `git add -A && git commit -m "query: analysis/<slug>"` (only when something was filed back).
+5. Commit (only when something was filed back) in the shape `docs/rules/git.md` sets (English title, Korean body from `.claude/git-message-template.md`, `Task: <slug>` trailer); title `query: analysis/<slug>`.
 
 > **Branch: `wiki-query`, always.** Never name a branch after the question or the page you filed. Start from
 > the latest default branch (`git checkout -B wiki-query origin/main`); if a `wiki-query` PR is already open,

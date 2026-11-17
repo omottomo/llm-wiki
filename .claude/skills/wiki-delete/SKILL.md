@@ -53,7 +53,7 @@ After deletion, no page should point to a now-missing page. Go through the inbou
 - (For a full-wiki wipe, you may keep `docs/log.md` itself with a final entry recording the wipe, or remove it too if the user explicitly asks. Default: keep `docs/log.md` so the history survives — confirm with the user.)
 
 ### 6. Commit and report
-- Commit: `git add -A && git commit -m "delete: <삭제 요지> — 페이지 N개"`. The pre-delete state stays recoverable from the previous commit.
+- Commit in the shape `docs/rules/git.md` sets (English title, Korean body from `.claude/git-message-template.md`, `Task: <slug>` trailer); title `delete: <summary> — N pages`. The pre-delete state stays recoverable from the previous commit.
 - Tell the user (in Korean) what was deleted and what links were repaired.
 
 ## Retraction (fourth scope — source unreliable/withdrawn)
@@ -68,7 +68,7 @@ Use when a source turns out to be unreliable or withdrawn: remove its **influenc
 
 Confirm before flagging: "다음 원본을 철회 처리합니다: `<source-slug>`. 인용 문단 N곳에 마커를 답니다. `raw/` 원본은 별도로 명시적 삭제를 요청하지 않는 한 보존합니다. 진행할까요?"
 
-Log and commit like step 5–6, but with a `retract` prefix instead of `delete`: `## [date] retract | 철회 대상 요지 — 마커 N건 재종합` / `git commit -m "retract: <철회 요지> — 문단 N건 재종합"`.
+Log and commit like step 5–6, but with a `retract` prefix instead of `delete`: `## [date] retract | 철회 대상 요지 — 마커 N건 재종합` / commit title `retract: <summary>`.
 
 ## Notes
 - Read-only on `raw/` by default. Deleting a source means deleting its wiki pages, never the raw file — unless the user explicitly chooses option 2 (or, for retraction, explicitly confirms raw deletion in step 5 above).

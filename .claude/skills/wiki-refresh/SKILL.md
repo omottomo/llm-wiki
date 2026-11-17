@@ -20,7 +20,7 @@ Re-check `hot`/`warm` sources for drift, and update the wiki **only after the hu
 If the user names a specific source, target just that one. Otherwise scan `wiki/sources/*.md` frontmatter for `volatility: hot` or `volatility: warm` (skip `cold` — never re-check those). List candidates with their `updated` date so the user sees how stale each is.
 
 ### 2. Re-fetch
-For each targeted source, read its `## 출처 정보` section in `wiki/sources/<slug>.md` for the `URL:` line, then fetch it (same technique as `wiki-ingest` step 0: `browser_navigate` → `browser_console` innerText for articles/docs; `youtube-transcript-api` for video). Hold the fetched text in memory — do not save it until the user confirms at step 5 (step 6 applies confirmed changes).
+For each targeted source, read its `## 출처 정보` section in `wiki/sources/<slug>.md` for the `URL:` line, then fetch it (same technique as `wiki-ingest` step 0: a full-text page fetch for articles/docs; `youtube-transcript-api` for video). Hold the fetched text in memory — do not save it until the user confirms at step 5 (step 6 applies confirmed changes).
 
 ### 3. Diff against the stored capture
 Compare the fresh fetch against the most recent capture: `raw/<slug>.md`, or if an earlier refresh already created a dated capture (step 6), the newest `raw/<slug>-<YYYY-MM-DD>.md`. Find the newest capture from the source page's `## 최신화 이력` (step 7) rather than re-deriving it.
@@ -47,7 +47,7 @@ On `wiki/sources/<slug>.md`, regardless of classification, append one line to a 
 - Append one line to `docs/log.md`: `## [date] refresh | 소스 요지 — 변경 유형, 페이지 N개 갱신` (or "변경 없음" if every checked source was cosmetic-only/unchanged).
 
 ### 9. Commit and report
-- Commit: `git add -A && git commit -m "refresh: <slug> — <요지>"` — one commit per refresh pass.
+- Commit, one per refresh pass, in the shape `docs/rules/git.md` sets (English title, Korean body from `.claude/git-message-template.md`, `Task: <slug>` trailer); title `refresh: <slug> — <summary>`.
 - Tell the user (in Korean) what was checked, what changed, and what was left untouched.
 
 ## Notes

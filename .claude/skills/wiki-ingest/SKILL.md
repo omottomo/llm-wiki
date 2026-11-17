@@ -1,6 +1,6 @@
 ---
 name: wiki-ingest
-description: "Ingest a new source document (article, paper, note, image, data) into the wiki. Use whenever the user drops a source into raw/ and says \"흡수해 / 정리해 / 위키에 넣어 / ingest / 이거 읽고 반영해\", or sends a message starting with \"wiki-ingest <URL>\" (no leading slash — e.g. \"wiki-ingest https://example.com/123\"). For URL commands, fetch the page, save to raw/ as .md, then process as a normal ingest. Use this in any situation where you must not merely summarize a source but also update existing wiki pages and maintain cross-links. NOTE: in Slack, do NOT use a leading slash — Slack intercepts /commands as platform slash commands before they reach Hermes."
+description: "Ingest a new source document (article, paper, note, image, data) into the wiki. Use whenever the user drops a source into raw/ and says \"흡수해 / 정리해 / 위키에 넣어 / ingest / 이거 읽고 반영해\", or sends a message starting with \"wiki-ingest <URL>\" (no leading slash — e.g. \"wiki-ingest https://example.com/123\"). For URL commands, fetch the page, save to raw/ as .md, then process as a normal ingest. Use this in any situation where you must not merely summarize a source but also update existing wiki pages and maintain cross-links."
 ---
 
 # Wiki Ingest
@@ -17,17 +17,17 @@ This is not a plain summary. The point is to **weave** the new information into 
 
 ### 0. Detect input type
 - If the user sends a message starting with "wiki-ingest <URL>" (no leading slash):
-  1. **Detect platform**: YouTube video URL → use `youtube-transcript-api` (see YouTube handling note below). All other URLs → `browser_navigate` → `browser_console` with `document.body.innerText`.
+  1. **Detect platform**: YouTube video URL → use `youtube-transcript-api` (see YouTube handling note below). All other URLs → fetch the page's full readable text (see `references/content-extraction-techniques.md`).
   2. Derive a slug from the URL: `tistory-1709`, `arxiv-2401-00001`, `devto-how-to-xxx`, `youtube-wr4nCMUy1dk`
   3. Save content to `raw/<slug>.md` — **this becomes the immutable source**
   4. **Bare URL = "그냥 알아서 넣어"**: If the user sends only `wiki-ingest <URL>` with no further instructions, proceed directly to step 4 (write) without surfacing key points — the user explicitly wants full automation.
   5. Proceed with step 1 treating `raw/<slug>.md` as the source file
 - If the user puts a file in `raw/` and asks to ingest → skip to step 1
 
-> For non-YouTube URLs, see `references/content-extraction-techniques.md` for the reliable `browser_navigate` → `browser_console` (innerText) sequence that avoids snapshot truncation, plus which extraction method to pick per page type.
+> For non-YouTube URLs, see `references/content-extraction-techniques.md` for which extraction method to pick per page type and how to avoid a truncated capture.
 
 ### YouTube handling (important — do not use browser for video pages)
-Video pages (youtube.com, youtu.be) have no accessible text in the DOM. **Never** try to extract content via `browser_snapshot`/`browser_console` on a YouTube video URL — the player is opaque and interactive elements yield no transcript.
+Video pages (youtube.com, youtu.be) have no accessible text in the DOM. **Never** try to extract content from a YouTube video URL with a page fetch or a browser tool — the player is opaque and interactive elements yield no transcript.
 
 **Use `youtube-transcript-api`:**
 ```bash
@@ -87,7 +87,7 @@ Do these in order:
    leftover lead paragraph on any page you touched, and prints readability warnings (over-long sentence, H2 over
    1,200 chars) that do not affect the exit code but are worth fixing while the page is still open.
 7. Append one line to `docs/log.md`: `## [date] ingest | 자료 제목 — sources/xxx + concepts/yyy + concepts/zzz 갱신`
-8. Commit: `git add -A && git commit -m "ingest: <slug> — <자료 제목>"` — the wiki is git-backed; one commit per ingest keeps the audit trail.
+8. Commit, one per ingest, in the shape `docs/rules/git.md` sets (English title, Korean body from `.claude/git-message-template.md`, `Task: <slug>` trailer); title `ingest: <slug> — <summary>`.
 
 > **Branch: `wiki-ingest`, always.** Never name a branch after the source (`ingest/youtube-<id>` is banned).
 > Start from the latest default branch (`git checkout -B wiki-ingest origin/main`); if a `wiki-ingest` PR is
@@ -97,7 +97,7 @@ Do these in order:
 > #4 had to be collapsed into #5 for exactly this reason (2026-08-09).
 
 > Example: `## [2026-06-05] ingest | 이영희 '이직 플랜 & 경력 기술서 전략' — sources/youtube-aOVxvjLOcQE + concepts/이직플랜 + concepts/면접경험데이터 생성, concepts/경력기술서 + overview + index 갱신`
-> The slug-rich format (vs generic "N개 갱신") makes future `session_search` much more productive.
+> The slug-rich format (vs generic "N개 갱신") keeps the log greppable by page.
 
 ### 5. Commit both repos
 `raw/` is a nested **private** repo — the parent (public) repo ignores it, so one commit is not
