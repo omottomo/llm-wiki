@@ -15,7 +15,8 @@ docs/
 ├── raw-manifest.txt                # raw/ slug list, filenames only — what lint's parity check reads where raw/ is absent (public clones, CI); regenerate with `lint_wiki.py --update-manifest`
 ├── rules/                          # mode-specific rule modules, split out of CLAUDE.md
 │   ├── wiki-content.md             # content mode: page authoring, wiki index catalog, domain rules
-│   └── site-code.md                # code mode: coding discipline, static-site build & Cloudflare publishing, verification
+│   ├── site-code.md                # code mode: coding discipline, static-site build & AWS publishing, verification
+│   └── git.md                      # both modes: branches, commits, PRs
 └── tasks/                          # one folder per code-mode phase: plan.md (+ prd.json once authored)
     ├── phase-1-quartz-publishing/
     │   ├── plan.md                 # Quartz 5 scaffolding + Cloudflare Pages deployment plan
@@ -74,7 +75,8 @@ docs/
 | Document | Read before |
 |---|---|
 | [rules/wiki-content.md](rules/wiki-content.md) | creating or editing `wiki/` prose — ingest, query file-back, lint fixes, deletion. §1.1 per-type required headings, §1.2 plain-writing rules, §1.3 voice |
-| [rules/site-code.md](rules/site-code.md) | touching `site/`, `scripts/`, `.github/`, or root config — any code-mode work |
+| [rules/site-code.md](rules/site-code.md) | touching `site/`, `scripts/`, `tests/`, `infra/`, `.github/`, or root config — any code-mode work |
+| [rules/git.md](rules/git.md) | any commit, branch, push, or PR — either mode |
 
 Rule modules carry the same authority as `CLAUDE.md`; `CLAUDE.md` holds only the common rules
 (language rule, repo structure, core principles, log.md, skill routing).

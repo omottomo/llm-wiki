@@ -15,6 +15,7 @@
     "bgIsolation": "none"
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": false,
+    "pstack@cursor-plugins": true
   }
 }

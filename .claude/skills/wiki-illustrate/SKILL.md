@@ -52,7 +52,7 @@ Must exit 0. Fix any `그림` finding before moving on. Optionally render the pa
 - Pages touched, with the section each diagram sits under.
 - Diagram count.
 - Pages skipped and the one-line reason for each.
-- Commit and PR per the git-workflow skill; the reviewer sees the diagrams rendered in the PR's file view.
+- Commit and PR per `docs/rules/git.md`; the reviewer sees the diagrams rendered in the PR's file view.
 
 ## Notes
 - Official-documentation images (§1.4 exception) are **not** part of the default pass. Only when the user explicitly asks, and only after posting the candidate (URL, licence text, what it shows) and receiving approval, may a file be written under `wiki/assets/`.

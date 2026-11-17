@@ -39,7 +39,7 @@ Get the full page list from the category pages under `wiki/categories/` (`wiki/i
 4. For judgment calls (how to resolve a contradiction, how to handle a stale claim, whether to create a new page), **confirm with the user first.**
 5. Additionally, propose **questions worth investigating next** and **sources worth looking for** (the added value of lint).
 6. Append one line to `docs/log.md`: `## [date] lint | 모순 N건·고아 M건 등 발견 → 처리`
-7. Commit the pass: `git add -A && git commit -m "lint: <요지>"` — the wiki is git-backed so every maintenance pass leaves an audit-trail commit.
+7. Commit the pass in the shape `docs/rules/git.md` sets (English title, Korean body from `.claude/git-message-template.md`, `Task: <slug>` trailer); title `lint: <summary>`.
 
 > **Branch: `wiki-lint`, always.** Never name a branch after the findings or the date of the pass. Start from
 > the latest default branch (`git checkout -B wiki-lint origin/main`); if a `wiki-lint` PR is already open,
@@ -48,7 +48,7 @@ Get the full page list from the category pages under `wiki/categories/` (`wiki/i
 > per-pass branches stack on each other and conflict the moment `main` moves.
 
 ## Report format
-ALWAYS use this structure (write the content in Korean):
+Use this structure (write the content in Korean):
 ```markdown
 ## Lint 결과 (date)
 ### 모순
